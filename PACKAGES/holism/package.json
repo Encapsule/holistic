@@ -2,9 +2,9 @@
     "name": "@encapsule/holism",
     "version": "0.0.31",
     "codename": "portalice",
-    "buildID": "6kWEF-LsRwWuMH_vrySWjw",
-    "buildTime": 1578624675,
-    "buildSource": "042d84a4051b88c83b3473e5ed4d3d114facda9a",
+    "buildID": "ybJBDhuFR_ihsW_0XuvT3A",
+    "buildTime": 1578625872,
+    "buildSource": "20f87e612d306e57e402d8b1f8a15eb187c1367d",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holism.git"
