@@ -1,0 +1,23 @@
+{
+    "name": "holistic",
+    "description": "A plug-in filter extensible, JSON configurable framework for building full-stack Node.js/HTML5 applications.",
+    "version": "0.0.31",
+    "codename": "portalice",
+    "author": "Encapsule",
+    "copyright": {
+        "holder": "Christopher D. Russell",
+        "year": 2020
+    },
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "buildID": "6kWEF-LsRwWuMH_vrySWjw",
+    "buildSource": "042d84a4051b88c83b3473e5ed4d3d114facda9a",
+    "buildTime": 1578624675,
+    "buildDateISO": "2020-01-10T02:51:15.000Z"
+}
