@@ -5,10 +5,10 @@
 # @encapsule/holism v0.0.31 "portalice"
 
 ```
-Package: @encapsule/holism v0.0.31 "portalice" build ID "ybJBDhuFR_ihsW_0XuvT3A"
+Package: @encapsule/holism v0.0.31 "portalice" build ID "qYQZa6qORqyo6WP0s7jpfQ"
 Sources: Encapsule/holistic#20f87e612d306e57e402d8b1f8a15eb187c1367d
 Purpose: library (Node.js)
-Created: 2020-01-10T03:11:12.000Z
+Created: 2020-01-10T03:15:27.000Z
 License: MIT
 ```
 
