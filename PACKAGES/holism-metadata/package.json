@@ -1,0 +1,37 @@
+{
+    "name": "@encapsule/holism-metadata",
+    "version": "0.0.31",
+    "codename": "portalice",
+    "buildID": "r28FLPD6RsiPwrUrs9662w",
+    "buildTime": 1578615483,
+    "buildSource": "042d84a4051b88c83b3473e5ed4d3d114facda9a",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holism-metadata.git"
+    },
+    "author": "Encapsule",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holism-metadata/issues"
+    },
+    "homepage": "https://github.com/Encapsule/holism-metadata#readme",
+    "description": "Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.",
+    "keywords": [
+        "Encapsule",
+        "holism",
+        "http",
+        "metadata",
+        "integration"
+    ],
+    "main": "metadata-store-constructor-factory.js",
+    "peerDependencies": {
+        "@encapsule/arccore": "0.1.8"
+    }
+}

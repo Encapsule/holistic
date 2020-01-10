@@ -1,0 +1,34 @@
+{
+    "name": "@encapsule/hash-router",
+    "version": "0.0.31",
+    "codename": "portalice",
+    "buildID": "r28FLPD6RsiPwrUrs9662w",
+    "buildTime": 1578615483,
+    "buildSource": "042d84a4051b88c83b3473e5ed4d3d114facda9a",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/hash-router.git"
+    },
+    "author": "Encapsule",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Encapsule/hash-router/issues"
+    },
+    "homepage": "https://github.com/Encapsule/hash-router#readme",
+    "description": "A collection of reusable React components compatible with @encapsule/d2r2 <ComponentRouter/>.",
+    "keywords": [
+        "HTML5",
+        "browser",
+        "client",
+        "hash",
+        "router"
+    ],
+    "main": "minimal-hash-router.js"
+}

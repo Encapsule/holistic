@@ -1,0 +1,33 @@
+{
+    "name": "@encapsule/holodeck",
+    "version": "0.0.31",
+    "codename": "portalice",
+    "buildID": "r28FLPD6RsiPwrUrs9662w",
+    "buildTime": 1578615483,
+    "buildSource": "042d84a4051b88c83b3473e5ed4d3d114facda9a",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holodeck.git"
+    },
+    "author": "Encapsule",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holodeck/issues"
+    },
+    "homepage": "https://github.com/Encapsule/holodeck#readme",
+    "description": "Holdeck is a synchronous test runner and test harness system used to test @encapsule/holistic RTL's and derived apps and services.",
+    "keywords": [
+        "Encapsule"
+    ],
+    "main": "index.js",
+    "peerDependencies": {
+        "@encapsule/arccore": "0.1.8"
+    }
+}

@@ -1,0 +1,505 @@
+# Filter Object README
+
+## [b46LcK7ORNu-lD_yUOsAuw::HTTP Server Filter Factory]
+
+**Construct and initialize HTTP server infrastructure per configuration object.**
+
+### Operation
+
+This operation is dispatched by calling the filter object's `request` method passing a single value `input`:
+
+```JavaScript
+var response = filter.request(input);
+if (response.error) {
+    throw new Error(response.error); // <- response.result invalid
+}
+var result = response.result; // <- response.result valid
+```
+
+### Request Input
+
+This filter normalizes the value of `input` passed to its `request` method using the following filter spec contract:
+
+```JavaScript
+{
+    "____label": "Holism Application Server Factory Request",
+    "____description": "Information used to generate an @encapsule/holism application server (HTTP 1.1) instance.",
+    "____types": "jsObject",
+    "name": {
+        "____label": "HTTP Server Name",
+        "____description": "A short descriptive name of the HTTP server.",
+        "____accept": "jsString"
+    },
+    "description": {
+        "____label": "HTTP Server Description",
+        "____description": "A longer description of the purpose and functionality of this HTTP server.",
+        "____accept": "jsString"
+    },
+    "version": {
+        "____label": "HTTP Server Version",
+        "____description": "A Nodejs semantic version string. Typically is value is copied from the application's package.json.",
+        "____accept": "jsString"
+    },
+    "build": {
+        "____label": "HTTP Server Build Info",
+        "____description": "Metadata used to diagnose deployments of this application.",
+        "____types": "jsObject",
+        "____defaultValue": {},
+        "timestamp": {
+            "____label": "HTTP Server Built Time",
+            "____description": "The ISO-format time that this application server was built.",
+            "____accept": "jsString"
+        },
+        "commit": {
+            "____label": "HTTP Server Sources Commit",
+            "____description": "The git commit hash containing the source code used to build this application server.",
+            "____accept": "jsString"
+        }
+    },
+    "integrations": {
+        "____label": "HTTP Server Integrations Descriptor",
+        "____description": "A collection of integration filters wrapping developer-defined accessor and action functions that are leveraged by an HTTP server and service filter runtimes to affect HTTP request and response processing.",
+        "____types": "jsObject",
+        "filter_id_seed": {
+            "____label": "Filter Identifier Seed",
+            "____description": "A 22-character IRUT identifier as a seed when creating integration filter ID's.",
+            "____accept": "jsString"
+        },
+        "name": {
+            "____label": "Integration Filters Name",
+            "____description": "A short name or moniker used to refer to refer to this set of application data and function contracts.",
+            "____accept": "jsString"
+        },
+        "description": {
+            "____label": "Integration Filters Description",
+            "____description": "A description of this set of application data and function contracts.",
+            "____accept": "jsString"
+        },
+        "version": {
+            "____label": "Integration Filters Version",
+            "____description": "A semantic version string associated with this set of application data and function contracts.",
+            "____accept": "jsString"
+        },
+        "platform": {
+            "____label": "Application Platform Manifest",
+            "____description": "A list of application subsystem dependencies used primary for internal diagnostic reports, error messags...",
+            "____types": "jsObject",
+            "document": {
+                "____label": "Document Rendering Subsystem",
+                "____description": "Information about this application's primary HTML content rendering subsystem.",
+                "____types": "jsObject",
+                "name": {
+                    "____label": "HTML Render Name",
+                    "____description": "The name of the subsystem or technology that this application uses to render HTML content.",
+                    "____accept": "jsString"
+                },
+                "version": {
+                    "____label": "HTML Render Version",
+                    "____description": "The semantic version string of the subsystem/technology/package used by this application to render HTML content.",
+                    "____accept": "jsString"
+                }
+            }
+        },
+        "appStateContext": {
+            "____label": "Application State Context",
+            "____description": "In-memory data object shared by the @encapsule/holism app server instance and other app subsystems.",
+            "____accept": "jsObject"
+        },
+        "filters": {
+            "____label": "HTTP Server Integration Filters",
+            "____description": "A collection of filter objects that abstract access to specific classes of application-specific data and functionality.",
+            "____types": "jsObject",
+            "http_request_redirector": {
+                "____label": "HTTP Request Redirector Filter",
+                "____description": "Optional filter that affects HTTP redirection based on analysis of @encapsule/holism HTTP request preprocessor output.",
+                "____types": [
+                    "jsNull",
+                    "jsObject"
+                ],
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "html_render": {
+                "____label": "HTML Render Filter",
+                "____description": "HTML render filter responsible for converting in-memory JavaScript data into a UTF8-encoded HTML string.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "get_org_metadata": {
+                "____label": "Organization Metadata Access Filter",
+                "____description": "Metadata access filter that retrieves data pertinent to the organization running the webserver.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "get_site_metadata": {
+                "____label": "Site Metadata Access Filter",
+                "____description": "Metadata access filter that retrieves data pertinent to the site being served by this webserver.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "get_page_metadata": {
+                "____label": "Page Metadata Access Filter",
+                "____description": "Metadata access filter that retrieves data pertinent to a specific page in the website running on this webserver.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "get_user_identity": {
+                "____label": "User Identity Access Filter",
+                "____description": "Metadata access filter that retrieves user identity assertion from incoming HTTP requests if present.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "get_user_session": {
+                "____label": "User Session Access Filter",
+                "____description": "Metadata access filter that retrieves user session given user/session identity descriptor.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "normalize_user_session_result": {
+                "____label": "Normalize User Session Result Filter",
+                "____description": "Filter used to validate/normalize a user session descriptor result object.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            },
+            "normalize_user_session_error": {
+                "____label": "Normalize User Session Error Filter",
+                "____description": "Filter used to validate/normalize a user session error report.",
+                "____types": "jsObject",
+                "filterDescriptor": {
+                    "____accept": "jsObject"
+                },
+                "request": {
+                    "____accept": "jsFunction"
+                }
+            }
+        }
+    },
+    "config": {
+        "____label": "Resource Declarations",
+        "____description": "A declaration of resources made available to clients of this HTTP server.",
+        "____types": "jsObject",
+        "options": {
+            "____label": "Configuration Options",
+            "____description": "Optional configuration data.",
+            "____types": "jsObject",
+            "____defaultValue": {},
+            "max_input_characters": {
+                "____label": "Maximum Allowed Input Characters",
+                "____description": "The maximum number of characters the server is allowed to read from a ServerRequest stream.",
+                "____accept": "jsNumber",
+                "____defaultValue": 262144
+            },
+            "request_data_abuse_factor": {
+                "____label": "Reqeust Data Abuse Factor",
+                "____description": "Buffer incoming data up to max characters. Thereafter, drop data until the client finishes (and respond with HTTP 413). Or, until total request data received exceeds max chars * abuse factor in which case we close the request socket and effectively hangup on the client w/out a response.",
+                "____accept": "jsNumber",
+                "____inRangeInclusive": {
+                    "begin": 0,
+                    "end": 1
+                },
+                "____defaultValue": 0.5
+            }
+        },
+        "files": {
+            "____label": "Memory-Resident File Resources",
+            "____description": "A collection memory-cached resources loaded from local filesystem.",
+            "____types": "jsObject",
+            "____asMap": true,
+            "____defaultValue": {},
+            "local_filesystem_path": {
+                "____label": "Static File Resource Descriptor",
+                "____description": "Describes the attributes of a specific local file resource to expose via HTTP GET method.",
+                "____types": "jsObject",
+                "authentication": {
+                    "____label": "Resource Authentication Settings",
+                    "____description": "Optional settings to limit resource access to authenticated users.",
+                    "____types": "jsObject",
+                    "____defaultValue": {},
+                    "required": {
+                        "____label": "Require Authorization Flag",
+                        "____description": "Boolean value indicating if resource access is restricted to authorized users.",
+                        "____accept": "jsBoolean",
+                        "____defaultValue": false
+                    }
+                },
+                "request_bindings": {
+                    "____label": "Request Bindings",
+                    "____description": "Specifies how the plug-in service filter will be exposed by the HTTP server.",
+                    "____types": "jsObject",
+                    "method": {
+                        "____label": "HTTP Request Method",
+                        "____description": "The specific HTTP request method to make requests with.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "GET"
+                        ],
+                        "____defaultValue": "GET"
+                    },
+                    "uris": {
+                        "____label": "Server URI's",
+                        "____description": "A list of server URI's (the pathname portion of the URL) to respond to.",
+                        "____types": "jsArray",
+                        "uri": {
+                            "____label": "Resource URI",
+                            "____description": "A specific server URI to register for this resource.",
+                            "____accept": "jsString"
+                        }
+                    }
+                },
+                "response_properties": {
+                    "____label": "Response Properties",
+                    "____description": "Flag values indicating desired response encoding.",
+                    "____types": "jsObject",
+                    "contentEncoding": {
+                        "____label": "Content Encoding Type",
+                        "____description": "A flag indicating if the resource data should be passed as a UTF8 string or binary payload.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "utf8",
+                            "binary"
+                        ]
+                    },
+                    "contentType": {
+                        "____label": "Content Type",
+                        "____description": "The value of the Content-Type header to return along with the indicated resource.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "application/font-woff",
+                            "application/font-woff2",
+                            "application/javascript",
+                            "application/json",
+                            "application/x-font-ttf",
+                            "application/x-www-form-urlencoded",
+                            "application/xml",
+                            "image/gif",
+                            "image/jpeg",
+                            "image/png",
+                            "image/svg+xml",
+                            "image/x-icon",
+                            "multipart/form-data",
+                            "text/css",
+                            "text/html",
+                            "text/plain",
+                            "text/xml"
+                        ]
+                    }
+                }
+            }
+        },
+        "services": {
+            "____label": "Programmatic Services",
+            "____description": "HTTP server service filter registrations map an HTTP method/resource pathname to a specific filter object.",
+            "____types": "jsArray",
+            "____defaultValue": [],
+            "service": {
+                "____label": "Service Provider Filter",
+                "____description": "Registers a specific Service Provider Filter object to respond to incoming HTTP requests.",
+                "____types": "jsObject",
+                "filter": {
+                    "____label": "Service Provider Filter Reference",
+                    "____description": "A reference to a previously-constructed service provider filter object.",
+                    "____types": "jsObject",
+                    "filterDescriptor": {
+                        "____accept": "jsObject"
+                    },
+                    "implementation": {
+                        "____accept": "jsObject"
+                    },
+                    "request": {
+                        "____accept": "jsFunction"
+                    }
+                },
+                "options": {
+                    "____label": "Filter Options",
+                    "____description": "A service-filter-defined options object declared in the service registration and passed back to the service filter on every HTTP request delegated to it by the holism server instance.",
+                    "____opaque": true
+                },
+                "authentication": {
+                    "____label": "Resource Authentication Settings",
+                    "____description": "Optional settings to limit resource access to authenticated users.",
+                    "____types": "jsObject",
+                    "____defaultValue": {},
+                    "required": {
+                        "____label": "Require Authorization Flag",
+                        "____description": "Boolean value indicating if resource access is restricted to authorized users.",
+                        "____accept": "jsBoolean",
+                        "____defaultValue": false
+                    }
+                },
+                "request_bindings": {
+                    "____label": "Request Bindings",
+                    "____description": "Specifies how the plug-in service filter will be exposed by the HTTP server.",
+                    "____types": "jsObject",
+                    "method": {
+                        "____label": "HTTP Request Method",
+                        "____description": "The specific HTTP request method to make requests with.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "GET",
+                            "POST"
+                        ]
+                    },
+                    "uris": {
+                        "____label": "Server URI's",
+                        "____description": "A list of server URI's (the pathname portion of the URL) to respond to.",
+                        "____types": "jsArray",
+                        "uri": {
+                            "____label": "Resource URI",
+                            "____description": "A specific server URI to register for this resource.",
+                            "____accept": "jsString"
+                        }
+                    }
+                },
+                "response_properties": {
+                    "____label": "Response Properties",
+                    "____description": "Flag values indicating desired response encoding.",
+                    "____types": "jsObject",
+                    "contentEncoding": {
+                        "____label": "Content Encoding Type",
+                        "____description": "A flag indicating if the resource data should be passed as a UTF8 string or binary payload.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "utf8",
+                            "binary"
+                        ]
+                    },
+                    "contentType": {
+                        "____label": "Content Type",
+                        "____description": "The value of the Content-Type header to return along with the indicated resource.",
+                        "____accept": "jsString",
+                        "____inValueSet": [
+                            "application/font-woff",
+                            "application/font-woff2",
+                            "application/javascript",
+                            "application/json",
+                            "application/x-font-ttf",
+                            "application/x-www-form-urlencoded",
+                            "application/xml",
+                            "image/gif",
+                            "image/jpeg",
+                            "image/png",
+                            "image/svg+xml",
+                            "image/x-icon",
+                            "multipart/form-data",
+                            "text/css",
+                            "text/html",
+                            "text/plain",
+                            "text/xml"
+                        ]
+                    }
+                }
+            }
+        }
+    }
+}
+```
+
+
+### Response Output
+
+This filter's `request` method returns a normalized `response` object when called.
+
+```JavaScript
+var response = filter.request(input);
+var result = undefined; // assume nothing
+// You must check for an error condition.
+if (!response.error) {
+    // Operation succeeded and response.result is a valid value.
+    result = response.result;
+} else {
+    // Operation failed and response.error is a string error message.
+    throw new Error(response.error); // e.g.
+}
+// Use value held by result variable for subsequent operations...
+```
+#### Result Format
+
+
+If no error then the value assigned to `response.result` is normalized per the following filter spec contract:
+
+```JavaScript
+{
+    "____types": "jsObject",
+    "http_server_context": {
+        "____label": "HTTP Server Filter Context",
+        "____description": "An in-memory namespace in which this HTTP server filter maintains its internal state.",
+        "____accept": "jsObject"
+    },
+    "http_server": {
+        "____label": "HTTP Server",
+        "____description": "Node.js http.Server object manufactured by the HTTP server filter factory.",
+        "____accept": "jsObject"
+    },
+    "listen": {
+        "____label": "HTTP Server Listen",
+        "____description": "Call this function with the port number to initiate HTTP socket listener.",
+        "____accept": "jsFunction"
+    }
+}
+```
+
+
+## Implementation
+
+### Identifiers
+
+| filter identifier | version independent | version dependent |
+|--------|---------------------|-------------------|
+| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cdwYBDQgYsKe3iAT3__ilQ` |
+| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `HTVwwWNeO0gYsqiR67I19Q` |
+| output contract | `E-MD52v_-9inRlNG1BsAZw` | `DuBPhn0s0PijrJBkos9aTw` |
+
+### Configuration
+Filter classification:  **normalized operation**
+
+| request stage | stage description | state |
+|-------|---------|---------------|
+| 1. Input Filter | Rejects invalid input requests and shapes to well-formed. | true |
+| 2. Operation | Developer-defined custom data transformation function. | true |
+| 3. Response Filter | Verifies the response of the developer-defined operation function. | true |
+| 4. Output Filter | Rejects invalid output result data and shapes to well-formed. | true |
+
+## About
+Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
+This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.8 toolset.<br>
+Document updated Thu Jan 09 2020 16:18:05 GMT-0800 (Pacific Standard Time)
+
