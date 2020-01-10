@@ -2,13 +2,13 @@
 
 ### Encapsule Project
 
-# @encapsule/d2r2 v0.0.31 "portalice"
+# @encapsule/d2r2 v0.0.32 "jeunelanding"
 
 ```
-Package: @encapsule/d2r2 v0.0.31 "portalice" build ID "646AZL2QTXO5UblmhzE0Lw"
-Sources: Encapsule/holistic#6de9498b45f856349977807b6b7ec5ca62ced1b2
+Package: @encapsule/d2r2 v0.0.32 "jeunelanding" build ID "LzLWIH_tT2iF4CqIH0RdwQ"
+Sources: Encapsule/holistic#a39f0ab03954e6a8457024579a2d0e3480587b41
 Purpose: library (Node.js)
-Created: 2020-01-10T15:21:45.000Z
+Created: 2020-01-10T20:47:33.000Z
 License: MIT
 ```
 
@@ -50,7 +50,7 @@ Data-Driven React Render (d2r2) library for Node.js and modern browser clients.
 
 The `@encapsule/d2r2` library package is published on [npmjs](https://npmjs.com).
 
-- [@encapsule/d2r2 Package Distribution](https://npmjs.com/package/@encapsule/d2r2/v/0.0.31) ([@encapsule on npmjs.com](https://www.npmjs.com/org/encapsule))
+- [@encapsule/d2r2 Package Distribution](https://npmjs.com/package/@encapsule/d2r2/v/0.0.32) ([@encapsule on npmjs.com](https://www.npmjs.com/org/encapsule))
 - [Encapsule/d2r2 git Repository](https://github.com/Encapsule/d2r2) ([GitHub](https://github.com/Encapsule))
 
 <hr>

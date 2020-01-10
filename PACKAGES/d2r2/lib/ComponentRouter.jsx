@@ -108,7 +108,16 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
           if (!discriminatorResponse.error) {
             var targetFilterID = discriminatorResponse.result;
             var targetViewBindingFilter = filterIDMap[targetFilterID];
-            console.log(["..... <ComponentRouter/> dispatching to [", targetViewBindingFilter.filterDescriptor.operationID, "::", targetViewBindingFilter.filterDescriptor.operationName, "]"].join('')); //////////////////////////////////////////////////////////////////////////
+            /*
+            console.log([
+                "..... <ComponentRouter/> dispatching to [",
+                targetViewBindingFilter.filterDescriptor.operationID,
+                "::",
+                targetViewBindingFilter.filterDescriptor.operationName,
+                "]"
+            ].join(''));
+            */
+            //////////////////////////////////////////////////////////////////////////
             // DISPATCH: Call the React component data binding filter to generate an instance of its encapsulated React component that is bound to this input data.
 
             var targetFilterResponse = targetViewBindingFilter.request(routingDataContext);
@@ -124,7 +133,7 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
           // ERROR: The input data does not have an acceptable namespace:type format.
 
 
-          console.log("!!!!! <ComponentRouter/> ERROR: " + error);
+          console.error("!!!!! <ComponentRouter/> ERROR: " + error);
           var theme = this.props.document.metadata.site.theme; // Pre-render a JSON-format copy of the specific `this.props.renderData` we cannot identify.
 
           var renderDataJSON = this.props.renderData === undefined ? React.createElement("span", {
