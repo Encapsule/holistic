@@ -2,6 +2,16 @@
 
 "use strict";
 
+//
+// Encapsule Project Holistic Platform 'appgen' script.
+// Used to initialize and maintain holistic platform runtime
+// libraries, build, and test infrastructure in derived apps
+// and services git repositories.
+//
+// Copyright (C) 2020 Christopher D. Russell
+// Published by Encapsule Project, Seattle WA USA
+//
+
 // Node.js runtime modules
 const childProcess = require('child_process'); // Node.js
 const fs = require('fs'); // Node.js
@@ -153,8 +163,8 @@ const resourceFilePaths = {
         // platformBabelRc: path.join(holisticPackageDir, ".babelrc"),
         // platformEslintRc: path.join(holisticPackageDir, ".eslintrc.js"),
         // platformWebpackClientRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/webpack.config.app.client.hbs"),
-        // platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
-        // platformGenerateRuntimeManifestRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-package-manifest.js.hbs")
+        platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
+        platformGenerateRuntimeManifestRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-package-manifest.js.hbs")
     }
 };
 

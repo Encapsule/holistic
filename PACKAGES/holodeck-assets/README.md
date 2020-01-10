@@ -5,10 +5,10 @@
 # @encapsule/holodeck-assets v0.0.31 "portalice"
 
 ```
-Package: @encapsule/holodeck-assets v0.0.31 "portalice" build ID "Hbzc16vTRfmwof_xcWBVCw"
-Sources: Encapsule/holistic#20f87e612d306e57e402d8b1f8a15eb187c1367d
+Package: @encapsule/holodeck-assets v0.0.31 "portalice" build ID "646AZL2QTXO5UblmhzE0Lw"
+Sources: Encapsule/holistic#6de9498b45f856349977807b6b7ec5ca62ced1b2
 Purpose: library (Node.js)
-Created: 2020-01-10T05:35:19.000Z
+Created: 2020-01-10T15:21:45.000Z
 License: MIT
 ```
 
