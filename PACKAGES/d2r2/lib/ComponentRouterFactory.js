@@ -85,7 +85,7 @@ var factoryResponse = arccore.filter.create({
 
       var ComponentRouter = ComponentRouterSubfactory(d2r2ComponentFilterRouter, d2r2ComponentFilters); // Return the discriminator filter.
 
-      console.log("> <ComponentRouter/> runtime instance constructed to auto-delegate 'this.props.renderData' to 1:".concat(d2r2ComponentFilters.length, " registered d2r2 components."));
+      console.log("..... <ComponentRouter/> runtime instance constructed to auto-delegate 'this.props.renderData' to 1:".concat(d2r2ComponentFilters.length, " registered d2r2 components."));
       response.result = ComponentRouter;
       break;
     }

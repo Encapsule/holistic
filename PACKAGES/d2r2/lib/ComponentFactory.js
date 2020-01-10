@@ -73,7 +73,7 @@ var factoryResponse = arccore.filter.create({
         operationName: factoryRequest.name,
         operationDescription: factoryRequest.description + " (d2r2 Component Filter)",
         inputFilterSpec: {
-          ____label: "d2r2 Component Request",
+          ____label: "d2r2 Component Render Request",
           ____types: "jsObject",
           reactContext: {
             ____label: "React Context Data",

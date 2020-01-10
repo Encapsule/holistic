@@ -5,10 +5,10 @@
 # @encapsule/d2r2-components v0.0.32 "jeunelanding"
 
 ```
-Package: @encapsule/d2r2-components v0.0.32 "jeunelanding" build ID "LzLWIH_tT2iF4CqIH0RdwQ"
-Sources: Encapsule/holistic#a39f0ab03954e6a8457024579a2d0e3480587b41
+Package: @encapsule/d2r2-components v0.0.32 "jeunelanding" build ID "YF5kiOBrRUeb_lQwRnRuyg"
+Sources: Encapsule/holistic#26f507ed05838b9873bd5deaec7ba42615d9a539
 Purpose: library (Node.js)
-Created: 2020-01-10T20:47:33.000Z
+Created: 2020-01-10T23:31:30.000Z
 License: MIT
 ```
 
