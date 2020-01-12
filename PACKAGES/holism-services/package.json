@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/holism-services",
-    "version": "0.0.32",
-    "codename": "jeunelanding",
-    "buildID": "YF5kiOBrRUeb_lQwRnRuyg",
-    "buildTime": 1578699090,
-    "buildSource": "26f507ed05838b9873bd5deaec7ba42615d9a539",
+    "version": "0.0.33",
+    "codename": "quatsino",
+    "buildID": "KSu57QZXSWuYlJ8uedfVlw",
+    "buildTime": 1578801358,
+    "buildSource": "7c54c45e8af2c70cb7de793f5855d8ad0c960973",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holism-services.git"
@@ -36,6 +36,6 @@
     "main": "index.js",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.8",
-        "@encapsule/holism": "0.0.32"
+        "@encapsule/holism": "0.0.33"
     }
 }

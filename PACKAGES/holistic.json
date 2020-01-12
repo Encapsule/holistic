@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A plug-in filter extensible, JSON configurable framework for building full-stack Node.js/HTML5 applications.",
-    "version": "0.0.32",
-    "codename": "jeunelanding",
+    "version": "0.0.33",
+    "codename": "quatsino",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "YF5kiOBrRUeb_lQwRnRuyg",
-    "buildSource": "26f507ed05838b9873bd5deaec7ba42615d9a539",
-    "buildTime": 1578699090,
-    "buildDateISO": "2020-01-10T23:31:30.000Z"
+    "buildID": "KSu57QZXSWuYlJ8uedfVlw",
+    "buildSource": "7c54c45e8af2c70cb7de793f5855d8ad0c960973",
+    "buildTime": 1578801358,
+    "buildDateISO": "2020-01-12T03:55:58.000Z"
 }
