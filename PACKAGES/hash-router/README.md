@@ -5,10 +5,10 @@
 This package is part of the  [![@encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://github.com/Encapsule/holistic) [Holistic app platform](https://encapsule.io/docs/holistic) v0.0.33 **quatsino** distribution.
 
 ```
-Package: @encapsule/hash-router v0.0.33 "quatsino" build ID "vCbsdYNOQdS97WqoFKffRQ"
-Sources: Encapsule/holistic-master#0f6f2dbf6915fabf8f3880fe6323d6f414bb371c
+Package: @encapsule/hash-router v0.0.33 "quatsino" build ID "NDxWu29CSVCrFcS-sh-3KA"
+Sources: Encapsule/holistic-master#7d1aaae3785dd40cd55666ff07528cc7a668c1f3
 Purpose: library (Node.js)
-Created: 2020-01-14T06:21:51.000Z
+Created: 2020-01-14T18:01:33.000Z
 License: MIT
 ```
 
