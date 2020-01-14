@@ -2,13 +2,13 @@
 
 ## @encapsule/holism-metadata v0.0.33 quatsino
 
-This package is part of the  [![@encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://github.com/Encapsule/holistic) [**Holistic Application Platform**](https://encapsule.io/docs/holistic) v0.0.33 **quatsino** release distribution.
+This package is part of the  [![@encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://github.com/Encapsule/holistic) [Holistic app platform](https://encapsule.io/docs/holistic) v0.0.33 **quatsino** distribution.
 
 ```
-Package: @encapsule/holism-metadata v0.0.33 "quatsino" build ID "5xbcEAsRQrmIGmDqAeQ0tg"
-Sources: Encapsule/holistic-master#338c6769d62cb4dfcce14f670bbb1488b59232d0
+Package: @encapsule/holism-metadata v0.0.33 "quatsino" build ID "M26aHPqHRwykfW-zneM8Pg"
+Sources: Encapsule/holistic-master#da582f861605b823016f44cb095775a589523e84
 Purpose: library (Node.js)
-Created: 2020-01-14T04:39:00.000Z
+Created: 2020-01-14T06:06:51.000Z
 License: MIT
 ```
 
@@ -59,28 +59,20 @@ Hey this is a line of text.
 
 # Issues
 
-## [![encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://encapsule.io/docs/holistic) Holistic Platform RTL's
+Please post bug reports to one of the follow issue queues depending on topic:
 
-**@encapsule/holistic** package and included runtime library and tool issues and questions: [GitHub Issue Queue](https://github.com/Encapsule/holistic/issues)
+- @encapsule/holistic [GitHub Issues](https://github.com/Encapsule/holistic/issues) - Holistic platform RTL + appgen issues.
 
-## [![@encapsule/arccore](ASSETS/blue-burst-encapsule.io-icon-16x16.png "@encapsule/arccore")](https://encapsule.io/docs/ARCcore) Encapsule ARC RTL's + Tools
+- @encapsule/arccore [GitHub Issues](https://github.com/Encapsule/ARCcore/issues) - Core data RTL issues.
 
-**@encapsule/arccore** pacakge and included runtime library issues and questions: [GitHub Issue Queue](https://github.com/Encapsule/ARCcore/issues)
-
-**@encapsule/arctools** package and included runtime library and tool issues and questions: [GitHub Issue Queue](https://github.com/Encapsule/ARCtools/issues)
+- @encapsule/arctools [GitHub Issue](https://github.com/Encapsule/ARCtools/issues) - Core data tools and RTL issues.
 
 <hr>
 
-Published with **&#x2764;**+**&#x2692;** under [MIT](LICENSE) license by [![Encapsule Project GitHub](ASSETS/blue-burst-encapsule.io-icon-16x16.png "Encapsule Project GitHub")](https://github.com/encapsule) [**Encapsule Project**](https://encapsule.io)
-
-Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
+Published under [MIT](LICENSE) license by [![Encapsule Project GitHub](ASSETS/blue-burst-encapsule.io-icon-16x16.png "Encapsule Project GitHub")](https://github.com/encapsule) [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
 
-<hr>
-
-[![encapsule/holistic](ASSETS/encapsule-holistic-48x48.png "@encapsule/holistic")](https://encapsule.io/docs/holistic)
+Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 [![encapsule/holistic](ASSETS/encapsule-holistic-32x32.png "@encapsule/holistic")](https://encapsule.io/docs/holistic)
-
-[![encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://encapsule.io/docs/holistic)
