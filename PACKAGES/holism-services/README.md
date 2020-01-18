@@ -1,36 +1,36 @@
-# [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io) Encapsule Project
+# [![](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project Homepage")](https://encapsule.io) Encapsule Project
 
-## @encapsule/holism-services v0.0.33 quatsino
+**[ [Homepage](https://encapsule.io "Encapsule Project Homepage...") ] [ [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") ] [ [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...") ] [ [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") ]**
 
-This package is part of the  [![@encapsule/holistic](ASSETS/encapsule-holistic-16x16.png "@encapsule/holistic")](https://github.com/Encapsule/holistic) [Holistic app platform](https://encapsule.io/docs/holistic) v0.0.33 **quatsino** distribution.
+# ![](ASSETS/encapsule-holistic-48x48.png) @encapsule/holism-services v0.0.33 quatsino
 
 ```
-Package: @encapsule/holism-services v0.0.33 "quatsino" build ID "NDxWu29CSVCrFcS-sh-3KA"
-Sources: Encapsule/holistic-master#7d1aaae3785dd40cd55666ff07528cc7a668c1f3
+Package: @encapsule/holism-services v0.0.33 "quatsino" build ID "GetLGRUWSfijQYMxC2VI-Q"
+Sources: Encapsule/holistic-master#6d676cdd0a4ea248d1fbc3752e8f4c760020a3cb
 Purpose: library (Node.js)
-Created: 2020-01-14T18:01:33.000Z
+Created: 2020-01-18T02:56:04.000Z
 License: MIT
 ```
 
-### Description
+## ![](ASSETS/encapsule-holistic-32x32.png) Description
 
-> @encapsule/holism-services: **Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.**
+Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
 
-### Usage
+## ![](ASSETS/encapsule-holistic-32x32.png) Distribution
 
-This package's contained library functionality is intended for use in derived projects.
+This package is an unpublished _pseudo-package_ that is included in the @encapsule/holistic v0.0.33 quatsino package for distribution via the `appgen` utility.
 
-For example:
+If you are viewing this README.md in the `./PACKAGES` subdirectory of the @encapsule/holistic package then you're looking at the source package that `appgen` will copy into your designated derived app/service git repo's `./HOLISTIC` directory.
 
-1. Create simple test project, declare a dependency and install `@encapsule/holism-services` package:
+If you are viewing this README.md in the `./HOLISTIC` subdirectory of your derived app/service repository then you're looking at the package that has been registered by _directory path_ (not package registry) in your derived app/service repo's `package.json` for the module require/import namespace `@encapsule/holism-services`.
 
-```
-$ mkdir testProject && cd testProject
-$ yarn init
-$ yarn add @encapsule/holism-services --dev
-```
+## ![](ASSETS/encapsule-holistic-32x32.png) Usage
 
-2. Create a simple script `index.js`:
+In the context of your derived app/service repo, `appgen` will install and register `@encapsule/holism-services` by _directory path_ in your `package.json`.
+
+@encapsule/holism-services can then be imported/required into any module in your project as follows:
+
+Example script, `holism-services-example.js`:
 
 ```JavaScript
 const holism-services = require('@encapsule/holism-services');
@@ -38,18 +38,7 @@ console.log(JSON.stringify(holism-services.__meta));
 /* ... your derived code here ... */
 ```
 
-### Distribution
-
-The `@encapsule/holism-services` library package is published on [npmjs](https://npmjs.com).
-
-- [@encapsule/holism-services Package Distribution](https://npmjs.com/package/@encapsule/holism-services/v/0.0.33) ([@encapsule on npmjs.com](https://www.npmjs.com/org/encapsule))
-- [Encapsule/holism-services git Repository](https://github.com/Encapsule/holism-services) ([GitHub](https://github.com/Encapsule))
-
-## Documentation
-
-A small collection of useful [service filter](https://encapsule.io/docs/holism/services) plug-ins for [@encapsule/holism](https://encapsule.io/docs/holism).
-
-# Issues
+## ![](ASSETS/encapsule-holistic-32x32.png) Issues
 
 Please post bug reports to one of the follow issue queues depending on topic:
 
@@ -59,12 +48,20 @@ Please post bug reports to one of the follow issue queues depending on topic:
 
 - @encapsule/arctools [GitHub Issue](https://github.com/Encapsule/ARCtools/issues) - Core data tools and RTL issues.
 
+## ![](ASSETS/encapsule-holistic-32x32.png) Discussion
+
+Join the Holistic App Platform [discussion group](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") to talk about the architecture, design, development, and test of full-stack interactive HTML5 applications and services implemented in JavaScript, derived from [Holistic Platform Runtime](#holistic-platform-runtime), and Facebook [React](https://reactjs.org). And, hosted on [Node.js](https://nodejs.org).
+
+**[ [Top](#encapsule-project "Scroll to the top of the page...") ]**
+
 <hr>
 
-Published under [MIT](LICENSE) license by [![Encapsule Project GitHub](ASSETS/blue-burst-encapsule.io-icon-16x16.png "Encapsule Project GitHub")](https://github.com/encapsule) [Encapsule Project](https://encapsule.io)
+[![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
+
+Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
 
 Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
-[![encapsule/holistic](ASSETS/encapsule-holistic-32x32.png "@encapsule/holistic")](https://encapsule.io/docs/holistic)
+<hr>

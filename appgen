@@ -159,10 +159,6 @@ const resourceFilePaths = {
     holistic: {
         packageDir: holisticPackageDir,
         platformSourcesDir: path.join(holisticPackageDir, "PACKAGES"),
-        // platformGitIgnore: path.join(holisticPackageDir, ".gitignore"),
-        // platformBabelRc: path.join(holisticPackageDir, ".babelrc"),
-        // platformEslintRc: path.join(holisticPackageDir, ".eslintrc.js"),
-        // platformWebpackClientRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/webpack.config.app.client.hbs"),
         platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
         platformGenerateRuntimeManifestRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-package-manifest.js.hbs")
     }
@@ -205,7 +201,7 @@ if (filterResponse.error) {
 }
 var applicationPackageManifest = filterResponse.result.resource; // ... as specified by developer(s) and this script.
 
-if (applicationPackageManifest.name === "holistic") {
+if ((applicationPackageManifest.name === "holistic") || (applicationPackageManifest.name === "holistic-master")) {
     console.error("ERROR: INVALID APPLICATION REPOSITORY DIRECTORY! YOU CANNOT APPGEN THE HOLISTIC REPO ITSELF!");
     process.exit(1);
 }
@@ -548,7 +544,6 @@ consoleOutput = syncExec({
     command: "yarn install --check-files"
 });
 console.log(consoleOutput);
-
 
 // ================================================================
 // E P I L O G U E
