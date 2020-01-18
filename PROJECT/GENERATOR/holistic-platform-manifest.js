@@ -16,7 +16,7 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
             server: "yarn build && yarn start",
             "debug-server": "yarn build && node --inspect-brk ./BUILD/runtime-phase3/SERVER/server.js",
             iruts: "./node_modules/.bin/arc_generateIRUT",
-            appinfo: 'echo "\nHOLISTIC APP MANIFEST (created by developer) ===" && cat ./holistic-app.json && echo "\nHOLISTIC APP PACKAGE (created by appgen) ===" && cat ./package.json && "HOLISTIC APP PLATFORM JSON (Tools and RTL\'s installed by appgen) ===" && cat ./HOLISTIC/holistic.json &&',
+            appinfo: 'echo "\nHOLISTIC APP MANIFEST (created by developer) ===" && cat ./holistic-app.json && echo "\nHOLISTIC APP PACKAGE (created by appgen) ===" && cat ./package.json && "HOLISTIC APP PLATFORM JSON (Tools and RTL\'s installed by appgen) ===" && cat ./HOLISTIC/PACKAGES/holistic.json &&',
             holodeck: "./TESTS/holodeck/run-test-program.js"
         }
     },
@@ -40,17 +40,17 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         // Holistic platform runtime library dependencies.
         "@encapsule/arccore": arccore.__meta.version,
         "@encapsule/arctools": arccore.__meta.version,
-        "@encapsule/d2r2": "./HOLISTIC/d2r2",
-        "@encapsule/d2r2-components": "./HOLISTIC/d2r2-components",
-        "@encapsule/hash-router": "./HOLISTIC/hash-router",
-        "@encapsule/holarchy": "./HOLISTIC/holarchy",
-        "@encapsule/holarchy-sml": "./HOLISTIC/holarchy-sml",
-        "@encapsule/holism": "./HOLISTIC/holism",
-        "@encapsule/holism-metadata": "./HOLISTIC/holism-metadata",
-        "@encapsule/holism-services": "./HOLISTIC/holism-services",
-        "@encapsule/holodeck": "./HOLISTIC/holodeck",
-        "@encapsule/holodeck-assets": "./HOLISTIC/holodeck-assets",
-        "@encapsule/hrequest": "./HOLISTIC/hrequest",
+        "@encapsule/d2r2": "./HOLISTIC/PACKAGES/d2r2",
+        "@encapsule/d2r2-components": "./HOLISTIC/PACKAGES/d2r2-components",
+        "@encapsule/hash-router": "./HOLISTIC/PACKAGES/hash-router",
+        "@encapsule/holarchy": "./HOLISTIC/PACKAGES/holarchy",
+        "@encapsule/holarchy-sml": "./HOLISTIC/PACKAGES/holarchy-sml",
+        "@encapsule/holism": "./HOLISTIC/PACKAGES/holism",
+        "@encapsule/holism-metadata": "./HOLISTIC/PACKAGES/holism-metadata",
+        "@encapsule/holism-services": "./HOLISTIC/PACKAGES/holism-services",
+        "@encapsule/holodeck": "./HOLISTIC/PACKAGES/holodeck",
+        "@encapsule/holodeck-assets": "./HOLISTIC/PACKAGES/holodeck-assets",
+        "@encapsule/hrequest": "./HOLISTIC/PACKAGES/hrequest",
 
         // Third-party runtime library dependencies.
         "color": "^3.1.0",

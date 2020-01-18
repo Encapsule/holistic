@@ -38,7 +38,7 @@ const commitHash = childProcess.execSync('git rev-parse HEAD').toString('utf8').
 
 const holisticApplicationManifest = require("../../holistic-app");
 const applicationPackageManifest = require("../../package");
-const holisticPlatformManifest = require("../../HOLISTIC/holistic");
+const holisticPlatformManifest = require("../../HOLISTIC/PACKAGES/holistic");
 
 const buildTime = arccore.util.getEpochTime(); // this is in unit seconds
 const buildDate = new Date(buildTime * 1000);
