@@ -2,9 +2,9 @@
     "name": "@encapsule/d2r2-components",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
-    "buildTime": 1579479271,
-    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
+    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
+    "buildTime": 1579563552,
+    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/d2r2-components.git"
@@ -22,7 +22,7 @@
         "url": "https://github.com/Encapsule/d2r2-components/issues"
     },
     "homepage": "https://github.com/Encapsule/d2r2-components#readme",
-    "description": "This package contains a collection of re-usable d2r2 view components for use with @encapsule/d2r2 <ComponentRouter/>.",
+    "description": "This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.",
     "keywords": [
         "Encapsule",
         "React",

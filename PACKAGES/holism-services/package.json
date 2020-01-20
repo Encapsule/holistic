@@ -2,9 +2,9 @@
     "name": "@encapsule/holism-services",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
-    "buildTime": 1579479271,
-    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
+    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
+    "buildTime": 1579563552,
+    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holism-services.git"
@@ -22,16 +22,17 @@
         "url": "https://github.com/Encapsule/holism-services/issues"
     },
     "homepage": "https://github.com/Encapsule/holism-services#readme",
-    "description": "Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.",
+    "description": "This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.",
     "keywords": [
-        "HTTP",
-        "REST",
-        "filter",
-        "server",
+        "Encapsule",
+        "holistic",
+        "holism",
+        "holism-services",
         "service",
-        "framework",
-        "node",
-        "Encapsule"
+        "service filter",
+        "plug-in",
+        "HTTP",
+        "REST"
     ],
     "main": "index.js",
     "peerDependencies": {

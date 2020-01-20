@@ -2,9 +2,9 @@
     "name": "@encapsule/holodeck-assets",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
-    "buildTime": 1579479271,
-    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
+    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
+    "buildTime": 1579563552,
+    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holodeck-assets.git"
@@ -22,9 +22,16 @@
         "url": "https://github.com/Encapsule/holodeck-assets/issues"
     },
     "homepage": "https://github.com/Encapsule/holodeck-assets#readme",
-    "description": "Holdeck assets bundles reusable test harnesses, and test vectors useful for testing apps and services derviced from @encapsule/holistic platform RTL's.",
+    "description": "This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.",
     "keywords": [
-        "Encapsule"
+        "Encapsule",
+        "holistic",
+        "holodeck",
+        "holodeck-assets",
+        "test",
+        "runner",
+        "harness",
+        "vector"
     ],
     "main": "index.js",
     "peerDependencies": {

@@ -2,9 +2,9 @@
     "name": "@encapsule/hash-router",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
-    "buildTime": 1579479271,
-    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
+    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
+    "buildTime": 1579563552,
+    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/hash-router.git"
@@ -22,7 +22,7 @@
         "url": "https://github.com/Encapsule/hash-router/issues"
     },
     "homepage": "https://github.com/Encapsule/hash-router#readme",
-    "description": "A collection of reusable React components compatible with @encapsule/d2r2 <ComponentRouter/>.",
+    "description": "This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).",
     "keywords": [
         "HTML5",
         "browser",

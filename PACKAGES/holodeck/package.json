@@ -2,9 +2,9 @@
     "name": "@encapsule/holodeck",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
-    "buildTime": 1579479271,
-    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
+    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
+    "buildTime": 1579563552,
+    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holodeck.git"
@@ -22,9 +22,18 @@
         "url": "https://github.com/Encapsule/holodeck/issues"
     },
     "homepage": "https://github.com/Encapsule/holodeck#readme",
-    "description": "Holdeck is a synchronous test runner and test harness system used to test @encapsule/holistic RTL's and derived apps and services.",
+    "description": "This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.",
     "keywords": [
-        "Encapsule"
+        "Encapsule",
+        "holistic",
+        "holodeck",
+        "holodeck-assets",
+        "test",
+        "runner",
+        "harness",
+        "vector",
+        "filter",
+        "plug-in"
     ],
     "main": "index.js",
     "peerDependencies": {
