@@ -2,9 +2,9 @@
     "name": "@encapsule/hrequest",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "oV-Qy6AlScKh58ocHIubQQ",
-    "buildTime": 1579376631,
-    "buildSource": "18c1e1299d71952d50076431aca307a3a243e4c9",
+    "buildID": "P8D-x1lWQj2k9n8rhJpeRA",
+    "buildTime": 1579479271,
+    "buildSource": "1f376c508e7fc2f14e527e694c592de280e933c2",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/hrequest.git"
@@ -22,7 +22,7 @@
         "url": "https://github.com/Encapsule/hrequest/issues"
     },
     "homepage": "https://github.com/Encapsule/hrequest#readme",
-    "description": "HTTP request filters for Node.js and browser clients.",
+    "description": "This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend service integrations.",
     "keywords": [
         "HTTP",
         "request",

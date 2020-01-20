@@ -1,24 +1,24 @@
 # [![](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project Homepage")](https://encapsule.io)&nbsp;Encapsule Project
 
-**[ [Homepage](https://encapsule.io "Encapsule Project Homepage...") ] [ [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") ] [ [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...") ] [ [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") ]**
+[ [**GitHub**](https://github.com/Encapsule "Encapsule Project GitHub...") ] [ [**Discussion**](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") ] [ [**Homepage**](https://encapsule.io "Encapsule Project Homepage...") ] [ [**Twitter**](https://twitter.com/Encapsule "Encapsule Project Twitter...") ]
 
-Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture and runtime libraries.
+Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
 # ![](ASSETS/encapsule-holistic-48x48.png)&nbsp;Holistic App Platform
 
-## &#x029C9; @encapsule/holistic v0.0.33 quatsino (distribution package) &#x029C9;
+##  &#x029C9; @encapsule/holistic v0.0.33 quatsino &#x029C9;
+
+[ [**appgen**](#appgen-utility) ] [ [**Holistic Platform Runtime**](#holistic-platform-runtime) ]
+
+> This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.
 
 ```
-Package: @encapsule/holistic v0.0.33 "quatsino" build ID "oV-Qy6AlScKh58ocHIubQQ"
-Sources: Encapsule/holistic-master#18c1e1299d71952d50076431aca307a3a243e4c9
+Package: @encapsule/holistic v0.0.33 "quatsino" build ID "P8D-x1lWQj2k9n8rhJpeRA"
+Sources: Encapsule/holistic-master#1f376c508e7fc2f14e527e694c592de280e933c2
 Purpose: tools (Node.js)
-Created: 2020-01-18T19:43:51.000Z
+Created: 2020-01-20T00:14:31.000Z
 License: MIT
 ```
-
-## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Description
-
-This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.
 
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Overview
 
@@ -69,9 +69,9 @@ By convention, the latest supported release of @encapsule/holistic is available 
 
 Other topic branches are used for testing updates prior to general release.
 
-Be very aware the disconnect between git versioning and yarn (we don't automate that).
+Please be aware of the disconnect between the state of your project's `node_modules` directory which is managed by `yarn` and the state of critical `package.json` and `yarn.lock` files that is managed by `git`.
 
-Always `yarn install` whenever you pull updates from GitHub. And, whenever switching topic branches.
+Always `yarn install` whenever you pull updates from GitHub. And, whenever switching topic branches. This is currently the only way to ensure that you have the expected/correct package dependencies installed.
 
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
 
@@ -85,71 +85,71 @@ This is some information about the appgen utility.
 
 The "Holistic App Platform" is a collection of runtime library packages that are used to build full-stack web applications and services using [Node.js](https://nodejs.org) and [React](https://react.org).
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/d2r2 &#x25F0;
+#### &#x25F0; [@encapsule/d2r2](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...") &#x25F0;
 
-Data-Driven React Render (d2r2) allows you to map JSON data types to React components and affect layout via JSON document composition dynamically at runtime w/type safety.
+> Data-Driven React Render (d2r2) allows you to map JSON data types to React components and affect layout via JSON document composition dynamically at runtime w/type safety.
 
-[README &#x25BA;](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
+[README &#9656;](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/d2r2-components &#x25F0;
+#### &#x25F0; [@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...") &#x25F0;
 
-A collection of reusable React components compatible with @encapsule/d2r2 <ComponentRouter/>.
+> This package contains a collection of re-usable d2r2 view components for use with @encapsule/d2r2 <ComponentRouter/>.
 
-[README &#x25BA;](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
+[README &#9656;](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/hash-router &#x25F0;
+#### &#x25F0; [@encapsule/hash-router](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...") &#x25F0;
 
-A collection of reusable React components compatible with @encapsule/d2r2 <ComponentRouter/>.
+> A collection of reusable React components compatible with @encapsule/d2r2 <ComponentRouter/>.
 
-[README &#x25BA;](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
+[README &#9656;](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holarchy &#x25F0;
+#### &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...") &#x25F0;
 
-Holistic server and client application runtime factories, re-usable plug-in export library.
+> Holistic server and client application runtime factories, re-usable plug-in export library.
 
-[README &#x25BA;](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
+[README &#9656;](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holarchy-sml &#x25F0;
+#### &#x25F0; [@encapsule/holarchy-sml](PACKAGES/holarchy-sml/README.md "Jump to holarchy-sml RTL package README...") &#x25F0;
 
-@encapsule/holarchy standard model library contains reusable ObservableProcessModels, TransitionOperators, ControllerActions, and shared OCD template specs.
+> @encapsule/holarchy standard model library contains reusable ObservableProcessModels, TransitionOperators, ControllerActions, and shared OCD template specs.
 
-[README &#x25BA;](PACKAGES/holarchy-sml/README.md "Jump to holarchy-sml RTL package README...")
+[README &#9656;](PACKAGES/holarchy-sml/README.md "Jump to holarchy-sml RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holism &#x25F0;
+#### &#x25F0; [@encapsule/holism](PACKAGES/holism/README.md "Jump to holism RTL package README...") &#x25F0;
 
-Filter-extensible JSON-configured HTTP 1.1 REST framework for Node.js.
+> Filter-extensible JSON-configured HTTP 1.1 REST framework for Node.js.
 
-[README &#x25BA;](PACKAGES/holism/README.md "Jump to holism RTL package README...")
+[README &#9656;](PACKAGES/holism/README.md "Jump to holism RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holism-metadata &#x25F0;
+#### &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...") &#x25F0;
 
-Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
+> Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
 
-[README &#x25BA;](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
+[README &#9656;](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holism-services &#x25F0;
+#### &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...") &#x25F0;
 
-Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
+> Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
 
-[README &#x25BA;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+[README &#9656;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holodeck &#x25F0;
+#### &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...") &#x25F0;
 
-Holdeck is a synchronous test runner and test harness system used to test @encapsule/holistic RTL's and derived apps and services.
+> Holdeck is a synchronous test runner and test harness system used to test @encapsule/holistic RTL's and derived apps and services.
 
-[README &#x25BA;](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
+[README &#9656;](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/holodeck-assets &#x25F0;
+#### &#x25F0; [@encapsule/holodeck-assets](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...") &#x25F0;
 
-Holdeck assets bundles reusable test harnesses, and test vectors useful for testing apps and services derviced from @encapsule/holistic platform RTL's.
+> Holdeck assets bundles reusable test harnesses, and test vectors useful for testing apps and services derviced from @encapsule/holistic platform RTL's.
 
-[README &#x25BA;](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
+[README &#9656;](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
 
-#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;&#x25F0; @encapsule/hrequest &#x25F0;
+#### &#x25F0; [@encapsule/hrequest](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...") &#x25F0;
 
-HTTP request filters for Node.js and browser clients.
+> This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend service integrations.
 
-[README &#x25BA;](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
+[README &#9656;](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
 
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Issues
 

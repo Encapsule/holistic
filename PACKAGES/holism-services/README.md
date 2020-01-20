@@ -1,34 +1,36 @@
 # [![](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project Homepage")](https://encapsule.io)&nbsp;Encapsule Project
 
-**[ [Homepage](https://encapsule.io "Encapsule Project Homepage...") ] [ [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") ] [ [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...") ] [ [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") ]**
+[ [**GitHub**](https://github.com/Encapsule "Encapsule Project GitHub...") ] [ [**Discussion**](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") ] [ [**Homepage**](https://encapsule.io "Encapsule Project Homepage...") ] [ [**Twitter**](https://twitter.com/Encapsule "Encapsule Project Twitter...") ]
 
-Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture and runtime libraries.
+Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-48x48.png)&nbsp;Holistic App Platform &bull; holism-services
+# ![](ASSETS/encapsule-holistic-48x48.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") &bull; holism-services
 
-## &#x25F0; @encapsule/holism-services v0.0.33 quatsino (app runtime library) &#x25F0;
+## &#x25F0; @encapsule/holism-services v0.0.33 quatsino &#x25F0;
+
+> Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
 
 ```
-Package: @encapsule/holism-services v0.0.33 "quatsino" build ID "oV-Qy6AlScKh58ocHIubQQ"
-Sources: Encapsule/holistic-master#18c1e1299d71952d50076431aca307a3a243e4c9
+Package: @encapsule/holism-services v0.0.33 "quatsino" build ID "P8D-x1lWQj2k9n8rhJpeRA"
+Sources: Encapsule/holistic-master#1f376c508e7fc2f14e527e694c592de280e933c2
 Purpose: library (Node.js)
-Created: 2020-01-18T19:43:51.000Z
+Created: 2020-01-20T00:14:31.000Z
 License: MIT
 ```
 
-**[ [&#x025C2; Holistic App Platform](../../README.md "Back to the main Holistic App Platform REAMDE...") ]**
+## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Overview
 
-## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Description
+[**RTL's**](../../README.md#holistic-platform-runtime "Jump back to the RTL index...")**::** [ [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [hash-router](../hash-router/README.md#encapsule-project "Jump to hash-router README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-sml](../holarchy-sml/README.md#encapsule-project "Jump to holarchy-sml README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; **holism-services** &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...") ]
 
-Library of service filter plug-ins for @encapsule/holism HTTP server and REST framework.
+**MISSING OVERVIEW SECTION FOR PACKAGE!**
 
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Distribution
 
-This package is an unpublished _pseudo-package_ that is included in the @encapsule/holistic v0.0.33 quatsino package for distribution via the `appgen` utility.
+The @encapsule/holism-services package is runtime library (RTL) package bundled in the @encapsule/holistic package for distribution via the `appgen` utility.
 
-If you are viewing this README.md in the `./PACKAGES` subdirectory of the @encapsule/holistic package then you're looking at the source package that `appgen` will copy into your designated derived app/service git repo's `./HOLISTIC` directory.
+Once you have run `appgen` on your derived app/service git repo, `@encapsule/holism-services ` will be registered and available for [use](#usage) in your app/service implementation.
 
-If you are viewing this README.md in the `./HOLISTIC` subdirectory of your derived app/service repo then you're looking at the package that has been registered by _directory path_ (not package registry) in your derived app/service repo's `package.json` for the module require/import namespace `@encapsule/holism-services`.
+See also: [appgen](../../README.md#appgen-utility)
 
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Usage
 
@@ -44,6 +46,12 @@ console.log(JSON.stringify(holism-services.__meta));
 /* ... your derived code here ... */
 ```
 
+The next section provides additional context and explains how to use this RTL's API.
+
+## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
+
+**MISSING PACKAGE DOCUMENTATION!**
+
 ## ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Issues
 
 Please post bug reports to one of the follow issue queues depending on topic:
@@ -58,7 +66,7 @@ Please post bug reports to one of the follow issue queues depending on topic:
 
 Join the Holistic App Platform [discussion group](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") to talk about the architecture, design, development, and test of full-stack interactive HTML5 applications and services implemented in JavaScript, derived from [Holistic Platform Runtime](#holistic-platform-runtime), and Facebook [React](https://reactjs.org). And, hosted on [Node.js](https://nodejs.org).
 
-**[ [&#x025C2; Holistic App Platform](../../README.md "Back to the main Holistic App Platform REAMDE...") ] [ [&#x025B4; Top](#encapsule-project "Scroll to the top of the page...") ]**
+**[ [&#9666; Holistic App Platform](../../README.md "Back to the main Holistic App Platform REAMDE...") ] [ [&#9652; Top](#encapsule-project "Scroll to the top of the page...") ]**
 
 <hr>
 
