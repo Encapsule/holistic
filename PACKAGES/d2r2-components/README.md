@@ -8,42 +8,25 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 
 ## &#x25F0; Runtime library: @encapsule/d2r2-components
 
-> [RTL index](../../README.md#holistic-platform-runtime "Jump back to the RTL index..."): [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; &#x25F0; **d2r2-components** &#x25F0; &bull; [hash-router](../hash-router/README.md#encapsule-project "Jump to hash-router README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-sml](../holarchy-sml/README.md#encapsule-project "Jump to holarchy-sml README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
+> [**RTL index**](../../README.md#holistic-platform-runtime "Jump back to the RTL index..."): [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; &#x25F0; **d2r2-components** &bull; [hash-router](../hash-router/README.md#encapsule-project "Jump to hash-router README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-sml](../holarchy-sml/README.md#encapsule-project "Jump to holarchy-sml README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
 This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.
 
 ```
-Package: @encapsule/d2r2-components v0.0.33 "quatsino" build ID "TEON1GhXSVmdCDUy9KyuWQ"
-Sources: Encapsule/holistic-master#812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9
-Purpose: library (Node.js)
-Created: 2020-01-20T23:39:12.000Z
-License: MIT
+Package: @encapsule/d2r2-components v0.0.33 "quatsino" build ID "yDxLNwX_SI6pJshQQLhTWQ"
+Sources: Encapsule/holistic-master#ac4ecce5f6c43c9c619089b7428e4e504cba6087
+Created: 2020-01-22T15:53:28.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
 
-# overview descriptor header
-
-This is a line of text terminated with a period but no newline.
-
-This is the next line in the content array also with no newline.
-
-This is the third line in a array. The supposition is that all three lines forms a single paragraph.
-
-
-
-
-
-The proceeding line has two newlines. This line terminates with a single newline.
-
-
-This is the next line following a line that terminates in newline. This line ends in two newlines.
-
-
-
-Lastly...
+**TODO**
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Distribution
+
+The `@encapsule/d2r2-components` RTL package is installed in derived app/service projects by running [appgen](../../README#appgen-utility "Jump to appgen documentation...").
+
+#### Detail
 
 The @encapsule/d2r2-components package is a runtime library (RTL) distributed in the @encapsule/holistic package:
 
@@ -51,21 +34,19 @@ The @encapsule/d2r2-components package is a runtime library (RTL) distributed in
 @encapsule/holistic/PACKAGES/d2r2-components
 ```
 
-The `appgen` utility is used to create a copy of this RTL package inside your derived app/service git repo:
+The `appgen` utility is used to create a copy of this RTL package inside your derived app/service project...
 
 ```
 @AcmeCo/SampleApp/HOLISTIC/PACKAGES/d2r2-components
 ```
 
-... and to modifying `@AcmeCo/SampleApp/package.json` to include:
+... and modify its `package.json` file to include the following package registration:
 
 ```
 "devDependencies": {
     "@encapsule/d2r2-components": "./HOLISTIC/PACKAGES/d2r2-components"
 }
 ```
-
-> See also: [appgen](../../README.md#appgen-utility "Jump to appgen documentation...")
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Usage
 
@@ -81,11 +62,9 @@ console.log(JSON.stringify(d2r2-components.__meta));
 
 Authoring `/* ... your derived code ... */` is discussed in the next section.
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Documentation
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
 
-# WHAT IS IT?
-
-This is some text in the body section.
+**TODO**
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Issues
 
@@ -107,10 +86,10 @@ Join the Holistic App Platform [discussion group](https://groups.google.com/a/en
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
+Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
+
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
-
-Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 <hr>

@@ -13,51 +13,87 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.
 
 ```
-Package: @encapsule/holistic v0.0.33 "quatsino" build ID "TEON1GhXSVmdCDUy9KyuWQ"
-Sources: Encapsule/holistic-master#812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9
-Purpose: tools (Node.js)
-Created: 2020-01-20T23:39:12.000Z
-License: MIT
+Package: @encapsule/holistic v0.0.33 "quatsino" build ID "yDxLNwX_SI6pJshQQLhTWQ"
+Sources: Encapsule/holistic-master#ac4ecce5f6c43c9c619089b7428e4e504cba6087
+Created: 2020-01-22T15:53:28.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
 
-**Welcome the the Holistic App Platform!**
+### Welcome the the Holistic App Platform
 
-In this document:
+TODO: Add a brief overview of the goals of holistic app platform along with current status.
 
-- [appgen](#appgen-utility) command-line utility used to maintain derived app and service git repositories.
+### Contents
 
-- [Holistic Platform Runtime](#holistic-platform-runtime) runtime library packages managed by `appgen`.
+- [**appgen**](#appgen-utility) - A command-line utility used to initialize & maintain derived app/service git repos.
+
+- [**Holistic Platform Runtime**](#holistic-platform-runtime "Jump to RTL package index...") - Core runtime app/service runtime libraries (RTL) packages.
+
+    - &#x25F0; [@encapsule/d2r2](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
+
+    - &#x25F0; [@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
+
+    - &#x25F0; [@encapsule/hash-router](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
+
+    - &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
+
+    - &#x25F0; [@encapsule/holarchy-sml](PACKAGES/holarchy-sml/README.md "Jump to holarchy-sml RTL package README...")
+
+    - &#x25F0; [@encapsule/holism](PACKAGES/holism/README.md "Jump to holism RTL package README...")
+
+    - &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
+
+    - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+
+    - &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
+
+    - &#x25F0; [@encapsule/holodeck-assets](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
+
+    - &#x25F0; [@encapsule/hrequest](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Distribution
 
-The @encapsule/holistic package (this package) is not published.
+The @encapsule/holistic package is not currently published on npmjs.com or any other package registry.
 
-It is only available from the [@Encapsule](https://github.com/Encapsule) GitHub.
+Currently, you need to obtain the @encapsule/holistic package via `git clone` as below.
 
-To get started you need to have a small collection of core tools installed on your host OS:
+### Prerequisites
+
+To get started you need a small set of core tools installed on your host OS:
+
+- [GNU Make](https://www.gnu.org/software/make/)
 
 - [git](https://git-scm.com/)
 
 - [Node.js](https://nodejs.org)
 
-- [yarn](https://yarnpkg.com)
+- [yarn](https://yarnpkg.com) (depends on Node.js)
 
-Presuming you already have these installed, clone the @encapsule/holistic git repo:
+Most of you will likely already have all of these tool installed.
+
+If not, then they are readily available for all major platforms at the links above.
+
+### Clone
+
+Execute `git clone` to obtain a copy of the @encapsule/holistic package repo from [@Encapsule](https://github.com/Encapsule) GitHub organization.
+
+You will typically only need to clone the @encapsule/holistic package repo once.
 
 ```
 $ cd ~/code # or, wherever...
 $ git clone git@github.com:Encapsule/holistic.git
 ```
 
-You will generally only need to clone the repo once.
-
-Subsequently, retrieve updates via `git fetch` and `git pull`.
+After one-time `git clone`, follow the steps outlined in the [Installation](#installation) section below.
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Installation
 
-Once you have a local clone of the @encapsule/holistic git repo, you will need to ensure you're using the latest release version, and reinstall its dependencies before using `appgen` to update your derived app/service repo's.
+Installation of the @encapsule/holistic package from git repo source is a per-version process that should be re-executed every time you update your local clone of the repo. This includes changing branches.
+
+- Ensure you have the latest version of @encapsule/holistic repo.
+
+- Update your local `node_modules` directory. **IMPORTANT**
 
 ```
 $ cd ~/code/holistic
@@ -65,23 +101,175 @@ $ git pull origin master
 $ yarn install
 ```
 
-By convention, the latest supported release of @encapsule/holistic is available on the #master branch.
+> Be aware of the disconnect between what is present in your `node_modules` directory (managed by `yarn`). And, the state of critical `package.json` and `yarn.lock` files (managed by `git`).
 
-Other topic branches are used for testing updates prior to general release.
+- Latest supported version is available on #master branch.
 
-Please be aware of the disconnect between the state of your project's `node_modules` directory which is managed by `yarn` and the state of critical `package.json` and `yarn.lock` files that is managed by `git`.
+- Other topic branches are used for testing features prior to release.
 
-Always `yarn install` whenever you pull updates from GitHub. And, whenever switching topic branches. This is currently the only way to ensure that you have the expected/correct package dependencies installed.
+After you have executed `yarn install`, the [appgen](#appgen-utility) utility is ready to use.
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Documentation
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
 
-The following sections explains the purpose and use of the [appgen](#appgen-utility) utility. And, provides an overview of the [Holistic Platform Runtime](#holistic-platform-runtime) library pseudo-packages copied by `appgen` into derived application and service git repositories.
+## Holistic Applications
 
-### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;appgen Utility
+A **holistic application** is a developer-maintained Node.js package git repository initialized and subsequently updated with the `appgen` command-line utility.
 
-This is some information about the appgen utility.
+All holistic applications maintained with `appgen` have the same basic structure and base-level feature set:
 
-### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Holistic Platform Runtime
+- Base-level directory structure and entry module file nameing conventions.
+
+    - Base-level directory structure is prescriptive and required.
+
+    - Developers can extend the directory / fire structure:
+
+        - Extend existing branches.
+
+        - Create new directory trees rooted in the root directory.
+
+- The `package.json` in derived holistic application packages is code-generated and owned `appgen`.
+
+    - At inception there is only `package.json`.
+
+    - After first `appgen` run developers should edit `holistic-app.json`.
+
+    - `devDependencies` is managed by `appgen` and is developer-extensible via `holistic-app.json`.
+
+    - `scripts` is managed by `appgen` and is developer-extensible via `holistic-app.json`. Platform-defined scripts include:
+
+        - install - executed after `yarn install`.
+
+        - clean - remove the previous application build.
+
+        - scrub - clean and additionally delete `node_modules` directory.
+
+        - reset - scub and additionally clear your local yarn cache forcing complete restage on `yarn install`.
+
+        - build - build the holistic application by calling `make application`.
+
+        - server - build and start the Node.js HTTP app server on localhost.
+
+        - debug-server - build and start the Node.js HTTP app server on localhost under Node.js inspector.
+
+        - start - launch a previously built Node.js HTTP app server on localhost.
+
+        - holodeck - execute your application's @encapsule/holodeck test runner.
+
+        - appinfo - print holisitic application and platform metadata.
+
+        - platform - print holistic app platform metadata.
+
+        - iruts - generage a batch of v4 UUID-derived IRUT-format identifier strings.
+
+- Core application build is automated by an `appgen`-generated `Makefile`.
+
+    - Abstracts building a holistic application so that you can launch the Node.js HTTP app server. And, servce the bundled client application.
+
+    - Does not abstract the application-specific details required to:
+
+        - Test your holistic application.
+
+        - Package your application for distribution (e.g. further source transformation, Dockerfile generation...).
+
+        - Deploy your application to a cloud service provider.
+
+    - Developers can define application-specific test, packaging, and deployment targets in `Makefile-App`.
+
+    - Holistic application build depends on [eslint], [babel], and [webpack].
+
+        - Configuration for these tools is imposed by `appgen` and is not currently developer-extensible.
+
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;appgen Utility
+
+### Overview
+
+The `appgen` utility is a code generation tool used by developers to initialize and maintain **holistic applications**.
+
+Both initialization and maintainence operations are performed using the same simple command line:
+
+```
+$ path_to_holistic/appgen --appRepoDir path_to_your_app_repo
+```
+
+Here is what happens when you execute `appgen` on your_app_repo:
+
+- Reads or creates a default `holistic-app.json` file.
+
+- Read your project's `package.json`.
+
+- Remove previously installed platform runtime libraries (RTL's).
+
+- Install new platform RTL's.
+
+- Register platform RTL dependencies.
+
+- Merge application and platform-defined package dependnecies.
+
+- De-duplicate and error check finalized dependencies.
+
+- Merge platform-defined yarn integrations (e.g. run targets) with app-specific integrations.
+
+- Merge changes back into `package.json`.
+
+- Rewrite derived app's `package.json`.
+
+- Initialize or recreate core project directory structure.
+
+- Synthesize core GNU Makefile and Makefile-App files.
+
+- Synthesize tool configuration files required by Makefile targets.
+
+- Execute `yarn install --check-files`.
+
+Once `appgen` has completed, 
+
+### Usage
+
+#### Prerequisites
+
+#### Initial Project Setup
+
+- Create a directory for your new holistic application.
+
+- Turn your directory into a git repository with `git init`.
+
+- Turn your git repo into a Node.js package with `yarn init`.
+
+- Commit your empty application package with `git commit -a`.
+
+#### Project Update
+
+E E Dksjks l lksdf
+
+#### Update Verification
+
+sf l llsdkfj wl kwksxcnsl
+
+#### Update Commit
+
+fs j lkclkxs lwpo ns
+
+### Derived Projects
+
+Some introductory text.
+
+#### yarn Integrations
+
+ sdkjfsdfs whole list blah blah
+
+#### Project Directory Structure
+
+Some initial discussion of the `appgen`-created directory structure.
+
+#### Holistic App Build: Makefile
+
+An explanation of the `appgen`-generated Makefile created in the root of derived projects.
+
+#### App-Specific Build: Makefile-App
+
+jdhf  fkjhsdfkj s
+
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Holistic Platform Runtime
 
 The "Holistic App Platform" is a collection of runtime library packages that are used to build full-stack web applications and services using [Node.js](https://nodejs.org) and [React](https://react.org).
 
@@ -171,10 +359,10 @@ Join the Holistic App Platform [discussion group](https://groups.google.com/a/en
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
+Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
+
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
-
-Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 <hr>

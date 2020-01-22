@@ -8,23 +8,25 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 
 ## &#x25F0; Runtime library: @encapsule/holarchy
 
-> [RTL index](../../README.md#holistic-platform-runtime "Jump back to the RTL index..."): [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [hash-router](../hash-router/README.md#encapsule-project "Jump to hash-router README...") &bull; &#x25F0; **holarchy** &#x25F0; &bull; [holarchy-sml](../holarchy-sml/README.md#encapsule-project "Jump to holarchy-sml README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
+> [**RTL index**](../../README.md#holistic-platform-runtime "Jump back to the RTL index..."): [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [hash-router](../hash-router/README.md#encapsule-project "Jump to hash-router README...") &bull; &#x25F0; **holarchy** &bull; [holarchy-sml](../holarchy-sml/README.md#encapsule-project "Jump to holarchy-sml README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
 This package contains the ObservableProcessController (OPC), ObservableProcessModel (OPM), ObservableControllerData (OCD), TransitionOperator (TOP), and ControllerAction (ACT) ES6 classes that are used to define and execute hierarchical asynchronous system models. Used to build complex reactive data-driven UX. And, back-end process orchestration data workflows.
 
 ```
-Package: @encapsule/holarchy v0.0.33 "quatsino" build ID "TEON1GhXSVmdCDUy9KyuWQ"
-Sources: Encapsule/holistic-master#812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9
-Purpose: library (Node.js)
-Created: 2020-01-20T23:39:12.000Z
-License: MIT
+Package: @encapsule/holarchy v0.0.33 "quatsino" build ID "yDxLNwX_SI6pJshQQLhTWQ"
+Sources: Encapsule/holistic-master#ac4ecce5f6c43c9c619089b7428e4e504cba6087
+Created: 2020-01-22T15:53:28.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
 
-_Replace with holarchy module overview._
+**TODO**
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Distribution
+
+The `@encapsule/holarchy` RTL package is installed in derived app/service projects by running [appgen](../../README#appgen-utility "Jump to appgen documentation...").
+
+#### Detail
 
 The @encapsule/holarchy package is a runtime library (RTL) distributed in the @encapsule/holistic package:
 
@@ -32,21 +34,19 @@ The @encapsule/holarchy package is a runtime library (RTL) distributed in the @e
 @encapsule/holistic/PACKAGES/holarchy
 ```
 
-The `appgen` utility is used to create a copy of this RTL package inside your derived app/service git repo:
+The `appgen` utility is used to create a copy of this RTL package inside your derived app/service project...
 
 ```
 @AcmeCo/SampleApp/HOLISTIC/PACKAGES/holarchy
 ```
 
-... and to modifying `@AcmeCo/SampleApp/package.json` to include:
+... and modify its `package.json` file to include the following package registration:
 
 ```
 "devDependencies": {
     "@encapsule/holarchy": "./HOLISTIC/PACKAGES/holarchy"
 }
 ```
-
-> See also: [appgen](../../README.md#appgen-utility "Jump to appgen documentation...")
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Usage
 
@@ -62,9 +62,9 @@ console.log(JSON.stringify(holarchy.__meta));
 
 Authoring `/* ... your derived code ... */` is discussed in the next section.
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Documentation
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
 
-_Replace with detailed information about the holarchy package._
+**TODO**
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Issues
 
@@ -86,10 +86,10 @@ Join the Holistic App Platform [discussion group](https://groups.google.com/a/en
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
+Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
+
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
-
-Copyright &copy; 2020 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 <hr>

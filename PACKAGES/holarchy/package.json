@@ -2,9 +2,9 @@
     "name": "@encapsule/holarchy",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "TEON1GhXSVmdCDUy9KyuWQ",
-    "buildTime": 1579563552,
-    "buildSource": "812fe479c0e4ac903a4376bfc6ce236fcfbb9ed9",
+    "buildID": "yDxLNwX_SI6pJshQQLhTWQ",
+    "buildTime": 1579708408,
+    "buildSource": "ac4ecce5f6c43c9c619089b7428e4e504cba6087",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holarchy.git"
