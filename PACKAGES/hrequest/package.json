@@ -2,12 +2,12 @@
     "name": "@encapsule/hrequest",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "dGOMQCpcQue1QUd-rLEkGQ",
-    "buildTime": 1579759519,
-    "buildSource": "6a0e30ed5f3965f0add1e1a8f595d7893b758f3b",
+    "buildID": "8xJVdz3KSbyRf6r4eYzpcA",
+    "buildTime": 1579799926,
+    "buildSource": "a6fd415e6bc8243a06ccaff062205479863f92c9",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Encapsule/hrequest.git"
+        "url": "git+https://github.com/Encapsule/holistic.git"
     },
     "author": "Encapsule",
     "contributors": [
@@ -19,9 +19,9 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Encapsule/hrequest/issues"
+        "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "homepage": "https://github.com/Encapsule/hrequest#readme",
+    "homepage": "https://github.com/Encapsule",
     "description": "This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.",
     "keywords": [
         "HTTP",

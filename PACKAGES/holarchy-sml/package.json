@@ -2,12 +2,12 @@
     "name": "@encapsule/holarchy-sml",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "dGOMQCpcQue1QUd-rLEkGQ",
-    "buildTime": 1579759519,
-    "buildSource": "6a0e30ed5f3965f0add1e1a8f595d7893b758f3b",
+    "buildID": "8xJVdz3KSbyRf6r4eYzpcA",
+    "buildTime": 1579799926,
+    "buildSource": "a6fd415e6bc8243a06ccaff062205479863f92c9",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Encapsule/holarchy-sml.git"
+        "url": "git+https://github.com/Encapsule/holistic.git"
     },
     "author": "Encapsule",
     "contributors": [
@@ -19,9 +19,9 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Encapsule/holarchy-sml/issues"
+        "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "homepage": "https://github.com/Encapsule/holarchy-sml#readme",
+    "homepage": "https://github.com/Encapsule",
     "description": "This package contains the Holistic App Platform's core re-usable Software Model Library (SML) derived from @encapsule/holarchy ObservableProcessModel (OPM), TransitionOperator (TOP), and ControllerAction (ACT). Intended for use in derived app/services in conjunction with application-specific SML's executing in ObservableProcessController (OPC) instance(s).",
     "keywords": [
         "Encapsule",

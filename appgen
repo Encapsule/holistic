@@ -38,6 +38,14 @@ var document;
 // ================================================================
 // Common functions
 
+function sortObjectKeys(input_) {
+    let result = {};
+    Object.keys(input_).sort().forEach(function(key_) {
+	result[key_] = input_[key_];
+    });
+    return result;
+}
+
 function syncExec(request_) {
     // request_ = { command: string, cwd: string,  }
     // https://stackoverflow.com/questions/30134236/use-child-process-execsync-but-keep-output-in-console
@@ -202,7 +210,8 @@ if (filterResponse.error) {
 }
 var applicationPackageManifest = filterResponse.result.resource; // ... as specified by developer(s) and this script.
 
-if ((applicationPackageManifest.name === "holistic") || (applicationPackageManifest.name === "holistic-master")) {
+// TODO: MAKE THIS MORE ROBUST: We do not want to allow appgen to execute on either holistic-master or the generated @encapsule/holistic distribution packages.
+if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "holistic-master")) {
     console.error("ERROR: INVALID APPLICATION REPOSITORY DIRECTORY! YOU CANNOT APPGEN THE HOLISTIC REPO ITSELF!");
     process.exit(1);
 }
@@ -272,19 +281,22 @@ if (filterResponse.error) {
     console.error("ERROR: Cannot load holistic application manifest.");
     console.error(filterResponse.error);
     process.exit(1);
-} else {
-    const holisticAppManifestData = filterResponse.result.resource; // ... as specified by a developer
-    // Filter the holistic application manifest read from the application repository.
-    filterResponse = holisticAppManifestFilter.request(holisticAppManifestData);
-    if (filterResponse.error) {
-        console.error("ERROR: Invalid holistic application manifest document '" + resourceFilePaths.application.appManifest + "'.");
-        console.error(filterResponse.error);
-        process.exit(1);
-    }
-    // Use the filtered holistic application manifest data read from the application repository.
-    holisticAppManifest = filterResponse.result;
-    console.log("> Read '" + resourceFilePaths.application.appManifest + "'.");
-} // else we read the holistic application manifest from the application repository
+}
+
+const holisticAppManifestData = filterResponse.result.resource; // ... as specified by a developer
+
+// Filter the holistic application manifest read from the application repository.
+filterResponse = holisticAppManifestFilter.request(holisticAppManifestData);
+if (filterResponse.error) {
+    console.error("ERROR: Invalid holistic application manifest document '" + resourceFilePaths.application.appManifest + "'.");
+    console.error(filterResponse.error);
+    process.exit(1);
+}
+
+// Use the filtered holistic application manifest data read from the application repository.
+holisticAppManifest = filterResponse.result;
+console.log("> Read '" + resourceFilePaths.application.appManifest + "'.");
+
 
 ////
 // Ensure the application does not declare duplicate/conflicting package dependencies.
@@ -348,8 +360,7 @@ newDevDependenciesArray.forEach(function(descriptor_) { newDevDependencies[descr
 // Set the application's development mode package dependencies.
 applicationPackageManifest.devDependencies = newDevDependencies;
 
-// Overwrite values in the application's package.json with values supplied by the
-// holistic platform manifest.
+// Overwrite values in the application's package.json with values supplied by the holistic platform manifest.
 const holisticAppManifestSpec = holisticAppManifestFilter.filterDescriptor.inputFilterSpec;
 for (key in holisticAppManifestSpec) {
     const namespaceDescriptor = holisticAppManifestSpec[key];
@@ -367,10 +378,14 @@ for (key in holisticPlatformManifest.applicationPackageManifest.scripts) {
     applicationPackageManifest.scripts[key] = holisticPlatformManifest.applicationPackageManifest.scripts[key];
 }
 
+applicationPackageManifest.scripts = sortObjectKeys(applicationPackageManifest.scripts);
+
+applicationPackageManifest.appgen = "@encapsule/holistic v" + holisticMetadata.version + " " + holisticMetadata.codename + " " + holisticMetadata.buildID + " " + holisticMetadata.buildSource + " " + holisticMetadata.buildDateISO;
+
 ////
 // Overwrite the application's package.json document with the updated version.
 filterResponse = arctoolslib.stringToFileSync.request({
-    resource: JSON.stringify(applicationPackageManifest, undefined, 2) + "\n",
+    resource: JSON.stringify(sortObjectKeys(applicationPackageManifest), undefined, 2) + "\n",
     path: resourceFilePaths.application.packageManifest
 });
 if (filterResponse.error) {
@@ -585,7 +600,7 @@ console.log("");
 
 consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
-    command: "yarn install --check-files"
+    command: "yarn install" // --check-files
 });
 console.log(consoleOutput);
 

@@ -2,12 +2,12 @@
     "name": "@encapsule/holism",
     "version": "0.0.33",
     "codename": "quatsino",
-    "buildID": "dGOMQCpcQue1QUd-rLEkGQ",
-    "buildTime": 1579759519,
-    "buildSource": "6a0e30ed5f3965f0add1e1a8f595d7893b758f3b",
+    "buildID": "8xJVdz3KSbyRf6r4eYzpcA",
+    "buildTime": 1579799926,
+    "buildSource": "a6fd415e6bc8243a06ccaff062205479863f92c9",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Encapsule/holism.git"
+        "url": "git+https://github.com/Encapsule/holistic.git"
     },
     "author": "Encapsule",
     "contributors": [
@@ -19,9 +19,9 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Encapsule/holism/issues"
+        "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "homepage": "https://github.com/Encapsule/holism#readme",
+    "homepage": "https://github.com/Encapsule",
     "description": "This package contains an experimental HTTP 1.1 application server and REST framework derived from the Node.js HTTP API's and the @encapsule/arccore filter RTL. This provides developers with a simple mechanism to define and re-use backend operations as plug-in service filters hosted by the holism server RTL. The package is intended for use in derived applications and services.",
     "keywords": [
         "Encapsule",
