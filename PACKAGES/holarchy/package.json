@@ -1,13 +1,13 @@
 {
     "name": "@encapsule/holarchy",
-    "version": "0.0.33",
-    "codename": "quatsino",
-    "buildID": "dGOMQCpcQue1QUd-rLEkGQ",
-    "buildTime": 1579759519,
-    "buildSource": "6a0e30ed5f3965f0add1e1a8f595d7893b758f3b",
+    "version": "0.0.34",
+    "codename": "klickseewy",
+    "buildID": "My29SrEOS4mv9C100xHQyw",
+    "buildTime": 1579885413,
+    "buildSource": "7037f565f460b1831abb3512cd43059993923525",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Encapsule/holarchy.git"
+        "url": "git+https://github.com/Encapsule/holistic.git"
     },
     "author": "Encapsule",
     "contributors": [
@@ -19,9 +19,9 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Encapsule/holarchy/issues"
+        "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "homepage": "https://github.com/Encapsule/holarchy#readme",
+    "homepage": "https://github.com/Encapsule",
     "description": "This package contains the ObservableProcessController (OPC), ObservableProcessModel (OPM), ObservableControllerData (OCD), TransitionOperator (TOP), and ControllerAction (ACT) ES6 classes that are used to define and execute hierarchical asynchronous system models. Used to build complex reactive data-driven UX. And, back-end process orchestration data workflows.",
     "keywords": [
         "Encapsule",

@@ -114,6 +114,17 @@ var factoryResponse = holodeck.harnessFactory.request({
       // ================================================================
       // TODO: FIX THIS: This is a bug in OPC.act
       delete opcInstance._private.lastEvalautionRepsonse;
+
+      if (!opcInstance.isValid()) {
+        response.result.actionEvaluations.push({
+          actRequest: actRequest_,
+          actResponse: {
+            error: "OPC instance is invalid!"
+          }
+        });
+        return;
+      }
+
       var actResponse = opcInstance.act(actRequest_);
 
       if (!actResponse.error) {

@@ -41,8 +41,8 @@ function () {
         ellapsedDelta: ellapsedDelta,
         ellapsedTotal: ellapsedTotal
       };
-      this.marks.push(mark);
-      console.log("**** ".concat(JSON.stringify(mark)));
+      this.marks.push(mark); // console.log(`**** ${JSON.stringify(mark)}`);
+
       return mark;
     } // Call stop to stop the stopwatch timer and freeze the marks log.
 

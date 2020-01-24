@@ -38,7 +38,8 @@ module.exports = [{
                   opm: "z_mTe02hSWmaM1iRO1pBeA"
                 },
                 value: {
-                  ____accept: "jsString"
+                  ____accept: "jsString",
+                  ____defaultValue: "default"
                 }
               }
             },

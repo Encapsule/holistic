@@ -1,13 +1,13 @@
 {
     "name": "@encapsule/holodeck-assets",
-    "version": "0.0.33",
-    "codename": "quatsino",
-    "buildID": "dGOMQCpcQue1QUd-rLEkGQ",
-    "buildTime": 1579759519,
-    "buildSource": "6a0e30ed5f3965f0add1e1a8f595d7893b758f3b",
+    "version": "0.0.34",
+    "codename": "klickseewy",
+    "buildID": "My29SrEOS4mv9C100xHQyw",
+    "buildTime": 1579885413,
+    "buildSource": "7037f565f460b1831abb3512cd43059993923525",
     "repository": {
         "type": "git",
-        "url": "git+https://github.com/Encapsule/holodeck-assets.git"
+        "url": "git+https://github.com/Encapsule/holistic.git"
     },
     "author": "Encapsule",
     "contributors": [
@@ -19,9 +19,9 @@
     ],
     "license": "MIT",
     "bugs": {
-        "url": "https://github.com/Encapsule/holodeck-assets/issues"
+        "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "homepage": "https://github.com/Encapsule/holodeck-assets#readme",
+    "homepage": "https://github.com/Encapsule",
     "description": "This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.",
     "keywords": [
         "Encapsule",
@@ -36,7 +36,7 @@
     "main": "index.js",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.8",
-        "@encapsule/holodeck": "0.0.33",
-        "@encapsule/holarchy": "0.0.33"
+        "@encapsule/holodeck": "0.0.34",
+        "@encapsule/holarchy": "0.0.34"
     }
 }

@@ -9,9 +9,21 @@ var opmFrameLatchDeclaration = module.exports = {
     ____label: "Observable Frame Latch",
     ____types: "jsObject",
     ____defaultValue: {},
-    value: {
-      ____opaque: true
-    },
+
+    /*
+      This is an interesting subproblem I am not going to solve right now.
+      There are controller actions associated with this OPM that reference value.
+      The intent is to let whoever binds this OPM to define value. But, we have
+      no good way at present to distinguish between precedent. And, the merge
+      semantics become considerably less trivial. So for now, I'm just removing
+      the definition and will see how bad it is for developers to deal with
+      the error that will occur when, for example, the controller actions
+      that attempts to write value fails because it's not defined in the OCD
+      runtime spec.
+             value: {
+             ____opaque: true
+             },
+    */
     clock: {
       ____accept: "jsBoolean",
       ____defaultValue: false
