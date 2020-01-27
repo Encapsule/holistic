@@ -1,8 +1,8 @@
 {
     "name": "holistic",
-    "description": "A plug-in filter extensible, JSON configurable framework for building full-stack Node.js/HTML5 applications.",
-    "version": "0.0.33",
-    "codename": "quatsino",
+    "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
+    "version": "0.1.00",
+    "codename": "alertbay",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "8xJVdz3KSbyRf6r4eYzpcA",
-    "buildSource": "a6fd415e6bc8243a06ccaff062205479863f92c9",
-    "buildTime": 1579799926,
-    "buildDateISO": "2020-01-23T17:18:46.000Z"
+    "buildID": "3T-NP9hiTtepMFP3od-BKQ",
+    "buildSource": "0d3109c6ca161881d52bff8fa524a45160d28b49",
+    "buildTime": 1580155964,
+    "buildDateISO": "2020-01-27T20:12:44.000Z"
 }

@@ -51,7 +51,7 @@ module.exports = new holarchy.TransitionOperator({
       var filterResponse = request_.context.ocdi.readNamespace(rpResponse.result);
 
       if (filterResponse.error) {
-        errors.push(filterRepsonse.error);
+        errors.push(filterResponse.error);
         break;
       }
 
@@ -59,7 +59,10 @@ module.exports = new holarchy.TransitionOperator({
       break;
     }
 
-    if (errors.length) response.error = errors.join(" ");
+    if (errors.length) {
+      response.error = errors.join(" ");
+    }
+
     return response;
   }
 });

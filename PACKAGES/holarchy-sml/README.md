@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.33 quatsino
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.1.00 alertbay
 
 ## &#x25F0; Runtime library: @encapsule/holarchy-sml
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform's core re-usable Software Model Library (SML) derived from @encapsule/holarchy ObservableProcessModel (OPM), TransitionOperator (TOP), and ControllerAction (ACT). Intended for use in derived app/services in conjunction with application-specific SML's executing in ObservableProcessController (OPC) instance(s).
 
 ```
-Package: @encapsule/holarchy-sml v0.0.33 "quatsino" build ID "8xJVdz3KSbyRf6r4eYzpcA"
-Sources: Encapsule/holistic-master#a6fd415e6bc8243a06ccaff062205479863f92c9
-Created: 2020-01-23T17:18:46.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holarchy-sml v0.1.00 "alertbay" build ID "3T-NP9hiTtepMFP3od-BKQ"
+Sources: Encapsule/holistic-master#0d3109c6ca161881d52bff8fa524a45160d28b49
+Created: 2020-01-27T20:12:44.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

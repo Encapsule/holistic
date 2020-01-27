@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/holarchy",
-    "version": "0.0.33",
-    "codename": "quatsino",
-    "buildID": "8xJVdz3KSbyRf6r4eYzpcA",
-    "buildTime": 1579799926,
-    "buildSource": "a6fd415e6bc8243a06ccaff062205479863f92c9",
+    "version": "0.1.00",
+    "codename": "alertbay",
+    "buildID": "3T-NP9hiTtepMFP3od-BKQ",
+    "buildTime": 1580155964,
+    "buildSource": "0d3109c6ca161881d52bff8fa524a45160d28b49",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"

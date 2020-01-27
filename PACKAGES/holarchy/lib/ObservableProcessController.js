@@ -23,75 +23,82 @@ function () {
     _classCallCheck(this, ObservableProcessController);
 
     // #### sourceTag: Gql9wS2STNmuD5vvbQJ3xA
-    var errors = [];
-    var inBreakScope = false; // Allocate private per-class-instance state.
+    try {
+      var errors = [];
+      var inBreakScope = false; // Allocate private per-class-instance state.
 
-    this._private = {};
+      this._private = {};
 
-    while (!inBreakScope) {
-      inBreakScope = true; // ----------------------------------------------------------------
-      // Bind instance methods.
-      // public
+      while (!inBreakScope) {
+        inBreakScope = true; // ----------------------------------------------------------------
+        // Bind instance methods.
+        // public
 
-      this.isValid = this.isValid.bind(this);
-      this.toJSON = this.toJSON.bind(this);
-      this.act = this.act.bind(this); // private
+        this.isValid = this.isValid.bind(this);
+        this.toJSON = this.toJSON.bind(this);
+        this.act = this.act.bind(this); // private
 
-      this._evaluate = this._evaluate.bind(this); // ----------------------------------------------------------------
-      // Normalize the incoming request descriptor object.
+        this._evaluate = this._evaluate.bind(this); // ----------------------------------------------------------------
+        // Normalize the incoming request descriptor object.
 
-      var filterResponse = constructorFilter.request(request_);
-
-      if (filterResponse.error) {
-        errors.push("Failed while processing constructor request.");
-        errors.push(filterResponse.error);
-        break;
-      } // ****************************************************************
-      // ****************************************************************
-      // KEEP A COPY OF THE NORMALIZED OUTPUT OF THE CONSTRUCTION FILTER
-      // We no longer care about the request input; internal methods
-      // should only access this._private. Clients of this class should
-      // not deference data in an OPC instance's _private namespace.
-      // The names, types, and semantics of this information can change
-      // release to release as an implementation of this library. Only
-      // ever rely on public methods which we will try to keep stable.
-      //
-
-
-      this._private = filterResponse.result; // Perform the first post-construction evaluation of the OPC system model
-      // if the instance was constructed in "automatic" evaluate mode.
-
-      if (this._private.options.evaluate.firstEvaluation === "constructor") {
-        // Wake the beast up... Perform the initial post-construction evaluation.
-        filterResponse = this._evaluate();
+        var filterResponse = constructorFilter.request(request_);
 
         if (filterResponse.error) {
-          errors.push("Failed while executing the first post-construction system evaluation:");
+          errors.push("Failed while processing constructor request.");
           errors.push(filterResponse.error);
           break;
+        } // ****************************************************************
+        // ****************************************************************
+        // KEEP A COPY OF THE NORMALIZED OUTPUT OF THE CONSTRUCTION FILTER
+        // We no longer care about the request input; internal methods
+        // should only access this._private. Clients of this class should
+        // not deference data in an OPC instance's _private namespace.
+        // The names, types, and semantics of this information can change
+        // release to release as an implementation of this library. Only
+        // ever rely on public methods which we will try to keep stable.
+        //
+
+
+        this._private = filterResponse.result; // Perform the first post-construction evaluation of the OPC system model
+        // if the instance was constructed in "automatic" evaluate mode.
+
+        if (this._private.options.evaluate.firstEvaluation === "constructor") {
+          // Wake the beast up... Perform the initial post-construction evaluation.
+          filterResponse = this._evaluate();
+
+          if (filterResponse.error) {
+            errors.push("Failed while executing the first post-construction system evaluation:");
+            errors.push(filterResponse.error);
+            break;
+          }
         }
+
+        break;
+      } // while(!inBreakScope)
+
+
+      if (errors.length) {
+        errors.unshift("ObservableProcessController::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
+        this._private.constructionError = {
+          error: errors.join(" ")
+        };
       }
 
-      break;
-    } // while(!inBreakScope)
+      if (this._private.constructionError) {
+        console.error("ObservableProcessController::constructor failed: ".concat(this._private.constructionError.error));
+      } else {
+        console.log("ObservableProcessController::constructor complete.");
+      }
 
-
-    if (errors.length) {
-      errors.unshift("ObservableProcessController::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
-      this._private.constructionError = {
-        error: errors.join(" ")
-      };
+      console.log("opci=");
+      console.log(this);
+      console.log("================================================================");
+    } catch (exception_) {
+      var message = ["ObserverableProcessController::constructor (no-throw) caught an unexpected runtime exception: ", exception_.message].join(" ");
+      this._private.constructionError = message;
+      console.error(message);
+      console.error(exception_.stack);
     }
-
-    if (this._private.constructionError) {
-      console.error("ObservableProcessController::constructor failed: ".concat(this._private.constructionError.error));
-    } else {
-      console.log("ObservableProcessController::constructor complete.");
-    }
-
-    console.log("opci=");
-    console.log(this);
-    console.log("================================================================");
   } // end constructor function
   // ================================================================
   // PUBLIC API METHODS
@@ -105,110 +112,149 @@ function () {
   _createClass(ObservableProcessController, [{
     key: "isValid",
     value: function isValid(options_) {
-      if (!options_ || !options_.getError) {
-        return this._private.constructionError ? false : true;
-      }
+      try {
+        if (!options_ || !options_.getError) {
+          return this._private.constructionError ? false : true;
+        }
 
-      return {
-        error: this._private.constructionError ? this._private.constructionError.error : null,
-        result: this._private
-      };
+        return {
+          error: this._private.constructionError ? this._private.constructionError.error : null,
+          result: this._private
+        };
+      } catch (exception_) {
+        var message = ["ObservableProcessController::isValid (no-throw) caught an unexpected runtime exception: ", exception_.message].join(" ");
+        console.error(message);
+        console.error(exception_.stack);
+        return {
+          error: message
+        };
+      }
     } // Produces a serializable object representing the internal state of this OPCI.
 
   }, {
     key: "toJSON",
     value: function toJSON() {
-      if (!this.isValid()) {
-        return this.isValid({
-          getError: true
-        });
-      }
+      try {
+        if (!this.isValid()) {
+          return this.isValid({
+            getError: true
+          });
+        }
 
-      return this._private;
+        return this._private;
+      } catch (exception_) {
+        var message = ["ObservableProcessController.toJSON (no-throw) caught an unexpected runtime exception: ", exception_.message].join(" ");
+        console.error(message);
+        console.error(exception_.stack);
+        return {
+          error: message
+        };
+      }
     } // toJSON method
 
   }, {
     key: "act",
     value: function act(request_) {
-      var response = {
-        error: null
-      };
-      var errors = [];
-      var inBreakScope = false;
+      try {
+        var response = {
+          error: null
+        };
+        var errors = [];
+        var inBreakScope = false;
 
-      while (!inBreakScope) {
-        inBreakScope = true;
+        while (!inBreakScope) {
+          inBreakScope = true;
 
-        if (!this.isValid()) {
-          // Retrieve just the error string, not the entire response.
-          errors.push("Zombie instance:");
-          errors.push(this.toJSON());
+          if (!this.isValid()) {
+            // Retrieve just the error string, not the entire response.
+            errors.push("Zombie instance:");
+            errors.push(this.toJSON());
+            break;
+          }
+
+          var filterResponse = actInputFilter.request(request_);
+
+          if (filterResponse.error) {
+            errors.push("Bad request:");
+            errors.push(filterResponse.error);
+            break;
+          }
+
+          var request = filterResponse.result; // Push the actor stack.
+
+          this._private.opcActorStack.push({
+            actorName: request.actorName,
+            actionDescription: request.actionDescription
+          }); // Prepare the controller action plug-in filter request descriptor object.
+
+
+          var controllerActionRequest = {
+            context: {
+              opmBindingPath: request.opmBindingPath,
+              ocdi: this._private.ocdi,
+              act: this.act
+            },
+            actionRequest: request.actionRequest
+          }; // Dispatch the actor's requested action.
+
+          var actionResponse = this._private.actionDispatcher.request(controllerActionRequest); // If a transport error occurred dispatching the controller action,
+          // skip any futher processing (including a possible evaluation)
+          // and return. Transport errors represent serious flaws in a derived
+          // app/service that must be corrected. We skip possible evaluation
+          // that would normally occur to make it simpler for developers to diagnose
+          // the transport error.
+
+
+          if (actionResponse.error) {
+            errors.push("Error dispatching controller action filter. Skipping any further evaluation.");
+            errors.push(actionResponse.error);
+            break;
+          } // If no errors have occurred then there's by definition at least
+          // one pending action on the actor stack. This is so because
+          // controller actions may delegate to other controller actions via
+          // re-entrant calls to ObservableProcessController.act method.
+          // Such delegations are non-observable, i.e. they are atomic
+          // with respect to OPC evaluation. So, we only re-evaluate when
+          // we have finished the last of >= 1 controller action plug-in
+          // filter delegations. And, this propogates the net effects of
+          // the controller action as observed in the contained ocdi according
+
+
+          if (this._private.opcActorStack.length === 1) {
+            var evaluateResponse = this._evaluate();
+
+            if (evaluateResponse.error) {
+              errors.push("Unable to evaluate OPC state after executing controller action due to error:");
+              errors.push(evaluateResponse.error);
+              break;
+            }
+
+            response.result = {
+              actionResult: actionResponse.result,
+              lastEvaluation: evaluateResponse.result
+            };
+          }
+
           break;
         }
 
-        var filterResponse = actInputFilter.request(request_);
-
-        if (filterResponse.error) {
-          errors.push("Bad request:");
-          errors.push(filterResponse.error);
-          break;
-        }
-
-        var request = filterResponse.result; // Push the actor stack.
-
-        this._private.opcActorStack.push({
-          actorName: request.actorName,
-          actionDescription: request.actionDescription
-        }); // Prepare the controller action plug-in filter request descriptor object.
+        if (errors.length) {
+          response.error = errors.join(" ");
+          console.error("OPC.act transport error: ".concat(response.error));
+        } // Pop the actor stack.
 
 
-        var controllerActionRequest = {
-          context: {
-            opmBindingPath: request.opmBindingPath,
-            ocdi: this._private.ocdi,
-            act: this.act
-          },
-          actionRequest: request.actionRequest
-        }; // Dispatch the actor's requested action.
+        this._private.opcActorStack.pop();
 
-        var actionResponse = this._private.actionDispatcher.request(controllerActionRequest); // If a transport error occurred dispatching the controller action,
-        // skip any futher processing (including a possible evaluation)
-        // and return. Transport errors represent serious flaws in a derived
-        // app/service that must be corrected. We skip possible evaluation
-        // below on error to make it simpler for developers to diagnose
-        // the transport error.
-
-
-        if (actionResponse.error) {
-          errors.push(actionResponse.error);
-          break;
-        } // If no errors have occurred then there's by definition at least
-        // one pending action on the actor stack. This is so because
-        // controller actions may delegate to other controller actions via
-        // re-entrant calls to ObservableProcessController.act method.
-        // Such delegations are non-observable, i.e. they are atomic
-        // with respect to OPC evaluation. So, we only re-evaluate when
-        // we have finished the last of >= 1 controller action plug-in
-        // filter delegations. And, this propogates the net effects of
-        // the controller action as observed in the contained ocdi according
-
-
-        if (this._private.opcActorStack.length === 1) {
-          response = this._evaluate();
-        }
-
-        break;
+        return response;
+      } catch (exception_) {
+        var message = ["ObservableProcessController.act (no-throw) caught an unexpected exception: ", exception_.message].join(" ");
+        console.error(message);
+        console.error(exception_.stack);
+        return {
+          error: message
+        };
       }
-
-      if (errors.length) {
-        response.error = errors.join(" ");
-        console.error("OPC.act transport error: ".concat(response.error));
-      } // Pop the actor stack.
-
-
-      this._private.opcActorStack.pop();
-
-      return response;
     } // act method
     // ================================================================
     // PRIVATE IMPLEMENTATION METHODS
@@ -219,19 +265,28 @@ function () {
   }, {
     key: "_evaluate",
     value: function _evaluate() {
-      // #### sourceTag: A7QjQ3FbSBaBmkjk_F8AMw
-      // Deletegate to the evaluation filter.
-      var evalFilterResponse = evaluateFilter.request({
-        opcRef: this
-      });
-      this._private.lastEvalResponse = evalFilterResponse;
-      this._private.evalCount++;
-      console.log("================================================================");
-      console.log("ObservableProcessController::_evaluate complete.");
-      console.log("evalResponse=");
-      console.log(evalFilterResponse);
-      console.log("================================================================");
-      return evalFilterResponse;
+      try {
+        // #### sourceTag: A7QjQ3FbSBaBmkjk_F8AMw
+        // Deletegate to the evaluation filter.
+        var evalFilterResponse = evaluateFilter.request({
+          opcRef: this
+        });
+        this._private.lastEvalResponse = evalFilterResponse;
+        this._private.evalCount++;
+        console.log("================================================================");
+        console.log("ObservableProcessController::_evaluate complete.");
+        console.log("evalResponse=");
+        console.log(evalFilterResponse);
+        console.log("================================================================");
+        return evalFilterResponse;
+      } catch (evaluateException_) {
+        var message = ["ObservableProcessController:_evaluate (no-throw) caught an unexpected runtime exception: ", evaluateException_.message].join(" ");
+        console.error(message);
+        console.error(exception_.stack);
+        return {
+          error: message
+        };
+      }
     } // _evaluate method
 
   }]);

@@ -64,7 +64,7 @@ function touchFile(filepath_) {
 
 function makeDirectory(directoryPath_) {
     console.log("> Create '" + directoryPath_ + "'");
-    mkdirp(directoryPath_);
+    mkdirp.sync(directoryPath_);
 }
 
 function loadDocumentTemplate(filepath_) {
@@ -397,6 +397,7 @@ console.log("> Write '" + resourceFilePaths.application.packageManifest + "'.");
 
 ////
 // Remove existing copy of the holistic platform sources from the application.
+
 var consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
     command: ("rm -rfv " + resourceFilePaths.application.platformSourcesDir)
@@ -408,23 +409,23 @@ console.log("> Remove '" + resourceFilePaths.application.platformSourcesDir + "'
 makeDirectory(resourceFilePaths.application.platformSourcesDir);
 makeDirectory(resourceFilePaths.application.platformPackagesDir);
 
-holisticPlatformRuntimePackageNames.forEach(function (packageName_) {
-    const terseName = packageName_.split("/")[1];
-    const sourceDirectory = path.join(resourceFilePaths.holistic.platformSourcesDir, terseName);
-    const command =  [
-	"cp -Rpv",
-	sourceDirectory,
-	(resourceFilePaths.application.platformPackagesDir + "/")
-    ].join(" ");
-    var consoleOutput = syncExec({
-	cwd: resourceFilePaths.holistic.packageDir,
-	command: command
-    });
-    console.log("> Create '" + resourceFilePaths.application.platformPlatformDir + "/" + terseName + "'.");
+const sourceDirectory = resourceFilePaths.holistic.platformSourcesDir + "/*";
+const destDirectory = resourceFilePaths.application.platformPackagesDir;
+
+let command = [
+    "cp -Rpv",
+    sourceDirectory,
+    destDirectory
+].join(" ");
+
+consoleOutput = syncExec({
+    cwd: resourceFilePaths.holistic.packageDir,
+    command: command
 });
+console.log("> Updated holsitic platform RLT's.");
 
 let sourceFile = path.join(resourceFilePaths.holistic.platformSourcesDir, "holistic*.json");
-let command = [
+command = [
     "cp -pv",
     sourceFile,
     (resourceFilePaths.application.platformPackagesDir + "/")
@@ -595,9 +596,16 @@ touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep
 // holistic platform dependencies from the application's HOLISTIC
 // directory, and update the application's yarn.lock file.
 
-console.log("> ONE MOMENT PLEASE... Executing 'yarn install --check-files' in '" + resourceFilePaths.application.appRepoDir + "'...");
-console.log("");
 
+console.log("> ONE MOMENT PLEASE... Removing ./node_modules");
+consoleOutput = syncExec({
+    cwd: resourceFilePaths.application.appRepoDir,
+    command: "rm -rf ./node_modules"
+});
+console.log(consoleOutput);
+
+console.log("> ONE MOMENT PLEASE... Executing 'yarn install in '" + resourceFilePaths.application.appRepoDir + "'...");
+console.log("");
 consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
     command: "yarn install" // --check-files
