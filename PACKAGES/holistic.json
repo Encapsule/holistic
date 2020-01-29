@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
-    "version": "0.1.00",
-    "codename": "alertbay",
+    "version": "0.0.35",
+    "codename": "cluxewa",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "CvX2Sh2HRQaRO0EDiH2soA",
-    "buildSource": "51502aaace25483a5b4d7ae487ff7c7b70cd0c72",
-    "buildTime": 1580329149,
-    "buildDateISO": "2020-01-29T20:19:09.000Z"
+    "buildID": "D-9aQxUuT2SMLXuDikIc8g",
+    "buildSource": "7e086c653cdcb537bf28499422c95c122fe9689b",
+    "buildTime": 1580333198,
+    "buildDateISO": "2020-01-29T21:26:38.000Z"
 }
