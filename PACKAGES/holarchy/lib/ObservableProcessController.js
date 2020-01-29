@@ -16,15 +16,7 @@ var actOutputFilter = require("./filters/opc-method-act-output-filter");
 
 var evaluateFilter = require("./filters/opc-method-evaluate-filter");
 
-var consoleStyles = {
-  constructor: {
-    normal: "color: #112233; background-color: #DDEEFF; font-weight: bold;",
-    success: "color: #112233; background-color: #DDEEFF; font-weight: bold;",
-    error: "color: #112233; background-color: #DDEEFF; font-weight: bold;"
-  },
-  act: "color: #000000; background-color: #FFFF00; font-weight: bold;",
-  evaluate: "color: #000000; background-color: #FFCC00; font-weight: bold;"
-};
+var consoleStyles = require("./util/console-colors-lut");
 
 var ObservableProcessController =
 /*#__PURE__*/
@@ -38,7 +30,7 @@ function () {
       var inBreakScope = false; // Allocate private per-class-instance state.
 
       this._private = {};
-      console.log("%cOPC::constructor starting...", consoleStyles.constructor.normal);
+      console.log("%cOPC::constructor starting...", consoleStyles.opc.constructor.entry);
 
       while (!inBreakScope) {
         inBreakScope = true; // ----------------------------------------------------------------
@@ -105,9 +97,9 @@ function () {
       }
 
       if (this._private.constructionError) {
-        console.error("%cOPC::constructor failed: ".concat(this._private.constructionError.error), consoleStyles.constructor.error);
+        console.error("%cOPC::constructor failed: ".concat(this._private.constructionError.error), consoleStyles.error);
       } else {
-        console.log("%cOPC::constructor complete.", consoleStyles.constructor.success);
+        console.log("%cOPC::constructor complete.", consoleStyles.opc.constructor.success);
       }
     } catch (exception_) {
       var message = ["ObserverableProcessController::constructor (no-throw) caught an unexpected runtime exception: ", exception_.message].join(" ");
@@ -212,7 +204,8 @@ function () {
             actionDescription: request.actionDescription
           });
 
-          console.log("%cOPC [".concat(this._private.opcActorStack.length, "] actor: ").concat(request.actorName, " action: ").concat(request.actionDescription), consoleStyles.act);
+          var styles = this._private.opcActorStack.length === 1 ? consoleStyles.opc.act.entry : consoleStyles.opc.act.levelN;
+          console.log("%cOPC::act [".concat(this._private.opcActorStack.length, "] Actor: '").concat(request.actorName, "' Task: '").concat(request.actionDescription, "'"), styles);
           var actionResponse = null;
 
           try {
@@ -311,8 +304,6 @@ function () {
           };
         }
 
-        var currentActor = this._private.opcActorStack[0];
-        console.log("%cOPC [".concat(this._private.opcActorStack.length, "] actor: ").concat(currentActor.actorName, " action: ").concat(currentActor.actionDescription), consoleStyles.evaluate);
         var evalFilterResponse = evaluateFilter.request({
           opcRef: this
         });

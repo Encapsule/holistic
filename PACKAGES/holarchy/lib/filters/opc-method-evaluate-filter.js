@@ -4,7 +4,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// Copyright (C) 2019 Christopher D. Russell
+// Copyright (C) 2020 Christopher D. Russell
 var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("../util/SimpleStopwatch");
@@ -12,6 +12,8 @@ var SimpleStopwatch = require("../util/SimpleStopwatch");
 var opcMethodEvaluateInputSpec = require("./iospecs/opc-method-evaluate-input-spec");
 
 var opcMethodEvaluateOutputSpec = require("./iospecs/opc-method-evaluate-output-spec");
+
+var consoleStyles = require("../util/console-colors-lut");
 
 var factoryResponse = arccore.filter.create({
   operationID: "T7PiatEGTo2dbdy8jOMHQg",
@@ -55,7 +57,10 @@ var factoryResponse = arccore.filter.create({
     // Outer loop used to aid flow of control and error reporting.
 
     while (!inBreakScope) {
-      inBreakScope = true; // ================================================================
+      inBreakScope = true;
+      var currentActor = opcRef._private.opcActorStack[0];
+      console.log("%cOPC::_evaluate [e".concat(result.evalNumber, "][").concat(opcRef._private.id, "::").concat(opcRef._private.name, "] instance '").concat(opcRef._private.iid, "'"), consoleStyles.opc.evaluate.entry);
+      console.log("%cStarting cell eveluation #".concat(result.evalNumber, " to respond to the actions of actor '").concat(currentActor.actorName, "'."), consoleStyles.opc.evaluate.entryDetails); // ================================================================
       // Prologue - executed before starting the outer evaluation loop.
       // Get a reference to the entire filter spec for the controller data store.
 
@@ -412,9 +417,8 @@ var factoryResponse = arccore.filter.create({
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep); // RIGHT LOCATION?
-
-          console.log("%cOPC [".concat(result.evalNumber, ":").concat(result.summary.counts.frames, "] transition [ '").concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'."), "color: #112233; background-color: #DDEEFF;"); // Dispatch the OPM instance's step exit action(s).
+          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep);
+          console.log("%cOPC._evaluate [e".concat(result.evalNumber, "::f").concat(result.summary.counts.frames, "] transition [ '").concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'."), consoleStyles.opc.evaluate.transition); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
@@ -592,7 +596,7 @@ var factoryResponse = arccore.filter.create({
 
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
-    var logStyles = response.error ? "color: #000000; background-color: #FF0000; font-weight: bold;" : "color: #000000; background-color: #FFCC00; font-weight: bold;";
+    var logStyles = response.error ? consoleStyles.error : consoleStyles.opc.evaluate.success;
     console.log("%cOPC:_evaluate [".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms."), logStyles);
     response.result = result;
     return response;
