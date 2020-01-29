@@ -266,9 +266,11 @@ module.exports = {
           holarchy: {
             sml: {
               operators: {
-                opmInStep: {
-                  path: "#.clock",
-                  step: "updated"
+                opmi: {
+                  atStep: {
+                    path: "#.inputs.clock",
+                    step: "updated"
+                  }
                 }
               }
             }

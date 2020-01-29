@@ -16,7 +16,7 @@ module.exports = new holarchy.TransitionOperator({
           ____types: "jsObject",
           opmi: {
             ____types: "jsObject",
-            inStep: {
+            atStep: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"
@@ -40,7 +40,7 @@ module.exports = new holarchy.TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.sml.operators.opmi.inStep;
+      var message = request_.operatorRequest.holarchy.sml.operators.opmi.atStep;
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
         opmBindingPath: request_.context.opmBindingPath,
         dataPath: message.path
@@ -51,8 +51,8 @@ module.exports = new holarchy.TransitionOperator({
         break;
       }
 
-      var processStepNamespace = "".concat(rpResponse.result, ".__opmStep");
-      var filterResponse = request_.ocdi.readNamespace(processStepNamespace);
+      var processStepNamespace = "".concat(rpResponse.result, ".__opmiStep");
+      var filterResponse = request_.context.ocdi.readNamespace(processStepNamespace);
 
       if (filterResponse.error) {
         errors.push(filterResponse.error);

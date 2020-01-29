@@ -412,7 +412,9 @@ var factoryResponse = arccore.filter.create({
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep); // Dispatch the OPM instance's step exit action(s).
+          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep); // RIGHT LOCATION?
+
+          console.log("%cOPC [".concat(result.evalNumber, ":").concat(result.summary.counts.frames, "] transition [ '").concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'."), "color: #112233; background-color: #DDEEFF;"); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
@@ -546,7 +548,6 @@ var factoryResponse = arccore.filter.create({
             evalFrame.summary.reports.transitions.push(ocdPathIRUT_);
             result.summary.counts.transitions++;
             _opmInstanceFrame.evalResponse.finishStep = nextStep;
-            console.log("%cOPC:[".concat(result.evalNumber, ":").concat(result.summary.counts.frames, "] ").concat(opmBindingPath, ":: ").concat(initialStep, " => ").concat(nextStep), "color: #0066FF; font-size: larger; background-color: #DDEEFF; font-weight: bold;");
           }
         } // opmBindingPath in evalFrame
 
@@ -591,8 +592,8 @@ var factoryResponse = arccore.filter.create({
 
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
-    var logStyles = !response.error ? "color: #006600; background-color: #AAEECC; font-size: larger; font-weight: bold;" : "color: #CC0000; background-color: #DDEEFF; font-weight: bold;";
-    console.log("%cOPC:[".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMicroseconds, " us."), logStyles);
+    var logStyles = response.error ? "color: #000000; background-color: #FF0000; font-weight: bold;" : "color: #000000; background-color: #FFCC00; font-weight: bold;";
+    console.log("%cOPC:_evaluate [".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms."), logStyles);
     response.result = result;
     return response;
   }

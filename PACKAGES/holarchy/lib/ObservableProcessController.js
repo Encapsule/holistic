@@ -16,6 +16,16 @@ var actOutputFilter = require("./filters/opc-method-act-output-filter");
 
 var evaluateFilter = require("./filters/opc-method-evaluate-filter");
 
+var consoleStyles = {
+  constructor: {
+    normal: "color: #112233; background-color: #DDEEFF; font-weight: bold;",
+    success: "color: #112233; background-color: #DDEEFF; font-weight: bold;",
+    error: "color: #112233; background-color: #DDEEFF; font-weight: bold;"
+  },
+  act: "color: #000000; background-color: #FFFF00; font-weight: bold;",
+  evaluate: "color: #000000; background-color: #FFCC00; font-weight: bold;"
+};
+
 var ObservableProcessController =
 /*#__PURE__*/
 function () {
@@ -28,6 +38,7 @@ function () {
       var inBreakScope = false; // Allocate private per-class-instance state.
 
       this._private = {};
+      console.log("%cOPC::constructor starting...", consoleStyles.constructor.normal);
 
       while (!inBreakScope) {
         inBreakScope = true; // ----------------------------------------------------------------
@@ -63,8 +74,17 @@ function () {
         // if the instance was constructed in "automatic" evaluate mode.
 
         if (this._private.options.evaluate.firstEvaluation === "constructor") {
-          // Wake the beast up... Perform the initial post-construction evaluation.
-          filterResponse = this._evaluate();
+          filterResponse = this.act({
+            actorName: "ObservableProcessController::constructor",
+            actionDescription: "Performing default post-construction runtime state evaluation.",
+            actionRequest: {
+              holarchy: {
+                opc: {
+                  noop: true
+                }
+              }
+            }
+          });
 
           if (filterResponse.error) {
             errors.push("Failed while executing the first post-construction system evaluation:");
@@ -85,14 +105,10 @@ function () {
       }
 
       if (this._private.constructionError) {
-        console.error("ObservableProcessController::constructor failed: ".concat(this._private.constructionError.error));
+        console.error("%cOPC::constructor failed: ".concat(this._private.constructionError.error), consoleStyles.constructor.error);
       } else {
-        console.log("ObservableProcessController::constructor complete.");
+        console.log("%cOPC::constructor complete.", consoleStyles.constructor.success);
       }
-
-      console.log("opci=");
-      console.log(this);
-      console.log("================================================================");
     } catch (exception_) {
       var message = ["ObserverableProcessController::constructor (no-throw) caught an unexpected runtime exception: ", exception_.message].join(" ");
       this._private.constructionError = message;
@@ -180,13 +196,7 @@ function () {
             break;
           }
 
-          var request = filterResponse.result; // Push the actor stack.
-
-          this._private.opcActorStack.push({
-            actorName: request.actorName,
-            actionDescription: request.actionDescription
-          }); // Prepare the controller action plug-in filter request descriptor object.
-
+          var request = filterResponse.result; // Prepare the controller action plug-in filter request descriptor object.
 
           var controllerActionRequest = {
             context: {
@@ -195,9 +205,25 @@ function () {
               act: this.act
             },
             actionRequest: request.actionRequest
-          }; // Dispatch the actor's requested action.
+          }; // Push the actor stack.
 
-          var actionResponse = this._private.actionDispatcher.request(controllerActionRequest); // If a transport error occurred dispatching the controller action,
+          this._private.opcActorStack.push({
+            actorName: request.actorName,
+            actionDescription: request.actionDescription
+          });
+
+          console.log("%cOPC [".concat(this._private.opcActorStack.length, "] actor: ").concat(request.actorName, " action: ").concat(request.actionDescription), consoleStyles.act);
+          var actionResponse = null;
+
+          try {
+            // Dispatch the actor's requested action.
+            // TODO: It would be more informative to convert this DMR to return the filter so we can see the mapping prior to dispatch.
+            actionResponse = this._private.actionDispatcher.request(controllerActionRequest);
+          } catch (actionCallException_) {
+            errors.push("Handled exception dispatch controller action: " + actionCallException_.message);
+            this_.private.opcActorStack.pop();
+            break;
+          } // If a transport error occurred dispatching the controller action,
           // skip any futher processing (including a possible evaluation)
           // and return. Transport errors represent serious flaws in a derived
           // app/service that must be corrected. We skip possible evaluation
@@ -208,6 +234,9 @@ function () {
           if (actionResponse.error) {
             errors.push("Error dispatching controller action filter. Skipping any further evaluation.");
             errors.push(actionResponse.error);
+
+            this._private.opcActorStack.pop();
+
             break;
           } // If no errors have occurred then there's by definition at least
           // one pending action on the actor stack. This is so because
@@ -226,6 +255,9 @@ function () {
             if (evaluateResponse.error) {
               errors.push("Unable to evaluate OPC state after executing controller action due to error:");
               errors.push(evaluateResponse.error);
+
+              this._private.opcActorStack.pop();
+
               break;
             }
 
@@ -235,16 +267,15 @@ function () {
             };
           }
 
+          this._private.opcActorStack.pop();
+
           break;
         }
 
         if (errors.length) {
           response.error = errors.join(" ");
           console.error("OPC.act transport error: ".concat(response.error));
-        } // Pop the actor stack.
-
-
-        this._private.opcActorStack.pop();
+        }
 
         return response;
       } catch (exception_) {
@@ -268,21 +299,36 @@ function () {
       try {
         // #### sourceTag: A7QjQ3FbSBaBmkjk_F8AMw
         // Deletegate to the evaluation filter.
+        if (!this.isValid()) {
+          return {
+            error: this.toJSON()
+          };
+        }
+
+        if (this._private.opcActorStack.length !== 1) {
+          return {
+            error: "Precondition violation: Unexpected actor call stack depth of ".concat(this._private.opcActorStack.length, " found.")
+          };
+        }
+
+        var currentActor = this._private.opcActorStack[0];
+        console.log("%cOPC [".concat(this._private.opcActorStack.length, "] actor: ").concat(currentActor.actorName, " action: ").concat(currentActor.actionDescription), consoleStyles.evaluate);
         var evalFilterResponse = evaluateFilter.request({
           opcRef: this
         });
         this._private.lastEvalResponse = evalFilterResponse;
         this._private.evalCount++;
-        console.log("================================================================");
-        console.log("ObservableProcessController::_evaluate complete.");
-        console.log("evalResponse=");
-        console.log(evalFilterResponse);
-        console.log("================================================================");
+
+        this._private.opcActorStack.pop();
+
         return evalFilterResponse;
       } catch (evaluateException_) {
         var message = ["ObservableProcessController:_evaluate (no-throw) caught an unexpected runtime exception: ", evaluateException_.message].join(" ");
         console.error(message);
         console.error(exception_.stack);
+
+        this._private.opcActorStack.pop();
+
         return {
           error: message
         };

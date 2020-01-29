@@ -14,7 +14,8 @@ function () {
     _classCallCheck(this, SimpleStopwatch);
 
     this.name = name_;
-    this.startTime = new Date().getTime();
+    this.startTime = new Date().getTime(); // milliseconds since Epochtime
+
     this.marks = []; // API methods
 
     this.mark = this.mark.bind(this);
@@ -27,7 +28,8 @@ function () {
   _createClass(SimpleStopwatch, [{
     key: "mark",
     value: function mark(label_) {
-      var now = new Date().getTime();
+      var now = new Date().getTime(); // milliseconds since Epochtime
+
       var ellapsedTotal = now - this.startTime;
       var ellapsedDelta = 0;
 
@@ -41,8 +43,7 @@ function () {
         ellapsedDelta: ellapsedDelta,
         ellapsedTotal: ellapsedTotal
       };
-      this.marks.push(mark); // console.log(`**** ${JSON.stringify(mark)}`);
-
+      this.marks.push(mark);
       return mark;
     } // Call stop to stop the stopwatch timer and freeze the marks log.
 
@@ -55,7 +56,7 @@ function () {
         name: this.name,
         timeStart: this.startTime,
         timeStop: this.startTime + finishMark.ellapsedTotal,
-        totalMicroseconds: finishMark.ellapsedTotal
+        totalMilliseconds: finishMark.ellapsedTotal
       };
     }
   }, {
