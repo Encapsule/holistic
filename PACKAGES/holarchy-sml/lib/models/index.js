@@ -1,12 +1,12 @@
 "use strict";
 
-var observableFrameLatchDeclaration = require("./opm-frame-latch-declaration");
+var observableFrameLatchDeclaration = require("./ObservableProcessModel-frame-latch-declaration");
 
-var observableFrameLatch = require("./opm-frame-latch");
+var observableFrameLatch = require("./ObservableProcessModel-frame-latch");
 
-var d2r2ReactClientDisplayAdaptorDeclaration = require("./opm-d2r2-react-client-display-adaptor-declaration");
+var d2r2ReactClientDisplayAdaptorDeclaration = require("./ObservableProcessModel-d2r2-react-client-display-adaptor-declaration");
 
-var d2r2ReactClientDisplayAdaptor = require("./opm-d2r2-react-client-display-adaptor");
+var d2r2ReactClientDisplayAdaptor = require("./ObservableProcessModel-d2r2-react-client-display-adaptor");
 
 var SMLModels = {
   core: {

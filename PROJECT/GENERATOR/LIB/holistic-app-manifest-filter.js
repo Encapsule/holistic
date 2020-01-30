@@ -42,7 +42,20 @@ const factoryResponse = arccore.filter.create({
             ____defaultValue: "HelloWorld!",
             ____appdsl: { copyValue: true }
 	    },
-	    applicationDependencies: packageMapSpec
+	    applicationDependencies: packageMapSpec,
+
+        applicationScripts: {
+            ____label: "Application Scripts",
+            ____description: "Application-specific script entries to be added to the app's package.json scripts dictionary by appgen.",
+            ____types: "jsObject",
+            ____asMap: true,
+            ____defaultValue: {},
+            scriptName: {
+                ____label: "Script Command Line",
+                ____description: "Application-specific script command line string.",
+                ____accept: "jsString"
+            }
+        }
     }
 });
 

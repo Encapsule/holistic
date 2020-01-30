@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/d2r2-components",
-    "version": "0.0.34",
-    "codename": "klickseewy",
-    "buildID": "My29SrEOS4mv9C100xHQyw",
-    "buildTime": 1579885413,
-    "buildSource": "7037f565f460b1831abb3512cd43059993923525",
+    "version": "0.0.35",
+    "codename": "cluxewa",
+    "buildID": "D-9aQxUuT2SMLXuDikIc8g",
+    "buildTime": 1580333198,
+    "buildSource": "7e086c653cdcb537bf28499422c95c122fe9689b",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -32,7 +32,7 @@
     "main": "index.js",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.8",
-        "@encapsule/d2r2": "0.0.34",
+        "@encapsule/d2r2": "0.0.35",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },

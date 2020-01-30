@@ -4,7 +4,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// Copyright (C) 2019 Christopher D. Russell
+// Copyright (C) 2020 Christopher D. Russell
 var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("../util/SimpleStopwatch");
@@ -12,6 +12,8 @@ var SimpleStopwatch = require("../util/SimpleStopwatch");
 var opcMethodEvaluateInputSpec = require("./iospecs/opc-method-evaluate-input-spec");
 
 var opcMethodEvaluateOutputSpec = require("./iospecs/opc-method-evaluate-output-spec");
+
+var consoleStyles = require("../util/console-colors-lut");
 
 var factoryResponse = arccore.filter.create({
   operationID: "T7PiatEGTo2dbdy8jOMHQg",
@@ -55,7 +57,10 @@ var factoryResponse = arccore.filter.create({
     // Outer loop used to aid flow of control and error reporting.
 
     while (!inBreakScope) {
-      inBreakScope = true; // ================================================================
+      inBreakScope = true;
+      var currentActor = opcRef._private.opcActorStack[0];
+      console.log("%cOPC::_evaluate [e".concat(result.evalNumber, "][").concat(opcRef._private.id, "::").concat(opcRef._private.name, "] instance '").concat(opcRef._private.iid, "'"), consoleStyles.opc.evaluate.entry);
+      console.log("%cStarting cell eveluation #".concat(result.evalNumber, " to respond to the actions of actor '").concat(currentActor.actorName, "'."), consoleStyles.opc.evaluate.entryDetails); // ================================================================
       // Prologue - executed before starting the outer evaluation loop.
       // Get a reference to the entire filter spec for the controller data store.
 
@@ -115,7 +120,6 @@ var factoryResponse = arccore.filter.create({
         // of OPM-bound objects in the controller data store that may occur
         // as a side-effect of executing process model step enter and exit
         // actions.
-        // Traverse the controller data filter specification and find all namespace declarations containing an OPM binding.
 
         var namespaceQueue = [{
           specPath: "~",
@@ -126,17 +130,25 @@ var factoryResponse = arccore.filter.create({
 
         while (namespaceQueue.length) {
           // Retrieve the next record from the queue.
-          var record = namespaceQueue.shift(); // If dataRef is undefined, then we're done traversing this branch of the filter spec descriptor tree.
+          var record = namespaceQueue.shift(); // We are searching the controller data for objects that are "bound" (i.e. associated with OPM).
+          // The value record.dataRef is a reference to the actual data in the OCD we're currently looking at.
 
-          if (record.dataRef === undefined) {
+          var inTypeSetResponse = arccore.types.check.inTypeSet({
+            value: record.dataRef,
+            types: ["jsObject", "jsArray"]
+          });
+
+          if (inTypeSetResponse.error || !inTypeSetResponse.result) {
+            // inTypeSet will respond with an error when asked to evaluate types that are not in the set supported by filter.
+            // So, we ignore these because by definition we don't track these in filter specs. And, what's not tracked cannot be bound to an OPM.
+            // But, for types that filter does support, we actually only care to evaluate the two we asked about above;
+            // by definition finding any other type ends the possibility of binding additional OPM on this branch of the controller data tree.
             continue;
           } // Determine if the current spec namespace has an OPM binding annotation.
-          // TODO: We should validate the controller data spec wrt OPM bindings to ensure the annotation is only made on appropriately-declared non-map object namespaces w/appropriate props...
 
 
-          if (record.specRef.____appdsl && record.specRef.____appdsl.opm) {
-            // We can here safely presume that the following
-            // construction-time invariants have been met:
+          if (Object.prototype.toString.call(record.dataRef) === "[object Object]" && !record.specRef.asMap && record.specRef.____appdsl && record.specRef.____appdsl.opm) {
+            // We can here safely presume that the following construction-time invariants have been met:
             // - ID is a valid IRUT
             // - ID IRUT identifies a specific OPM registered with this OPC instance.
             var opmID = record.specRef.____appdsl.opm; // ****************************************************************
@@ -405,7 +417,8 @@ var factoryResponse = arccore.filter.create({
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep); // Dispatch the OPM instance's step exit action(s).
+          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep);
+          console.log("%cOPC._evaluate [e".concat(result.evalNumber, "::f").concat(result.summary.counts.frames, "] transition [ '").concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'."), consoleStyles.opc.evaluate.transition); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
@@ -539,7 +552,6 @@ var factoryResponse = arccore.filter.create({
             evalFrame.summary.reports.transitions.push(ocdPathIRUT_);
             result.summary.counts.transitions++;
             _opmInstanceFrame.evalResponse.finishStep = nextStep;
-            console.log("%cOPC:[".concat(result.evalNumber, ":").concat(result.summary.counts.frames, "] ").concat(opmBindingPath, ":: ").concat(initialStep, " => ").concat(nextStep), "color: #0066FF; font-size: larger; background-color: #DDEEFF; font-weight: bold;");
           }
         } // opmBindingPath in evalFrame
 
@@ -584,8 +596,8 @@ var factoryResponse = arccore.filter.create({
 
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
-    var logStyles = !response.error ? "color: #006600; background-color: #AAEECC; font-size: larger; font-weight: bold;" : "color: #CC0000; background-color: #DDEEFF; font-weight: bold;";
-    console.log("%cOPC:[".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMicroseconds, " us."), logStyles);
+    var logStyles = response.error ? consoleStyles.error : consoleStyles.opc.evaluate.success;
+    console.log("%cOPC:_evaluate [".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms."), logStyles);
     response.result = result;
     return response;
   }

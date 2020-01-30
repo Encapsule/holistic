@@ -1,5 +1,6 @@
 # THIS FILE IS CODE-GENERATED
 # {{author}} {{name}} v{{version}} "{{codename}}" {{buildID}} {{buildSource}}
+# See: https://github.com/Encapsule/holistic/README.md
 
 # https://www.gnu.org/software/make/manual/make.html
 # https://timmurphy.org/2015/09/27/how-to-get-a-makefile-directory-path/
@@ -7,7 +8,7 @@
 # $(patsubst %\,%,$(__PATHS_FEATURE))
 
 DIR_ROOT=$(patsubst %/,%,$(dir $(realpath $(firstword $(MAKEFILE_LIST)))))
-$(info ***** Encapsule/holistic application Makefile *****)
+$(info ***** HOLISTIC APP/SERVICE CORE BUILD Makefile (created by appgen) *****)
 $(info DIR_ROOT is $(DIR_ROOT))
 
 DIR_MODULES=$(DIR_ROOT)/node_modules
@@ -20,7 +21,6 @@ DIR_PROJECT_DEPLOY=$(DIR_PROJECT)/DEPLOY
 
 TOOL_GEN_APP_RUNTIME_BUILDTAG=$(DIR_PROJECT_BUILD)/generate-runtime-buildtag.js
 TOOL_GEN_APP_RUNTIME_PACKAGE=$(DIR_PROJECT_BUILD)/generate-runtime-package-manifest.js
-
 
 TOOL_ESLINT=$(DIR_TOOLBIN)/eslint
 TOOL_BABEL=$(DIR_TOOLBIN)/babel

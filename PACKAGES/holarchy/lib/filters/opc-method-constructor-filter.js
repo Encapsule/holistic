@@ -14,6 +14,8 @@ var opcMethodConstructorInputSpec = require("./iospecs/opc-method-constructor-in
 
 var opcMethodConstructorOutputSpec = require("./iospecs/opc-method-constructor-output-spec");
 
+var intrinsics = require("../intrinsics");
+
 var factoryResponse = arccore.filter.create({
   operationID: "XXile9azSHO39alE6mMKsg",
   operationName: "OPC Constructor Request Processor",
@@ -86,6 +88,8 @@ var factoryResponse = arccore.filter.create({
       // Note that there's a 1:N relationship between an OPM declaration and an OPM runtime instance.
       // This is because a single OPM declaration may be bound to an arbitrary number of OCD namespaces
       // and so it's 1:N.
+
+      request_.observableProcessModelSets.push(intrinsics.models);
 
       for (var index0 = 0; index0 < request_.observableProcessModelSets.length; index0++) {
         var modelSet = request_.observableProcessModelSets[index0];
@@ -312,6 +316,7 @@ var factoryResponse = arccore.filter.create({
 
       var transitionOperatorFilters = []; // Flatten the array of array of TransitionOperator classes and extract their arccore.filter references.
 
+      request_.transitionOperatorSets.push(intrinsics.operators);
       request_.transitionOperatorSets.forEach(function (transitionOperatorSet_) {
         transitionOperatorSet_.forEach(function (transitionOperatorInstance_) {
           if (!transitionOperatorInstance_.isValid()) {
@@ -362,6 +367,7 @@ var factoryResponse = arccore.filter.create({
 
       var controllerActionFilters = []; // Flatten the array of array of ControllerAction classes and extract their arccore.filter references.
 
+      request_.controllerActionSets.push(intrinsics.actions);
       request_.controllerActionSets.forEach(function (controllerActionSet_) {
         controllerActionSet_.forEach(function (controllerActionInstance_) {
           if (!controllerActionInstance_.isValid()) {

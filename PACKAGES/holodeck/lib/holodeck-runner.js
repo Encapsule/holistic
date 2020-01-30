@@ -82,9 +82,21 @@ var factoryResponse = arccore.filter.create({
         var testSet = request_.testRequestSets[setNumber]; // Inner set of test vectors...
 
         for (var testNumber = 0; testNumber < testSet.length; testNumber++) {
-          var testRequest = testSet[testNumber]; // Here we leverage an arccore.discriminator to route the test vector (a message) to an appropriate handler
+          var testRequest = testSet[testNumber]; // Process runner options vector exclusions.
+
+          if (request_.testRunnerOptions.onlyExecuteVectors
+          /*null by default or array if true*/
+          ) {
+              var indexOfCurrentVector = request_.testRunnerOptions.onlyExecuteVectors.indexOf(testRequest.id);
+
+              if (indexOfCurrentVector < 0) {
+                console.log("Skipping test vector '" + testRequest.id + "'.");
+                continue;
+              }
+            } // Here we leverage an arccore.discriminator to route the test vector (a message) to an appropriate handler
           // for further processing (because the runner doesn't know how to actually test anything - this is entirely
           // a function of the holodeck handler filter plug-ins registered with the holodeck runner.
+
 
           console.log("..... Running test #".concat(resultPayload.summary.requests, " : [").concat(testRequest.id, "::").concat(testRequest.name, "]"));
           var harnessFilter = null;

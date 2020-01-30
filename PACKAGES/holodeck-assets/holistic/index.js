@@ -34,6 +34,17 @@ var factoryResponse = arccore.filter.create({
       ____label: "Holodeck Logs Directory",
       ____description: "Fully-qualified local filesystem path of the holodeck eval logs directory.",
       ____accept: "jsString"
+    },
+    testRunnerOptions: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      onlyExecuteVectors: {
+        ____types: ["jsNull", "jsArray"],
+        ____defaultValue: null,
+        vectorId: {
+          ____accept: "jsString"
+        }
+      }
     }
   },
   outputFilterSpec: {
@@ -56,6 +67,7 @@ var factoryResponse = arccore.filter.create({
         description: "A suite of test vectors for exploring and confirming the behaviors of Encapsule Project holistic app platform libraries.",
         logsRootDir: request_.logsDirectory,
         testHarnessFilters: [].concat(_toConsumableArray(holodeckPackageHarnesses), _toConsumableArray(holarchyPackageHarnesses)),
+        testRunnerOptions: request_.testRunnerOptions,
         testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchySMLPackageVectorSets))
       });
 

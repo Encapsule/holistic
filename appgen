@@ -369,9 +369,8 @@ for (key in holisticAppManifestSpec) {
     }
 }
 
-if (!applicationPackageManifest.scripts) {
-    applicationPackageManifest.scripts = {};
-}
+// Reset the list of registered scripts. We will merge holistic-defined scripts with app-specific scripts defined in holistic-app.json.
+applicationPackageManifest.scripts = holisticAppManifest.applicationScripts;
 
 // Merge/overwrite application's package.json script targets w/holistic platform defaults.
 for (key in holisticPlatformManifest.applicationPackageManifest.scripts) {

@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.34 klickseewy
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.35 cluxewa
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.
 
 ```
-Package: @encapsule/holistic v0.0.34 "klickseewy" build ID "My29SrEOS4mv9C100xHQyw"
-Sources: Encapsule/holistic-master#7037f565f460b1831abb3512cd43059993923525
-Created: 2020-01-24T17:03:33.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.35 "cluxewa" build ID "D-9aQxUuT2SMLXuDikIc8g"
+Sources: Encapsule/holistic-master#7e086c653cdcb537bf28499422c95c122fe9689b
+Created: 2020-01-29T21:26:38.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
