@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
-    "version": "0.1.00",
-    "codename": "alertbay",
+    "version": "0.0.36",
+    "codename": "dawsonslanding",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "ZEH92pvtRNqN5UOemznfgA",
-    "buildSource": "8b66594b0f71910fee5f0b22ee0d05799e308ba8",
-    "buildTime": 1580664076,
-    "buildDateISO": "2020-02-02T17:21:16.000Z"
+    "buildID": "5kXsmHAGS6OYaRJyCUo-HQ",
+    "buildSource": "4363bd94d21cabbdec5e9d304c69064a9f5fe770",
+    "buildTime": 1580681063,
+    "buildDateISO": "2020-02-02T22:04:23.000Z"
 }

@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.1.00 alertbay
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.36 dawsonslanding
 
 ## &#x25F0; Runtime library: @encapsule/holodeck-assets
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.
 
 ```
-Package: @encapsule/holodeck-assets v0.1.00 "alertbay" build ID "ZEH92pvtRNqN5UOemznfgA"
-Sources: Encapsule/holistic-master#8b66594b0f71910fee5f0b22ee0d05799e308ba8
-Created: 2020-02-02T17:21:16.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holodeck-assets v0.0.36 "dawsonslanding" build ID "5kXsmHAGS6OYaRJyCUo-HQ"
+Sources: Encapsule/holistic-master#4363bd94d21cabbdec5e9d304c69064a9f5fe770
+Created: 2020-02-02T22:04:23.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
