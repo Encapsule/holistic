@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/holodeck-assets",
-    "version": "0.0.35",
-    "codename": "cluxewa",
-    "buildID": "vawkEenqTtq_zsXSp1nmfA",
-    "buildTime": 1580351537,
-    "buildSource": "b0eccd9386fc0ee897c8ee6995871f23b6a0ab25",
+    "version": "0.0.36",
+    "codename": "dawsonslanding",
+    "buildID": "5kXsmHAGS6OYaRJyCUo-HQ",
+    "buildTime": 1580681063,
+    "buildSource": "4363bd94d21cabbdec5e9d304c69064a9f5fe770",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -36,7 +36,7 @@
     "main": "index.js",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.8",
-        "@encapsule/holodeck": "0.0.35",
-        "@encapsule/holarchy": "0.0.35"
+        "@encapsule/holodeck": "0.0.36",
+        "@encapsule/holarchy": "0.0.36"
     }
 }

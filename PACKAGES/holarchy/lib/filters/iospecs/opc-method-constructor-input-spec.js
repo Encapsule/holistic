@@ -19,7 +19,7 @@ module.exports = {
   name: {
     ____label: "OPC System Name",
     ____description: "Developer-defined short name assigned to this OPC system model.",
-    ____accept: ["jsString", "jsUndefined"] // default assigned conditionally in bodyFunction
+    ____accept: ["jsUndefined", "jsString"] // default assigned conditionally in bodyFunction
 
   },
   description: {

@@ -9,6 +9,8 @@ var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("../util/SimpleStopwatch");
 
+var logger = require("../util/holarchy-logger-filter");
+
 var opcMethodEvaluateInputSpec = require("./iospecs/opc-method-evaluate-input-spec");
 
 var opcMethodEvaluateOutputSpec = require("./iospecs/opc-method-evaluate-output-spec");
@@ -18,7 +20,7 @@ var consoleStyles = require("../util/console-colors-lut");
 var factoryResponse = arccore.filter.create({
   operationID: "T7PiatEGTo2dbdy8jOMHQg",
   operationName: "OPC Evaluation Filter",
-  operationDescription: "Encapsulates the OPC's core OPM instance evaluation algorithm providing a detailed audit trail of the algorithm's execution.",
+  operationDescription: "Implements OPC's algorithm for locating and evaluating OPM instances in the OCD shared memory space.",
   inputFilterSpec: opcMethodEvaluateInputSpec,
   outputFilterSpec: opcMethodEvaluateOutputSpec,
   bodyFunction: function bodyFunction(opcEvaluateRequest_) {
@@ -59,8 +61,20 @@ var factoryResponse = arccore.filter.create({
     while (!inBreakScope) {
       inBreakScope = true;
       var currentActor = opcRef._private.opcActorStack[0];
-      console.log("%cOPC::_evaluate [e".concat(result.evalNumber, "][").concat(opcRef._private.id, "::").concat(opcRef._private.name, "] instance '").concat(opcRef._private.iid, "'"), consoleStyles.opc.evaluate.entry);
-      console.log("%cStarting cell eveluation #".concat(result.evalNumber, " to respond to the actions of actor '").concat(currentActor.actorName, "'."), consoleStyles.opc.evaluate.entryDetails); // ================================================================
+      logger.request({
+        opc: {
+          id: opcRef._private.id,
+          iid: opcRef._private.iid,
+          name: opcRef._private.name,
+          evalCount: opcRef._private.evalCount,
+          frameCount: 0,
+          actorStack: opcRef._private.opcActorStack
+        },
+        subsystem: "opc",
+        method: "evaluate",
+        phase: "epilogue",
+        message: "STARTING OPC system state update #".concat(result.evalNumber)
+      }); // ================================================================
       // Prologue - executed before starting the outer evaluation loop.
       // Get a reference to the entire filter spec for the controller data store.
 
@@ -306,6 +320,14 @@ var factoryResponse = arccore.filter.create({
         // ================================================================
         //
         // ¯\_(ツ)_/¯ - following along? Hang on for the fun part ...
+
+        /*
+          O       o O       o O       o
+          | O   o | | O   o | | O   o |
+          | | O | | | | O | | | | O | |
+          | o   O | | o   O | | o   O |
+          o       O o       O o       O
+        */
         //
         // ================================================================
         // Evaluate each discovered OPM-bound object instance in the controller
@@ -328,6 +350,7 @@ var factoryResponse = arccore.filter.create({
           var stepDescriptor = opmRef.getStepDescriptor(initialStep);
 
           if (!stepDescriptor) {
+            // TODO: Send through logger
             console.warn("No step descriptor in model for [".concat(opmRef.getID(), "::").concat(opmRef.getName(), "] for step '").concat(initialStep, "'. Ignoring."));
             _opmInstanceFrame.evalResponse.status = "noop";
             _opmInstanceFrame.evalResponse.finishStep = initialStep;
@@ -362,6 +385,7 @@ var factoryResponse = arccore.filter.create({
             try {
               _transitionResponse = opcRef._private.transitionDispatcher.request(operatorRequest);
             } catch (topException_) {
+              // TODO: Send through logger
               console.error(topException_);
               _transitionResponse = {
                 error: "TransitionOperator threw an illegal exception that was handled by OPC: ".concat(topException_.message)
@@ -374,6 +398,7 @@ var factoryResponse = arccore.filter.create({
             });
 
             if (_transitionResponse.error) {
+              // TODO: Send through logger
               console.error(_transitionResponse.error);
               _opmInstanceFrame.evalResponse.status = "error";
               _opmInstanceFrame.evalResponse.errors.p1_toperator++;
@@ -417,8 +442,22 @@ var factoryResponse = arccore.filter.create({
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep);
-          console.log("%cOPC._evaluate [e".concat(result.evalNumber, "::f").concat(result.summary.counts.frames, "] transition [ '").concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'."), consoleStyles.opc.evaluate.transition); // Dispatch the OPM instance's step exit action(s).
+          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep); // console.log(`%cOPC._evaluate [e${result.evalNumber}::f${result.summary.counts.frames}] transition [ '${initialStep}' -> '${nextStep}' ] at ocd path '${opmBindingPath}'.`, consoleStyles.opc.evaluate.transition);
+
+          logger.request({
+            opc: {
+              id: opcRef._private.id,
+              iid: opcRef._private.iid,
+              name: opcRef._private.name,
+              evalCount: result.evalNumber,
+              frameCount: result.summary.counts.frames,
+              actorStack: opcRef._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "evaluate",
+            phase: "body",
+            message: "Transition [ '".concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'.")
+          }); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
@@ -438,6 +477,7 @@ var factoryResponse = arccore.filter.create({
             try {
               actionResponse = opcRef._private.actionDispatcher.request(dispatcherRequest);
             } catch (actException_) {
+              // TODO: Send through logger
               console.error(actException_);
               actionResponse = {
                 error: "ControllerAction threw an illegal exception that was handled by OPC: ".concat(actException_)
@@ -450,6 +490,7 @@ var factoryResponse = arccore.filter.create({
             });
 
             if (actionResponse.error) {
+              // TODO: Send through logger
               console.error(actionResponse.error);
               _opmInstanceFrame.evalResponse.status = "error";
               _opmInstanceFrame.evalResponse.errors.p2_exit++;
@@ -494,6 +535,7 @@ var factoryResponse = arccore.filter.create({
             try {
               _actionResponse = opcRef._private.actionDispatcher.request(_dispatcherRequest);
             } catch (actException_) {
+              // TODO: Send through logger
               console.error(actException_);
               _actionResponse = {
                 error: "ControllerAction threw an illegal exception that was handled by the OPC: ".concat(actException_.message)
@@ -506,6 +548,7 @@ var factoryResponse = arccore.filter.create({
             });
 
             if (_actionResponse.error) {
+              // TODO: Send through logger
               console.error(_actionResponse.error);
               _opmInstanceFrame.evalResponse.status = "error";
               _opmInstanceFrame.evalResponse.errors.p3_enter++;
@@ -538,6 +581,7 @@ var factoryResponse = arccore.filter.create({
           _opmInstanceFrame.evalResponse.phases.p4_finalize = transitionResponse;
 
           if (transitionResponse.error) {
+            // TODO: Send through logger
             console.error(transitionResponse.error);
             _opmInstanceFrame.evalResponse.status = "error";
             _opmInstanceFrame.evalResponse.errors.p4_finalize++;
@@ -587,8 +631,8 @@ var factoryResponse = arccore.filter.create({
     if (errors.length) {
       response.error = errors.join(" "); // override response.error with a string value. by filter convention, this means that response.result is invalid.
     } // Note that in all cases the response descriptor object returned by ObservableProcessController:_evaluate is informational.
-    // If !response.result (i.e. no error) then the following is true:
-    // - There were no errors encountered while dynamically binding OPM instances in OPD.
+    // If !response.error (i.e. no error) then the following is true:
+    // - There were no errors encountered while dynamically binding OPM instances in OCD.
     // - There were no errors encountered during OPM instance evaluation including transition evaluations, and consequent action request dispatches.
     // - This does not mean that your operator and action filters are correct.
     // - This does not mean that your OPM's encode what you think they do.
@@ -596,8 +640,28 @@ var factoryResponse = arccore.filter.create({
 
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
-    var logStyles = response.error ? consoleStyles.error : consoleStyles.opc.evaluate.success;
-    console.log("%cOPC:_evaluate [".concat(result.evalNumber, ":").concat(result.summary.counts.frames - 1, "] Evaluation complete in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms."), logStyles);
+    /*
+      O       o O       o O       o
+      | O   o | | O   o | | O   o |
+      | | O | | | | O | | | | O | |
+      | o   O | | o   O | | o   O |
+      o       O o       O o       O
+    */
+
+    logger.request({
+      opc: {
+        id: opcRef._private.id,
+        iid: opcRef._private.iid,
+        name: opcRef._private.name,
+        evalCount: opcRef._private.evalCount,
+        frameCount: result.summary.framesCount - 1,
+        actorStack: opcRef._private.opcActorStack
+      },
+      subsystem: "opc",
+      method: "evaluate",
+      phase: "prologue",
+      message: "COMPLETE update #".concat(result.evalNumber, " in ").concat(result.summary.framesCount, " frames running taking ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
+    });
     response.result = result;
     return response;
   }
