@@ -9,7 +9,7 @@ var ReactDOM = require("react-dom");
 
 module.exports = new holarchy.ControllerAction({
   id: "d2vRmtn2QA6Ox8W4PwDWNA",
-  name: "React Client View Rehydrate",
+  name: "d2r2/React Client Display Adaptor: Rehydrate",
   description: "Rehydrate server-rendered React view and connect UI event handlers.",
   actionRequestSpec: {
     ____types: "jsObject",

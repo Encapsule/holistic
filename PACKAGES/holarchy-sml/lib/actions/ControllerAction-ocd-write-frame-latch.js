@@ -5,7 +5,7 @@ var holarchy = require("@encapsule/holarchy");
 
 module.exports = new holarchy.ControllerAction({
   id: "iyvk_9vhRn2qvrjOes5v7Q",
-  name: "Write Frame Latch",
+  name: "Frame Latch: Write",
   description: "Writes the value made observable by frame latch OPM instance.",
   actionRequestSpec: {
     ____types: "jsObject",

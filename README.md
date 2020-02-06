@@ -13,16 +13,22 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.
 
 ```
-Package: @encapsule/holistic v0.1.00 "alertbay" build ID "dFTDwEF0QFas6MZqn3EkbQ"
-Sources: Encapsule/holistic-master#5d59243bf785c6c3d3e2551a7e2a3ff92df88fdf
-Created: 2020-02-04T03:22:26.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.1.00 "alertbay" build ID "-byDTo-JSCyqh8ZO-j9jIA"
+Sources: Encapsule/holistic-master#dfe0bb546b032cb7f1adb160963ee9a931e4ed18
+Created: 2020-02-06T19:13:27.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
 
 ### Welcome the the Holistic App Platform
 
-TODO: Add a brief overview of the goals of holistic app platform along with current status.
+Holistic app platform is a collection of modular JavaScript runtime libraries (RTL) used to build full-stack client/server applications from plug-and-play software models.
+
+Work on is project is quite active right now as it's being used to re-design and re-implement an existing commercial SaaS product.
+
+**PRE-RELEASE STATUS**
+
+Holistic app platform is becoming quite stable. But, lacks examples (required) and API documentation (required). Unless you're one of a small handful of insane people (thank you insane people!) who are working with this codebase every day then you probably should just make a bookmark and come back a little later in 2020 ;-)
 
 ### Contents
 
@@ -45,6 +51,10 @@ TODO: Add a brief overview of the goals of holistic app platform along with curr
     - &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
 
     - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+
+    - &#x25F0; [@encapsule/holistic-app-client-sml](PACKAGES/holistic-app-client-sml/README.md "Jump to holistic-app-client-sml RTL package README...")
+
+    - &#x25F0; [@encapsule/holistic-app-server-sml](PACKAGES/holistic-app-server-sml/README.md "Jump to holistic-app-server-sml RTL package README...")
 
     - &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 
@@ -117,7 +127,7 @@ A **holistic application** is a developer-maintained Node.js package git reposit
 
 All holistic applications maintained with `appgen` have the same basic structure and base-level feature set:
 
-- Base-level directory structure and entry module file nameing conventions.
+- Base-level directory structure and entry module file naming conventions.
 
     - Base-level directory structure is prescriptive and required.
 
@@ -143,7 +153,7 @@ All holistic applications maintained with `appgen` have the same basic structure
 
         - scrub - clean and additionally delete `node_modules` directory.
 
-        - reset - scub and additionally clear your local yarn cache forcing complete restage on `yarn install`.
+        - reset - scrub and additionally clear your local yarn cache forcing complete re-stage on `yarn install`.
 
         - build - build the holistic application by calling `make application`.
 
@@ -155,15 +165,15 @@ All holistic applications maintained with `appgen` have the same basic structure
 
         - holodeck - execute your application's @encapsule/holodeck test runner.
 
-        - appinfo - print holisitic application and platform metadata.
+        - appinfo - print holistic application and platform metadata.
 
         - platform - print holistic app platform metadata.
 
-        - iruts - generage a batch of v4 UUID-derived IRUT-format identifier strings.
+        - iruts - generate a batch of v4 UUID-derived IRUT-format identifier strings.
 
 - Core application build is automated by an `appgen`-generated `Makefile`.
 
-    - Abstracts building a holistic application so that you can launch the Node.js HTTP app server. And, servce the bundled client application.
+    - Abstracts building a holistic application so that you can launch the Node.js HTTP app server. And, service the bundled client application.
 
     - Does not abstract the application-specific details required to:
 
@@ -185,7 +195,7 @@ All holistic applications maintained with `appgen` have the same basic structure
 
 The `appgen` utility is a code generation tool used by developers to initialize and maintain **holistic applications**.
 
-Both initialization and maintainence operations are performed using the same simple command line:
+Both initialization and maintenance operations are performed using the same simple command line:
 
 ```
 $ path_to_holistic/appgen --appRepoDir path_to_your_app_repo
@@ -203,7 +213,7 @@ Here is what happens when you execute `appgen` on your_app_repo:
 
 - Register platform RTL dependencies.
 
-- Merge application and platform-defined package dependnecies.
+- Merge application and platform-defined package dependencies.
 
 - De-duplicate and error check finalized dependencies.
 
@@ -320,6 +330,18 @@ This package contains an extensible framework for defining application-specific 
 This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.
 
 > [README &#9656;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+
+### &#x25F0; [@encapsule/holistic-app-client-sml](PACKAGES/holistic-app-client-sml/README.md "Jump to holistic-app-client-sml RTL package README...")
+
+Software Model Library (SML) containing HTML5 browser client plug-in filter assets derived from @encapsule/holarchy.
+
+> [README &#9656;](PACKAGES/holistic-app-client-sml/README.md "Jump to holistic-app-client-sml RTL package README...")
+
+### &#x25F0; [@encapsule/holistic-app-server-sml](PACKAGES/holistic-app-server-sml/README.md "Jump to holistic-app-server-sml RTL package README...")
+
+Software Model Library (SML) containing Node.js app server plug-in filter assets derived from @encapsule/holarchy.
+
+> [README &#9656;](PACKAGES/holistic-app-server-sml/README.md "Jump to holistic-app-server-sml RTL package README...")
 
 ### &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 

@@ -1,0 +1,50 @@
+{
+    "name": "@encapsule/holistic-app-server-sml",
+    "version": "0.1.00",
+    "codename": "alertbay",
+    "buildID": "-byDTo-JSCyqh8ZO-j9jIA",
+    "buildTime": 1581016407,
+    "buildSource": "dfe0bb546b032cb7f1adb160963ee9a931e4ed18",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "author": "Encapsule",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "homepage": "https://github.com/Encapsule",
+    "description": "Software Model Library (SML) containing Node.js app server plug-in filter assets derived from @encapsule/holarchy.",
+    "keywords": [
+        "Encapsule",
+        "holistic",
+        "holarchy",
+        "holarchy-sml",
+        "software model",
+        "software library",
+        "SML",
+        "reuse",
+        "re-use",
+        "ObservableProcessController",
+        "ObservableProcessModel",
+        "ObservableControllerData",
+        "TransitionOperator",
+        "ControllerAction"
+    ],
+    "main": "index.js",
+    "peerDependencies": {
+        "@encapsule/arccore": "0.1.8",
+        "@encapsule/holarchy": "0.1.00",
+        "@encapsule/holarchy-sml": "0.1.00",
+        "react": "16.12.0",
+        "react-dom": "16.12.0"
+    }
+}

@@ -68,7 +68,17 @@ function () {
         // The caller's request_ value is no longer used after this point.
 
 
-        this._private = filterResponse.result; // Perform the first post-construction evaluation of the OPC system model
+        this._private = filterResponse.result;
+        logger.request({
+          opc: {
+            id: request_ ? request_.id : undefined,
+            name: request_ ? request_.name : undefined
+          },
+          subsystem: "opc",
+          method: "constructor",
+          phase: "prologue",
+          message: "INSTANCE INITIALIZED"
+        }); // Perform the first post-construction evaluation of the OPC system model
         // if the instance was constructed in "automatic" evaluate mode.
 
         if (this._private.options.evaluate.firstEvaluation === "constructor") {
@@ -272,7 +282,7 @@ function () {
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "SHARING LOVE"
+              message: "UPDATING SYSTEM STATE..."
             }); // Evaluate is an actor too. It adds itself to the OPC actor stack.
             // And is responsible itself for ensuring that it cleans up after
             // itself no matter how it may fail.

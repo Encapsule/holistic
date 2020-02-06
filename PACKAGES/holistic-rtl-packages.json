@@ -7,6 +7,8 @@
     "@encapsule/holism",
     "@encapsule/holism-metadata",
     "@encapsule/holism-services",
+    "@encapsule/holistic-app-client-sml",
+    "@encapsule/holistic-app-server-sml",
     "@encapsule/holodeck",
     "@encapsule/holodeck-assets",
     "@encapsule/hrequest"

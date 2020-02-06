@@ -48,6 +48,8 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "@encapsule/holism": "file:./HOLISTIC/PACKAGES/holism",
         "@encapsule/holism-metadata": "file:./HOLISTIC/PACKAGES/holism-metadata",
         "@encapsule/holism-services": "file:./HOLISTIC/PACKAGES/holism-services",
+        "@encapsule/holistic-app-client-sml": "file:./HOLISTIC/PACKAGES/holistic-app-client-sml",
+        "@encapsule/holistic-app-server-sml": "file:./HOLISTIC/PACKAGES/holistic-app-server-sml",
         "@encapsule/holodeck": "file:./HOLISTIC/PACKAGES/holodeck",
         "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets",
         "@encapsule/hrequest": "file:./HOLISTIC/PACKAGES/hrequest",
