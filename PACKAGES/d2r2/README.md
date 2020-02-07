@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.
 
 ```
-Package: @encapsule/d2r2 v0.1.00 "alertbay" build ID "-byDTo-JSCyqh8ZO-j9jIA"
-Sources: Encapsule/holistic-master#dfe0bb546b032cb7f1adb160963ee9a931e4ed18
-Created: 2020-02-06T19:13:27.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/d2r2 v0.1.00 "alertbay" build ID "qY4XPIgZQqyttJzNh2ucMQ"
+Sources: Encapsule/holistic-master#092db074f74ac7e2453ad072e17088ec70d74392
+Created: 2020-02-07T18:18:46.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

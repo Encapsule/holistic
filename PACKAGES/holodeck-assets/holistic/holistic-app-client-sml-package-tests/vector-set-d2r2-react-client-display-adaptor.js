@@ -41,7 +41,7 @@ module.exports = [{
             },
             observableProcessModelSets: [[clientSML.common.models.core.observableFrameLatch, clientSML.client.models.d2r2ReactClientDisplayAdaptor]],
             transitionOperatorSets: [clientSML.common.operators.logical],
-            controllerActionSets: [clientSML.common.actions.ocd]
+            controllerActionSets: [clientSML.common.actions.ocd, clientSML.client.actions.d2r2ReactClientDisplayAdaptor]
           }
         },
         actionRequest: []

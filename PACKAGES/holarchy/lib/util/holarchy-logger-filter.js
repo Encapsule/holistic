@@ -137,6 +137,19 @@ var factoryResponse = arccore.filter.create({
         break;
       }
 
+      switch (request_.logLevel) {
+        case "error":
+          styles += "background-color: #FFCC99;";
+          break;
+
+        case "warning":
+          styles += "background-color: #FFCC99;";
+          break;
+
+        default:
+          break;
+      }
+
       var message = null;
       var actorStack = null;
 
@@ -153,7 +166,7 @@ var factoryResponse = arccore.filter.create({
                 return "(".concat(stackEntry_.actorName, ")");
               }).join(" > ");
               message = ["%cOPC::act <".concat(request_.opc.iid, "> actor stack: ").concat(actorStack)];
-              styles += "border-left: ".concat(4 * request_.opc.actorStack.length, "px solid #FFCC00;");
+              styles += "border-left: ".concat(4 * request_.opc.actorStack.length, "px solid #33CC33;");
 
               switch (request_.phase) {
                 case "prologue":

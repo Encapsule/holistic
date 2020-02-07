@@ -15,8 +15,4 @@ module.exports = [// Frame latch OPM is used to create a value mailbox that deco
 // of OPM that use Frame Latches to define their input value(s)
 // and/or output value(s) such that they can be observed
 // (and consequently processed) by other OPMI's.
-require("./vector-set-frame-latch"), // d2r2/React Client Output Processor OPM encapsulates the details
-// of initial client-side rehydration (i.e. event handler binding
-// on top of server-pre-rendered HTML) and subsequent dynamic updates
-// to the client view via d2r2 and React RTL's.
-require("./vector-set-d2r2-react-client-display-adaptor")];
+require("./vector-set-frame-latch")];

@@ -22,6 +22,10 @@ var holarchyPackageVectorSets = require("./holarchy-package-tests/vector-sets");
 
 var holarchySMLPackageVectorSets = require("./holarchy-sml-package-tests/vector-sets");
 
+var holisticAppClientSMLVectorSets = require("./holistic-app-client-sml-package-tests/vector-sets");
+
+var holisticAppServerSMLVectorSets = require("./holistic-app-server-sml-package-tests/vector-sets");
+
 var factoryResponse = arccore.filter.create({
   operationID: "Ga_AZ-2HSHuB0uJ9l6n3Uw",
   operationName: "Holistic Test Runner Generator",
@@ -68,7 +72,7 @@ var factoryResponse = arccore.filter.create({
         logsRootDir: request_.logsDirectory,
         testHarnessFilters: [].concat(_toConsumableArray(holodeckPackageHarnesses), _toConsumableArray(holarchyPackageHarnesses)),
         testRunnerOptions: request_.testRunnerOptions,
-        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchySMLPackageVectorSets))
+        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchySMLPackageVectorSets), _toConsumableArray(holisticAppClientSMLVectorSets), _toConsumableArray(holisticAppServerSMLVectorSets))
       });
 
       if (runnerResponse.error) {

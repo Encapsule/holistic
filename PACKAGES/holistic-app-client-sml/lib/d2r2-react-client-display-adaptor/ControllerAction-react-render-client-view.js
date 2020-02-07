@@ -1,6 +1,6 @@
 "use strict";
 
-// ControllerAction-react-rehydrate-client-view.js
+// ControllerAction-react-render-client-view.js
 var holarchy = require("@encapsule/holarchy");
 
 var React = require("react");
@@ -8,9 +8,9 @@ var React = require("react");
 var ReactDOM = require("react-dom");
 
 module.exports = new holarchy.ControllerAction({
-  id: "d2vRmtn2QA6Ox8W4PwDWNA",
-  name: "d2r2/React Client Display Adaptor: Rehydrate",
-  description: "Rehydrate server-rendered React view and connect UI event handlers.",
+  id: "ENIOOasYSdmJj_RXjA__hQ",
+  name: "d2r2/React Client Display Adaptor: Rydrate/Render",
+  description: "Rehydrate and/or render/re-render client application view via d2r2/React transport using context and render data obtained from specified input paths in the OCD.",
   actionRequestSpec: {
     ____types: "jsObject",
     holarchy: {
@@ -19,11 +19,14 @@ module.exports = new holarchy.ControllerAction({
         ____types: "jsObject",
         actions: {
           ____types: "jsObject",
-          react: {
+          d2r2ReactClientDisplayAdaptor: {
             ____types: "jsObject",
-            rehydrate: {
-              ____types: "jsBoolean",
-              ____inValueSet: [true]
+            operation: {
+              ____accept: "jsString",
+              ____inValueSet: ["hydrate", // Display updated via ReactDOM.hydrate (presumes page loaded with server-rendered HTML and we have the server-rendered boot ROM data)
+              "render" // Display updated via ReactDOM.render
+              ],
+              ____defaultValue: "render"
             }
           }
         }
@@ -44,9 +47,9 @@ module.exports = new holarchy.ControllerAction({
     var errors = [];
     var inBreakScope = false;
 
-    while (!inBreakScope) {
+    var _loop = function _loop() {
       inBreakScope = true;
-      var message = request_.actionRequest.holarchy.sml.actions.react.rehydrate; // Resolve the full path to the d2r2 React Client Display Adaptor's input namespace.
+      var message = request_.actionRequest.holarchy.sml.actions.d2r2ReactClientDisplayAdaptor; // Resolve the full path to the d2r2 React Client Display Adaptor's input namespace.
 
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
         opmBindingPath: request_.context.opmBindingPath,
@@ -55,7 +58,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (rpResponse.error) {
         errors.push(rpResponse.error);
-        break;
+        return "break";
       }
 
       var pathInputs = rpResponse.result; // Read the d2r2 React Client Display Adaptor's input namespace from the OCD.
@@ -64,7 +67,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
-        break;
+        return "break";
       }
 
       var inputs = ocdResponse.result; // Resolve the full path to the specified d2r2 render context namespace.
@@ -76,7 +79,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (rpResponse.error) {
         errors.push(rpResponse.error);
-        break;
+        return "break";
       }
 
       var pathRenderContext = rpResponse.result; // Read the specified OCD namespace and use it as the d2r2 renderContext.
@@ -85,7 +88,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
-        break;
+        return "break";
       }
 
       var renderContext = ocdResponse.result; // Resolve the full path to the specified d2r2 render context namespace.
@@ -97,7 +100,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (rpResponse.error) {
         errors.push(rpResponse.error);
-        break;
+        return "break";
       }
 
       var pathRenderData = rpResponse.result; // Read the specifed OCD namespace and use it as the d2r2 renderData.
@@ -106,7 +109,7 @@ module.exports = new holarchy.ControllerAction({
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
-        break;
+        return "break";
       }
 
       var renderData = ocdResponse.result; // ================================================================
@@ -128,9 +131,16 @@ module.exports = new holarchy.ControllerAction({
       // ================================================================
       // ================================================================
 
-      var d2r2Component = React.createElement(inputs.ComponentRouter, legacyReactContext); // See: https://reactjs.org/docs/react-dom.html#hydrate
+      var d2r2Component = React.createElement(inputs.ComponentRouter, legacyReactContext);
+      var reactOperation = {
+        hydrate: ReactDOM.hydrate
+        /* https://reactjs.org/docs/react-dom.html#hydrate */
+        ,
+        render: ReactDOM.render
+        /* https://reactjs.org/docs/react-dom.html#render */
 
-      ReactDOM.hydrate(d2r2Component, inputs.DOMElement, function () {
+      }[message.operation];
+      reactOperation(d2r2Component, inputs.DOMElement, function () {
         // TODO: What should an external actor, in this case React, do if a transport error
         // occurs when calling opci.act? I think it's reasonable to provide some sort of centralized
         // error reporting of any and all act call failures. What's tricky is that we would like
@@ -139,8 +149,8 @@ module.exports = new holarchy.ControllerAction({
         // in cases such as this example (in theory this _should_ never fail but) knowing that
         // they will be reported via a standardized mechanism and as such will not slip by unnoticed.
         var actResponse = request_.context.act({
-          actorName: "React Rehydrate Completion Handler",
-          actionDescription: "Signal completion of client application view rehydration via React.",
+          actorName: "d2r2/React Display Adaptor Update Completion Handler",
+          actionDescription: "Signal completion of client application view via d2r2/React ".concat(message.operation, " operation."),
           actionRequest: {
             holarchy: {
               sml: {
@@ -167,7 +177,13 @@ module.exports = new holarchy.ControllerAction({
 
         return;
       });
-      break;
+      return "break";
+    };
+
+    while (!inBreakScope) {
+      var _ret = _loop();
+
+      if (_ret === "break") break;
     }
 
     if (errors.length) {

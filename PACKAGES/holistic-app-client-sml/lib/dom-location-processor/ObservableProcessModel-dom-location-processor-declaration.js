@@ -3,7 +3,8 @@
 // ObservableProcessModel-client-hash-route-location-processor.js
 var opmClientHashRouteLocationProcessor = module.exports = {
   id: "-1Ptaq_zTUa8Gfv_3ODtDg",
-  name: "Client Hash Route Location Processor",
+  name: "DOM Location Processor",
+  description: "Hooks and monitors DOM location events and publishes them via an observable frame latch. Also, provids programmatic control over DOM location.",
   opmDataSpec: {
     ____label: "Client Hash Route Location Processor",
     ____types: "jsObject",
@@ -14,6 +15,7 @@ var opmClientHashRouteLocationProcessor = module.exports = {
     },
     _private: {
       ____types: "jsObject",
+      ____defaultValue: {},
       routerEventCount: {
         ____accept: "jsNumber",
         ____defaultValue: 0
@@ -82,25 +84,31 @@ var opmClientHashRouteLocationProcessor = module.exports = {
     },
     wait: {
       description: "Waiting for DOM hashchange event.",
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            sml: {
-              operators: {
-                ocd: {
-                  array: {
-                    path: "#._private.locationHistory",
-                    equalToValueIndirect: {
-                      path: "#._private.lastProcessedIndex"
+      transitions: [
+        /*
+        {
+            transitionIf: {
+                holarchy: {
+                    sml: {
+                        operators: {
+                            ocd: {
+                                array: {
+                                    path: "#._private.locationHistory",
+                                    length: {
+                                        equalToValueIndirect: {
+                                            path: "#._private.lastProcessedIndex"
+                                        }
+                                    }
+                                }
+                            }
+                        }
                     }
-                  }
-                }
-              }
-            }
-          },
-          nextStep: "process_route_udpate"
+                },
+            },
+            nextStep: "process_route_udpate"
         }
-      }]
+        */
+      ]
     },
     process_route_udpate: {
       description: "Processing location route update."

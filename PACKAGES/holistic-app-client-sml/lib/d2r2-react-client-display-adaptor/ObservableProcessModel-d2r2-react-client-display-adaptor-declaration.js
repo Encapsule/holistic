@@ -189,8 +189,8 @@ module.exports = {
           holarchy: {
             sml: {
               actions: {
-                react: {
-                  rehydrate: true
+                d2r2ReactClientDisplayAdaptor: {
+                  operation: "hydrate"
                 }
               }
             }
@@ -223,8 +223,8 @@ module.exports = {
           holarchy: {
             sml: {
               actions: {
-                react: {
-                  render: true
+                d2r2ReactClientDisplayAdaptor: {
+                  operation: "render"
                 }
               }
             }
