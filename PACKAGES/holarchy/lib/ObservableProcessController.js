@@ -6,7 +6,18 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/*
+  O       o O       o O       o
+  | O   o | | O   o | | O   o |
+  | | O | | | | O | | | | O | |
+  | o   O | | o   O | | o   O |
+  o       O o       O o       O
+*/
+// @encapsule/holarchy - the keystone of holistic app platform
+// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
 var arccore = require("@encapsule/arccore");
+
+var SimpleStopwatch = require("./util/SimpleStopwatch");
 
 var constructorFilter = require("./filters/opc-method-constructor-filter");
 
@@ -28,6 +39,7 @@ function () {
     _classCallCheck(this, ObservableProcessController);
 
     // #### sourceTag: Gql9wS2STNmuD5vvbQJ3xA
+    var stopwatch = new SimpleStopwatch("OPC::constructor");
     var errors = [];
     var inBreakScope = false; // Allocate private per-class-instance state.
 
@@ -45,7 +57,7 @@ function () {
           subsystem: "opc",
           method: "constructor",
           phase: "prologue",
-          message: "STARTING"
+          message: "STARTING..."
         }); // ----------------------------------------------------------------
         // Bind instance methods.
         // public
@@ -78,7 +90,7 @@ function () {
           subsystem: "opc",
           method: "constructor",
           phase: "body",
-          message: "INSTANCE \"".concat(this._private.iid, "\" INITIALIZED")
+          message: "INSTANCE \"".concat(this._private.iid, "\" INITIALIZED!")
         }); // Perform the first post-construction evaluation of the OPC system model
         // if the instance was constructed in "automatic" evaluate mode.
 
@@ -109,6 +121,8 @@ function () {
       errors.push("ObserverableProcessController::constructor (no-throw) caught an unexpected runtime exception: ".concat(exception_.message));
     }
 
+    var timings = stopwatch.stop();
+
     if (!errors.length) {
       logger.request({
         opc: {
@@ -122,7 +136,7 @@ function () {
         subsystem: "opc",
         method: "constructor",
         phase: "epilogue",
-        message: "COMPLETE"
+        message: "COMPLETE in ".concat(timings.totalMilliseconds, " ms.")
       });
     } else {
       errors.unshift("ObservableProcessController::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
@@ -137,7 +151,7 @@ function () {
         subsystem: "opc",
         method: "constructor",
         phase: "epilogue",
-        message: this._private.constructionError
+        message: "ERROR in ".concat(timings.totalMillisconds, ": ").concat(this._private.constructionError)
       });
     }
   } // end constructor function
@@ -184,6 +198,8 @@ function () {
       var errors = [];
       var inBreakScope = false;
       var initialActorStackDepth = 0; // default
+
+      var stopwatch = new SimpleStopwatch("OPC::act");
 
       try {
         while (!inBreakScope) {
@@ -235,7 +251,21 @@ function () {
             subsystem: "opc",
             method: "act",
             phase: "prologue",
-            message: "STARTING"
+            message: "STARTING..."
+          });
+          logger.request({
+            opc: {
+              id: this._private.id,
+              iid: this._private.iid,
+              name: this._private.name,
+              evalCount: this._private.evalCount,
+              frameCount: 0,
+              actorStack: this._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "act",
+            phase: "body",
+            message: request.actorTaskDescription
           }); // Dispatch the action on behalf of the actor.
 
           var actionResponse = null;
@@ -283,7 +313,7 @@ function () {
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "UPDATING SYSTEM STATE..."
+              message: "PROCESSING CHANGES..."
             }); // Evaluate is an actor too. It adds itself to the OPC actor stack.
             // And is responsible itself for ensuring that it cleans up after
             // itself no matter how it may fail.
@@ -313,6 +343,8 @@ function () {
         response.error = "ObservableProcessController.act (no-throw) caught an unexpected exception: ".concat(exception_.message);
       }
 
+      var timings = stopwatch.stop();
+
       if (!response.error) {
         logger.request({
           opc: {
@@ -326,7 +358,7 @@ function () {
           subsystem: "opc",
           method: "act",
           phase: "epilogue",
-          message: "COMPLETE"
+          message: "COMPLETE in ".concat(timings.totalMilliseconds, " ms")
         });
       } else {
         logger.request({
@@ -342,7 +374,7 @@ function () {
           subsystem: "opc",
           method: "act",
           phase: "body",
-          message: response.error
+          message: "ERROR in ".concat(timings.totalMilliseconds, " ms: ").concat(response.error)
         });
       } // Check and maintain the OPC actor stack.
 

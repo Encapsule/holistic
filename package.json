@@ -2,9 +2,9 @@
     "name": "@encapsule/holistic",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "qY4XPIgZQqyttJzNh2ucMQ",
-    "buildTime": 1581099526,
-    "buildSource": "092db074f74ac7e2453ad072e17088ec70d74392",
+    "buildID": "ckqA7nsAR1-fjLdBbcAgKg",
+    "buildTime": 1581205140,
+    "buildSource": "e6894ea71e5f9566fc72502117a3f429ad7520e8",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -22,7 +22,7 @@
         "url": "https://github.com/Encapsule/holistic/issues"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "This package contains the Holistic App Platform runtime libraries (RTL's) and the 'appgen' utility for initializing and maintaining derived application and service git repositories.",
+    "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
     "keywords": [
         "encapsule",
         "holistic"

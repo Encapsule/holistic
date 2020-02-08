@@ -13,20 +13,26 @@ module.exports = new holarchy.ControllerAction({
   description: "Rehydrate and/or render/re-render client application view via d2r2/React transport using context and render data obtained from specified input paths in the OCD.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    holistic: {
       ____types: "jsObject",
-      sml: {
+      app: {
         ____types: "jsObject",
-        actions: {
+        client: {
           ____types: "jsObject",
-          d2r2ReactClientDisplayAdaptor: {
+          sml: {
             ____types: "jsObject",
-            operation: {
-              ____accept: "jsString",
-              ____inValueSet: ["hydrate", // Display updated via ReactDOM.hydrate (presumes page loaded with server-rendered HTML and we have the server-rendered boot ROM data)
-              "render" // Display updated via ReactDOM.render
-              ],
-              ____defaultValue: "render"
+            actions: {
+              ____types: "jsObject",
+              d2r2ReactClientDisplayAdaptor: {
+                ____types: "jsObject",
+                operation: {
+                  ____accept: "jsString",
+                  ____inValueSet: ["hydrate", // Display updated via ReactDOM.hydrate (presumes page loaded with server-rendered HTML and we have the server-rendered boot ROM data)
+                  "render" // Display updated via ReactDOM.render
+                  ],
+                  ____defaultValue: "render"
+                }
+              }
             }
           }
         }
@@ -49,7 +55,7 @@ module.exports = new holarchy.ControllerAction({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      var message = request_.actionRequest.holarchy.sml.actions.d2r2ReactClientDisplayAdaptor; // Resolve the full path to the d2r2 React Client Display Adaptor's input namespace.
+      var message = request_.actionRequest.holistic.app.client.sml.actions.d2r2ReactClientDisplayAdaptor; // Resolve the full path to the d2r2 React Client Display Adaptor's input namespace.
 
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
         opmBindingPath: request_.context.opmBindingPath,
@@ -150,7 +156,7 @@ module.exports = new holarchy.ControllerAction({
         // they will be reported via a standardized mechanism and as such will not slip by unnoticed.
         var actResponse = request_.context.act({
           actorName: "d2r2/React Display Adaptor Update Completion Handler",
-          actionDescription: "Signal completion of client application view via d2r2/React ".concat(message.operation, " operation."),
+          actorTaskDescription: "Signal completion of client application view via d2r2/React ".concat(message.operation, " operation."),
           actionRequest: {
             holarchy: {
               sml: {

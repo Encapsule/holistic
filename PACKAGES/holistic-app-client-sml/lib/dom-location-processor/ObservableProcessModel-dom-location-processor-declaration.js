@@ -35,9 +35,10 @@ var opmClientHashRouteLocationProcessor = module.exports = {
             "user_route", // User has changed the browser location. Or, used the browser forward/back to navigate the route stack (maintained by the browser)
             "app_route"]
           },
-          location: {
-            // See: https://www.w3.org/TR/html52/browsers.html#the-location-interface
-            ____accept: "jsObject"
+          href: {
+            ____accept: "jsString"
+            /* copy of location.href */
+
           },
           routerEventNumber: {
             ____accept: "jsNumber"
@@ -64,11 +65,15 @@ var opmClientHashRouteLocationProcessor = module.exports = {
       description: "Registering hashchange DOM event callback.",
       actions: {
         enter: [{
-          holarchy: {
-            sml: {
-              actions: {
-                ClientDOMLocationProcessor: {
-                  initialize: true
+          holistic: {
+            app: {
+              client: {
+                sml: {
+                  actions: {
+                    DOMLocationProcessor: {
+                      initialize: true
+                    }
+                  }
                 }
               }
             }

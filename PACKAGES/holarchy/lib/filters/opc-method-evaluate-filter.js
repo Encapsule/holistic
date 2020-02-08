@@ -4,7 +4,15 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// Copyright (C) 2020 Christopher D. Russell
+/*
+  O       o O       o O       o
+  | O   o | | O   o | | O   o |
+  | | O | | | | O | | | | O | |
+  | o   O | | o   O | | o   O |
+  o       O o       O o       O
+*/
+// @encapsule/holarchy - the keystone of holistic app platform
+// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
 var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("../util/SimpleStopwatch");
@@ -24,13 +32,6 @@ var factoryResponse = arccore.filter.create({
   inputFilterSpec: opcMethodEvaluateInputSpec,
   outputFilterSpec: opcMethodEvaluateOutputSpec,
   bodyFunction: function bodyFunction(opcEvaluateRequest_) {
-    /*
-      O       o O       o O       o
-      | O   o | | O   o | | O   o |
-      | | O | | | | O | | | | O | |
-      | o   O | | o   O | | o   O |
-      o       O o       O o       O
-    */
     var response = {
       error: null,
       result: undefined
@@ -320,14 +321,6 @@ var factoryResponse = arccore.filter.create({
         // ================================================================
         //
         // ¯\_(ツ)_/¯ - following along? Hang on for the fun part ...
-
-        /*
-          O       o O       o O       o
-          | O   o | | O   o | | O   o |
-          | | O | | | | O | | | | O | |
-          | o   O | | o   O | | o   O |
-          o       O o       O o       O
-        */
         //
         // ================================================================
         // Evaluate each discovered OPM-bound object instance in the controller
@@ -649,14 +642,6 @@ var factoryResponse = arccore.filter.create({
 
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
-    /*
-      O       o O       o O       o
-      | O   o | | O   o | | O   o |
-      | | O | | | | O | | | | O | |
-      | o   O | | o   O | | o   O |
-      o       O o       O o       O
-    */
-
     logger.request({
       opc: {
         id: opcRef._private.id,

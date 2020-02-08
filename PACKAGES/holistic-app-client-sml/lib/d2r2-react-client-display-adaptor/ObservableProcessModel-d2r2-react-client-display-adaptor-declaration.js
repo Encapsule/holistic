@@ -186,11 +186,15 @@ module.exports = {
             }
           }
         }, {
-          holarchy: {
-            sml: {
-              actions: {
-                d2r2ReactClientDisplayAdaptor: {
-                  operation: "hydrate"
+          holistic: {
+            app: {
+              client: {
+                sml: {
+                  actions: {
+                    d2r2ReactClientDisplayAdaptor: {
+                      operation: "hydrate"
+                    }
+                  }
                 }
               }
             }
@@ -220,11 +224,15 @@ module.exports = {
             }
           }
         }, {
-          holarchy: {
-            sml: {
-              actions: {
-                d2r2ReactClientDisplayAdaptor: {
-                  operation: "render"
+          holistic: {
+            app: {
+              client: {
+                sml: {
+                  actions: {
+                    d2r2ReactClientDisplayAdaptor: {
+                      operation: "render"
+                    }
+                  }
                 }
               }
             }
