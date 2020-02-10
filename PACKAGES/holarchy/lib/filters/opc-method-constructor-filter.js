@@ -55,7 +55,9 @@ var factoryResponse = arccore.filter.create({
         ocdRuntimeSpec: {},
         opmiSpecPaths: [],
         ocdi: null,
-        operatorDispatcher: null,
+        transitionDispatcherFilterMap: {},
+        transitionDispatcher: null,
+        actionDispatcherFilterMap: {},
         actionDispatcher: null,
         evalCount: 0,
         lastEvalResponse: null,
@@ -333,7 +335,13 @@ var factoryResponse = arccore.filter.create({
 
             result.constructionWarnings.push(_warningMessage3);
           } else {
-            transitionOperatorFilters.push(transitionOperatorInstance_.getFilter());
+            var filter = transitionOperatorInstance_.getFilter();
+            var id = filter.filterDescriptor.operationID; // Silently de-duplicate.
+
+            if (!result.transitionDispatcherFilterMap[id]) {
+              result.transitionDispatcherFilterMap[id] = filter;
+              transitionOperatorFilters.push(filter);
+            }
           }
         });
       });
@@ -384,7 +392,13 @@ var factoryResponse = arccore.filter.create({
 
             result.constructionWarnings.push(_warningMessage5);
           } else {
-            controllerActionFilters.push(controllerActionInstance_.getFilter());
+            var filter = controllerActionInstance_.getFilter();
+            var id = filter.filterDescriptor.operationID; // Silently de-duplicate.
+
+            if (!result.actionDispatcherFilterMap[id]) {
+              result.actionDispatcherFilterMap[id] = filter;
+              controllerActionFilters.push(filter);
+            }
           }
         });
       });

@@ -87,12 +87,36 @@ module.exports = {
     ____accept: "jsObject" // this is an arcccore.discriminator filter instance reference that we do not further validate here
 
   },
+  transitionDispatcherFilterMap: {
+    ____label: "TransitionOperator Filter Map",
+    ____description: "A map of TransitionOperator filters keyed by filter operation ID.",
+    ____types: "jsObject",
+    ____asMap: true,
+    operationID: {
+      ____label: "TransitionOperator Filter Object",
+      ____description: "Reference to a TransitionOperator class instance's contained filter.",
+      ____accept: "jsObject" // this is an arccore.filter instance reference that we do not further validate here
+
+    }
+  },
   // Created by the opc constructor filter. Used to implement OPC's plug-and-play runtime type-safe controller action command grammar and evaluation engine.
   actionDispatcher: {
     ____label: "Controller Action MR Dispatcher",
     ____description: "Filter that accepts an arbitrary request message this routed to 1:N registered ControllerAction class instances based on the request message signature.",
     ____accept: "jsObject" // this is an arccore.discriminator filter instance reference that we do not furhter validate here
 
+  },
+  actionDispatcherFilterMap: {
+    ____label: "ControllerAction Filter Map",
+    ____description: "A map of ControllerAction filters keyed by filter operation ID.",
+    ____types: "jsObject",
+    ____asMap: true,
+    operationID: {
+      ____label: "ControllerAction Filter Object",
+      ____description: "Reference to a ControllerAction class instance's contained filter.",
+      ____accept: "jsObject" // this is an arccore.filter instance reference that we do not further validate here
+
+    }
   },
   // Created by the opc constructor filter. Post-construction this value is managed by the public OPC.act method.
   opcActorStack: {

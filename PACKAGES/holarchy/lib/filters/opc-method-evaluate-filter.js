@@ -403,8 +403,9 @@ var factoryResponse = arccore.filter.create({
                 method: "evaluate",
                 phase: "body",
                 message: _transitionResponse.error
-              }); // console.error(transitionResponse.error);
-
+              });
+              console.warn(operatorRequest);
+              console.warn(opcRef._private.transitionDispatcherFilterMap);
               _opmInstanceFrame.evalResponse.status = "error";
               _opmInstanceFrame.evalResponse.errors.p1_toperator++;
               _opmInstanceFrame.evalResponse.errors.total++;
@@ -460,7 +461,7 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "evaluate",
             phase: "body",
-            message: "Transition [ '".concat(initialStep, "' -> '").concat(nextStep, "' ] at ocd path '").concat(opmBindingPath, "'.")
+            message: "PROCESS STEP TRANSITION: [ '".concat(initialStep, "' -> '").concat(nextStep, "' ] at OCD path '").concat(opmBindingPath, "'.")
           }); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
@@ -654,7 +655,7 @@ var factoryResponse = arccore.filter.create({
       subsystem: "opc",
       method: "evaluate",
       phase: "prologue",
-      message: "COMPLETE update #".concat(result.evalNumber, " in ").concat(result.summary.framesCount, " frames running taking ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
+      message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.framesCount, " eval frame(s) in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
     });
     response.result = result;
     return response;
