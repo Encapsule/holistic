@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the ObservableProcessController (OPC), ObservableProcessModel (OPM), ObservableControllerData (OCD), TransitionOperator (TOP), and ControllerAction (ACT) ES6 classes that are used to define and execute hierarchical asynchronous system models. Used to build complex reactive data-driven UX. And, back-end process orchestration data workflows.
 
 ```
-Package: @encapsule/holarchy v0.1.00 "alertbay" build ID "7IafcCSaSOiUQttCUphzKw"
-Sources: Encapsule/holistic-master#86aa018317fc7d1db1ab35e740eccb92519980d4
-Created: 2020-02-11T19:30:03.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holarchy v0.1.00 "alertbay" build ID "q8M7AtTQTB-adlk9V2nk4g"
+Sources: Encapsule/holistic-master#7720cfada82fd6c64ead28acce56d0f5cc323aee
+Created: 2020-02-11T22:15:11.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

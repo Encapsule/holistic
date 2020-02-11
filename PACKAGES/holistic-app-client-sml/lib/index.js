@@ -8,6 +8,7 @@ module.exports = {
   },
   models: {
     appClientRuntime: require("./app-client-runtime/ObservableProcessModel-app-client-runtime"),
+    appClientView: require("./app-client-view/ObservableProcessModel-app-client-view"),
     d2r2ReactClientDisplayAdaptor: require("./d2r2-react-client-display-adaptor/ObservableProcessModel-d2r2-react-client-display-adaptor"),
     DOMLocationProcessor: require("./dom-location-processor/ObservableProcessModel-dom-location-processor")
   },
@@ -15,6 +16,7 @@ module.exports = {
   test: {
     declaration: {
       appClientRuntime: require("./app-client-runtime/ObservableProcessModel-app-client-runtime-declaration"),
+      appClientView: require("./app-client-view/ObservableProcessModel-app-client-view-declaration"),
       d2r2ReactClientDisplayAdaptor: require("./d2r2-react-client-display-adaptor/ObservableProcessModel-d2r2-react-client-display-adaptor-declaration"),
       DOMLocationProcessor: require("./dom-location-processor/ObservableProcessModel-dom-location-processor-declaration")
     }
