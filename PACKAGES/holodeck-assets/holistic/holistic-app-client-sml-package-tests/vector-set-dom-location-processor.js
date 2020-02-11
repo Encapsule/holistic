@@ -1,8 +1,6 @@
 "use strict";
 
 // vector-set-dom-location-processor.js
-var holarchy = require("@encapsule/holarchy");
-
 var clientSML = require("@encapsule/holistic-app-client-sml");
 
 module.exports = [{

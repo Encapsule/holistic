@@ -61,7 +61,9 @@ var factoryResponse = arccore.filter.create({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var currentActor = opcRef._private.opcActorStack[0];
+      var currentActor = opcRef._private.opcActorStack[0]; // ================================================================
+      // Prologue - executed before starting the outer evaluation loop.
+
       logger.request({
         opc: {
           id: opcRef._private.id,
@@ -73,11 +75,9 @@ var factoryResponse = arccore.filter.create({
         },
         subsystem: "opc",
         method: "evaluate",
-        phase: "epilogue",
+        phase: "prologue",
         message: "STARTING OPC system state update #".concat(result.evalNumber)
-      }); // ================================================================
-      // Prologue - executed before starting the outer evaluation loop.
-      // Get a reference to the entire filter spec for the controller data store.
+      }); // Get a reference to the entire filter spec for the controller data store.
 
       var filterResponse = opcRef._private.ocdi.getNamespaceSpec("~");
 
@@ -461,7 +461,7 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "evaluate",
             phase: "body",
-            message: "PROCESS STEP TRANSITION: [ '".concat(initialStep, "' -> '").concat(nextStep, "' ] at OCD path '").concat(opmBindingPath, "'.")
+            message: "OPMI \"".concat(opmBindingPath, "\" tranistion \"").concat(initialStep, "\" => \"").concat(nextStep, "\".")
           }); // Dispatch the OPM instance's step exit action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
@@ -654,7 +654,7 @@ var factoryResponse = arccore.filter.create({
       },
       subsystem: "opc",
       method: "evaluate",
-      phase: "prologue",
+      phase: "epilogue",
       message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.framesCount, " eval frame(s) in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
     });
     response.result = result;

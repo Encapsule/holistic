@@ -90,7 +90,7 @@ function () {
           subsystem: "opc",
           method: "constructor",
           phase: "body",
-          message: "INSTANCE \"".concat(this._private.iid, "\" INITIALIZED!")
+          message: "OPC instance \"".concat(this._private.iid, "\" initialized!")
         }); // Perform the first post-construction evaluation of the OPC system model
         // if the instance was constructed in "automatic" evaluate mode.
 
@@ -251,7 +251,7 @@ function () {
             subsystem: "opc",
             method: "act",
             phase: "prologue",
-            message: "STARTING..."
+            message: "START ACTION..."
           });
           logger.request({
             opc: {
@@ -265,7 +265,21 @@ function () {
             subsystem: "opc",
             method: "act",
             phase: "body",
-            message: request.actorTaskDescription
+            message: "Actor: ".concat(request_.actorName)
+          });
+          logger.request({
+            opc: {
+              id: this._private.id,
+              iid: this._private.iid,
+              name: this._private.name,
+              evalCount: this._private.evalCount,
+              frameCount: 0,
+              actorStack: this._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "act",
+            phase: "body",
+            message: "Task: ".concat(request.actorTaskDescription)
           }); // Dispatch the action on behalf of the actor.
 
           var actionResponse = null;
@@ -313,7 +327,7 @@ function () {
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "PROCESSING CHANGES..."
+              message: "SEQUENCE..."
             }); // Evaluate is an actor too. It adds itself to the OPC actor stack.
             // And is responsible itself for ensuring that it cleans up after
             // itself no matter how it may fail.

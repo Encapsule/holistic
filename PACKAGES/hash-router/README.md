@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).
 
 ```
-Package: @encapsule/hash-router v0.1.00 "alertbay" build ID "a1D9442ATRahg3YIAxgFlw"
-Sources: Encapsule/holistic-master#e6894ea71e5f9566fc72502117a3f429ad7520e8
-Created: 2020-02-09T22:53:31.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/hash-router v0.1.00 "alertbay" build ID "7IafcCSaSOiUQttCUphzKw"
+Sources: Encapsule/holistic-master#86aa018317fc7d1db1ab35e740eccb92519980d4
+Created: 2020-02-11T19:30:03.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

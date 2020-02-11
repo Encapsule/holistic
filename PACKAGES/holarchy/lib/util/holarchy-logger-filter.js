@@ -135,7 +135,8 @@ var factoryResponse = arccore.filter.create({
       if (!consoleMethod) {
         errors.push("Unhandled logLevel value '".concat(request_.logLevel, "'."));
         break;
-      }
+      } // TODO: Parameterize this.
+
 
       switch (request_.logLevel) {
         case "error":
@@ -165,19 +166,29 @@ var factoryResponse = arccore.filter.create({
               actorStack = request_.opc.actorStack.map(function (stackEntry_) {
                 return "(".concat(stackEntry_.actorName, ")");
               }).join(" > ");
-              message = ["%cOPC::act <".concat(request_.opc.iid, "> actor stack: ").concat(actorStack)];
-              styles += "border-left: ".concat(4 * request_.opc.actorStack.length, "px solid #33CC33;");
+              message = ["%cOPC::act <".concat(request_.opc.iid.substr(0, 4), "...> actor stack: ").concat(actorStack)];
+              var border = "6px solid ".concat(consoleColorsLUT.opc.act.borderColor);
+              var marginLeft = "".concat(12 * (request_.opc.actorStack.length - 1), "px");
+              styles += "border-left: ".concat(border, "; margin-left: ").concat(marginLeft, ";");
 
               switch (request_.phase) {
                 case "prologue":
+                  styles += "border-top: 6px solid ".concat(consoleColorsLUT.opc.act.borderTopColor, ";");
+
+                  if (request_.opc.actorStack.length === 1) {
+                    styles += "margin-top: 1em";
+                  }
+
                   message.push(request_.message);
                   break;
 
                 case "body":
+                  message = ["%cOPC::act <".concat(request_.opc.iid.substr(0, 4), "...>")];
                   message.push(request_.message);
                   break;
 
                 case "epilogue":
+                  styles += "border-bottom: 6px solid ".concat(consoleColorsLUT.opc.act.borderBottomColor, ";");
                   message.push(request_.message);
                   break;
 
@@ -193,7 +204,7 @@ var factoryResponse = arccore.filter.create({
               break;
 
             case "evaluate":
-              message = ["%cOPC::evaluate <".concat(request_.opc.iid, "> [").concat(request_.opc.evalCount, ":").concat(request_.opc.frameCount, "] ").concat(request_.message)].join(" ");
+              message = ["%cOPC::evaluate <".concat(request_.opc.iid.substr(0, 4), "...> [").concat(request_.opc.evalCount, ":").concat(request_.opc.frameCount, "] ").concat(request_.message)].join(" ");
               consoleMethod(message, styles);
               break;
 

@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform's core re-usable Software Model Library (SML) derived from @encapsule/holarchy ObservableProcessModel (OPM), TransitionOperator (TOP), and ControllerAction (ACT). Intended for use in derived app/services in conjunction with application-specific SML's executing in ObservableProcessController (OPC) instance(s).
 
 ```
-Package: @encapsule/holarchy-sml v0.1.00 "alertbay" build ID "a1D9442ATRahg3YIAxgFlw"
-Sources: Encapsule/holistic-master#e6894ea71e5f9566fc72502117a3f429ad7520e8
-Created: 2020-02-09T22:53:31.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holarchy-sml v0.1.00 "alertbay" build ID "7IafcCSaSOiUQttCUphzKw"
+Sources: Encapsule/holistic-master#86aa018317fc7d1db1ab35e740eccb92519980d4
+Created: 2020-02-11T19:30:03.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

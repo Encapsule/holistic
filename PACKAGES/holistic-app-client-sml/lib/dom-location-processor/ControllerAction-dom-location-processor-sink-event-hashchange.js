@@ -47,9 +47,36 @@ module.exports = new holarchy.ControllerAction({
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true; // Resolve the full path the DOM Location Processor _private namespace.
+      inBreakScope = true;
+      console.log("Current value of location.href is '".concat(location.href, "'")); // Resolve the full path the DOM Location Processor outputs namespace.
 
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+        opmBindingPath: request_.context.opmBindingPath,
+        dataPath: "#.outputs"
+      });
+
+      if (rpResponse.error) {
+        errors.push(rpResponse.error);
+        break;
+      }
+
+      var pathOutputs = rpResponse.result;
+      var ocdResponse = request_.context.ocdi.readNamespace(pathOutputs);
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      var outputs = ocdResponse.result;
+
+      if (outputs.currentRoute && outputs.currentRoute.href === location.href) {
+        console.log("This event will be ignored. It was induced by the DOM Location Processor's init action replacing the server's non-hashroute with the default, #.");
+        break;
+      } // Resolve the full path the DOM Location Processor _private namespace.
+
+
+      rpResponse = holarchy.ObservableControllerData.dataPathResolve({
         opmBindingPath: request_.context.opmBindingPath,
         dataPath: "#._private"
       });
@@ -61,7 +88,7 @@ module.exports = new holarchy.ControllerAction({
 
       var pathPrivate = rpResponse.result; // Read the DOM Location Processor's _private OCD namespace.
 
-      var ocdResponse = request_.context.ocdi.readNamespace(pathPrivate);
+      ocdResponse = request_.context.ocdi.readNamespace(pathPrivate);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
@@ -69,14 +96,41 @@ module.exports = new holarchy.ControllerAction({
       }
 
       var _private = ocdResponse.result;
-      _private.routerEventCount++;
-
-      _private.locationHistory.push({
-        eventSource: !_private.routerEventCount ? "initial" : "user_route",
+      var routerEventDescriptor = {
+        actor: _private.routerEventCount === _private.lastOutputEventIndex ? _private.routerEventCount ? "user" : "server" : "app",
         href: location.href,
         // capture the entire href serialization from the location object
         routerEventNumber: _private.routerEventCount
-      });
+      };
+
+      _private.locationHistory.push(routerEventDescriptor);
+
+      _private.routerEventCount++; // total hashchange events
+
+      if (_private.routerEventCount > _private.lastOutputEventIndex) {
+        // Always re-written in the epilogue.
+        _private.lastOutputEventIndex++;
+        _private.updateObservers = true; // Resolve the full path the DOM Location Processor outputs.currentRoute namespace.
+
+        var _rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+          opmBindingPath: request_.context.opmBindingPath,
+          dataPath: "#.outputs.currentRoute"
+        });
+
+        if (_rpResponse.error) {
+          errors.push(_rpResponse.error);
+          break;
+        }
+
+        var pathCurrentRoute = _rpResponse.result; // Write the current route descriptor to the output.
+
+        var _ocdResponse = request_.context.ocdi.writeNamespace(pathCurrentRoute, routerEventDescriptor);
+
+        if (_ocdResponse.error) {
+          errors.push(_ocdResponse.error);
+          break;
+        }
+      }
 
       ocdResponse = request_.context.ocdi.writeNamespace(pathPrivate, _private);
 
