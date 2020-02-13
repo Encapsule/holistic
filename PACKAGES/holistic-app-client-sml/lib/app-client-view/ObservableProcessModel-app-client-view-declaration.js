@@ -36,19 +36,61 @@ module.exports = {
       }]
     },
     initialize: {
-      description: "Performing initialization actions."
+      description: "Performing initialization actions.",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "wait_invariants"
+      }]
     },
     wait_invariants: {
-      description: "Waiting for invariant inputs to be satisfied."
+      description: "Waiting for invariant inputs to be satisfied.",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "wait_app_config"
+      }]
     },
     wait_app_config: {
-      description: "Waiting for the client application runtime to be configured."
+      description: "Waiting for the client application runtime to be configured.",
+      transitions: [{
+        transitionIf: {
+          holarchy: {
+            sml: {
+              operators: {
+                opmi: {
+                  path: "~.vp5.client",
+                  step: "boot1_query_derived_app_config"
+                }
+              }
+            }
+          }
+        },
+        nextStep: "wait_server_route"
+      }]
     },
     wait_server_route: {
       description: "Waiting for the DOM Location Processor to signal the client application's server-specified route (location.href)."
     },
     wait_app_resume: {
-      description: "Waiting for the App Client Runtime to resume the client application runtime."
+      description: "Waiting for the App Client Runtime to resume the client application runtime.",
+      transitions: [{
+        transitionIf: {
+          holarchy: {
+            sml: {
+              operators: {
+                opmi: {
+                  path: "~.vp5.client",
+                  step: "boot1_query_derived_app_config"
+                }
+              }
+            }
+          }
+        },
+        nextStep: "wait_server_route"
+      }]
     },
     rehydrate: {
       description: "Use data from the server to rehydate the server-rendered d2r2/React view."

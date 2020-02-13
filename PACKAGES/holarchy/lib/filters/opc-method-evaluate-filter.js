@@ -306,10 +306,10 @@ var factoryResponse = arccore.filter.create({
         evalStopwatch.mark("frame ".concat(result.evalFrames.length, " end OPM instance binding / start OPM instance evaluation"));
 
         if (errors.length) {
-          // As a matter of implementation policy, we do not further evaluation of an OPM instance
-          // if any error is encountered during the evaluation of the model's transition operator
-          // expression.
-          // TODO: I don't think we're handling errors here correctly?
+          // If we encountered any errors locating the cells (OPM instances)
+          // that we need to evaluate (defines the work to be done in the frame
+          // evaluation loop), then we do not execute the frame evaluation loop.
+          console.error("Something that should be impossible occurred. Please file a GibHub issue in the @encapsule/holistic repo including this log. Thank you!");
           break; // from the outer evaluation loop
         } // ****************************************************************
         // ****************************************************************
@@ -461,31 +461,19 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "evaluate",
             phase: "body",
-            message: "OPMI \"".concat(opmBindingPath, "\" tranistion \"").concat(initialStep, "\" => \"").concat(nextStep, "\".")
-          }); // Dispatch the OPM instance's step exit action(s).
+            message: "Cell [".concat(ocdPathIRUT_, "] (").concat(opmBindingPath, ") OPM transition: { \"").concat(initialStep, "\" => \"").concat(nextStep, "\" }.")
+          }); // Dispatch the OPM instance's step EXIT action(s).
 
           _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
           for (var exitActionIndex = 0; exitActionIndex < stepDescriptor.actions.exit.length; exitActionIndex++) {
-            // Dispatch the action request.
             var actionRequest = stepDescriptor.actions.exit[exitActionIndex];
-            var dispatcherRequest = {
+            var actionResponse = opcRef.act({
+              actorName: "".concat(opmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "EXIT ACTION #".concat(exitActionIndex, ": OPM [").concat(opmRef.getID(), "::").concat(opmRef.getName(), "] step \"").concat(initialStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: actionRequest,
-              context: {
-                opmBindingPath: opmBindingPath,
-                ocdi: opcRef._private.ocdi,
-                act: opcRef.act
-              }
-            };
-            var actionResponse = void 0;
-
-            try {
-              actionResponse = opcRef._private.actionDispatcher.request(dispatcherRequest);
-            } catch (actException_) {
-              actionResponse = {
-                error: "ControllerAction threw an illegal exception that was handled by OPC: ".concat(actException_)
-              };
-            }
+              opmBindingPath: opmBindingPath
+            });
 
             _opmInstanceFrame.evalResponse.phases.p2_exit.push({
               request: actionRequest,
@@ -504,8 +492,8 @@ var factoryResponse = arccore.filter.create({
               result.summary.counts.errors++;
               break;
             }
-          } // If we encountered any error during the evaluation of the model step's exit actions skip
-          // the remainder of the model evaluation and proceed to the next model in the frame.
+          } // for exitActionIndex
+          // If we encountered any error during the evaluation of the cell's exit actions, skip further eval of this cell and continue to the next cell in the frame.
 
 
           if (_opmInstanceFrame.evalResponse.status === "error") {
@@ -524,24 +512,13 @@ var factoryResponse = arccore.filter.create({
 
           for (var enterActionIndex = 0; enterActionIndex < nextStepDescriptor.actions.enter.length; enterActionIndex++) {
             var _actionRequest = nextStepDescriptor.actions.enter[enterActionIndex];
-            var _dispatcherRequest = {
+
+            var _actionResponse = opcRef.act({
+              actorName: "".concat(opmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "ENTER ACTION #".concat(enterActionIndex, ": OPM [").concat(opmRef.getID(), "::").concat(opmRef.getName(), "] step \"").concat(nextStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: _actionRequest,
-              context: {
-                opmBindingPath: opmBindingPath,
-                ocdi: opcRef._private.ocdi,
-                act: opcRef.act
-              }
-            };
-
-            var _actionResponse = void 0;
-
-            try {
-              _actionResponse = opcRef._private.actionDispatcher.request(_dispatcherRequest);
-            } catch (actException_) {
-              _actionResponse = {
-                error: "ControllerAction threw an illegal exception that was handled by the OPC: ".concat(actException_.message)
-              };
-            }
+              opmBindingPath: opmBindingPath
+            });
 
             _opmInstanceFrame.evalResponse.phases.p3_enter.push({
               request: _actionRequest,
@@ -559,8 +536,8 @@ var factoryResponse = arccore.filter.create({
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
             }
-          } // If we encountered any error during the evaluation of the model step's enter actions skip
-          // the remainder of the model evaluation and proceed to the next model in the frame.
+          } // for enterActionIndex
+          // If we encountered any error during the evaluation of the cell's enter actions, skip further eval of the cell and continue to the next cell in the frame.
 
 
           if (_opmInstanceFrame.evalResponse.status === "error") {
@@ -644,6 +621,7 @@ var factoryResponse = arccore.filter.create({
     result.summary.evalStopwatch = evalStopwatch.stop();
     result.summary.framesCount = result.evalFrames.length;
     logger.request({
+      errorLevel: response.error ? "error" : "info",
       opc: {
         id: opcRef._private.id,
         iid: opcRef._private.iid,

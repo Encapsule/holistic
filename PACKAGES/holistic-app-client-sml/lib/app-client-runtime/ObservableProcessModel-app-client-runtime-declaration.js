@@ -4,7 +4,7 @@
 module.exports = {
   id: "PPL45jw5RDWSMNsB97WIWg",
   name: "Holistic Client App Runtime",
-  description: "Encapsulates the lifecycle and management of core holistic client application features on behalf of the derived app.",
+  description: "This model manages, tracks, and controls the lifecycle of the client application.",
   opmDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
@@ -32,38 +32,92 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot0_start_app_kernel"
+        nextStep: "boot0_hook_events"
       }]
     },
-    boot0_start_app_kernel: {
+    boot0_hook_events: {
+      description: "Hooking DOM events pertinent to tracking the lifecycle of this instance of the client application running inside the user's browser.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                runtime: {
+                  private: {
+                    actions: {
+                      hookEvents: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "boot1_start_kernel"
+      }]
+    },
+    boot1_start_kernel: {
       description: "Start core client app kernel subsystems.",
       actions: {
-        enter: []
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                runtime: {
+                  private: {
+                    actions: {
+                      startKernel: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
       },
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "boot1_query_derived_app_config"
+        nextStep: "boot2_query_derived"
       }]
     },
-    boot1_query_derived_app_config: {
+    boot2_query_derived: {
       description: "Query the derived client app for information required to initialize the core client app runtime.",
       actions: {
-        enter: []
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                runtime: {
+                  private: {
+                    actions: {
+                      queryDerivedAppConfig: true
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
       },
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "boot2_wait_kernel_start"
+        nextStep: "boot3_wait_kernel"
       }]
     },
-    boot2_wait_kernel_start: {
+    boot3_wait_kernel: {
       description: "Wait for the core client app kernel subsystems to become available.",
       transitions: []
     },
-    boot3_configure_derived_app: {
+    boot4_config_derived: {
       description: "Configure the derived application runtime.",
       actions: {
         enter: []
@@ -72,37 +126,34 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot4_wait_app_resources"
+        nextStep: "boot5_wait_browser"
       }]
     },
-    boot4_wait_app_resources: {
+    boot5_wait_browser: {
       description: "Wait for the browser to finish loading the HTML document and its referenced external resources (scripts, CSS, images, fonts, JSON, ...",
       transitions: [{
         transitionIf: {},
-        nextStep: "boot5_deserialize_suspended_app"
+        nextStep: "boot6_deserialize_app"
       }]
     },
-    boot5_deserialize_suspended_app: {
+    boot6_deserialize_app: {
       description: "Access the boot ROM embedded in the hosting HTML document to get the suspended process state of the derived application.",
       actions: {
         enter: []
       },
       transitions: []
     },
-    boot6_resume_suspended_app: {
-      description: "Restore the derived application's process state and resume the application process.",
-      actions: {
-        enter: []
-      },
-      transitions: []
+    boot7_load_app_memory: {
+      description: "Load the deserialized app into the OCD to initialize the client app runtime."
     },
-    boot7_wait_app_client: {
-      description: "Wait for the derived application to resume and signal back that its subsystems are ready to accept input from external actors.",
-      transitions: []
+    boot8_init_app_view: {
+      description: "Initialize the view and d2r2/React display models. Performs a d2r2/ReactDOM.hydrate operation ultimately."
     },
-    runtime0_app_client_running: {
-      description: "Derived application runtime is online and ready to respond to external actors.",
-      transitions: []
+    boot9_start_app: {
+      description: "Start the client application runtime."
+    },
+    running: {
+      description: "The client application is online and awaiting input from external actors."
     },
     error_process_boot_failure: {
       description: "Client application process boot failed due to unrecoverable error(s)."

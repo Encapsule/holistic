@@ -135,8 +135,9 @@ var factoryResponse = arccore.filter.create({
       if (!consoleMethod) {
         errors.push("Unhandled logLevel value '".concat(request_.logLevel, "'."));
         break;
-      } // TODO: Parameterize this.
+      }
 
+      styles += "border-radius: 3px;"; // TODO: Parameterize this.
 
       switch (request_.logLevel) {
         case "error":

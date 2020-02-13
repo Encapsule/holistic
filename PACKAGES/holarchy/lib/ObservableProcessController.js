@@ -265,20 +265,6 @@ function () {
             subsystem: "opc",
             method: "act",
             phase: "body",
-            message: "Actor: ".concat(request_.actorName)
-          });
-          logger.request({
-            opc: {
-              id: this._private.id,
-              iid: this._private.iid,
-              name: this._private.name,
-              evalCount: this._private.evalCount,
-              frameCount: 0,
-              actorStack: this._private.opcActorStack
-            },
-            subsystem: "opc",
-            method: "act",
-            phase: "body",
             message: "Task: ".concat(request.actorTaskDescription)
           }); // Dispatch the action on behalf of the actor.
 
@@ -286,8 +272,38 @@ function () {
 
           try {
             // Dispatch the actor's requested action.
-            // TODO: It would be more informative to convert this DMR to return the filter so we can see the mapping prior to dispatch.
             actionResponse = this._private.actionDispatcher.request(controllerActionRequest);
+
+            if (actionResponse.error) {
+              actionResponse = {
+                error: "Unrecognized controller action request format. Check message data syntax against registered ControllerAction plug-ins.",
+                result: actionResponse.error
+              };
+            } else {
+              var actionFilter = actionResponse.result;
+              logger.request({
+                opc: {
+                  id: this._private.id,
+                  iid: this._private.iid,
+                  name: this._private.name,
+                  evalCount: this._private.evalCount,
+                  frameCount: 0,
+                  actorStack: this._private.opcActorStack
+                },
+                subsystem: "opc",
+                method: "act",
+                phase: "body",
+                message: "Dispatching action filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]...")
+              });
+              actionResponse = actionFilter.request(controllerActionRequest);
+
+              if (actionResponse.error) {
+                actionResponse = {
+                  error: "It looks like this action request was intended for [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]. But, the controller action plug-in rejected the request."),
+                  result: actionResponse.error
+                };
+              }
+            }
           } catch (actionCallException_) {
             errors.push("Handled exception during controller action dispatch: " + actionCallException_.message);
             break;
@@ -387,7 +403,7 @@ function () {
           },
           subsystem: "opc",
           method: "act",
-          phase: "body",
+          phase: "epilogue",
           message: "ERROR in ".concat(timings.totalMilliseconds, " ms: ").concat(response.error)
         });
       } // Check and maintain the OPC actor stack.
