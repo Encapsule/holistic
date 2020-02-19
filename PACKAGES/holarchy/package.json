@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/holarchy",
-    "version": "0.0.36",
-    "codename": "dawsonslanding",
-    "buildID": "5kXsmHAGS6OYaRJyCUo-HQ",
-    "buildTime": 1580681063,
-    "buildSource": "4363bd94d21cabbdec5e9d304c69064a9f5fe770",
+    "version": "0.0.37",
+    "codename": "penroseisland",
+    "buildID": "Q5KwHlXlQWOdrmnDsUtV5w",
+    "buildTime": 1582150564,
+    "buildSource": "5d59243bf785c6c3d3e2551a7e2a3ff92df88fdf",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -41,6 +41,6 @@
     ],
     "main": "index.js",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.8"
+        "@encapsule/arccore": "0.1.9"
     }
 }

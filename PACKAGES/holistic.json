@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
-    "version": "0.0.36",
-    "codename": "dawsonslanding",
+    "version": "0.0.37",
+    "codename": "penroseisland",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "5kXsmHAGS6OYaRJyCUo-HQ",
-    "buildSource": "4363bd94d21cabbdec5e9d304c69064a9f5fe770",
-    "buildTime": 1580681063,
-    "buildDateISO": "2020-02-02T22:04:23.000Z"
+    "buildID": "Q5KwHlXlQWOdrmnDsUtV5w",
+    "buildSource": "5d59243bf785c6c3d3e2551a7e2a3ff92df88fdf",
+    "buildTime": 1582150564,
+    "buildDateISO": "2020-02-19T22:16:04.000Z"
 }
