@@ -6,8 +6,8 @@ var holarchy = require("@encapsule/holarchy");
 
 var factoryResponse = holodeck.harnessFactory.request({
   id: "mC3pPO5wS3SxvhgZgMjsJQ",
-  name: "ObservableProcessModel Harness",
-  description: "Constructs an instance of ES6 class ObservableProcessModel that is serialized and passed back as response.result.",
+  name: "AbstractProcessModel Harness",
+  description: "Constructs an instance of ES6 class AbstractProcessModel that is serialized and passed back as response.result.",
   // idempotent
   testVectorRequestInputSpec: {
     ____types: "jsObject",
@@ -15,7 +15,7 @@ var factoryResponse = holodeck.harnessFactory.request({
       ____types: "jsObject",
       holarchy: {
         ____types: "jsObject",
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           ____types: "jsObject",
           constructorRequest: {
             ____opaque: true
@@ -31,8 +31,8 @@ var factoryResponse = holodeck.harnessFactory.request({
   },
   // testVectorResultOutputSpec
   harnessBodyFunction: function harnessBodyFunction(request_) {
-    var messageBody = request_.vectorRequest.holistic.holarchy.ObservableProcessModel;
-    var observableProcessModel = new holarchy.ObservableProcessModel(messageBody.constructorRequest);
+    var messageBody = request_.vectorRequest.holistic.holarchy.AbstractProcessModel;
+    var observableProcessModel = new holarchy.AbstractProcessModel(messageBody.constructorRequest);
     var response = {
       error: null,
       result: {

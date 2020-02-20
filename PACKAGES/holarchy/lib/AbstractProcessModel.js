@@ -6,14 +6,14 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// ObservableProcessModel.js
-var constructorRequestFilter = require("./filters/opm-method-constructor-filter");
+// AbstractProcessModel.js
+var constructorRequestFilter = require("./filters/apm-method-constructor-filter");
 
-var ObservableProcessModel =
+var AbstractProcessModel =
 /*#__PURE__*/
 function () {
-  function ObservableProcessModel(request_) {
-    _classCallCheck(this, ObservableProcessModel);
+  function AbstractProcessModel(request_) {
+    _classCallCheck(this, AbstractProcessModel);
 
     // #### sourceTag: If9EVP5OSPqQZz07Dg_05Q
     var errors = [];
@@ -44,12 +44,12 @@ function () {
     }
 
     if (errors.length) {
-      errors.unshift("ObservableProcessModel::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
+      errors.unshift("AbstractProcessModel::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
       this._private.constructorError = errors.join(" ");
     }
   }
 
-  _createClass(ObservableProcessModel, [{
+  _createClass(AbstractProcessModel, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -82,7 +82,7 @@ function () {
   }, {
     key: "getDataSpec",
     value: function getDataSpec() {
-      return this.isValid() ? this._private.declaration.opmDataSpec : this._private.constructorError;
+      return this.isValid() ? this._private.declaration.ocdDataSpec : this._private.constructorError;
     }
   }, {
     key: "getDigraph",
@@ -91,7 +91,7 @@ function () {
     }
   }]);
 
-  return ObservableProcessModel;
+  return AbstractProcessModel;
 }();
 
-module.exports = ObservableProcessModel;
+module.exports = AbstractProcessModel;

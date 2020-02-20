@@ -24,11 +24,11 @@ module.exports = [{
                 ____types: "jsObject",
                 ____defaultValue: {},
                 ____appdsl: {
-                  opm: "Rgt3dz-6Ra-zqpbnpBrJDg"
+                  apm: "Rgt3dz-6Ra-zqpbnpBrJDg"
                 }
               }
             },
-            observableProcessModelSets: [fixtureOpmExamples],
+            abstractProcessModelSets: [fixtureOpmExamples],
             transitionOperatorSets: [holarchySML.operators.logical],
             controllerActionSets: []
           }
@@ -54,11 +54,11 @@ module.exports = [{
                 ____types: "jsObject",
                 ____defaultValue: {},
                 ____appdsl: {
-                  opm: "Rgt3dz-6Ra-zqpbnpBrJDg"
+                  apm: "Rgt3dz-6Ra-zqpbnpBrJDg"
                 }
               }
             },
-            observableProcessModelSets: [fixtureOpmExamples],
+            abstractProcessModelSets: [fixtureOpmExamples],
             transitionOperatorSets: [holarchySML.operators.logical],
             controllerActionSets: [fixtureActExamples]
           }
@@ -84,11 +84,11 @@ module.exports = [{
                 ____types: "jsObject",
                 ____defaultValue: {},
                 ____appdsl: {
-                  opm: "P-uhpNlrTseMNDG3D9ahRA"
+                  apm: "P-uhpNlrTseMNDG3D9ahRA"
                 }
               }
             },
-            observableProcessModelSets: [fixtureOpmExamples],
+            abstractProcessModelSets: [fixtureOpmExamples],
             transitionOperatorSets: [holarchySML.operators.logical],
             controllerActionSets: [fixtureActExamples]
           }
@@ -114,11 +114,11 @@ module.exports = [{
                 ____types: "jsObject",
                 ____defaultValue: {},
                 ____appdsl: {
-                  opm: "alBMdhnYSbijGj64jxm92g"
+                  apm: "alBMdhnYSbijGj64jxm92g"
                 }
               }
             },
-            observableProcessModelSets: [fixtureOpmExamples],
+            abstractProcessModelSets: [fixtureOpmExamples],
             transitionOperatorSets: [holarchySML.operators.logical],
             controllerActionSets: [fixtureActExamples]
           }

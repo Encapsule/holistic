@@ -1,12 +1,13 @@
 "use strict";
 
-// ObservableProcessModel-frame-latch-declaration.js
-var opmFrameLatchDeclaration = module.exports = {
+// AbstractProcessModel-frame-latch-declaration.js
+// DON'T USE THIS FOR ANYTHING YET! DO NOT DERIVE FROM THIS...
+var apmFrameLatchDeclaration = module.exports = {
   id: "z_mTe02hSWmaM1iRO1pBeA",
-  name: "Observable Frame Latch",
+  name: "Abstract Frame Latch",
   description: "Frame latch provides a way to create a value and attach a model that transitions between waiting and updated process steps whenever the value is written. This allows consumers of the value (other OPM typically) to monitor frame latch process to know when the value is updated so that they can read the new value and do whatever they need to with it.",
-  opmDataSpec: {
-    ____label: "Observable Frame Latch",
+  ocdDataSpec: {
+    ____label: "Abstract Frame Latch",
     ____types: "jsObject",
     ____defaultValue: {},
 

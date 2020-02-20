@@ -46,7 +46,7 @@ module.exports = new holarchy.TransitionOperator({
       inBreakScope = true;
       var message = request_.operatorRequest.holarchy.sml.operators.ocd.array;
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
 
@@ -73,7 +73,7 @@ module.exports = new holarchy.TransitionOperator({
 
         case "[object String]":
           rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-            opmBindingPath: request_.context.opmBindingPath,
+            apmBindingPath: request_.context.apmBindingPath,
             dataPath: message.length.equalToValue
           });
 

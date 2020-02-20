@@ -15,11 +15,11 @@ module.exports = {
     ____accept: "jsObject" // All actionRequests are action-specific descriptor objects.
 
   },
-  opmBindingPath: {
-    ____label: "OPM Binding Path",
-    ____description: "Optional fully-qualified dot-delimited path to an OPM instance binding namespace in the OCD. Defaults to '~' (default for external controller action plug-ins.",
+  apmBindingPath: {
+    ____label: "APM Binding Path",
+    ____description: "Optional fully-qualified dot-delimited path to an APM instance binding namespace in the OCD. Defaults to '~' (default for external controller action plug-ins.",
     ____accept: "jsString",
-    ____defaultValue: "~" // If opmBindingPath is not specified, then the action is bound to the anonymous root namespace of OCD and must resolve its own paths.
+    ____defaultValue: "~" // If apmBindingPath is not specified, then the action is bound to the anonymous root namespace of OCD and must resolve its own paths.
 
   }
 };

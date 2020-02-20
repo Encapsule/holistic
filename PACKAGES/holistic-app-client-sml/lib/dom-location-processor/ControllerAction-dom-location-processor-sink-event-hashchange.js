@@ -6,7 +6,7 @@ var holarchy = require("@encapsule/holarchy");
 module.exports = new holarchy.ControllerAction({
   id: "peTmTek_SB64-ofd_PSGjg",
   name: "DOM Client Location Processor: 'hashchange'",
-  description: "Accepts info about the 'hashchange' event and encapsulates the details of updating the DOM Client Locaiton Processor OPM memory to record the event details.",
+  description: "Accepts info about the 'hashchange' event and encapsulates the details of updating the DOM Client Locaiton Processor APM memory to record the event details.",
   actionRequestSpec: {
     ____types: "jsObject",
     holistic: {
@@ -51,7 +51,7 @@ module.exports = new holarchy.ControllerAction({
       console.log("Current value of location.href is '".concat(location.href, "'")); // Resolve the full path the DOM Location Processor outputs namespace.
 
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#.outputs"
       });
 
@@ -77,7 +77,7 @@ module.exports = new holarchy.ControllerAction({
 
 
       rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#._private"
       });
 
@@ -113,7 +113,7 @@ module.exports = new holarchy.ControllerAction({
         _private.updateObservers = true; // Resolve the full path the DOM Location Processor outputs.currentRoute namespace.
 
         var _rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-          opmBindingPath: request_.context.opmBindingPath,
+          apmBindingPath: request_.context.apmBindingPath,
           dataPath: "#.outputs.currentRoute"
         });
 

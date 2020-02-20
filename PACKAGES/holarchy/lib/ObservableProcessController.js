@@ -161,7 +161,7 @@ function () {
   // should be via public API methods. Do not dereference the _private data
   // namespace or call underscore-prefixed private class methods.
   // ================================================================
-  // Determines if the OPMI is valid or not.
+  // Determines if the OPCI is valid or not.
 
 
   _createClass(ObservableProcessController, [{
@@ -224,7 +224,7 @@ function () {
 
           var controllerActionRequest = {
             context: {
-              opmBindingPath: request.opmBindingPath,
+              apmBindingPath: request.apmBindingPath,
               ocdi: this._private.ocdi,
               act: this.act
             },

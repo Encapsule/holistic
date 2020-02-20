@@ -4,7 +4,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// ObservableProcessModel-client-hash-route-location-processor.js
+// AbstractProcessModel-client-hash-route-location-processor.js
 var routerEventDescriptorSpec = {
   ____types: "jsObject",
   actor: {
@@ -22,11 +22,11 @@ var routerEventDescriptorSpec = {
     ____accept: "jsNumber"
   }
 };
-var opmClientHashRouteLocationProcessor = module.exports = {
+var apmClientHashRouteLocationProcessor = module.exports = {
   id: "-1Ptaq_zTUa8Gfv_3ODtDg",
   name: "DOM Location Processor",
   description: "Hooks and monitors DOM location events and publishes them via an observable frame latch. Also, provids programmatic control over DOM location.",
-  opmDataSpec: {
+  ocdDataSpec: {
     ____label: "Client Hash Route Location Processor",
     ____types: "jsObject",
     ____defaultValue: {},

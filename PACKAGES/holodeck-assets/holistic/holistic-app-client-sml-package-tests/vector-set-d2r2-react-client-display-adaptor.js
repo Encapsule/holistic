@@ -7,12 +7,12 @@ var clientSML = require("@encapsule/holistic-app-client-sml");
 
 module.exports = [{
   id: "zUoUas3CTj2HLDfpNf4NTw",
-  name: "d2r2/React Client Output Processor OPM #1",
-  description: "Attempt to instantiate the current d2r2/React Client Display Adaptor OPM declaration via our test harness.",
+  name: "d2r2/React Client Output Processor APM #1",
+  description: "Attempt to instantiate the current d2r2/React Client Display Adaptor APM declaration via our test harness.",
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           constructorRequest: clientSML.client.test.declaration.d2r2ReactClientDisplayAdaptor
         }
       }
@@ -21,7 +21,7 @@ module.exports = [{
 }, {
   id: "fzuITg9BQbyV7jNv39Gv6w",
   name: "d2r2/React Client Output Processor OPC #1",
-  description: "Attempt to apply the d2r2/React Client Display Adaptor OPM inside of an OPC instance.",
+  description: "Attempt to apply the d2r2/React Client Display Adaptor APM inside of an OPC instance.",
   vectorRequest: {
     holistic: {
       holarchy: {
@@ -29,17 +29,17 @@ module.exports = [{
           constructorRequest: {
             id: "fzuITg9BQbyV7jNv39Gv6w",
             name: "d2r2/React Client Display Adaptor OPC #1",
-            description: "Attempt to apply the d2r2/React Client Display Adaptor OPM inside of an OPC instance.",
+            description: "Attempt to apply the d2r2/React Client Display Adaptor APM inside of an OPC instance.",
             ocdTemplateSpec: {
               ____types: "jsObject",
               d2r2ReactClientOutputProcessor: {
                 ____types: "jsObject",
                 ____appdsl: {
-                  opm: "IxoJ83u0TXmG7PLUYBvsyg"
+                  apm: "IxoJ83u0TXmG7PLUYBvsyg"
                 }
               }
             },
-            observableProcessModelSets: [[clientSML.common.models.core.observableFrameLatch, clientSML.client.models.d2r2ReactClientDisplayAdaptor]],
+            abstractProcessModelSets: [[clientSML.common.models.core.observableFrameLatch, clientSML.client.models.d2r2ReactClientDisplayAdaptor]],
             transitionOperatorSets: [clientSML.common.operators.logical],
             controllerActionSets: [clientSML.common.actions.ocd, clientSML.client.actions.d2r2ReactClientDisplayAdaptor]
           }

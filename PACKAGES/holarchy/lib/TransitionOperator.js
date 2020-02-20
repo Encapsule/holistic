@@ -26,6 +26,8 @@ function () {
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
       this.getFilter = this.getFilter.bind(this);
+      this.getID = this.getID.bind(this);
+      this.getName = this.getName.bind(this);
       var filterResponse = constructorFilter.request(request_);
 
       if (filterResponse.error) {
@@ -51,12 +53,22 @@ function () {
   }, {
     key: "toJSON",
     value: function toJSON() {
-      return this.isValid() ? this._private.filterDescriptor : this._private.constructorError;
+      return this.getFilter();
     }
   }, {
     key: "getFilter",
     value: function getFilter() {
       return this.isValid() ? this._private : this._private.constructorError;
+    }
+  }, {
+    key: "getID",
+    value: function getID() {
+      return this.isValid() ? this._private.filterDescriptor.operationID : this._privateConstructorError;
+    }
+  }, {
+    key: "getName",
+    value: function getName() {
+      return this.isValid() ? this._private.filter.filterDescriptor.operationName : this._privateConstructorError;
     }
   }]);
 

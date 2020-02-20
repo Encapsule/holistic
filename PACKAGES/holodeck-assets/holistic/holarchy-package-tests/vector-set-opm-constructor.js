@@ -2,27 +2,27 @@
 
 module.exports = [{
   id: "ErHlg9R3SSaonNJr4mBi-g",
-  name: "ObservableProcessModel constructor #1",
-  description: "ObservableProcessModel constructor test #1 (undefined constructor request)",
+  name: "AbstractProcessModel constructor #1",
+  description: "AbstractProcessModel constructor test #1 (undefined constructor request)",
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {}
+        AbstractProcessModel: {}
       }
     }
   }
 }, {
   id: "VwWYI4ReSTSfqSnoVXXC-w",
-  name: "ObservableProcessModel constructor #2",
-  description: "ObservableProcessModel constructor test #2 (minimal constructor request)",
+  name: "AbstractProcessModel constructor #2",
+  description: "AbstractProcessModel constructor test #2 (minimal constructor request)",
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           constructorRequest: {
             id: "VwWYI4ReSTSfqSnoVXXC-w",
-            name: "OPM #2",
-            description: "OPM instance test #2 (minimal constructor request)"
+            name: "APM #2",
+            description: "APM instance test #2 (minimal constructor request)"
           }
         }
       }
@@ -31,16 +31,16 @@ module.exports = [{
 }, {
   id: "HwB8EphzRkSG7AeoISMctQ",
   name: "ObsevableProcessModel constructor #3",
-  description: "ObservableProcessModel constructor test #3 (OCD test #1)",
+  description: "AbstractProcessModel constructor test #3 (OCD test #1)",
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           constructorRequest: {
             id: "HwB8EphzRkSG7AeoISMctQ",
             name: "ObsevableProcessModel constructor #3",
-            description: "ObservableProcessModel constructor test #3 (OCD test #1)",
-            opmDataSpec: {
+            description: "AbstractProcessModel constructor test #3 (OCD test #1)",
+            ocdDataSpec: {
               ____bullshit: true
             }
           }
@@ -50,16 +50,16 @@ module.exports = [{
   }
 }, {
   id: "YdzP0ZKMTme24BBJcyKevA",
-  name: "ObservableProcessModel constructor #4",
-  description: "ObservableProcessModel constructor test #4 (invalid id)",
+  name: "AbstractProcessModel constructor #4",
+  description: "AbstractProcessModel constructor test #4 (invalid id)",
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           constructorRequest: {
             id: "invalid",
-            name: "ObservableProcessModel constructor #4",
-            description: "ObservableProcessModel constructor test #4 (invalid id)"
+            name: "AbstractProcessModel constructor #4",
+            description: "AbstractProcessModel constructor test #4 (invalid id)"
           }
         }
       }

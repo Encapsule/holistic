@@ -12,7 +12,7 @@ module.exports = [{
   vectorRequest: {
     holistic: {
       holarchy: {
-        ObservableProcessModel: {
+        AbstractProcessModel: {
           constructorRequest: sml.models.test.declaration.observableFrameLatch
         }
       }
@@ -35,7 +35,7 @@ module.exports = [{
               frameLatch: {
                 ____types: "jsObject",
                 ____appdsl: {
-                  opm: "z_mTe02hSWmaM1iRO1pBeA"
+                  apm: "z_mTe02hSWmaM1iRO1pBeA"
                 },
                 value: {
                   ____accept: "jsString",
@@ -43,7 +43,7 @@ module.exports = [{
                 }
               }
             },
-            observableProcessModelSets: [[sml.models.core.observableFrameLatch]],
+            abstractProcessModelSets: [[sml.models.core.observableFrameLatch]],
             transitionOperatorSets: [sml.operators.logical],
             controllerActionSets: [sml.actions.ocd]
           },

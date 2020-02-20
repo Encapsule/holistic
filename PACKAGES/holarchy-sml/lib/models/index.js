@@ -1,16 +1,16 @@
 "use strict";
 
-var observableFrameLatchDeclaration = require("./declarations/ObservableProcessModel-frame-latch-declaration");
+var abstractFrameLatchDeclaration = require("./declarations/AbstractProcessModel-frame-latch-declaration");
 
-var observableFrameLatch = require("./ObservableProcessModel-frame-latch");
+var abstractFrameLatch = require("./AbstractProcessModel-frame-latch");
 
 var SMLModels = {
   core: {
-    observableFrameLatch: observableFrameLatch
+    observableFrameLatch: abstractFrameLatch
   },
   test: {
     declaration: {
-      observableFrameLatch: observableFrameLatchDeclaration
+      observableFrameLatch: abstractFrameLatchDeclaration
     }
   }
 };

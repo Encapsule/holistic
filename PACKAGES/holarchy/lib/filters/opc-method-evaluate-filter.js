@@ -28,7 +28,7 @@ var consoleStyles = require("../util/console-colors-lut");
 var factoryResponse = arccore.filter.create({
   operationID: "T7PiatEGTo2dbdy8jOMHQg",
   operationName: "OPC Evaluation Filter",
-  operationDescription: "Implements OPC's algorithm for locating and evaluating OPM instances in the OCD shared memory space.",
+  operationDescription: "Implements OPC's algorithm for locating and evaluating APM instances in the OCD shared memory space.",
   inputFilterSpec: opcMethodEvaluateInputSpec,
   outputFilterSpec: opcMethodEvaluateOutputSpec,
   bodyFunction: function bodyFunction(opcEvaluateRequest_) {
@@ -55,7 +55,7 @@ var factoryResponse = arccore.filter.create({
 
     }; // OUTER LOOP (CONTROL FLOW AND ERROR REPORTING)
     //    MIDDLE LOOP (OPCI EVALUATION FRAME)
-    //        INNER LOOP (OPMI EVALUATION FRAME)
+    //        INNER LOOP (APMI EVALUATION FRAME)
     // ****************************************************************
     // Outer loop used to aid flow of control and error reporting.
 
@@ -90,16 +90,16 @@ var factoryResponse = arccore.filter.create({
       var controllerDataSpec = filterResponse.result; // ================================================================
       // OUTER "EVALUATION FRAME" LOOP.
       // An a single call to the _evaluate method comprises a sequence of
-      // one or more evaluation frames during which each bound OPM is evaluated.
-      // Additional frames are added so long one or more OPM transitioned
+      // one or more evaluation frames during which each bound APM is evaluated.
+      // Additional frames are added so long one or more APM transitioned
       // between process steps. Or, until the maximum allowed frames / evaluation
       // limit is surpassed.
 
       while (result.evalFrames.length < opcRef._private.options.evaluate.maxFrames) {
-        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " start OPM instance binding"));
+        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " start APM instance binding"));
         var evalFrame = {
           bindings: {},
-          // <- IRUT : OPM instance frame map
+          // <- IRUT : APM instance frame map
           summary: {
             counts: {
               bindings: 0,
@@ -124,7 +124,7 @@ var factoryResponse = arccore.filter.create({
         var controllerData = filterResponse.result; // ****************************************************************
         // ****************************************************************
         // ****************************************************************
-        // FRAME-SCOPE OPM INSTANCE BINDING
+        // FRAME-SCOPE APM INSTANCE BINDING
         // ****************************************************************
         // ****************************************************************
         // ****************************************************************
@@ -132,7 +132,7 @@ var factoryResponse = arccore.filter.create({
         // on analysis of the controller data's filter specification and the
         // actual controller data values. This occurs at the prologue of the
         // outer evaluation loop in order to track the addition and removal
-        // of OPM-bound objects in the controller data store that may occur
+        // of APM-bound objects in the controller data store that may occur
         // as a side-effect of executing process model step enter and exit
         // actions.
 
@@ -145,7 +145,7 @@ var factoryResponse = arccore.filter.create({
 
         while (namespaceQueue.length) {
           // Retrieve the next record from the queue.
-          var record = namespaceQueue.shift(); // We are searching the controller data for objects that are "bound" (i.e. associated with OPM).
+          var record = namespaceQueue.shift(); // We are searching the controller data for objects that are "bound" (i.e. associated with APM).
           // The value record.dataRef is a reference to the actual data in the OCD we're currently looking at.
 
           var inTypeSetResponse = arccore.types.check.inTypeSet({
@@ -155,26 +155,26 @@ var factoryResponse = arccore.filter.create({
 
           if (inTypeSetResponse.error || !inTypeSetResponse.result) {
             // inTypeSet will respond with an error when asked to evaluate types that are not in the set supported by filter.
-            // So, we ignore these because by definition we don't track these in filter specs. And, what's not tracked cannot be bound to an OPM.
+            // So, we ignore these because by definition we don't track these in filter specs. And, what's not tracked cannot be bound to an APM.
             // But, for types that filter does support, we actually only care to evaluate the two we asked about above;
-            // by definition finding any other type ends the possibility of binding additional OPM on this branch of the controller data tree.
+            // by definition finding any other type ends the possibility of binding additional APM on this branch of the controller data tree.
             continue;
-          } // Determine if the current spec namespace has an OPM binding annotation.
+          } // Determine if the current spec namespace has an APM binding annotation.
 
 
-          if (Object.prototype.toString.call(record.dataRef) === "[object Object]" && !record.specRef.asMap && record.specRef.____appdsl && record.specRef.____appdsl.opm) {
+          if (Object.prototype.toString.call(record.dataRef) === "[object Object]" && !record.specRef.asMap && record.specRef.____appdsl && record.specRef.____appdsl.apm) {
             // We can here safely presume that the following construction-time invariants have been met:
             // - ID is a valid IRUT
-            // - ID IRUT identifies a specific OPM registered with this OPC instance.
-            var opmID = record.specRef.____appdsl.opm; // ****************************************************************
+            // - ID IRUT identifies a specific APM registered with this OPC instance.
+            var apmID = record.specRef.____appdsl.apm; // ****************************************************************
             // ****************************************************************
-            // We found an OPM-bound namespace in the controller data.
+            // We found an APM-bound namespace in the controller data.
 
-            var opmInstanceFrame = {
+            var apmInstanceFrame = {
               evalRequest: {
                 dataBinding: record,
-                initialStep: record.dataRef.__opmiStep,
-                opmRef: opcRef._private.opmMap[opmID]
+                initialStep: record.dataRef.__apmiStep,
+                apmRef: opcRef._private.apmMap[apmID]
               },
               evalResponse: {
                 status: "pending",
@@ -198,11 +198,11 @@ var factoryResponse = arccore.filter.create({
 
             var key = arccore.identifier.irut.fromReference(record.dataPath).result; // Register the new binding the the evalFrame.
 
-            evalFrame.bindings[key] = opmInstanceFrame;
+            evalFrame.bindings[key] = apmInstanceFrame;
             result.summary.counts.bindings++;
             evalFrame.summary.counts.bindings++; // ****************************************************************
             // ****************************************************************
-          } // end if opm binding on current namespace?
+          } // end if apm binding on current namespace?
           // Is the current namespace an array or object used as a map?
 
 
@@ -300,21 +300,21 @@ var factoryResponse = arccore.filter.create({
             }
           }
         } // end while(namespaceQueue.length)
-        // We have completed dynamically locating all instances of OPM-bound data objects in the controller data store and the results are stored in the evalFrame.
+        // We have completed dynamically locating all instances of APM-bound data objects in the controller data store and the results are stored in the evalFrame.
 
 
-        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " end OPM instance binding / start OPM instance evaluation"));
+        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " end APM instance binding / start APM instance evaluation"));
 
         if (errors.length) {
-          // If we encountered any errors locating the cells (OPM instances)
+          // If we encountered any errors locating the cells (APM instances)
           // that we need to evaluate (defines the work to be done in the frame
           // evaluation loop), then we do not execute the frame evaluation loop.
-          console.error("Something that should be impossible occurred. Please file a GibHub issue in the @encapsule/holistic repo including this log. Thank you!");
+          errors.unshift("PLEASE REPORT THE FOLLOWING ERROR AS A BUG:");
           break; // from the outer evaluation loop
         } // ****************************************************************
         // ****************************************************************
         // ****************************************************************
-        // FRAME-SCOPE OPM INSTANCE EVALUATION
+        // FRAME-SCOPE APM INSTANCE EVALUATION
         // ****************************************************************
         // ****************************************************************
         // ****************************************************************
@@ -323,7 +323,7 @@ var factoryResponse = arccore.filter.create({
         // ¯\_(ツ)_/¯ - following along? Hang on for the fun part ...
         //
         // ================================================================
-        // Evaluate each discovered OPM-bound object instance in the controller
+        // Evaluate each discovered APM-bound object instance in the controller
         // data store. Note that we evaluate the model instances in their order
         // of discovery which is somewhat arbitrary as it depends on user-defined
         // controller data filter spec composition. Each model instance is evaluted,
@@ -334,39 +334,52 @@ var factoryResponse = arccore.filter.create({
 
 
         for (var ocdPathIRUT_ in evalFrame.bindings) {
-          // Derefermce the opmInstanceFrame created during phase #0 binding.
-          var _opmInstanceFrame = evalFrame.bindings[ocdPathIRUT_];
-          _opmInstanceFrame.evalResponse.status = "analyzing";
-          var opmBindingPath = _opmInstanceFrame.evalRequest.dataBinding.dataPath;
-          var opmRef = _opmInstanceFrame.evalRequest.opmRef;
-          var initialStep = _opmInstanceFrame.evalRequest.initialStep;
-          var stepDescriptor = opmRef.getStepDescriptor(initialStep);
+          // Derefermce the apmInstanceFrame created during phase #0 binding.
+          var _apmInstanceFrame = evalFrame.bindings[ocdPathIRUT_];
+          _apmInstanceFrame.evalResponse.status = "analyzing";
+          var apmBindingPath = _apmInstanceFrame.evalRequest.dataBinding.dataPath;
+          var apmRef = _apmInstanceFrame.evalRequest.apmRef;
+          var initialStep = _apmInstanceFrame.evalRequest.initialStep;
+          var stepDescriptor = apmRef.getStepDescriptor(initialStep);
 
           if (!stepDescriptor) {
-            // TODO: Send through logger
-            console.warn("No step descriptor in model for [".concat(opmRef.getID(), "::").concat(opmRef.getName(), "] for step '").concat(initialStep, "'. Ignoring."));
-            _opmInstanceFrame.evalResponse.status = "noop";
-            _opmInstanceFrame.evalResponse.finishStep = initialStep;
+            logger.request({
+              logLevel: "warn",
+              opc: {
+                id: opcRef._private.id,
+                iid: opcRef._private.iid,
+                name: opcRef._private.name,
+                evalCount: result.evalNumber,
+                frameCount: result.summary.counts.frames,
+                actorStack: opcRef._private.opcActorStack
+              },
+              subsystem: "opc",
+              method: "evaluate",
+              phase: "body",
+              message: "No step descriptor in model for [".concat(apmRef.getID(), "::").concat(apmRef.getName(), "] for step '").concat(initialStep, "'. Ignoring.")
+            });
+            _apmInstanceFrame.evalResponse.status = "noop";
+            _apmInstanceFrame.evalResponse.finishStep = initialStep;
             continue;
           } // ================================================================
           // ================================================================
           // ================================================================
-          // PHASE 1 - BOUND OPM INSTANCE STEP TRANSITION EVALUATION
+          // PHASE 1 - BOUND APM INSTANCE STEP TRANSITION EVALUATION
           // ================================================================
           // ================================================================
           // ================================================================
-          // Evaluate the OPM instance's step transition ruleset.
+          // Evaluate the APM instance's step transition ruleset.
 
 
-          var nextStep = null; // null (default) indicates that the OPM instance should remain in its current process step (i.e. no transition).
+          var nextStep = null; // null (default) indicates that the APM instance should remain in its current process step (i.e. no transition).
 
-          _opmInstanceFrame.evalResponse.status = "evaluation-check-transitions";
+          _apmInstanceFrame.evalResponse.status = "evaluation-check-transitions";
 
           for (var transitionRuleIndex = 0; transitionRuleIndex < stepDescriptor.transitions.length; transitionRuleIndex++) {
             var transitionRule = stepDescriptor.transitions[transitionRuleIndex];
             var operatorRequest = {
               context: {
-                opmBindingPath: opmBindingPath,
+                apmBindingPath: apmBindingPath,
                 ocdi: opcRef._private.ocdi,
                 transitionDispatcher: opcRef._private.transitionDispatcher
               },
@@ -383,7 +396,7 @@ var factoryResponse = arccore.filter.create({
               };
             }
 
-            _opmInstanceFrame.evalResponse.phases.p1_toperator.push({
+            _apmInstanceFrame.evalResponse.phases.p1_toperator.push({
               request: operatorRequest,
               response: _transitionResponse
             });
@@ -404,51 +417,53 @@ var factoryResponse = arccore.filter.create({
                 phase: "body",
                 message: _transitionResponse.error
               });
+              console.log("Offending operator request:");
               console.warn(operatorRequest);
+              console.log("Registered operator filters:");
               console.warn(opcRef._private.transitionDispatcherFilterMap);
-              _opmInstanceFrame.evalResponse.status = "error";
-              _opmInstanceFrame.evalResponse.errors.p1_toperator++;
-              _opmInstanceFrame.evalResponse.errors.total++;
-              _opmInstanceFrame.evalResponse.finishStep = initialStep;
+              _apmInstanceFrame.evalResponse.status = "error";
+              _apmInstanceFrame.evalResponse.errors.p1_toperator++;
+              _apmInstanceFrame.evalResponse.errors.total++;
+              _apmInstanceFrame.evalResponse.finishStep = initialStep;
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
-              break; // abort evaluation of transition rules for this OPM instance...
+              break; // abort evaluation of transition rules for this APM instance...
             }
 
             if (_transitionResponse.result) {
               // Setup to transition between process steps...
               nextStep = transitionRule.nextStep; // signal a process step transition
 
-              _opmInstanceFrame.evalResponse.status = "transitioning";
-              break; // skip evaluation of subsequent transition rules for this OPM instance.
+              _apmInstanceFrame.evalResponse.status = "transitioning";
+              break; // skip evaluation of subsequent transition rules for this APM instance.
             }
           } // for transitionRuleIndex
           // If we encountered any error during the evaluation of the model step's transition operators
           // skip the remainder of the model evaluation and proceed to the next model in the frame.
 
 
-          if (_opmInstanceFrame.evalResponse.status === "error") {
+          if (_apmInstanceFrame.evalResponse.status === "error") {
             continue;
-          } // If the OPM instance is stable in its current process step, continue on to evaluate the next OPM instance in the eval frame.
+          } // If the APM instance is stable in its current process step, continue on to evaluate the next APM instance in the eval frame.
 
 
           if (!nextStep) {
-            _opmInstanceFrame.evalResponse.status = "noop";
-            _opmInstanceFrame.evalResponse.finishStep = initialStep;
+            _apmInstanceFrame.evalResponse.status = "noop";
+            _apmInstanceFrame.evalResponse.finishStep = initialStep;
             continue;
-          } // Transition the OPM instance to its next process step.
+          } // Transition the APM instance to its next process step.
           // ================================================================
           // ================================================================
           // ================================================================
-          // PHASE 2 - BOUND OPM INSTANCE STEP EXIT DISPATCH
+          // PHASE 2 - BOUND APM INSTANCE STEP EXIT DISPATCH
           // ================================================================
           // ================================================================
           // ================================================================
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = opmRef.getStepDescriptor(nextStep);
+          var nextStepDescriptor = apmRef.getStepDescriptor(nextStep);
           logger.request({
             opc: {
               id: opcRef._private.id,
@@ -461,32 +476,49 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "evaluate",
             phase: "body",
-            message: "Cell [".concat(ocdPathIRUT_, "] (").concat(opmBindingPath, ") OPM transition: { \"").concat(initialStep, "\" => \"").concat(nextStep, "\" }.")
-          }); // Dispatch the OPM instance's step EXIT action(s).
+            message: "Cell [".concat(ocdPathIRUT_, "] (").concat(apmBindingPath, ") APM transition: { \"").concat(initialStep, "\" => \"").concat(nextStep, "\" }.")
+          }); // Dispatch the APM instance's step EXIT action(s).
 
-          _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
+          _apmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
 
           for (var exitActionIndex = 0; exitActionIndex < stepDescriptor.actions.exit.length; exitActionIndex++) {
             var actionRequest = stepDescriptor.actions.exit[exitActionIndex];
             var actionResponse = opcRef.act({
-              actorName: "".concat(opmRef.getID(), "::").concat(ocdPathIRUT_),
-              actorTaskDescription: "EXIT ACTION #".concat(exitActionIndex, ": OPM [").concat(opmRef.getID(), "::").concat(opmRef.getName(), "] step \"").concat(initialStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
+              actorName: "".concat(apmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "EXIT ACTION #".concat(exitActionIndex, ": APM [").concat(apmRef.getID(), "::").concat(apmRef.getName(), "] step \"").concat(initialStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: actionRequest,
-              opmBindingPath: opmBindingPath
+              apmBindingPath: apmBindingPath
             });
 
-            _opmInstanceFrame.evalResponse.phases.p2_exit.push({
+            _apmInstanceFrame.evalResponse.phases.p2_exit.push({
               request: actionRequest,
               response: actionResponse
             });
 
             if (actionResponse.error) {
-              // TODO: Send through logger
-              console.error(actionResponse.error);
-              _opmInstanceFrame.evalResponse.status = "error";
-              _opmInstanceFrame.evalResponse.errors.p2_exit++;
-              _opmInstanceFrame.evalResponse.errors.total++;
-              _opmInstanceFrame.evalResponse.finishStep = initialStep;
+              logger.request({
+                logLevel: "error",
+                opc: {
+                  id: opcRef._private.id,
+                  iid: opcRef._private.iid,
+                  name: opcRef._private.name,
+                  evalCount: result.evalNumber,
+                  frameCount: result.summary.counts.frames,
+                  actorStack: opcRef._private.opcActorStack
+                },
+                subsystem: "opc",
+                method: "evaluate",
+                phase: "body",
+                message: actionResponse.error
+              });
+              console.log("Failed EXIT action request:");
+              console.warn(actionRequest);
+              console.log("Registered controller action plug-ins:");
+              console.warn(opcRef._private.actionDispatcherFilterMap);
+              _apmInstanceFrame.evalResponse.status = "error";
+              _apmInstanceFrame.evalResponse.errors.p2_exit++;
+              _apmInstanceFrame.evalResponse.errors.total++;
+              _apmInstanceFrame.evalResponse.finishStep = initialStep;
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
@@ -496,42 +528,59 @@ var factoryResponse = arccore.filter.create({
           // If we encountered any error during the evaluation of the cell's exit actions, skip further eval of this cell and continue to the next cell in the frame.
 
 
-          if (_opmInstanceFrame.evalResponse.status === "error") {
+          if (_apmInstanceFrame.evalResponse.status === "error") {
             continue;
           } // ================================================================
           // ================================================================
           // ================================================================
-          // PHASE 3 - BOUND OPM INSTANCE STEP ENTER DISPATCH
+          // PHASE 3 - BOUND APM INSTANCE STEP ENTER DISPATCH
           // ================================================================
           // ================================================================
           // ================================================================
-          // Dispatch the OPM instance's step enter action(s).
+          // Dispatch the APM instance's step enter action(s).
 
 
-          _opmInstanceFrame.evalResponse.status = "transitioning-dispatch-enter-actions";
+          _apmInstanceFrame.evalResponse.status = "transitioning-dispatch-enter-actions";
 
           for (var enterActionIndex = 0; enterActionIndex < nextStepDescriptor.actions.enter.length; enterActionIndex++) {
             var _actionRequest = nextStepDescriptor.actions.enter[enterActionIndex];
 
             var _actionResponse = opcRef.act({
-              actorName: "".concat(opmRef.getID(), "::").concat(ocdPathIRUT_),
-              actorTaskDescription: "ENTER ACTION #".concat(enterActionIndex, ": OPM [").concat(opmRef.getID(), "::").concat(opmRef.getName(), "] step \"").concat(nextStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
+              actorName: "".concat(apmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "ENTER ACTION #".concat(enterActionIndex, ": APM [").concat(apmRef.getID(), "::").concat(apmRef.getName(), "] step \"").concat(nextStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: _actionRequest,
-              opmBindingPath: opmBindingPath
+              apmBindingPath: apmBindingPath
             });
 
-            _opmInstanceFrame.evalResponse.phases.p3_enter.push({
+            _apmInstanceFrame.evalResponse.phases.p3_enter.push({
               request: _actionRequest,
               response: _actionResponse
             });
 
             if (_actionResponse.error) {
-              // TODO: Send through logger
-              console.error(_actionResponse.error);
-              _opmInstanceFrame.evalResponse.status = "error";
-              _opmInstanceFrame.evalResponse.errors.p3_enter++;
-              _opmInstanceFrame.evalResponse.errors.total++;
-              _opmInstanceFrame.evalResponse.finishStep = initialStep;
+              logger.request({
+                logLevel: "error",
+                opc: {
+                  id: opcRef._private.id,
+                  iid: opcRef._private.iid,
+                  name: opcRef._private.name,
+                  evalCount: result.evalNumber,
+                  frameCount: result.summary.counts.frames,
+                  actorStack: opcRef._private.opcActorStack
+                },
+                subsystem: "opc",
+                method: "evaluate",
+                phase: "body",
+                message: _actionResponse.error
+              });
+              console.log("Failed ENTER action request:");
+              console.warn(_actionRequest);
+              console.log("Registered controller action plug-ins:");
+              console.warn(opcRef._private.actionDispatcherFilterMap);
+              _apmInstanceFrame.evalResponse.status = "error";
+              _apmInstanceFrame.evalResponse.errors.p3_enter++;
+              _apmInstanceFrame.evalResponse.errors.total++;
+              _apmInstanceFrame.evalResponse.finishStep = initialStep;
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
@@ -540,48 +589,61 @@ var factoryResponse = arccore.filter.create({
           // If we encountered any error during the evaluation of the cell's enter actions, skip further eval of the cell and continue to the next cell in the frame.
 
 
-          if (_opmInstanceFrame.evalResponse.status === "error") {
+          if (_apmInstanceFrame.evalResponse.status === "error") {
             continue;
           } // ================================================================
           // ================================================================
           // ================================================================
-          // PHASE 4 - BOUND OPM INSTANCE STEP TRANSITION FINALIZE
+          // PHASE 4 - BOUND APM INSTANCE STEP TRANSITION FINALIZE
           // ================================================================
           // ================================================================
           // ================================================================
-          // Update the OPM instance's __opmiStep flag in the controller data store.
+          // Update the APM instance's __apmiStep flag in the controller data store.
 
 
-          _opmInstanceFrame.evalResponse.status = "transitioning-finalize";
+          _apmInstanceFrame.evalResponse.status = "transitioning-finalize";
 
-          var transitionResponse = opcRef._private.ocdi.writeNamespace("".concat(opmBindingPath, ".__opmiStep"), nextStep);
+          var transitionResponse = opcRef._private.ocdi.writeNamespace("".concat(apmBindingPath, ".__apmiStep"), nextStep);
 
-          _opmInstanceFrame.evalResponse.phases.p4_finalize = transitionResponse;
+          _apmInstanceFrame.evalResponse.phases.p4_finalize = transitionResponse;
 
           if (transitionResponse.error) {
-            // TODO: Send through logger
-            console.error(transitionResponse.error);
-            _opmInstanceFrame.evalResponse.status = "error";
-            _opmInstanceFrame.evalResponse.errors.p4_finalize++;
-            _opmInstanceFrame.evalResponse.errors.total++;
-            _opmInstanceFrame.evalResponse.finishStep = initialStep;
+            logger.request({
+              logLevel: "error",
+              opc: {
+                id: opcRef._private.id,
+                iid: opcRef._private.iid,
+                name: opcRef._private.name,
+                evalCount: result.evalNumber,
+                frameCount: result.summary.counts.frames,
+                actorStack: opcRef._private.opcActorStack
+              },
+              subsystem: "opc",
+              method: "evaluate",
+              phase: "body",
+              message: transitionResponse.error
+            });
+            _apmInstanceFrame.evalResponse.status = "error";
+            _apmInstanceFrame.evalResponse.errors.p4_finalize++;
+            _apmInstanceFrame.evalResponse.errors.total++;
+            _apmInstanceFrame.evalResponse.finishStep = initialStep;
             evalFrame.summary.counts.errors++;
             evalFrame.summary.reports.errors.push(ocdPathIRUT_);
             result.summary.counts.errors++;
           } else {
-            _opmInstanceFrame.evalResponse.status = "transitioned";
+            _apmInstanceFrame.evalResponse.status = "transitioned";
             evalFrame.summary.counts.transitions++;
             evalFrame.summary.reports.transitions.push(ocdPathIRUT_);
             result.summary.counts.transitions++;
-            _opmInstanceFrame.evalResponse.finishStep = nextStep;
+            _apmInstanceFrame.evalResponse.finishStep = nextStep;
           }
-        } // opmBindingPath in evalFrame
+        } // apmBindingPath in evalFrame
 
 
-        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " end OPM instance evaluation"));
+        evalStopwatch.mark("frame ".concat(result.evalFrames.length, " end APM instance evaluation"));
         result.evalFrames.push(evalFrame);
         result.summary.counts.frames++; // ================================================================
-        // If any of the OPM instance's in the just-completed eval frame transitioned, add another eval frame.
+        // If any of the APM instance's in the just-completed eval frame transitioned, add another eval frame.
         // Otherwise exit the outer eval loop and conclude the OPC evaluation algorithm.
 
         /*
@@ -593,7 +655,7 @@ var factoryResponse = arccore.filter.create({
         */
 
         if (!evalFrame.summary.counts.transitions) {
-          // Exit the frame loop when the evaluation of the last frame resulted in no OPMI step transitions.
+          // Exit the frame loop when the evaluation of the last frame resulted in no APMI step transitions.
           break;
         }
       } // while outer frame evaluation loop (counted and limited to catch non-halting model constructs)
@@ -612,10 +674,10 @@ var factoryResponse = arccore.filter.create({
       response.error = errors.join(" "); // override response.error with a string value. by filter convention, this means that response.result is invalid.
     } // Note that in all cases the response descriptor object returned by ObservableProcessController:_evaluate is informational.
     // If !response.error (i.e. no error) then the following is true:
-    // - There were no errors encountered while dynamically binding OPM instances in OCD.
-    // - There were no errors encountered during OPM instance evaluation including transition evaluations, and consequent action request dispatches.
+    // - There were no errors encountered while dynamically binding APM instances in OCD.
+    // - There were no errors encountered during APM instance evaluation including transition evaluations, and consequent action request dispatches.
     // - This does not mean that your operator and action filters are correct.
-    // - This does not mean that your OPM's encode what you think they do.
+    // - This does not mean that your APM's encode what you think they do.
 
 
     result.summary.evalStopwatch = evalStopwatch.stop();

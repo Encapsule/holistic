@@ -12,7 +12,7 @@ module.exports = [{
         ObservableProcessController: {
           constructorRequest: {
             id: "4nw2B9oVQYm1ZspZqotrRA",
-            observableProcessModelSets: [opmSetExamples]
+            abstractProcessModelSets: [opmSetExamples]
           }
         }
       }

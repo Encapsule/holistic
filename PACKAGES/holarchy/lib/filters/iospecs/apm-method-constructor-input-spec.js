@@ -1,9 +1,9 @@
 "use strict";
 
-// opc-method-constructor-input-spec.js
+// apm-method-constructor-input-spec.js
 module.exports = {
-  ____label: "App State Subcontroller Factory Request",
-  ____description: "Declaration of a application state controller's finite state machine model.",
+  ____label: "Abstract Process Model Descriptor",
+  ____description: "Declaration of an Abstract Process Model passed as input to AbstractProcessModel::constructor function.",
   ____types: "jsObject",
   id: {
     ____label: "Controller ID",
@@ -20,9 +20,9 @@ module.exports = {
     ____description: "A short description of the function or subsystem that this controller models to help developers understand the application state system model partitioning.",
     ____accept: "jsString"
   },
-  opmDataSpec: {
+  ocdDataSpec: {
     ____label: "Runtime Data Spec",
-    ____description: "A filter spec that defines this OPM's required base properties. At runtime, OCP merges this information w/developer defined props and uses this merge to constrain OCDI.",
+    ____description: "A filter spec that defines this APM's required base properties. At runtime, OCP merges this information w/developer defined props and uses this merge to constrain OCDI.",
     ____accept: "jsObject",
     ____defaultValue: {
       ____types: "jsObject"
@@ -46,10 +46,10 @@ module.exports = {
       },
       actions: {
         ____label: "Step Transition Actions (optional)",
-        ____description: "Optional action requests to execute when this OPM transitions in and out of this process step.",
+        ____description: "Optional action requests to execute when this APM transitions in and out of this process step.",
         ____types: "jsObject",
         ____defaultValue: {},
-        // ~.steps.stepName.actions.enter is a queue of messages that models a sequence of deferred procedure calls (DPC) dispatched when the Observable Process Mode (OPM) transitions from one step to another at runtime.
+        // ~.steps.stepName.actions.enter is a queue of messages that models a sequence of deferred procedure calls (DPC) dispatched when the Observable Process Mode (APM) transitions from one step to another at runtime.
         enter: {
           ____label: "Step Enter Actions Vector (optional)",
           ____description: "Optional array of action request objects to be dispatched in the order of declaration by the OPC upon entry into this process step.",
@@ -62,7 +62,7 @@ module.exports = {
           }
         },
         // enter
-        // ~.steps.stepName.actions.exit is a queue of messages that models a sequence of deferred procedure calls (DPC) dispatched when the Observable Process Model (OPM) transitions from one step to another at runtime.
+        // ~.steps.stepName.actions.exit is a queue of messages that models a sequence of deferred procedure calls (DPC) dispatched when the Observable Process Model (APM) transitions from one step to another at runtime.
         exit: {
           ____label: "Step Exit Actions Vector (optional)",
           ____description: "Optional array of action request objects to be dispatched in the order of declaration by the OPC upon exit from this process step.",
@@ -78,7 +78,7 @@ module.exports = {
         }
       },
       // ~.step.stepName.actions
-      // ~.steps.stepName.transitions is a queue of messages that models a sequence of deferred proceedure calls (DPC) dispatched when the Observable Process Model (OPM) is evaluated at runtime.
+      // ~.steps.stepName.transitions is a queue of messages that models a sequence of deferred proceedure calls (DPC) dispatched when the Observable Process Model (APM) is evaluated at runtime.
       transitions: {
         ____label: "Controller Step Transition Rules (optional)",
         ____description: "An optional array of transition rules for this process step to be evaluated by the OPC during action processing.",
@@ -90,7 +90,7 @@ module.exports = {
           ____types: "jsObject",
           transitionIf: {
             ____label: "Transition Operator Request Object",
-            ____description: "A transition operator request object dispatched by the OPC to determine if this OPM should transition between process steps.",
+            ____description: "A transition operator request object dispatched by the OPC to determine if this APM should transition between process steps.",
             ____accept: "jsObject"
           },
           nextStep: {
@@ -106,4 +106,4 @@ module.exports = {
     } // steps
 
   }
-}; // opm-method-constructor-input-spec
+}; // apm-method-constructor-input-spec

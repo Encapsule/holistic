@@ -6,19 +6,19 @@ var arccore = require("@encapsule/arccore");
 var factoryResponse = arccore.filter.create({
   operationID: "RNUkdw8VT8WLz5H_i-SwYg",
   operationName: "Data Path Resolve Filter",
-  operationDescription: "Optionally converts an OPM binding path-relative path to a fully-qualified OCD path.",
+  operationDescription: "Optionally converts an APM binding path-relative path to a fully-qualified OCD path.",
   inputFilterSpec: {
     ____label: "Data Path Resolve Request",
-    ____description: "Creates a full-qualified OCD data path given a full-qualified OPM binding path, and binding-relative path.",
+    ____description: "Creates a full-qualified OCD data path given a full-qualified APM binding path, and binding-relative path.",
     ____types: "jsObject",
-    opmBindingPath: {
-      ____label: "OPM Binding Path",
-      ____description: "The fully-qualified OCD path associated with an OPM instance in the OCD.",
+    apmBindingPath: {
+      ____label: "APM Binding Path",
+      ____description: "The fully-qualified OCD path associated with an APM instance in the OCD.",
       ____accept: "jsString"
     },
     dataPath: {
       ____label: "Resolve Path",
-      ____description: "A fully-qualified OCD path. Or, a relative path to be converted by this filter using opmBindingPath.",
+      ____description: "A fully-qualified OCD path. Or, a relative path to be converted by this filter using apmBindingPath.",
       ____accept: "jsString"
     }
   },
@@ -39,7 +39,7 @@ var factoryResponse = arccore.filter.create({
 
       if (!request_.dataPath.startsWith("#")) {
         if (!request_.dataPath.startsWith("~")) {
-          errors.push("Invalid dataPath '".concat(request_.dataPath, "' must be fully-qualified (begins w/'~'). Or, relative to the OPM binding path (begins w/'#')."));
+          errors.push("Invalid dataPath '".concat(request_.dataPath, "' must be fully-qualified (begins w/'~'). Or, relative to the APM binding path (begins w/'#')."));
           break;
         }
 
@@ -47,14 +47,14 @@ var factoryResponse = arccore.filter.create({
         break;
       }
 
-      if (!request_.opmBindingPath.startsWith("~")) {
-        errors.push("Invalid opmBindingPath '".concat(request_.opmBindingPath, "' must be fully-qualified (begins w/'~')."));
+      if (!request_.apmBindingPath.startsWith("~")) {
+        errors.push("Invalid apmBindingPath '".concat(request_.apmBindingPath, "' must be fully-qualified (begins w/'~')."));
         break;
       }
 
-      var bindPathTokens = request_.opmBindingPath.split(".");
+      var bindPathTokens = request_.apmBindingPath.split(".");
       var dataPathTokens = request_.dataPath.split(".");
-      dataPathTokens.shift(); // dump the leading # that represents the opmBindingPath
+      dataPathTokens.shift(); // dump the leading # that represents the apmBindingPath
 
       while (dataPathTokens.length) {
         var dataPathToken = dataPathTokens.shift();

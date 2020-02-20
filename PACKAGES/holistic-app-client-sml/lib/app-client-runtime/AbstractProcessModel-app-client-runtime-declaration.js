@@ -1,11 +1,11 @@
 "use strict";
 
-// ObservableProcessModel-app-client-kernel-declaration.js
+// AbstractProcessModel-app-client-kernel-declaration.js
 module.exports = {
   id: "PPL45jw5RDWSMNsB97WIWg",
   name: "Holistic Client App Runtime",
   description: "This model manages, tracks, and controls the lifecycle of the client application.",
-  opmDataSpec: {
+  ocdDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
     "PPL45jw5RDWSMNsB97WIWg": {
@@ -42,10 +42,12 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                runtime: {
-                  private: {
+                sml: {
+                  HolisticAppClient: {
                     actions: {
-                      hookEvents: true
+                      _private: {
+                        hookEvents: true
+                      }
                     }
                   }
                 }
@@ -64,21 +66,8 @@ module.exports = {
     boot1_start_kernel: {
       description: "Start core client app kernel subsystems.",
       actions: {
-        enter: [{
-          holistic: {
-            app: {
-              client: {
-                runtime: {
-                  private: {
-                    actions: {
-                      startKernel: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
+        enter: [// { holistic: { app: { client: { runtime: { private: { actions: { startKernel: true } } } } } } }
+        ]
       },
       transitions: [{
         transitionIf: {
@@ -90,21 +79,8 @@ module.exports = {
     boot2_query_derived: {
       description: "Query the derived client app for information required to initialize the core client app runtime.",
       actions: {
-        enter: [{
-          holistic: {
-            app: {
-              client: {
-                runtime: {
-                  private: {
-                    actions: {
-                      queryDerivedAppConfig: true
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
+        enter: [// { holistic: { app: { client: { runtime: { private: { actions: { queryDerivedAppConfig: true } } } } } } }
+        ]
       },
       transitions: [{
         transitionIf: {

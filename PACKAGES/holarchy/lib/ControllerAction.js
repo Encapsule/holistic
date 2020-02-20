@@ -24,6 +24,8 @@ function () {
     this.isValid = this.isValid.bind(this);
     this.toJSON = this.toJSON.bind(this);
     this.getFilter = this.getFilter.bind(this);
+    this.getID = this.getID.bind(this);
+    this.getName = this.getName.bind(this);
 
     while (!inBreakScope) {
       inBreakScope = true;
@@ -52,20 +54,22 @@ function () {
   }, {
     key: "toJSON",
     value: function toJSON() {
-      if (!this.isValid()) {
-        return this._private.constructorError;
-      }
-
-      return this._private.filterDescriptor;
+      return this.getFilter();
     }
   }, {
     key: "getFilter",
     value: function getFilter() {
-      if (!this.isValid()) {
-        return this._private.constructorError;
-      }
-
-      return this._private;
+      return this.isValid() ? this._private : this._private.constructorError;
+    }
+  }, {
+    key: "getID",
+    value: function getID() {
+      return this.isValid() ? this._private.filterDescriptor.operationID : this._private.constructorError;
+    }
+  }, {
+    key: "getName",
+    value: function getName() {
+      return this.isValid() ? this._private.filterDescriptor.operationName : this._private.constructorError;
     }
   }]);
 

@@ -39,7 +39,7 @@ module.exports = new holarchy.TransitionOperator({
       inBreakScope = true;
       var message = request_.operatorRequest.holarchy.sml.operators.ocd.isNamespaceTruthy;
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
 

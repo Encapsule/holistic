@@ -2,9 +2,9 @@
     "name": "@encapsule/holism",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "7iQT_OrST8uVF1QuNJWEJw",
-    "buildTime": 1581556757,
-    "buildSource": "19a7500adce4b27a61e77db731bb051baf754f0e",
+    "buildID": "cxyDn9EfQHaWrH6sH8Z1Yw",
+    "buildTime": 1582156896,
+    "buildSource": "04e20c430a7663aac2b62de657cdf1d7f84b75a1",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -38,6 +38,6 @@
     ],
     "main": "index.js",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.8"
+        "@encapsule/arccore": "0.1.9"
     }
 }

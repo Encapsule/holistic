@@ -6,7 +6,7 @@ var holarchy = require("@encapsule/holarchy");
 module.exports = new holarchy.ControllerAction({
   id: "iyvk_9vhRn2qvrjOes5v7Q",
   name: "Frame Latch: Write",
-  description: "Writes the value made observable by frame latch OPM instance.",
+  description: "Writes the value made observable by frame latch APM instance.",
   actionRequestSpec: {
     ____types: "jsObject",
     holarchy: {
@@ -49,7 +49,7 @@ module.exports = new holarchy.ControllerAction({
       inBreakScope = true;
       var message = request_.actionRequest.holarchy.sml.actions.frameLatch.write;
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
 
@@ -58,8 +58,8 @@ module.exports = new holarchy.ControllerAction({
         break;
       }
 
-      var opmBindingPath = rpResponse.result;
-      var ocdResponse = request_.context.ocdi.writeNamespace("".concat(opmBindingPath, ".value"), message.value);
+      var apmBindingPath = rpResponse.result;
+      var ocdResponse = request_.context.ocdi.writeNamespace("".concat(apmBindingPath, ".value"), message.value);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
@@ -82,7 +82,7 @@ module.exports = new holarchy.ControllerAction({
             }
           }
         },
-        opmBindingPath: opmBindingPath
+        apmBindingPath: apmBindingPath
       });
 
       if (setClockResponse.error) {

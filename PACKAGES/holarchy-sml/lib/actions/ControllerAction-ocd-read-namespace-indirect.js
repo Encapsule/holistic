@@ -45,7 +45,7 @@ module.exports = new holarchy.ControllerAction({
       inBreakScope = true;
       var message = request_.actionRequest.holarchy.sml.actions.ocd.readNamespaceIndirect;
       var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path2
       });
 
@@ -56,7 +56,7 @@ module.exports = new holarchy.ControllerAction({
 
       var targetPath2 = rpResponse.result;
       rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-        opmBindingPath: request_.context.opmBindingPath,
+        apmBindingPath: request_.context.apmBindingPath,
         dataPath: targetPath2
       });
 

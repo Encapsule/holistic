@@ -85,7 +85,7 @@ module.exports = new holarchy.TransitionOperator({
         operandA = message.a.value;
       } else {
         rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-          opmBindingPath: request_.context.opmBindingPath,
+          apmBindingPath: request_.context.apmBindingPath,
           dataPath: message.a.path
         });
 
@@ -111,7 +111,7 @@ module.exports = new holarchy.TransitionOperator({
         operandB = message.b.value;
       } else {
         rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-          opmBindingPath: request_.context.opmBindingPath,
+          apmBindingPath: request_.context.apmBindingPath,
           dataPath: message.b.path
         });
 

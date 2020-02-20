@@ -41,7 +41,7 @@ var opcEvalResultSpec = {
       },
       transitions: {
         ____label: "Total Transitions",
-        ____description: "Total number of OPM instances.",
+        ____description: "Total number of APM instances.",
         ____accept: "jsNumber"
       } // counts
 
@@ -54,7 +54,7 @@ var opcEvalResultSpec = {
     ____types: "jsArray",
     evalFrame: {
       ____label: "OPC Evaluation Frame",
-      ____description: "An evaluation frame comprises some outer summary information. And, a map of OPM instances evaluated during the frame.",
+      ____description: "An evaluation frame comprises some outer summary information. And, a map of APM instances evaluated during the frame.",
       ____types: "jsObject",
       summary: {
         ____types: "jsObject",
@@ -62,12 +62,12 @@ var opcEvalResultSpec = {
           ____types: "jsObject",
           bindings: {
             ____label: "Total Bindings",
-            ____description: "Total number of OPM instances discovered and bound for evaluation.",
+            ____description: "Total number of APM instances discovered and bound for evaluation.",
             ____accept: "jsNumber"
           },
           transitions: {
             ____label: "Total Transitions",
-            ____description: "Total number of bound OPM instances that transitioned from one process step to another in this frame.",
+            ____description: "Total number of bound APM instances that transitioned from one process step to another in this frame.",
             ____accept: "jsNumber"
           },
           errors: {
@@ -79,20 +79,20 @@ var opcEvalResultSpec = {
         reports: {
           ____types: "jsObject",
           transitions: {
-            ____label: "Transitioned OPM Instances",
-            ____description: "An array of the OPM instances that transitioned in this frame.",
+            ____label: "Transitioned APM Instances",
+            ____description: "An array of the APM instances that transitioned in this frame.",
             ____types: "jsArray",
             element: {
-              ____label: "OPM Instance IRUT",
+              ____label: "APM Instance IRUT",
               ____accept: "jsString"
             }
           },
           errors: {
-            ____label: "Failed OPM Instances",
-            ____description: "An array of the OPM instances that reported an error in this frame.",
+            ____label: "Failed APM Instances",
+            ____description: "An array of the APM instances that reported an error in this frame.",
             ____types: "jsArray",
             element: {
-              ____label: "OPM Instance IRUT",
+              ____label: "APM Instance IRUT",
               ____accept: "jsString"
             }
           }
@@ -100,34 +100,34 @@ var opcEvalResultSpec = {
       },
       // summary
       bindings: {
-        ____label: "OPM Instance Binding Map",
-        ____description: "A map that relates the CDS pathnames to bound OPM instances evaluated during this frame.",
+        ____label: "APM Instance Binding Map",
+        ____description: "A map that relates the OCD pathnames to bound APM instances evaluated during this frame.",
         ____types: "jsObject",
         ____asMap: true,
-        // This is the filter-style dot-delimited absolute path to the OPM instance's backing data in the CDS.
-        cdsDataPathIRUT: {
-          ____label: "OPM Instance Frame",
-          ____description: "A descriptor object that models the output of the OPM instance frame.",
+        // This is the filter-style dot-delimited absolute path to the APM instance's backing data in the OCD.
+        ocdDataPathIRUT: {
+          ____label: "APM Instance Frame",
+          ____description: "A descriptor object that models the output of the APM instance frame.",
           ____types: "jsObject",
           evalRequest: {
-            ____label: "OPM Instance Evaluation Context",
-            ____description: "A descriptor object that models the input to the OPM instance evaluation algorithm.",
+            ____label: "APM Instance Evaluation Context",
+            ____description: "A descriptor object that models the input to the APM instance evaluation algorithm.",
             ____types: "jsObject",
             dataBinding: {
-              ____label: "OPM Instance Binding",
-              ____description: "A descriptor object that models that information required to evaluate the OPM instance against it's binding namespace in the CDS.",
+              ____label: "APM Instance Binding",
+              ____description: "A descriptor object that models that information required to evaluate the APM instance against it's binding namespace in the OCD.",
               ____types: "jsObject",
               dataPath: {
                 ____label: "Data Binding Path",
-                ____description: "A filter-style dot-delimited namespace path URI referencing this OPM instance's shared data object in the CDS.",
+                ____description: "A filter-style dot-delimited namespace path URI referencing this APM instance's shared data object in the OCD.",
                 ____accept: "jsString"
               },
 
               /* Clip this reference into the CDS out of the response.result
               dataRef: {
                   ____label: "Data Binding Reference",
-                  ____description: "A reference to the CDS data namespace bound to this OPM instance (always a descriptor object).",
-                  ____accept: "jsObject" // This will always be an object because OPM instances may only be bound to objects used has descriptors (as opposed to a dictionary/map/associative array)
+                  ____description: "A reference to the CDS data namespace bound to this APM instance (always a descriptor object).",
+                  ____accept: "jsObject" // This will always be an object because APM instances may only be bound to objects used has descriptors (as opposed to a dictionary/map/associative array)
               },
               */
               specPath: {
@@ -146,36 +146,36 @@ var opcEvalResultSpec = {
             },
             initialStep: {
               ____label: "Initial Step",
-              ____description: "The initial process step this OPM instance was found to be in at the beginning of the evaluation frame.",
+              ____description: "The initial process step this APM instance was found to be in at the beginning of the evaluation frame.",
               ____accept: "jsString"
             },
-            opmRef: {
-              ____label: "OPM Reference",
+            apmRef: {
+              ____label: "APM Reference",
               ____description: "A reference to the ObservableProcessModel instance bound to this data namespace in the CDS.",
               ____accept: "jsObject"
             }
           },
           evalResponse: {
-            ____label: "OPM Instance Evaluation Response",
-            ____description: "A descriptor object that models the detailed output of the OPM instance evaluation frame algorithm suitable for use in development tools.",
+            ____label: "APM Instance Evaluation Response",
+            ____description: "A descriptor object that models the detailed output of the APM instance evaluation frame algorithm suitable for use in development tools.",
             ____types: "jsObject",
             status: {
-              ____label: "OPM Frame Status",
-              ____description: "A string enumeration similar to a process step name indicating the status of this specific OPM instance evaluation in the context of this evaluation frame.",
+              ____label: "APM Frame Status",
+              ____description: "A string enumeration similar to a process step name indicating the status of this specific APM instance evaluation in the context of this evaluation frame.",
               ____accept: "jsString",
               ____inValueSet: ["pending", "analyzing", "noop", "transitioning", "transitioned", "error"]
             },
             // status
             finishStep: {
               ____label: "Finish Step",
-              ____description: "The final process step this OPM instance was left in at the end of the evaluation frame.",
+              ____description: "The final process step this APM instance was left in at the end of the evaluation frame.",
               ____accept: "jsString"
             },
             // finishStep
             phases: {
               ____types: "jsObject",
               p1_toperator: {
-                // OPM step transition operator request message dispatch response sequence
+                // APM step transition operator request message dispatch response sequence
                 ____types: "jsArray",
                 evalDescriptor: {
                   ____accept: "jsObject" // TODO complete this
@@ -184,7 +184,7 @@ var opcEvalResultSpec = {
               },
               // p1
               p2_exit: {
-                // OPM step exit action request message dispatch response sequence
+                // APM step exit action request message dispatch response sequence
                 ____types: "jsArray",
                 evalDescriptor: {
                   ____accept: "jsObject" // TODO complete this
@@ -193,7 +193,7 @@ var opcEvalResultSpec = {
               },
               // p2
               p3_enter: {
-                // OPM step enter action request message dispatch response sequence
+                // APM step enter action request message dispatch response sequence
                 ____types: "jsArray",
                 evalDescriptor: {
                   ____accept: "jsObject" // TODO complete this
@@ -202,7 +202,7 @@ var opcEvalResultSpec = {
               },
               // p3
               p4_finalize: {
-                // OPM step transition finalize response
+                // APM step transition finalize response
                 ____accept: ["jsObject", "jsNull"] // TODO: Finish this filter response spec
                 // p4
 
