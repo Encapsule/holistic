@@ -2,9 +2,9 @@
     "name": "@encapsule/holistic-app-server-sml",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "cxyDn9EfQHaWrH6sH8Z1Yw",
-    "buildTime": 1582156896,
-    "buildSource": "04e20c430a7663aac2b62de657cdf1d7f84b75a1",
+    "buildID": "1Wn7aWcZSUeTmnvy2KIiag",
+    "buildTime": 1582309045,
+    "buildSource": "e5ed0ce58eb460a6bd4ae14fc971a3db30429045",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"

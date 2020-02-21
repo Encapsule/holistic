@@ -9,6 +9,17 @@ var packageMeta = require("./package.json");
 
 var softwareModelLibrary = require("./lib");
 
+var holarchy = require("@encapsule/holarchy");
+
+var cellModel = new holarchy.CellModel({
+  id: "aFiXgSXQSkSuvxHnQ3uoqg",
+  name: "Holarchy Core Runtime",
+  description: "Low-level abstract process models, transition operators, and controller actions.",
+  // apm: {}
+  operators: [],
+  actions: [],
+  subcells: []
+});
 module.exports = _objectSpread({
   __meta: {
     author: packageMeta.author,

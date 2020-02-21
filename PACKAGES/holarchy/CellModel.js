@@ -29,7 +29,10 @@ function () {
       };
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
-      var filterResponse = void 0;
+      this.getID = this.getID.bind(this);
+      this.getName = this.getName.bind(this);
+      this.getDescription = this.getDescription.bind(this);
+      var filterResponse = void 0; // If the caller didn't pass an object, just pass it through to the constructor filter which will fail w/correct error message.
 
       if (!request_ || Object.prototype.toString.call(request_) !== "[object Object]") {
         filterResponse = constructorFilter.request(request_);
@@ -64,6 +67,21 @@ function () {
     key: "toJSON",
     value: function toJSON() {
       return this.isValid() ? this._private : this._private.constructorError;
+    }
+  }, {
+    key: "getID",
+    value: function getID() {
+      return this.isValid() ? this._private.id : this._private.constructorError;
+    }
+  }, {
+    key: "getName",
+    value: function getName() {
+      return this.isValid() ? this._private.name : this._private.constructorError;
+    }
+  }, {
+    key: "getDescription",
+    value: function getDescription() {
+      return this.isValid() ? this._private.description : this._private.constructorError;
     }
   }]);
 
