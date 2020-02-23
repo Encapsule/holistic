@@ -25,17 +25,18 @@ function () {
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true;
+      inBreakScope = true; // Allocate private per-class-instance state.
+
       this._private = {
         constructorError: null
       };
+      this.vdid = null;
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
       this.getID = this.getID.bind(this);
       this.getVDID = this.getVDID.bind(this);
       this.getName = this.getName.bind(this);
       this.getDescription = this.getDescription.bind(this);
-      this.vdid = null;
       var filterResponse = void 0; // If the caller didn't pass an object, just pass it through to the constructor filter which will fail w/correct error message.
 
       if (!request_ || Object.prototype.toString.call(request_) !== "[object Object]") {
@@ -81,7 +82,7 @@ function () {
     key: "getVDID",
     value: function getVDID() {
       if (!this.vdid) {
-        this.vdid = arccore.identifier.irut.fromReference(this._private);
+        this.vdid = arccore.identifier.irut.fromReference(this._private).result;
       }
 
       return this.vdid;

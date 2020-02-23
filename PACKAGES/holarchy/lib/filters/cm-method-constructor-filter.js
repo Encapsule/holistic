@@ -1,5 +1,9 @@
 "use strict";
 
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // scm-method-constructor.js
 var arccore = require("@encapsule/arccore");
 
@@ -171,8 +175,7 @@ var factoryResponse = arccore.filter.create({
                 u: artifactID,
                 p: {
                   type: pcmr_.type,
-                  artifact: artifact,
-                  cm: request_.id
+                  artifact: artifact
                 }
               }); // Link the artifact to its index.
 
@@ -212,7 +215,7 @@ var factoryResponse = arccore.filter.create({
                   if (aProps.type !== bProps.type) {
                     errors.push("Bad ".concat(pcmr_.type, " registration. Unable to merge CellModel id='").concat(artifactID, "' into CellModel id='").concat(request_.id, "' due to conflict."));
                     errors.push("CellModel id='".concat(artifactID, "' ").concat(bProps.type, " registration id='").concat(bProps.artifact.getID(), "' specifies illegal duplicate IRUT ID."));
-                    errors.push("CellModel id='".concat(request_.id, "' has previously registered id='").concat(subcellVertex, "' as a ").concat(aProps.type, " entity."));
+                    errors.push("CellModel id='".concat(request_.id, "' has previously registered id='").concat(subcellVertex, "' as a ").concat(aProps.type, " artifact."));
                     continue;
                   } // if the developer is confused, sloppy w/cut-n-paste, or just trying to be overly clever
 
@@ -225,16 +228,16 @@ var factoryResponse = arccore.filter.create({
                     } // if the developer is confused, sloppy w/cut-and-paste, or has just made a simple coding mistake w/require/import
 
 
-                    var aVDID = aProps.entity.getVDID();
-                    var bVDID = bProps.entity.getVDID();
+                    var aVDID = aProps.artifact.getVDID();
+                    var bVDID = bProps.artifact.getVDID();
 
                     if (aVDID !== bVDID) {
                       errors.push("Bad ".concat(pcmr_.type, " registration. Unable to merge CellModel id='").concat(artifactID, "' into CellModel id='").concat(request_.id, "' due to conflict."));
-                      errors.push("CellModel id='".concat(artifactID, "' ").concat(bProps.type, " registration id='").concat(bProps.entity.getID(), "' invalid runtime version."));
+                      errors.push("CellModel id='".concat(artifactID, "' ").concat(bProps.type, " registration id='").concat(bProps.artifact.getID(), "' invalid runtime version."));
                       errors.push("Expected VDID='".concat(aVDID, "' but found '").concat(bVDID, "'."));
                     } // if the developer is confused, sloppy with their code oranization, unclear in their thinking wrt CellModel's it will likely be sorted here
 
-                  } // end if subcell intersection vertex is not an index (i.e. it has an entity class attached to its vertex property)
+                  } // end if subcell intersection vertex is not an index (i.e. it has an artifact class attached to its vertex property)
 
                 } // end if intersection
 
@@ -243,6 +246,13 @@ var factoryResponse = arccore.filter.create({
 
               if (!errors.length) {
                 digraph.fromObject(artifact._private.digraph.toJSON());
+                var props = digraph.getVertexProperty(artifactID);
+                digraph.setVertexProperty({
+                  u: artifactID,
+                  p: _objectSpread({}, props, {
+                    artifact: artifact
+                  })
+                });
                 digraph.addEdge({
                   e: {
                     u: request_.id,
