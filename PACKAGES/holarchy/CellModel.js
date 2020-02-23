@@ -11,6 +11,8 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // CellModel.js
+var arccore = require("@encapsule/arccore");
+
 var constructorFilter = require("./lib/filters/cm-method-constructor-filter");
 
 module.exports =
@@ -30,8 +32,10 @@ function () {
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
       this.getID = this.getID.bind(this);
+      this.getVDID = this.getVDID.bind(this);
       this.getName = this.getName.bind(this);
       this.getDescription = this.getDescription.bind(this);
+      this.vdid = null;
       var filterResponse = void 0; // If the caller didn't pass an object, just pass it through to the constructor filter which will fail w/correct error message.
 
       if (!request_ || Object.prototype.toString.call(request_) !== "[object Object]") {
@@ -72,6 +76,15 @@ function () {
     key: "getID",
     value: function getID() {
       return this.isValid() ? this._private.id : this._private.constructorError;
+    }
+  }, {
+    key: "getVDID",
+    value: function getVDID() {
+      if (!this.vdid) {
+        this.vdid = arccore.identifier.irut.fromReference(this._private);
+      }
+
+      return this.vdid;
     }
   }, {
     key: "getName",

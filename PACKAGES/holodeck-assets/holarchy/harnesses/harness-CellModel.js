@@ -50,7 +50,17 @@ var factoryResponse = holodeck.harnessFactory.request({
       var cell = new holarchy.CellModel(messageBody.constructorRequest);
       response.result = {
         isValid: cell.isValid(),
-        toJSON: cell.toJSON()
+        toJSON: cell.toJSON(),
+        cellModelDigraphStats: {
+          vertices: cell.isValid() ? cell._private.digraph.verticesCount() : "invalid",
+          edges: cell.isValid() ? cell._private.digraph.edgesCount() : "invalid",
+          counts: {
+            cm: cell.isValid() ? cell._private.digraph.outDegree("CM_INDEX") : "invalid",
+            apm: cell.isValid() ? cell._private.digraph.outDegree("APM_INDEX") : "invalid",
+            top: cell.isValid() ? cell._private.digraph.outDegree("TOP_INDEX") : "invalid",
+            act: cell.isValid() ? cell._private.digraph.outDegree("ACT_INDEX") : "invalid"
+          }
+        }
       };
       break;
     }

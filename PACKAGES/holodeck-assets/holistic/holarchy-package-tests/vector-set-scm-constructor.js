@@ -31,7 +31,7 @@ module.exports = [// ===========================================================
 }, {
   id: "Xp1zz6GTQuug4w1umxHPlQ",
   name: "CellModel Constructor Error #2",
-  description: "Construct CellModel w/no artifact registrations to test error handling. Should fail, heretic.",
+  description: "Construct CellModel w/no artifact registrations to test error handling. Heretical requests should fail.",
   vectorRequest: {
     holistic: {
       holarchy: {
@@ -48,35 +48,193 @@ module.exports = [// ===========================================================
 }, {
   id: "MHVj3IaXR7SIsY1MUwMG_A",
   name: "CellModel Constructor Error #3",
-  description: "Construct CellModel w/bad APM registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad APM registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "MHVj3IaXR7SIsY1MUwMG_A",
+            name: "CellModel Constructor Error #3",
+            description: "Construct CellModel w/bad APM registration to test error handling. Should fail.",
+            apm: {
+              id: "bad-id"
+            }
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "OP9PyLDXTaac7_AHb1qCfg",
   name: "CelModel Constructor Error #4",
-  description: "Construct CellModel w/bad TOP registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad TOP registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "OP9PyLDXTaac7_AHb1qCfg",
+            name: "CelModel Constructor Error #4",
+            description: "Construct CellModel w/bad TOP registration to test error handling. Should fail.",
+            operators: [{
+              id: "bad-id"
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "OcoS0S_MRg2traJs1gDQ-g",
   name: "CellModel Constructor Error #5",
-  description: "Construct CellModel w/bad ACT registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad ACT registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "OcoS0S_MRg2traJs1gDQ-g",
+            name: "CellModel Constructor Error #5",
+            description: "Construct CellModel w/bad ACT registration to test error handling. Should fail.",
+            actions: [{
+              id: "bad-id"
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "N88iVPFrQJO_VNKqdyrF1Q",
   name: "CellModel Constructor Error #6",
-  description: "Construct CellModel w/bad subcell registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad subcell registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "N88iVPFrQJO_VNKqdyrF1Q",
+            name: "CellModel Constructor Error #6",
+            description: "Construct CellModel w/bad subcell registration to test error handling. Should fail.",
+            subcells: [{
+              id: "bad-name"
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "xhZFsZ7KTFCHaSkVZ_VMXQ",
   name: "CellModel Constructor Error #7",
-  description: "Construct CellModel w/bad duplicate ID APM registration to test error handling. Should fail"
+  description: "Construct CellModel w/bad duplicate ID APM registration to test error handling. Should fail",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "xhZFsZ7KTFCHaSkVZ_VMXQ",
+            name: "CellModel Constructor Error #7",
+            description: "Construct CellModel w/bad duplicate ID APM registration to test error handling. Should fail",
+            apm: {
+              id: "xhZFsZ7KTFCHaSkVZ_VMXQ",
+              name: "Should Be Rejected",
+              description: "Reusing the IRUT of the CellModel should not be allowed."
+            }
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "wtgq7mnyQI-qZXBxv2wTrw",
   name: "CellModel Constructor Error #8",
-  description: "Construct CellModel w/bad duplicate ID TOP registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad duplicate ID TOP registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "wtgq7mnyQI-qZXBxv2wTrw",
+            name: "CellModel Constructor Error #8",
+            description: "Construct CellModel w/bad duplicate ID TOP registration to test error handling. Should fail.",
+            operators: [{
+              id: "wtgq7mnyQI-qZXBxv2wTrw",
+              name: "Duplicate ID TransitionOperator",
+              description: "Deliberately re-use the CellModel's ID to test error handling.",
+              operatorRequestSpec: {
+                ____accept: "jsNull"
+              },
+              bodyFunction: function bodyFunction() {
+                return {
+                  error: null
+                };
+              }
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "FUyhcKKfTeycNWD0JVxkhw",
   name: "CellModel Constructor Error #9",
-  description: "Construct CellModel w/bad duplicate ID ACT registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad duplicate ID ACT registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "FUyhcKKfTeycNWD0JVxkhw",
+            name: "CellModel Constructor Error #9",
+            description: "Construct CellModel w/bad duplicate ID ACT registration to test error handling. Should fail.",
+            actions: [{
+              id: "FUyhcKKfTeycNWD0JVxkhw",
+              name: "Duplicate ID ControllerAction",
+              description: "Deliberately re-use the CellModel's ID to test error handling.",
+              actionRequestSpec: {
+                ____accept: "jsNull"
+              },
+              bodyFunction: function bodyFunction() {
+                return {
+                  error: null
+                };
+              }
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "OrkMuFl_TyiqVKdt9Qs6Dw",
   name: "CellModel Constructor Error #10",
-  description: "Construct CellModel w/bad duplicate ID subcell registration to test error handling. Should fail."
+  description: "Construct CellModel w/bad duplicate ID subcell registration to test error handling. Should fail.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: {
+            id: "OrkMuFl_TyiqVKdt9Qs6Dw",
+            name: "CellModel Constructor Error #10",
+            description: "Construct CellModel w/bad duplicate ID subcell registration to test error handling. Should fail.",
+            subcells: [{
+              id: "5A_gWDIxRiW_LMqHT2SRkw",
+              // okay
+              name: "Test Subcell Model",
+              description: "A subcell that registers an illegal duplicate APM ID.",
+              apm: {
+                id: "OrkMuFl_TyiqVKdt9Qs6Dw",
+                name: "Bad APM Definition",
+                description: "Deliberately re-use the outer cell's ID to test error handling."
+              }
+            }]
+          }
+        }
+      }
+    }
+  }
 }, {
   id: "Geq5MDymQLKcO9JQe7Lc8w",
   name: "CellModel Constructor Error #11",
