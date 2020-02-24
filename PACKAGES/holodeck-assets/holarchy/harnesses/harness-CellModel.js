@@ -1,5 +1,7 @@
 "use strict";
 
+var arccore = require("@encapsule/arccore");
+
 var holodeck = require("@encapsule/holodeck");
 
 var holarchy = require("@encapsule/holarchy");
@@ -32,9 +34,17 @@ var factoryResponse = holodeck.harnessFactory.request({
     isValid: {
       ____accept: "jsBoolean"
     },
+    summary: {
+      ____accept: ["jsString", // invalid instance constructor error
+      "jsObject" // valid instance data
+      ]
+    },
     toJSON: {
-      ____accept: ["jsString", // The instance is invalid and this is this._private.constructorError string.
+      ____accept: ["jsString", // invalid instance constructor error
       "jsObject"]
+    },
+    opcConfig: {
+      ____accept: ["jsString", "jsObject"]
     }
   },
   harnessBodyFunction: function harnessBodyFunction(vectorRequest_) {
@@ -48,19 +58,27 @@ var factoryResponse = holodeck.harnessFactory.request({
       inBreakScope = true;
       var messageBody = vectorRequest_.vectorRequest.holistic.holarchy.CellModel;
       var cell = new holarchy.CellModel(messageBody.constructorRequest);
+      var summary = cell.isValid() ? {} : cell.toJSON();
+
+      if (cell.isValid()) {
+        summary.counts = {
+          vertices: cell._private.digraph.verticesCount(),
+          edges: cell._private.digraph.edgesCount(),
+          artifacts: {
+            cm: cell._private.digraph.outDegree("INDEX_CM"),
+            apm: cell._private.digraph.outDegree("INDEX_APM"),
+            top: cell._private.digraph.outDegree("INDEX_TOP"),
+            act: cell._private.digraph.outDegree("INDEX_ACT")
+          }
+        };
+      } // if cell.isValid()
+
+
       response.result = {
         isValid: cell.isValid(),
+        summary: summary,
         toJSON: cell.toJSON(),
-        cellModelDigraphStats: {
-          vertices: cell.isValid() ? cell._private.digraph.verticesCount() : "invalid",
-          edges: cell.isValid() ? cell._private.digraph.edgesCount() : "invalid",
-          counts: {
-            cm: cell.isValid() ? cell._private.digraph.outDegree("CM_INDEX") : "invalid",
-            apm: cell.isValid() ? cell._private.digraph.outDegree("APM_INDEX") : "invalid",
-            top: cell.isValid() ? cell._private.digraph.outDegree("TOP_INDEX") : "invalid",
-            act: cell.isValid() ? cell._private.digraph.outDegree("ACT_INDEX") : "invalid"
-          }
-        }
+        opcConfig: cell.generateConfig()
       };
       break;
     }

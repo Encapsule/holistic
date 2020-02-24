@@ -37,6 +37,7 @@ function () {
       this.getVDID = this.getVDID.bind(this);
       this.getName = this.getName.bind(this);
       this.getDescription = this.getDescription.bind(this);
+      this.generateConfig = this.generateConfig.bind(this);
       var filterResponse = void 0; // If the caller didn't pass an object, just pass it through to the constructor filter which will fail w/correct error message.
 
       if (!request_ || Object.prototype.toString.call(request_) !== "[object Object]") {
@@ -61,23 +62,27 @@ function () {
       errors.unshift("CellModel::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
       this._private.constructorError = errors.join(" ");
     }
-  }
+  } // Returns a Boolean
+
 
   _createClass(CellModel, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
-    }
+    } // If isValid then serializable object. Otherwise, constructor error string.
+
   }, {
     key: "toJSON",
     value: function toJSON() {
       return this.isValid() ? this._private : this._private.constructorError;
-    }
+    } // If isValid() then IRUT string. Otherwise, constructor error string.
+
   }, {
     key: "getID",
     value: function getID() {
-      return this.isValid() ? this._private.id : this._private.constructorError;
-    }
+      return this.isValid() ? this._private.id : this.toJSON();
+    } // Always returns an IRUT string. Should not be used if !isValid().
+
   }, {
     key: "getVDID",
     value: function getVDID() {
@@ -86,16 +91,57 @@ function () {
       }
 
       return this.vdid;
-    }
+    } // If isValid() then name string returned. Otherwise, constructor error string.
+
   }, {
     key: "getName",
     value: function getName() {
-      return this.isValid() ? this._private.name : this._private.constructorError;
-    }
+      return this.isValid() ? this._private.name : this.toJSON();
+    } // If isValid() then descriptor string returned. Otherwise, constructor error string.
+
   }, {
     key: "getDescription",
     value: function getDescription() {
-      return this.isValid() ? this._private.description : this._private.constructorError;
+      return this.isValid() ? this._private.description : this.toJSON();
+    } // Returns a filter response object.
+
+  }, {
+    key: "generateConfig",
+    value: function generateConfig() {
+      var _this = this;
+
+      var response = {
+        error: null
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+
+        if (!this.isValid()) {
+          errors.push(this.toJSON());
+          break;
+        }
+
+        response.result = {};
+        response.result.apm = this._private.digraph.outEdges("INDEX_APM").map(function (edge_) {
+          return _this._private.digraph.getVertexProperty(edge_.v).artifact;
+        });
+        response.result.top = this._private.digraph.outEdges("INDEX_TOP").map(function (edge_) {
+          return _this._private.digraph.getVertexProperty(edge_.v).artifact;
+        });
+        response.result.act = this._private.digraph.outEdges("INDEX_ACT").map(function (edge_) {
+          return _this._private.digraph.getVertexProperty(edge_.v).artifact;
+        });
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   }]);
 
