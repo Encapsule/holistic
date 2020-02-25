@@ -29,7 +29,9 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchySML.operators.logical],
+            transitionOperatorSets: [holarchySML.cml.getCMConfig({
+              type: "TOP"
+            }).result],
             controllerActionSets: []
           }
         }
@@ -59,7 +61,9 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchySML.operators.logical],
+            transitionOperatorSets: [holarchySML.cml.getCMConfig({
+              type: "TOP"
+            }).result],
             controllerActionSets: [fixtureActExamples]
           }
         }
@@ -89,7 +93,9 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchySML.operators.logical],
+            transitionOperatorSets: [holarchySML.cml.getCMConfig({
+              type: "TOP"
+            }).result],
             controllerActionSets: [fixtureActExamples]
           }
         }
@@ -119,7 +125,9 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchySML.operators.logical],
+            transitionOperatorSets: [holarchySML.cml.getCMConfig({
+              type: "TOP"
+            }).result],
             controllerActionSets: [fixtureActExamples]
           }
         }

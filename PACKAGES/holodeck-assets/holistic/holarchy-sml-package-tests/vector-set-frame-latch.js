@@ -2,8 +2,24 @@
 
 var holarchy = require("@encapsule/holarchy");
 
-var sml = require("@encapsule/holarchy-sml"); // @encapsule/holodeck test vector set:
+var sml = require("@encapsule/holarchy-sml");
+/*
+  id: "U5iIpgd8SHCk7pvaciVLTQ",
+  name: "Holarchy Base Memory Mailbox Flag",
+  description: "A primitive cell process that signals (via process step transition) when some actor has put a message in the mailbox namespace.",
+*/
 
+
+var response = sml.cml.getArtifact({
+  id: "U5iIpgd8SHCk7pvaciVLTQ",
+  type: "CM"
+});
+
+if (response.error) {
+  throw new Error(response.error);
+}
+
+var cmMailboxFlag = response.result; // @encapsule/holodeck test vector set:
 
 module.exports = [{
   id: "sO15Cox_SVqcCgyrOllAwQ",
@@ -13,7 +29,9 @@ module.exports = [{
     holistic: {
       holarchy: {
         AbstractProcessModel: {
-          constructorRequest: sml.models.test.declaration.observableFrameLatch
+          constructorRequest: cmMailboxFlag.getCMConfig({
+            type: "APM"
+          }).result
         }
       }
     }
@@ -43,9 +61,15 @@ module.exports = [{
                 }
               }
             },
-            abstractProcessModelSets: [[sml.models.core.observableFrameLatch]],
-            transitionOperatorSets: [sml.operators.logical],
-            controllerActionSets: [sml.actions.ocd]
+            abstractProcessModelSets: [cmMailboxFlag.getCMConfig({
+              type: "APM"
+            }).result],
+            transitionOperatorSets: [cmMailboxFlag.getCMConfig({
+              type: "TOP"
+            }).result],
+            controllerActionSets: [cmMailboxFlag.getCMConfig({
+              type: "ACT"
+            }).result]
           },
           actRequests: [{
             actorName: "uZN6-qpIQO6CkwmLDWtMCw test action call",

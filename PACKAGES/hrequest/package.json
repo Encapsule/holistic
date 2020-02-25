@@ -2,9 +2,9 @@
     "name": "@encapsule/hrequest",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "tqTRiPwtQRWUsRJAsiN1mA",
-    "buildTime": 1582521810,
-    "buildSource": "5293b6667049e3615e20cccb14a3f4a2df2d4385",
+    "buildID": "mVhDQKVTSHC3nr22pSTJtA",
+    "buildTime": 1582596017,
+    "buildSource": "bf4b2fca8f90b8c548065598fafd6cb276b2a331",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"

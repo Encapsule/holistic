@@ -78,7 +78,7 @@ var factoryResponse = holodeck.harnessFactory.request({
         isValid: cell.isValid(),
         summary: summary,
         toJSON: cell.toJSON(),
-        opcConfig: cell.generateConfig()
+        opcConfig: cell.getConfigOPC()
       };
       break;
     }

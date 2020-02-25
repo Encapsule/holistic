@@ -1,26 +1,11 @@
 "use strict";
 
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; var ownKeys = Object.keys(source); if (typeof Object.getOwnPropertySymbols === 'function') { ownKeys = ownKeys.concat(Object.getOwnPropertySymbols(source).filter(function (sym) { return Object.getOwnPropertyDescriptor(source, sym).enumerable; })); } ownKeys.forEach(function (key) { _defineProperty(target, key, source[key]); }); } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 // @encapsule/holarchy-sml package exports:
-var packageMeta = require("./package.json");
-
-var softwareModelLibrary = require("./lib");
-
 var holarchy = require("@encapsule/holarchy");
 
-var cellModel = new holarchy.CellModel({
-  id: "aFiXgSXQSkSuvxHnQ3uoqg",
-  name: "Holarchy Core Runtime",
-  description: "Low-level abstract process models, transition operators, and controller actions.",
-  // apm: {}
-  operators: [],
-  actions: [],
-  subcells: []
-});
-module.exports = _objectSpread({
+var packageMeta = require("./package");
+
+module.exports = {
   __meta: {
     author: packageMeta.author,
     name: packageMeta.name,
@@ -28,5 +13,11 @@ module.exports = _objectSpread({
     codename: packageMeta.codename,
     build: packageMeta.buildID,
     source: packageMeta.buildSource
-  }
-}, softwareModelLibrary);
+  },
+  cml: new holarchy.CellModel({
+    id: "RyMcv3MpTI-Co1EyVOIvlw",
+    name: "Holarchy CML",
+    description: "Holarchy Cell Model Library (CML) provides cellular process primitive operations, actions, and cell models for re-use in higher-order cell models.",
+    subcells: [require("./HolarchyCore"), require("./HolarchyBase")]
+  })
+};

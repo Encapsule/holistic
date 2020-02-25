@@ -37,7 +37,10 @@ function () {
       this.getVDID = this.getVDID.bind(this);
       this.getName = this.getName.bind(this);
       this.getDescription = this.getDescription.bind(this);
-      this.generateConfig = this.generateConfig.bind(this);
+      this.getOPCConfig = this.getOPCConfig.bind(this); // These are primarily for support of low-level holodeck test harnesses.
+
+      this.getArtifact = this.getArtifact.bind(this);
+      this.getCMConfig = this.getCMConfig.bind(this);
       var filterResponse = void 0; // If the caller didn't pass an object, just pass it through to the constructor filter which will fail w/correct error message.
 
       if (!request_ || Object.prototype.toString.call(request_) !== "[object Object]") {
@@ -106,8 +109,8 @@ function () {
     } // Returns a filter response object.
 
   }, {
-    key: "generateConfig",
-    value: function generateConfig() {
+    key: "getOPCConfig",
+    value: function getOPCConfig() {
       var _this = this;
 
       var response = {
@@ -138,6 +141,126 @@ function () {
       }
 
       if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
+    } // getOPCConfig
+    // Returns a filter response object.
+
+  }, {
+    key: "getArtifact",
+    value: function getArtifact(request_) {
+      // request = { id: optional, type: optional }
+      // TODO: Turn this into a method filter
+      var response = {
+        error: null
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+
+        if (!this.isValid()) {
+          errors.push(this.toJSON());
+          break;
+        }
+
+        if (!request_.type) {
+          request_.type = "CM";
+        }
+
+        if (request_.type === "CM" && (!request_.id || request_.id === this._private.id)) {
+          response.result = this;
+          break;
+        }
+
+        if (!this._private.digraph.isVertex(request_.id)) {
+          errors.push("Unknown ".concat(request_.type, " id='").concat(request_.id, "'. No artifact found."));
+          break;
+        }
+
+        var props = this._private.digraph.getVertexProperty(request_.id);
+
+        if (props.type !== request_.type) {
+          errors.push("Invalid id='".concat(request_.id, "' for type ").concat(request_.type, ". This ID is registered to a ").concat(props.type, " artifact, not a ").concat(request_.type, "."));
+          break;
+        }
+
+        response.result = props.artifact;
+        break;
+      }
+
+      if (errors.length) {
+        errors.unshift("CellModel::getArtifact method error:");
+        response.error = errors.join(" ");
+      }
+
+      return response;
+    } // getArtifact
+    // Returns a filter response object.
+
+  }, {
+    key: "getCMConfig",
+    value: function getCMConfig(request_) {
+      var _this2 = this;
+
+      // request = { id: optional CM ID, configType: optional }
+      // TODO: Turn this into a method filter.
+      var response = {
+        error: null
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      var _loop = function _loop() {
+        inBreakScope = true;
+
+        if (!_this2.isValid()) {
+          errors.push(_this2.toJSON());
+          return "break";
+        }
+
+        var innerResponse = _this2.getArtifact({
+          id: request_.id,
+          type: "CM"
+        });
+
+        if (innerResponse.error) {
+          errors.push(innerResponse.error);
+          return "break";
+        }
+
+        var artifact = innerResponse.result;
+
+        switch (request_.type) {
+          case undefined:
+          case "CM":
+            break;
+
+          case "APM":
+          case "TOP":
+          case "ACT":
+            response.result = artifact._private.digraph.outEdges("INDEX_".concat(request_.type)).map(function (edge_) {
+              return artifact._private.digraph.getVertexProperty(edge_.v).artifact;
+            }).sort(function (a_, b_) {
+              a_.getName() < b_.getName() ? -1 : a_.getName() > b_.getName() ? 1 : 0;
+            });
+            break;
+        }
+
+        return "break";
+      };
+
+      while (!inBreakScope) {
+        var _ret = _loop();
+
+        if (_ret === "break") break;
+      }
+
+      if (errors.length) {
+        errors.unshift("CellModel::getCMConfigAPM method error:");
         response.error = errors.join(" ");
       }
 
