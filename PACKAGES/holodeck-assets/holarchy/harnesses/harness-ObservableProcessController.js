@@ -22,6 +22,7 @@ var factoryResponse = holodeck.harnessFactory.request({
         ObservableProcessController: {
           ____types: "jsObject",
           constructorRequest: {
+            // ObservableProcessController constructor request or pre-constructed ObservableProcessController class instance reference.
             ____opaque: true // accept any request and let OPC sort it out
 
           },
@@ -73,7 +74,7 @@ var factoryResponse = holodeck.harnessFactory.request({
         actionEvaluations: []
       }
     };
-    var opcInstance = new holarchy.ObservableProcessController(messageBody.constructorRequest);
+    var opcInstance = messageBody.constructorRequest instanceof holarchy.ObservableProcessController ? messageBody.constructorRequest : new holarchy.ObservableProcessController(messageBody.constructorRequest);
     var toJSON = opcInstance.toJSON(); // TODO: Again - arccore.util.deepCopy/clone is proving to
     // be problematic. The intended contract of this export function
     // is very permissive - it should make a deep copy of whatever

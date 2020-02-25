@@ -222,6 +222,10 @@ function () {
           return "break";
         }
 
+        if (!request_) {
+          request_ = {};
+        }
+
         var innerResponse = _this2.getArtifact({
           id: request_.id,
           type: "CM"
@@ -237,6 +241,119 @@ function () {
         switch (request_.type) {
           case undefined:
           case "CM":
+            response.result = {};
+
+            var _innerResponse = _this2.getCMConfig({
+              type: "APM"
+            });
+
+            if (_innerResponse.error) {
+              errors.push(_innerResponse.error);
+              break;
+            }
+
+            response.result.apm = _innerResponse.result;
+            _innerResponse = _this2.getCMConfig({
+              type: "TOP"
+            });
+
+            if (_innerResponse.error) {
+              errors.push(_innerResponse.error);
+              break;
+            }
+
+            response.result.top = _innerResponse.result;
+            _innerResponse = _this2.getCMConfig({
+              type: "ACT"
+            });
+
+            if (_innerResponse.error) {
+              errors.push(_innerResponse.error);
+              break;
+            }
+
+            response.result.act = _innerResponse.result;
+            break;
+
+          case "SCM":
+            var context = {
+              refStack: [],
+              result: {}
+            };
+            arccore.graph.directed.depthFirstTraverse({
+              digraph: artifact._private.digraph,
+              context: context,
+              options: {
+                startVector: ["INDEX_CM"]
+              },
+              visitor: {
+                getEdgeWeight: function getEdgeWeight(request_) {
+                  var props = request_.g.getVertexProperty(request_.e.u);
+                  var edgeWeight = null;
+
+                  switch (props.type) {
+                    case "INDEX":
+                      edgeWeight = "INDEX";
+                      break;
+
+                    case "APM":
+                      edgeWeight = "0_".concat(props.artifact.getName());
+                      break;
+
+                    case "TOP":
+                      edgeWeight = "1_".concat(props.artifact.getName());
+                      break;
+
+                    case "ACT":
+                      edgeWeight = "2_".concat(props.artifact.getName());
+                      break;
+
+                    case "CM":
+                      var _artifact = props.artifact ? props.artifact : _this2;
+
+                      edgeWeight = "3_".concat(_artifact.getName());
+                      break;
+                  }
+
+                  return edgeWeight;
+                },
+                compareEdgeWeights: function compareEdgeWeights(request_) {
+                  return request_.a < request_.b ? -1 : request_.a > request_.b ? 1 : 0;
+                },
+                discoverVertex: function discoverVertex(request_) {
+                  if (!request_.context.refStack.length) {
+                    request_.context.refStack.push(request_.context.result);
+                  }
+
+                  var descriptor = request_.context.refStack[request_.context.refStack.length - 1][request_.u] = {};
+                  var props = request_.g.getVertexProperty(request_.u);
+
+                  switch (props.type) {
+                    case "INDEX":
+                      descriptor.type = props.type;
+                      break;
+
+                    default:
+                      var _artifact2 = props.artifact ? props.artifact : _this2;
+
+                      descriptor.id = _artifact2.getID();
+                      descriptor.vdid = _artifact2.getVDID();
+                      descriptor.name = _artifact2.getName();
+                      descriptor.description = _artifact2.getDescription();
+                      descriptor.type = props.type;
+                      break;
+                  }
+
+                  request_.context.refStack.push(descriptor);
+                  return true;
+                },
+                finishVertex: function finishVertex(request_) {
+                  request_.context.refStack.pop();
+                  return true;
+                }
+              }
+            });
+            response.result = context.result;
             break;
 
           case "APM":
@@ -247,6 +364,10 @@ function () {
             }).sort(function (a_, b_) {
               a_.getName() < b_.getName() ? -1 : a_.getName() > b_.getName() ? 1 : 0;
             });
+            break;
+
+          default:
+            errors.push("Value of '".concat(request_.type, "' specified for ~.type is invalid. Must be undefined, CM, APM, TOP, or ACT."));
             break;
         }
 

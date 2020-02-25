@@ -3,6 +3,16 @@
 // vector-set-app-client-runtime.js
 var clientSML = require("@encapsule/holistic-app-client-sml");
 
+var response = clientSML.cml.getArtifact({
+  id: "ENENGxq1TkCa6Sk9YXaLlw",
+  type: "CM"
+});
+
+if (response.error) {
+  throw new Error(response.error);
+}
+
+var HolisticAppClientRuntime = response.result;
 module.exports = [{
   id: "sThxzN9-QuKCgErSNYhcQQ",
   name: "Holistic App Client APM #1",
@@ -11,12 +21,16 @@ module.exports = [{
     holistic: {
       holarchy: {
         AbstractProcessModel: {
-          constructorRequest: clientSML.client.test.declaration.appClientRuntime
+          constructorRequest: HolisticAppClientRuntime.getArtifact({
+            id: "PPL45jw5RDWSMNsB97WIWg",
+            type: "APM"
+          }).result
         }
       }
     }
   }
-}, {
+}, // TODO: Finish or remove this
+{
   id: "Va0br1teR9Ce348EfkUAdg",
   name: "Holistic App Client APM ControllerAction: Hook Events",
   description: "Attempt to instantiate ControllerAction Hook Events via our test harness.",

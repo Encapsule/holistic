@@ -2,9 +2,9 @@
     "name": "@encapsule/hash-router",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "mVhDQKVTSHC3nr22pSTJtA",
-    "buildTime": 1582596017,
-    "buildSource": "bf4b2fca8f90b8c548065598fafd6cb276b2a331",
+    "buildID": "7a3Us0jHTQ6Efglr0QhgmQ",
+    "buildTime": 1582674299,
+    "buildSource": "acb44a300ce39058cb28002e159fd8aedcd0aab7",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"

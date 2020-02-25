@@ -20,6 +20,7 @@ var factoryResponse = holodeck.harnessFactory.request({
         CellProcessor: {
           ____types: "jsObject",
           constructorRequest: {
+            // CellProcessor constructor request object or pre-constructed CellProcessor class instance reference.
             ____opaque: true // accept any request and let SCM sort it out
 
           }
@@ -47,7 +48,7 @@ var factoryResponse = holodeck.harnessFactory.request({
     while (!inBreakScope) {
       inBreakScope = true;
       var messageBody = vectorRequest_.vectorRequest.holistic.holarchy.CellProcessor;
-      var scpInstance = new holarchy.CellProcessor(messageBody.constructorRequest);
+      var scpInstance = messageBody.constructorRequest instanceof holarchy.CellProcessor ? messageBody.constructorRequest : new holarchy.CellProcessor(messageBody.constructorRequest);
       response.result = {
         isValid: scpInstance.isValid(),
         toJSON: scpInstance.toJSON()

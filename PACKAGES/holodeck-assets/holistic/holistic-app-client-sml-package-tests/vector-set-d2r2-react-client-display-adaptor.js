@@ -5,20 +5,21 @@ var holarchy = require("@encapsule/holarchy");
 
 var clientSML = require("@encapsule/holistic-app-client-sml");
 
+if (!clientSML.cml.isValid()) {
+  throw new Error(clientSML.cml.toJSON());
+}
+
+var response = clientSML.cml.getArtifact({
+  id: "UX7JquBhSZO0QyEk7u9-sw",
+  type: "CM"
+});
+
+if (response.error) {
+  throw new Error(response.error);
+}
+
+var HolisticAppClientDisplayAdapter = response.result;
 module.exports = [{
-  id: "zUoUas3CTj2HLDfpNf4NTw",
-  name: "d2r2/React Client Output Processor APM #1",
-  description: "Attempt to instantiate the current d2r2/React Client Display Adaptor APM declaration via our test harness.",
-  vectorRequest: {
-    holistic: {
-      holarchy: {
-        AbstractProcessModel: {
-          constructorRequest: clientSML.client.test.declaration.d2r2ReactClientDisplayAdaptor
-        }
-      }
-    }
-  }
-}, {
   id: "fzuITg9BQbyV7jNv39Gv6w",
   name: "d2r2/React Client Output Processor OPC #1",
   description: "Attempt to apply the d2r2/React Client Display Adaptor APM inside of an OPC instance.",
@@ -39,9 +40,15 @@ module.exports = [{
                 }
               }
             },
-            abstractProcessModelSets: [[clientSML.common.models.core.observableFrameLatch, clientSML.client.models.d2r2ReactClientDisplayAdaptor]],
-            transitionOperatorSets: [clientSML.common.operators.logical],
-            controllerActionSets: [clientSML.common.actions.ocd, clientSML.client.actions.d2r2ReactClientDisplayAdaptor]
+            abstractProcessModelSets: [HolisticAppClientDisplayAdapter.getCMConfig({
+              type: "APM"
+            }).result],
+            transitionOperatorSets: [HolisticAppClientDisplayAdapter.getCMConfig({
+              type: "TOP"
+            }).result],
+            controllerActionSets: [HolisticAppClientDisplayAdapter.getCMConfig({
+              type: "ACT"
+            }).result]
           }
         },
         actionRequest: []

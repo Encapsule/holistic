@@ -18,6 +18,7 @@ var factoryResponse = holodeck.harnessFactory.request({
         AbstractProcessModel: {
           ____types: "jsObject",
           constructorRequest: {
+            // Either a AbstractProcessModel constructor request object or pre-constructed AbstractProcessModel class instance reference.
             ____opaque: true
           }
         }
@@ -32,7 +33,7 @@ var factoryResponse = holodeck.harnessFactory.request({
   // testVectorResultOutputSpec
   harnessBodyFunction: function harnessBodyFunction(request_) {
     var messageBody = request_.vectorRequest.holistic.holarchy.AbstractProcessModel;
-    var observableProcessModel = new holarchy.AbstractProcessModel(messageBody.constructorRequest);
+    var observableProcessModel = messageBody.constructorRequest instanceof holarchy.AbstractProcessModel ? messageBody.constructorRequest : new holarchy.AbstractProcessModel(messageBody.constructorRequest);
     var response = {
       error: null,
       result: {

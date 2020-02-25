@@ -128,7 +128,7 @@ module.exports = [{
             },
             abstractProcessModelSets: [fixtureOpmExamples],
             transitionOperatorSets: [holarchySML.cml.getCMConfig({
-              type: "type"
+              type: "TOP"
             }).result],
             controllerActionSets: [fixtureActExamples]
           }
