@@ -61,7 +61,18 @@ function () {
   }, {
     key: "toJSON",
     value: function toJSON() {
-      return this.isValid() ? this._private.declaration : this._private.constructorError;
+      if (!this.isValid()) {
+        return this._private.constructorError;
+      }
+
+      return {
+        id: this.getID(),
+        vdid: this.getVDID(),
+        name: this.getName(),
+        description: this.getDescription(),
+        ocdDataSpec: this._private.ocdDataSpec,
+        process: this._private.digraph
+      };
     }
   }, {
     key: "getID",
