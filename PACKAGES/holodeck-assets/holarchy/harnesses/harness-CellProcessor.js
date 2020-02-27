@@ -21,7 +21,7 @@ var factoryResponse = holodeck.harnessFactory.request({
           ____types: "jsObject",
           constructorRequest: {
             // CellProcessor constructor request object or pre-constructed CellProcessor class instance reference.
-            ____opaque: true // accept any request and let SCM sort it out
+            ____opaque: true // accept any request and let CellModel sort it out
 
           }
         }

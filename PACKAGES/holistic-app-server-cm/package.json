@@ -1,0 +1,50 @@
+{
+    "name": "@encapsule/holistic-app-server-cm",
+    "version": "0.1.00",
+    "codename": "alertbay",
+    "buildID": "6OBoV-uFSoGJuLl7rGfosg",
+    "buildTime": 1582844164,
+    "buildSource": "fbad33eba403c2d44e77e73ef35af7a01d25b233",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "author": "Encapsule",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "license": "MIT",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "homepage": "https://github.com/Encapsule",
+    "description": "Exports the HolisticAppServer CellModel for use in derived @encapsule/holistic applications/services.",
+    "keywords": [
+        "Encapsule",
+        "holistic",
+        "holarchy",
+        "holarchy-sml",
+        "software model",
+        "software library",
+        "SML",
+        "reuse",
+        "re-use",
+        "ObservableProcessController",
+        "ObservableProcessModel",
+        "ObservableControllerData",
+        "TransitionOperator",
+        "ControllerAction"
+    ],
+    "main": "index.js",
+    "peerDependencies": {
+        "@encapsule/arccore": "0.1.9",
+        "@encapsule/holarchy": "0.1.00",
+        "@encapsule/holarchy-sml": "0.1.00",
+        "react": "16.12.0",
+        "react-dom": "16.12.0"
+    }
+}
