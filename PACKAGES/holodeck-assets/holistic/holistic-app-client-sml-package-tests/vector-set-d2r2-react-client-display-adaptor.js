@@ -20,6 +20,19 @@ if (response.error) {
 
 var HolisticAppClientDisplayAdapter = response.result;
 module.exports = [{
+  id: "D9E7--YgRqWfqoQFz7Ckfg",
+  name: "d2r2/React Client Display Adaptor CellModel Test",
+  description: "Send the current version of the d2r2/React Client Display Adapter CellModel through the CellModel test harness.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: HolisticAppClientDisplayAdapter
+        }
+      }
+    }
+  }
+}, {
   id: "fzuITg9BQbyV7jNv39Gv6w",
   name: "d2r2/React Client Output Processor OPC #1",
   description: "Attempt to apply the d2r2/React Client Display Adaptor APM inside of an OPC instance.",

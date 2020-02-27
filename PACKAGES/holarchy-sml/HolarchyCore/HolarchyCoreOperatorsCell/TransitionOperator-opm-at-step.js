@@ -4,7 +4,7 @@ var holarchy = require("@encapsule/holarchy");
 
 module.exports = new holarchy.TransitionOperator({
   id: "9tNY7o5GTUGH_xda2GhP-w",
-  name: "Cell In Step Expression Operator",
+  name: "Cell Process In Step Operator",
   description: "Returns Boolean true iff the indicated APM instance is in the indicated process step.",
   operatorRequestSpec: {
     ____types: "jsObject",
@@ -16,7 +16,7 @@ module.exports = new holarchy.TransitionOperator({
           ____types: "jsObject",
           cell: {
             ____types: "jsObject",
-            atStep: {
+            inStep: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"

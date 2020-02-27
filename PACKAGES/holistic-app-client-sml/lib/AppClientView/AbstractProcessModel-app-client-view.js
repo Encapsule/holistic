@@ -54,43 +54,13 @@ module.exports = {
       }]
     },
     wait_app_config: {
-      description: "Waiting for the client application runtime to be configured.",
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            sml: {
-              operators: {
-                opmi: {
-                  path: "~.vp5.client",
-                  step: "boot1_query_derived_app_config"
-                }
-              }
-            }
-          }
-        },
-        nextStep: "wait_server_route"
-      }]
+      description: "Waiting for the client application runtime to be configured."
     },
     wait_server_route: {
       description: "Waiting for the DOM Location Processor to signal the client application's server-specified route (location.href)."
     },
     wait_app_resume: {
-      description: "Waiting for the App Client Runtime to resume the client application runtime.",
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            sml: {
-              operators: {
-                opmi: {
-                  path: "~.vp5.client",
-                  step: "boot1_query_derived_app_config"
-                }
-              }
-            }
-          }
-        },
-        nextStep: "wait_server_route"
-      }]
+      description: "Waiting for the App Client Runtime to resume the client application runtime."
     },
     rehydrate: {
       description: "Use data from the server to rehydate the server-rendered d2r2/React view."

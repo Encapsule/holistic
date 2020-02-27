@@ -4,9 +4,9 @@ var holarchyConsoleStylesLUT = {
   error: "color: yellow; background-color: red; font-weight: bold; font-size: larger;",
   opc: {
     constructor: {
-      prologue: "border-left: 6px solid #FF6600; border-top: 6px solid #FFCC00; padding: 0.25em; padding-left: 0.5em; background-color: #FF9900; color: #330000; font-weight: bold;",
-      body: "border-left: 6px solid #FF6600; padding-left: 0.5em; background-color: #FFCC99; color: #330000;",
-      epilogue: "border-left: 6px solid #FF6600; border-bottom: 6px solid #FFCC00; padding: 0.25em; padding-left: 0.5em; background-color: #FF9900; color: #330000; font-weight: bold;"
+      prologue: "border-left: 6px solid #FF6600; border-top: 6px solid #FFCC00; padding: 0.25em; padding-left: 0.5em; background-color: #FFFFAA; color: #330000; font-weight: bold; font-size: largest;",
+      body: "border-left: 6px solid #FF6600; padding-left: 0.5em; background-color: #FFFFCC; color: #000000;",
+      epilogue: "border-left: 6px solid #FF6600; border-bottom: 6px solid #FFCC00; padding: 0.25em; padding-left: 0.5em; background-color: #FFFFAA; color: #330000; font-weight: bold; font-size: largest;"
     },
     act: {
       borderColor: "#009900",

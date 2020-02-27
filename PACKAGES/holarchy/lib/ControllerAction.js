@@ -59,7 +59,17 @@ function () {
   }, {
     key: "toJSON",
     value: function toJSON() {
-      return this.getFilter();
+      if (!this.isValid()) {
+        return this._private.constructorError;
+      }
+
+      var response = {
+        id: this.getID(),
+        vdid: this.getVDID(),
+        name: this.getName(),
+        description: this.getDescription()
+      };
+      return response;
     }
   }, {
     key: "getFilter",

@@ -13,21 +13,17 @@ if (response.error) {
 }
 
 var HolisticAppClientDOMLocationProcessor = response.result;
-module.exports = [
-  /* DISABLE - WE WILL BE HANDING APM TESTING VIA THE CELLMODEL HARNESS
-   {
-      id: "y3Jy2d56QI63admJOy1tZw",
-      name: "DOM Location Processor APM #1",
-      description: "Attempt to instantiate the current DOM Location Processor APM via our test harness.",
-      vectorRequest: {
-          holistic: {
-              holarchy: {
-                  AbstractProcessModel: {
-                      constructorRequest: clientSML.client.test.declaration.DOMLocationProcessor
-                  }
-              }
-          }
+module.exports = [{
+  id: "y3Jy2d56QI63admJOy1tZw",
+  name: "DOM Location Processor APM #1",
+  description: "Attempt to instantiate the current DOM Location Processor APM via our test harness.",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellModel: {
+          constructorRequest: HolisticAppClientDOMLocationProcessor
+        }
       }
+    }
   }
-   */
-];
+}];
