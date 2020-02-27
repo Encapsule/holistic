@@ -476,7 +476,7 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "evaluate",
             phase: "body",
-            message: "Cell [".concat(ocdPathIRUT_, "] (").concat(apmBindingPath, ") APM transition: { \"").concat(initialStep, "\" => \"").concat(nextStep, "\" }.")
+            message: "Cell process [".concat(ocdPathIRUT_, "] (").concat(apmBindingPath, ") step: \"").concat(initialStep, "\" ==> \"").concat(nextStep, "\"")
           }); // Dispatch the APM instance's step EXIT action(s).
 
           _apmInstanceFrame.evalResponse.status = "transitioning-dispatch-exit-actions";
