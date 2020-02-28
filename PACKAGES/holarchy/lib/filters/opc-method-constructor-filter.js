@@ -174,7 +174,12 @@ var factoryResponse = arccore.filter.create({
         if (key.startsWith("____")) {
           quanderscoreCount++;
           continue;
-        }
+        } // TODO: We need a comprehensive break-down of concerns when affecting this sort
+        // of transformation generally over filter specs (we do a lot of this and it should
+        // be very efficient). This reliance on JSON.stringify is BS... And arccore.clone
+        // is not general purpose. Perhaps it is possible to use filter spec annotations of
+        // intent and judicious conditional application of clever spread operator tricks?
+
 
         ocdRuntimeBaseSpec[key] = JSON.parse(JSON.stringify(request_.ocdTemplateSpec[key]));
       } // while keys
@@ -212,9 +217,37 @@ var factoryResponse = arccore.filter.create({
             // filter spec qunderscore directives are stripped by OPC during OCD runtime spec
             // synthesis. The remainder of the APM's descriptor object definition is then
             // merged over bound namespace. Namespace name collisions are resolved in favor
-            // of the bound APM's descriptor object filter spec W/OUT WARNING
+            // of the bound APM's descriptor object filter spec W/OUT WARNING.
             //
-            if (record.specRef.____opaque || record.specRef.____accept || record.specRef.____asMap || Array.isArray(record.specRef.____types) || record.specRef.____types !== "jsObject") {
+            var acceptBinding = false; // presume bad APM binding
+
+            var optionalNamespace = false;
+            var nsTypesArray = null;
+
+            if (record.specRef.____accept) {
+              nsTypesArray = Array.isArray(record.specRef.____accept) ? record.specRef.____accept : [record.specRef.____accept];
+            }
+
+            if (record.specRef.____types) {
+              nsTypesArray = Array.isArray(record.specRef.____types) ? record.specRef.____types : [record.specRef.____types];
+            }
+
+            if (nsTypesArray && nsTypesArray.length < 3) {
+              if (-1 < nsTypesArray.indexOf("jsObject")) {
+                if (!record.specRef.____asMap) {
+                  if (nsTypesArray.length === 1) {
+                    acceptBinding = true;
+                  } else {
+                    if (-1 < nsTypesArray.indexOf("jsUndefined")) {
+                      acceptBinding = true;
+                      optionalNamespace = true;
+                    }
+                  }
+                }
+              }
+            }
+
+            if (!acceptBinding) {
               // Issue a warning and move on. No binding.
               var warningMessage = "WARNING: OCD runtime spec path '".concat(record.specPath, "' will not be bound to APM ID '").concat(_apmID, "'. Namespace must be a descriptor object (i.e. not a map) declared as ____types: \"jsObject\".");
               result.constructionWarnings.push(warningMessage);
@@ -242,10 +275,11 @@ var factoryResponse = arccore.filter.create({
 
                   var opcSpecOverlay = ocdRuntimeSpecAspects.aspects.opcProcessModelBindingRootOverlaySpec;
 
-                  var apmSpecOverlay = _apm.getDataSpec(); // TODO: Ensure APM constructor filter correctly verified an OPM's template spec.
+                  var apmSpecOverlay = _apm.getDataSpec();
 
-
-                  provisionalSpecRef = _objectSpread({}, record.specRef, apmSpecOverlay, opcSpecOverlay);
+                  provisionalSpecRef = _objectSpread({}, record.specRef, apmSpecOverlay, opcSpecOverlay, {
+                    ____types: optionalNamespace ? ["jsObject", "jsUndefined"] : "jsObject"
+                  });
                 } else {
                   // No - this is a perfectly valid APM binding annotation. However, there is no such model registered. So, take no action.
                   var _warningMessage = "WARNING: OCD runtime spec path '".concat(record.specPath, "' will not be bound to APM ID '").concat(_apmID, "'. Unknown/unregistered APM specified.");

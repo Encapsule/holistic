@@ -9,7 +9,7 @@ var consoleColorsLUT = require("./console-colors-lut");
 var logLevelLUT = {
   info: console.info,
   diagnostc: console.log,
-  warning: console.warning,
+  warn: console.warn,
   error: console.error
 };
 var factoryResponse = arccore.filter.create({
@@ -67,7 +67,7 @@ var factoryResponse = arccore.filter.create({
       ____label: "Log Level",
       ____description: "A flag indicating a severity of message.",
       ____accept: "jsString",
-      ____inValueSet: ["info", "diagnostic", "warning", "error"],
+      ____inValueSet: ["info", "diagnostic", "warn", "error"],
       ____defaultValue: "info"
     },
     subsystem: {

@@ -28,19 +28,19 @@ module.exports = {
           ____types: "jsObject",
           ____defaultValue: {},
           displayAdapter: {
-            ____types: "jsObject",
+            ____types: ["jsUndefined", "jsObject"],
             ____appdsl: {
               apm: "IxoJ83u0TXmG7PLUYBvsyg"
             }
           },
           viewProcessor: {
-            ____types: "jsObject",
+            ____types: ["jsUndefined", "jsObject"],
             ____appdsl: {
               apm: "Hsu-43zBRgqHItCPWPiBng"
             }
           },
           DOMLocation: {
-            ____types: "jsObject",
+            ____types: ["jsUndefined", "jsObject"],
             ____appdsl: {
               apm: "-1Ptaq_zTUa8Gfv_3ODtDg"
             }

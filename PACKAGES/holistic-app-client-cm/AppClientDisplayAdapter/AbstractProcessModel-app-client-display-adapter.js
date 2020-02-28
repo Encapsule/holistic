@@ -12,7 +12,6 @@ module.exports = {
     ____label: "d2r2/React Client Display Adaptor Memory",
     ____description: "Shared memory definition for the d2r2/React Client Display Adaptor OPM.",
     ____types: "jsObject",
-    ____defaultValue: {},
     inputs: {
       // TODO: Probably none of the inputs should be serialized.
       ____label: "Adaptor Inputs",

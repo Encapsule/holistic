@@ -7,7 +7,6 @@ module.exports = {
   description: "Encapsulates the high-level details of selecting, creating, and updating d2r2/React Client Display Adaptor update signals.",
   ocdDataSpec: {
     ____types: "jsObject",
-    ____defaultValue: {},
     "Hsu-43zBRgqHItCPWPiBng": {
       ____types: "jsObject",
       ____defaultValue: {},
