@@ -3,7 +3,7 @@
 // AbstractProcessModel-app-client-kernel-declaration.js
 module.exports = {
   id: "PPL45jw5RDWSMNsB97WIWg",
-  name: "Holistic Client App Runtime",
+  name: "Holistic Client App Runtime Kernel",
   description: "This model manages, tracks, and controls the lifecycle of the client application.",
   ocdDataSpec: {
     ____types: "jsObject",
@@ -23,6 +23,28 @@ module.exports = {
           ____description: "Boolean flag set when the window.onload event occurs.",
           ____accept: "jsBoolean",
           ____defaultValue: false
+        },
+        subprocesses: {
+          ____types: "jsObject",
+          ____defaultValue: {},
+          displayAdapter: {
+            ____types: "jsObject",
+            ____appdsl: {
+              apm: "IxoJ83u0TXmG7PLUYBvsyg"
+            }
+          },
+          viewProcessor: {
+            ____types: "jsObject",
+            ____appdsl: {
+              apm: "Hsu-43zBRgqHItCPWPiBng"
+            }
+          },
+          DOMLocation: {
+            ____types: "jsObject",
+            ____appdsl: {
+              apm: "-1Ptaq_zTUa8Gfv_3ODtDg"
+            }
+          }
         }
       },
       outputs: {

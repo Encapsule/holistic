@@ -77,7 +77,18 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       description: "Default starting process step.",
       transitions: [{
         transitionIf: {
-          always: true
+          holarchy: {
+            cm: {
+              operators: {
+                cell: {
+                  atStep: {
+                    path: "#.//.//.//.//",
+                    step: "boot1_start_kernel"
+                  }
+                }
+              }
+            }
+          }
         },
         nextStep: "initialize"
       }]

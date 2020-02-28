@@ -16,7 +16,7 @@ module.exports = new holarchy.TransitionOperator({
           ____types: "jsObject",
           cell: {
             ____types: "jsObject",
-            inStep: {
+            atStep: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"

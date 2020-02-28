@@ -89,6 +89,27 @@ module.exports = {
       description: "Default APM process step.",
       transitions: [{
         transitionIf: {
+          holarchy: {
+            cm: {
+              operators: {
+                cell: {
+                  atStep: {
+                    path: "#.//.//.//.//",
+                    step: "boot1_start_kernel"
+                  }
+                }
+              }
+            }
+          }
+        },
+        nextStep: "initialize"
+      }]
+    },
+    // Just a placeholder for now (for consistency).
+    initialize: {
+      description: "Initialize",
+      transitions: [{
+        transitionIf: {
           always: true
         },
         nextStep: "wait_invariants"
