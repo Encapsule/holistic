@@ -2,9 +2,9 @@
     "name": "@encapsule/holistic-app-client-cm",
     "version": "0.0.38",
     "codename": "calvert-rc1",
-    "buildID": "M6jjnZWVQR-SHRoYxaFdhQ",
-    "buildTime": 1583010895,
-    "buildSource": "a5381cbb57f2cb680ef34879fdf8b4113c62be1b",
+    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
+    "buildTime": 1583011641,
+    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -27,23 +27,13 @@
         "Encapsule",
         "holistic",
         "holarchy",
-        "holarchy-sml",
-        "software model",
-        "software library",
-        "SML",
-        "reuse",
-        "re-use",
-        "ObservableProcessController",
-        "ObservableProcessModel",
-        "ObservableControllerData",
-        "TransitionOperator",
-        "ControllerAction"
+        "CellModel"
     ],
     "main": "index.js",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
         "@encapsule/holarchy": "0.0.38",
-        "@encapsule/holarchy-sml": "0.0.38",
+        "@encapsule/holarchy-cm": "0.0.38",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     }

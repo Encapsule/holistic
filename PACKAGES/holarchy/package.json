@@ -2,9 +2,9 @@
     "name": "@encapsule/holarchy",
     "version": "0.0.38",
     "codename": "calvert-rc1",
-    "buildID": "M6jjnZWVQR-SHRoYxaFdhQ",
-    "buildTime": 1583010895,
-    "buildSource": "a5381cbb57f2cb680ef34879fdf8b4113c62be1b",
+    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
+    "buildTime": 1583011641,
+    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
@@ -22,22 +22,16 @@
         "url": "https://github.com/Encapsule/holistic/issues"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "This package contains the ObservableProcessController (OPC), ObservableProcessModel (OPM), ObservableControllerData (OCD), TransitionOperator (TOP), and ControllerAction (ACT) ES6 classes that are used to define and execute hierarchical asynchronous system models. Used to build complex reactive data-driven UX. And, back-end process orchestration data workflows.",
+    "description": "Cellular process modeling and runtime engine for Node.js and browser.",
     "keywords": [
         "Encapsule",
         "holistic",
         "holarchy",
-        "holarchy-sml",
-        "software model",
-        "software library",
-        "SML",
-        "reuse",
-        "re-use",
-        "ObservableProcessController",
-        "ObservableProcessModel",
-        "ObservableControllerData",
-        "TransitionOperator",
-        "ControllerAction"
+        "CellModel",
+        "CellProcessor",
+        "streaming",
+        "filtering",
+        "mind-fuck"
     ],
     "main": "index.js",
     "peerDependencies": {
