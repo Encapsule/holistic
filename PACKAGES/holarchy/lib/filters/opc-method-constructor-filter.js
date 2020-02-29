@@ -384,9 +384,8 @@ var factoryResponse = arccore.filter.create({
           // transition operator filters that are called and we otherwise do not know this because it's
           // not encoded obviously in a transition operator's request.
           options: {
-            action: "routeRequest"
+            action: "getFilter"
           },
-          // TODO: consider flipping this to getFilter and caching the entries in the APM instance?
           filters: transitionOperatorFilters
         });
 

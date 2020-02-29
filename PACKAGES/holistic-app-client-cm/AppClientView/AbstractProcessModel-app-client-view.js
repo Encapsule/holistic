@@ -29,18 +29,7 @@ module.exports = {
       description: "Default starting process step.",
       transitions: [{
         transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                cell: {
-                  atStep: {
-                    path: "#.//.//.//.//",
-                    step: "boot1_start_kernel"
-                  }
-                }
-              }
-            }
-          }
+          always: true
         },
         nextStep: "initialize"
       }]

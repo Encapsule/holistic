@@ -94,8 +94,22 @@ module.exports = {
     boot1_start_kernel: {
       description: "Start core client app kernel subsystems.",
       actions: {
-        enter: [// { holistic: { app: { client: { runtime: { private: { actions: { startKernel: true } } } } } } }
-        ]
+        enter: [{
+          holarchy: {
+            cm: {
+              actions: {
+                cell: {
+                  process: {
+                    create: {
+                      apmBindingPath: "#.PPL45jw5RDWSMNsB97WIWg._private.subprocesses.viewProcessor",
+                      ocdInitData: {}
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
       },
       transitions: [{
         transitionIf: {

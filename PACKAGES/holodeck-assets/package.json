@@ -2,9 +2,9 @@
     "name": "@encapsule/holodeck-assets",
     "version": "0.1.00",
     "codename": "alertbay",
-    "buildID": "7Rk6oa_xQ_qmtVK5b5p8RQ",
-    "buildTime": 1582942214,
-    "buildSource": "83da290397eb3c724f54ab1c135c97709a818b43",
+    "buildID": "OJl7gkE2QQeSiZ6Zj3MScg",
+    "buildTime": 1583000231,
+    "buildSource": "7822d80ee6debb2b16da3a2f7bcd109b81d3122a",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"

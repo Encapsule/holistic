@@ -210,7 +210,8 @@ function () {
             errors.push("Zombie instance:");
             errors.push(this.toJSON().error);
             break;
-          }
+          } // TODO: Turn this into an actual method filter; this implementation uses two filters when one is sufficient?
+
 
           var filterResponse = actInputFilter.request(request_);
 
@@ -265,7 +266,21 @@ function () {
             subsystem: "opc",
             method: "act",
             phase: "body",
-            message: "Task: ".concat(request.actorTaskDescription)
+            message: "ACTOR: ".concat(request.actorName)
+          });
+          logger.request({
+            opc: {
+              id: this._private.id,
+              iid: this._private.iid,
+              name: this._private.name,
+              evalCount: this._private.evalCount,
+              frameCount: 0,
+              actorStack: this._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "act",
+            phase: "body",
+            message: "WANTS TO: ".concat(request.actorTaskDescription)
           }); // Dispatch the action on behalf of the actor.
 
           var actionResponse = null;
@@ -276,7 +291,7 @@ function () {
 
             if (actionResponse.error) {
               actionResponse = {
-                error: "Unrecognized controller action request format. Check message data syntax against registered ControllerAction plug-ins.",
+                error: "ControllerAction request rejected by MDR phase 1 discrimintor. Bad request format; this request cannot be processed by any of the ControllerAction's registered.",
                 result: actionResponse.error
               };
             } else {
@@ -293,13 +308,13 @@ function () {
                 subsystem: "opc",
                 method: "act",
                 phase: "body",
-                message: "Dispatching action filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]...")
+                message: "Dispatching ControllerAction filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]...")
               });
               actionResponse = actionFilter.request(controllerActionRequest);
 
               if (actionResponse.error) {
                 actionResponse = {
-                  error: "It looks like this action request was intended for [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]. But, the controller action plug-in rejected the request."),
+                  error: "ControllerAction request rejected by MDR phase 2 router. The selected ControllerAction filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "] rejected the request with error: ").concat(actionResponse.error),
                   result: actionResponse.error
                 };
               }
@@ -343,7 +358,7 @@ function () {
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "SEQUENCE..."
+              message: "WAITING ON CELLS..."
             }); // Evaluate is an actor too. It adds itself to the OPC actor stack.
             // And is responsible itself for ensuring that it cleans up after
             // itself no matter how it may fail.
@@ -388,7 +403,7 @@ function () {
           subsystem: "opc",
           method: "act",
           phase: "epilogue",
-          message: "COMPLETE in ".concat(timings.totalMilliseconds, " ms")
+          message: "ACTION COMPLETE in ".concat(timings.totalMilliseconds, " ms")
         });
       } else {
         logger.request({
