@@ -90,5 +90,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.9 toolset.<br>
-Document updated Fri Feb 28 2020 13:33:55 GMT-0800 (Pacific Standard Time)
+Document updated Fri Feb 28 2020 18:10:17 GMT-0800 (Pacific Standard Time)
 

@@ -187,11 +187,22 @@ var factoryResponse = arccore.filter.create({
         case "APM":
         case "TOP":
         case "ACT":
-          response.result = artifact._private.digraph.outEdges("INDEX_".concat(request_.type)).map(function (edge_) {
-            return artifact._private.digraph.getVertexProperty(edge_.v).artifact;
-          }).sort(function (a_, b_) {
-            a_.getName() < b_.getName() ? -1 : a_.getName() > b_.getName() ? 1 : 0;
+          var outEdges = artifact._private.digraph.outEdges("INDEX_".concat(request_.type));
+
+          var adjacentVertices = outEdges.map(function (edge_) {
+            return edge_.v;
           });
+          var adjacentArtifacts = adjacentVertices.map(function (vertexID_) {
+            var props = artifact._private.digraph.getVertexProperty(vertexID_);
+
+            return props.artifact;
+          });
+          adjacentArtifacts.sort(function (a_, b_) {
+            var aName = a_.getName();
+            var bName = b_.getName();
+            return aName < bName ? -1 : aName > bName ? 1 : 0;
+          });
+          response.result = adjacentArtifacts;
           break;
 
         default:

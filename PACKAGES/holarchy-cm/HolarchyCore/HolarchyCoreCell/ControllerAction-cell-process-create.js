@@ -1,6 +1,6 @@
 "use strict";
 
-// ControllerAction-app-client-runtime-subprocess-create.js
+// ControllerAction-cell-process-create.js
 var arccore = require("@encapsule/arccore");
 
 var holarchy = require("@encapsule/holarchy");
@@ -11,17 +11,17 @@ module.exports = {
   description: "Creates a cellular subprocess.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holistic: {
+    holarchy: {
       ____types: "jsObject",
-      client: {
+      cm: {
         ____types: "jsObject",
-        cm: {
+        actions: {
           ____types: "jsObject",
-          HolisticAppRuntime: {
+          cell: {
             ____types: "jsObject",
-            actions: {
+            process: {
               ____types: "jsObject",
-              subprocessCreate: {
+              create: {
                 ____types: "jsObject",
                 apmBindingPath: {
                   ____accept: "jsString"
