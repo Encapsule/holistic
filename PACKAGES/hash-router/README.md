@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.1.00 alertbay
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.38 calvert-rc1
 
 ## &#x25F0; Runtime library: @encapsule/hash-router
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).
 
 ```
-Package: @encapsule/hash-router v0.1.00 "alertbay" build ID "OJl7gkE2QQeSiZ6Zj3MScg"
-Sources: Encapsule/holistic-master#7822d80ee6debb2b16da3a2f7bcd109b81d3122a
-Created: 2020-02-29T18:17:11.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/hash-router v0.0.38 "calvert-rc1" build ID "M6jjnZWVQR-SHRoYxaFdhQ"
+Sources: Encapsule/holistic-master#a5381cbb57f2cb680ef34879fdf8b4113c62be1b
+Created: 2020-02-29T21:14:55.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

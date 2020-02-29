@@ -1,10 +1,10 @@
 {
     "name": "@encapsule/holarchy",
-    "version": "0.1.00",
-    "codename": "alertbay",
-    "buildID": "OJl7gkE2QQeSiZ6Zj3MScg",
-    "buildTime": 1583000231,
-    "buildSource": "7822d80ee6debb2b16da3a2f7bcd109b81d3122a",
+    "version": "0.0.38",
+    "codename": "calvert-rc1",
+    "buildID": "M6jjnZWVQR-SHRoYxaFdhQ",
+    "buildTime": 1583010895,
+    "buildSource": "a5381cbb57f2cb680ef34879fdf8b4113c62be1b",
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
