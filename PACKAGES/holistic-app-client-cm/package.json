@@ -1,15 +1,12 @@
 {
-    "name": "@encapsule/holistic-app-client-cm",
-    "version": "0.0.38",
-    "codename": "calvert-rc1",
-    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
-    "buildTime": 1583011641,
-    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Encapsule/holistic.git"
-    },
     "author": "Encapsule",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "CzaEoo-AQgGUu0jixMAfwA",
+    "buildSource": "86dfbd7df0d7995e1217d1420ac5b91113dd9989",
+    "buildTime": 1583179317,
+    "codename": "calvert-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,24 +14,30 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Encapsule/holistic/issues"
+    "description": "Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.",
+    "engines": {
+        "node": ">=12.16.1 <13"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.",
     "keywords": [
         "Encapsule",
         "holistic",
         "holarchy",
         "CellModel"
     ],
+    "license": "MIT",
     "main": "index.js",
+    "name": "@encapsule/holistic-app-client-cm",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
         "@encapsule/holarchy": "0.0.38",
         "@encapsule/holarchy-cm": "0.0.38",
         "react": "16.12.0",
         "react-dom": "16.12.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.0.38"
 }

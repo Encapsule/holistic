@@ -379,6 +379,8 @@ for (key in holisticPlatformManifest.applicationPackageManifest.scripts) {
 
 applicationPackageManifest.scripts = sortObjectKeys(applicationPackageManifest.scripts);
 
+applicationPackageManifest.engines = holisticPlatformManifest.applicationPackageManifest.engines;
+
 applicationPackageManifest.appgen = "@encapsule/holistic v" + holisticMetadata.version + " " + holisticMetadata.codename + " " + holisticMetadata.buildID + " " + holisticMetadata.buildSource + " " + holisticMetadata.buildDateISO;
 
 ////

@@ -1,15 +1,12 @@
 {
-    "name": "@encapsule/hrequest",
-    "version": "0.0.38",
-    "codename": "calvert-rc1",
-    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
-    "buildTime": 1583011641,
-    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Encapsule/holistic.git"
-    },
     "author": "Encapsule",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "CzaEoo-AQgGUu0jixMAfwA",
+    "buildSource": "86dfbd7df0d7995e1217d1420ac5b91113dd9989",
+    "buildTime": 1583179317,
+    "codename": "calvert-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,12 +14,11 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Encapsule/holistic/issues"
+    "description": "This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.",
+    "engines": {
+        "node": ">=12.16.1 <13"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.",
     "keywords": [
         "HTTP",
         "request",
@@ -31,10 +27,17 @@
         "browser",
         "Encapsule"
     ],
+    "license": "MIT",
     "main": "index.js",
+    "name": "@encapsule/hrequest",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
         "query-string": "^6.2.0",
         "request": "^2.88.0"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.0.38"
 }

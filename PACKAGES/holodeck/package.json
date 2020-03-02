@@ -1,15 +1,12 @@
 {
-    "name": "@encapsule/holodeck",
-    "version": "0.0.38",
-    "codename": "calvert-rc1",
-    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
-    "buildTime": 1583011641,
-    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Encapsule/holistic.git"
-    },
     "author": "Encapsule",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "CzaEoo-AQgGUu0jixMAfwA",
+    "buildSource": "86dfbd7df0d7995e1217d1420ac5b91113dd9989",
+    "buildTime": 1583179317,
+    "codename": "calvert-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,12 +14,11 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Encapsule/holistic/issues"
+    "description": "This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.",
+    "engines": {
+        "node": ">=12.16.1 <13"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.",
     "keywords": [
         "Encapsule",
         "holistic",
@@ -35,8 +31,15 @@
         "filter",
         "plug-in"
     ],
+    "license": "MIT",
     "main": "index.js",
+    "name": "@encapsule/holodeck",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9"
-    }
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.0.38"
 }

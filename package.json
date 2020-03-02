@@ -1,15 +1,15 @@
 {
-    "name": "@encapsule/holistic",
-    "version": "0.0.38",
-    "codename": "calvert-rc1",
-    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
-    "buildTime": 1583011641,
-    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Encapsule/holistic.git"
-    },
     "author": "Encapsule",
+    "bin": {
+        "appgen": "./appgen"
+    },
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "CzaEoo-AQgGUu0jixMAfwA",
+    "buildSource": "86dfbd7df0d7995e1217d1420ac5b91113dd9989",
+    "buildTime": 1583179317,
+    "codename": "calvert-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,24 +17,27 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Encapsule/holistic/issues"
-    },
-    "homepage": "https://github.com/Encapsule",
-    "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
-    "keywords": [
-        "encapsule",
-        "holistic"
-    ],
-    "main": "index.js",
     "dependencies": {
         "@encapsule/arccore": "0.1.9",
         "@encapsule/arctools": "0.1.9",
         "mkdirp": "^0.5.1",
         "semver": "^5.6.0"
     },
-    "bin": {
-        "appgen": "./appgen"
-    }
+    "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
+    "engines": {
+        "node": ">=12.16.1 <13"
+    },
+    "homepage": "https://github.com/Encapsule",
+    "keywords": [
+        "encapsule",
+        "holistic"
+    ],
+    "license": "MIT",
+    "main": "index.js",
+    "name": "@encapsule/holistic",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.0.38"
 }

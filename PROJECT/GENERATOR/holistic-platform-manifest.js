@@ -6,6 +6,8 @@ const holisticAppPlatformManifestFilter = require('./LIB/holistic-platform-manif
 const filterResponse = holisticAppPlatformManifestFilter.request({
 
     applicationPackageManifest: {
+        engines: { node: ">=12.16.1 <13" },
+
         scripts: {
             install: "# Installation complete. Enjoy the holistic platform 8>",
             clean: "make clean",

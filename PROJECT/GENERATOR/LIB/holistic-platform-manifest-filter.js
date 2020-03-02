@@ -16,6 +16,14 @@ const factoryResponse = arccore.filter.create({
             ____label: "App Package Manifest Data",
             ____description: "Values specified by the holistic platform that are written into a derived application's package.json",
             ____types: "jsObject",
+
+            engines: {
+                ____types: "jsObject",
+                node: {
+                    ____accept: "jsString" // semver range
+                }
+            },
+
             scripts: {
                 ____types: "jsObject",
                 ____asMap: true,

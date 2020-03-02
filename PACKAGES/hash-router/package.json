@@ -1,15 +1,12 @@
 {
-    "name": "@encapsule/hash-router",
-    "version": "0.0.38",
-    "codename": "calvert-rc1",
-    "buildID": "L1XN3XLXTy-4O4GJW8kzfg",
-    "buildTime": 1583011641,
-    "buildSource": "a4c8aa978b80263084d168b4aad92d32b5d164fd",
-    "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Encapsule/holistic.git"
-    },
     "author": "Encapsule",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "CzaEoo-AQgGUu0jixMAfwA",
+    "buildSource": "86dfbd7df0d7995e1217d1420ac5b91113dd9989",
+    "buildTime": 1583179317,
+    "codename": "calvert-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,12 +14,11 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "license": "MIT",
-    "bugs": {
-        "url": "https://github.com/Encapsule/holistic/issues"
+    "description": "This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).",
+    "engines": {
+        "node": ">=12.16.1 <13"
     },
     "homepage": "https://github.com/Encapsule",
-    "description": "This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).",
     "keywords": [
         "HTML5",
         "browser",
@@ -30,5 +26,12 @@
         "hash",
         "router"
     ],
-    "main": "minimal-hash-router.js"
+    "license": "MIT",
+    "main": "minimal-hash-router.js",
+    "name": "@encapsule/hash-router",
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.0.38"
 }
