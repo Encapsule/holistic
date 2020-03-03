@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
-    "version": "0.0.38",
-    "codename": "calvert-rc4",
+    "version": "0.0.39",
+    "codename": "petrinets-test",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "xVMelTFpRSmMS7faXh6MWQ",
-    "buildSource": "9aeb4b84798f9e67c9e6513e6890fa354a4fb6db",
-    "buildTime": 1583190201,
-    "buildDateISO": "2020-03-02T23:03:21.000Z"
+    "buildID": "2_85h9z2Qam2KqcgcddlMQ",
+    "buildSource": "1bdc0b2db56bbdbcaaaced01f2f7c79f46456417",
+    "buildTime": 1583195052,
+    "buildDateISO": "2020-03-03T00:24:12.000Z"
 }

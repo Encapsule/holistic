@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "xVMelTFpRSmMS7faXh6MWQ",
-    "buildSource": "9aeb4b84798f9e67c9e6513e6890fa354a4fb6db",
-    "buildTime": 1583190201,
-    "codename": "calvert-rc4",
+    "buildID": "2_85h9z2Qam2KqcgcddlMQ",
+    "buildSource": "1bdc0b2db56bbdbcaaaced01f2f7c79f46456417",
+    "buildTime": 1583195052,
+    "codename": "petrinets-test",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -33,5 +33,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.38"
+    "version": "0.0.39"
 }
