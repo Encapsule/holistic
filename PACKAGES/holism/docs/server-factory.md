@@ -321,6 +321,16 @@ This filter normalizes the value of `input` passed to its `request` method using
                             "text/plain",
                             "text/xml"
                         ]
+                    },
+                    "responseHeaders": {
+                        "____label": "Response Headers",
+                        "____types": "jsObject",
+                        "____asMap": true,
+                        "____defaultValue": {},
+                        "headerName": {
+                            "____label": "Header Value",
+                            "____accept": "jsString"
+                        }
                     }
                 }
             }
@@ -484,8 +494,8 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cdwYBDQgYsKe3iAT3__ilQ` |
-| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `HTVwwWNeO0gYsqiR67I19Q` |
+| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cacNBDTyZ8KeBfwT32N_lQ` |
+| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `f_cXkx45F5MKXl_CpuL5Bw` |
 | output contract | `E-MD52v_-9inRlNG1BsAZw` | `DuBPhn0s0PijrJBkos9aTw` |
 
 ### Configuration
@@ -501,5 +511,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.9 toolset.<br>
-Document updated Mon Mar 02 2020 16:24:13 GMT-0800 (Pacific Standard Time)
+Document updated Wed Mar 04 2020 09:36:01 GMT-0800 (Pacific Standard Time)
 

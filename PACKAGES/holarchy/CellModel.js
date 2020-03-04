@@ -82,7 +82,20 @@ function () {
   }, {
     key: "toJSON",
     value: function toJSON() {
-      return this.isValid() ? this._private : this._private.constructorError;
+      if (!this.isValid()) {
+        return this._private.constructorError;
+      }
+
+      var response = {
+        id: this.getID(),
+        vdid: this.getVDID(),
+        name: this.getName(),
+        description: this.getDescription(),
+        cmat: this.getCMConfig({
+          type: "CMAT"
+        })
+      };
+      return response;
     } // If isValid() then IRUT string. Otherwise, constructor error string.
 
   }, {

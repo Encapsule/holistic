@@ -82,7 +82,12 @@ var factoryResponse = arccore.filter.create({
         var testSet = request_.testRequestSets[setNumber]; // Inner set of test vectors...
 
         for (var testNumber = 0; testNumber < testSet.length; testNumber++) {
-          var testRequest = testSet[testNumber]; // Process runner options vector exclusions.
+          var testRequest = _objectSpread({}, testSet[testNumber], {
+            harnessDispatcher: harnessDispatcher,
+            harnessRunner: holisticTestRunner,
+            logsRootDir: request_.logsRootDir
+          }); // Process runner options vector exclusions.
+
 
           if (request_.testRunnerOptions.onlyExecuteVectors
           /*null by default or array if true*/
@@ -127,7 +132,11 @@ var factoryResponse = arccore.filter.create({
           // amounts of hand-maintained "expected results" data.
 
 
-          var testEvalDescriptor = {};
+          var testEvalDescriptor = {}; // Delete non-idempotent and not really interesting information from the request sent to the holodeck harness proxy.
+
+          delete testRequest.harnessDispatcher;
+          delete testRequest.harnessRunner;
+          delete testRequest.logsRootDir;
           testEvalDescriptor[idHolodeckRunnerEvalReport] = {};
           var harnessFilterId = harnessFilter ? harnessFilter.filterDescriptor.operationID : "000000000000000000";
           testEvalDescriptor[idHolodeckRunnerEvalReport][harnessFilterId] = {};
@@ -151,16 +160,16 @@ var factoryResponse = arccore.filter.create({
           } // See discussion on git diff: https://github.com/git/git/blob/master/Documentation/diff-format.txt
 
 
-          var diffCommand = "git diff -p --unified=".concat(gitDiffUnified, " --numstat --dirstat=lines --word-diff=plain ").concat(harnessEvalFilename); // console.log("$ " + diffCommand);
+          var diffCommand = "git diff -p --unified=".concat(gitDiffUnified, " --numstat --dirstat=lines --word-diff=plain ").concat(harnessEvalFilename, " > ").concat(harnessEvalDiffFilename); // console.log("$ " + diffCommand);
 
-          var gitDiffResponse = helpers.syncExec({
+          var gitDiffResponse = helpers.syncExecKeepConsole({
             command: diffCommand,
             cwd: helpers.getLogEvalDir(request_.logsRootDir, request_.id)
           });
+          gitDiffResponse = fs.readFileSync(harnessEvalDiffFilename).toString("utf8");
 
           if (gitDiffResponse.length) {
             (function () {
-              fs.writeFileSync(harnessEvalDiffFilename, "".concat(gitDiffResponse, "\n"));
               var gitDiffResponseLines = gitDiffResponse.split("\n");
               var gitDiffResponseLinesChanges = [];
               gitDiffResponseLines.forEach(function (line_) {
@@ -239,6 +248,7 @@ var runnerFascade = _objectSpread({}, holisticTestRunner, {
     var analysis = {};
 
     if (!runnerResponse.error) {
+      console.log("..... runner returned a response.result. Analyzing...");
       var resultPayload = runnerResponse.result[idHolodeckRunner];
       console.log("Runner '".concat(runnerRequest_.id, "' summary:"));
       analysis.totalTestVectors = resultPayload.summary.requests;
@@ -258,14 +268,13 @@ var runnerFascade = _objectSpread({}, holisticTestRunner, {
       return runnerResponse;
     }
 
-    console.log("..... runner returned a response result. Analyzing...");
+    var runnerEvalLogsDir = helpers.getLogEvalDir(runnerRequest_.logsRootDir, runnerRequest_.id);
+    var runnerInducedGitDiffsFilename = helpers.getRunnerInducedGitDiffsFilename(runnerRequest_.logsRootDir, runnerRequest_.id);
     var gitDiffTreeResponse = helpers.syncExec({
-      command: "git diff --unified=0 ".concat(helpers.getLogEvalDir(runnerRequest_.logsRootDir, runnerRequest_.id)),
-      cwd: helpers.getLogEvalDir(runnerRequest_.logsRootDir, runnerRequest_.id)
+      command: "git diff --unified=0 ".concat(runnerEvalLogsDir, " > ").concat(runnerInducedGitDiffsFilename),
+      cwd: runnerEvalLogsDir
     });
-    var gitDiffTreeOutput = gitDiffTreeResponse && gitDiffTreeResponse.length ? gitDiffTreeResponse.split("\n") : null;
     fs.writeFileSync(helpers.getRunnerEvalSummaryFilename(runnerRequest_.logsRootDir, runnerRequest_.id), "".concat(JSON.stringify(analysis, undefined, 2), "\n"));
-    fs.writeFileSync(helpers.getRunnerInducedGitDiffsFilename(runnerRequest_.logsRootDir, runnerRequest_.id), "".concat(JSON.stringify(gitDiffTreeOutput, undefined, 2), "\n"));
     fs.writeFileSync(helpers.getRunnerResponseFilename(runnerRequest_.logsRootDir, runnerRequest_.id), "".concat(JSON.stringify(runnerResponse, undefined, 2), "\n"));
     return runnerResponse;
   }

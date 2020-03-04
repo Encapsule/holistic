@@ -103,7 +103,17 @@ module.exports = {
                     ____description: "Flag values indicating desired response encoding.",
                     ____types: "jsObject",
                     contentEncoding: contentEncodingSpec,
-                    contentType: contentTypeSpec
+                    contentType: contentTypeSpec,
+                    responseHeaders: {
+                        ____label: "Response Headers",
+                        ____types: "jsObject",
+                        ____asMap: true,
+                        ____defaultValue: {},
+                        headerName: {
+                            ____label: "Header Value",
+                            ____accept: "jsString"
+                        }
+                    }
                 }
             } // local_filesystem_path
         }, // files

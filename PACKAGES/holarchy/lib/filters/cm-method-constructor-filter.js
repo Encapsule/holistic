@@ -67,8 +67,8 @@ var factoryResponse = arccore.filter.create({
       // Create DirectedGraph to index all the assets and give us an easy way to look things up.
 
       var filterResponse = arccore.graph.directed.create({
-        name: "[".concat(request_.id, "::").concat(request_.name, " CM Holarchy Digraph"),
-        description: "A directed graph model of CM relationships [".concat(request_.id, "::").concat(request_.name, "]."),
+        name: "[".concat(request_.id, "::").concat(request_.name, "] CellModel Artifact Tree"),
+        description: "A directed graph model of CM relationships for CellModel [".concat(request_.id, "::").concat(request_.name, "]."),
         vlist: Object.keys(indexVertices).map(function (key_) {
           return {
             u: indexVertices[key_],

@@ -45,7 +45,7 @@ module.exports = {
     ____defaultValue: [],
     TransitionOperator: {
       ____label: "Transition Operator",
-      ____description: "Either an TOP descriptor or its corresponding TransitionOperator ES6 class instance.",
+      ____description: "Either a TOP descriptor or its corresponding TransitionOperator ES6 class instance.",
       ____accept: "jsObject" // further processed in bodyFunction
 
     }

@@ -43,7 +43,19 @@ var factoryResponse = arccore.filter.create({
         description: {
           ____accept: "jsString"
         },
-        vectorRequest: factoryRequest_.testVectorRequestInputSpec
+        vectorRequest: factoryRequest_.testVectorRequestInputSpec,
+        harnessDispatcher: {
+          ____accept: "jsObject"
+        },
+        // MDR chaining to retrieve another harness from within a harness
+        harnessRunner: {
+          ____accept: "jsObject"
+        },
+        // MDR chaining to another holodeck runner instance (separate eval logs)
+        logsRootDir: {
+          ____accept: "jsString"
+        } // The calling holodeck runner's logsRootDir (needed if you MDR chain to a separate runner in your harness)
+
       };
       var innerResponse = arccore.filter.create({
         operationID: factoryRequest_.id,

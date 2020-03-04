@@ -73,6 +73,7 @@ var factoryResponse = arccore.filter.create({
                     authentication: resourceDeclaration.authentication,
                     contentEncoding: resourceDeclaration.response_properties.contentEncoding,
                     contentType: resourceDeclaration.response_properties.contentType,
+                    responseHeaders: resourceDeclaration.response_properties.responseHeaders,
                     data: (resourceDeclaration.response_properties.contentEncoding === "binary")?resource:resource.toString("utf8"),
                     sizeBytes: resourceSizeBytes,
                     ETag: resourceETag,

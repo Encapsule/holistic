@@ -1,4 +1,4 @@
-// http-server-generator-filter.js
+// http-server-filter-factory.js
 //
 /*
   An experimental HTTP 1.1 server built atop the low-level Node.js
@@ -510,8 +510,9 @@ var factoryResponse = arccore.filter.create({
                                             http: { code: 200 },
                                             headers: {
                                                 ETag: resourceDescriptor.resource.ETag,
-                                                "Cache-Control": "must-revalidate"
-                                            },
+                                                "Cache-Control": "must-revalidate",
+                                                ...resourceDescriptor.resource.responseHeaders
+                                        },
                                             content: {
                                                 encoding: resourceDescriptor.resource.contentEncoding,
                                                 type: resourceDescriptor.resource.contentType
