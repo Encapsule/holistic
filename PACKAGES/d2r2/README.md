@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.39 petrinets-test
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.39 hakai
 
 ## &#x25F0; Runtime library: @encapsule/d2r2
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.
 
 ```
-Package: @encapsule/d2r2 v0.0.39 "petrinets-test" build ID "SIrYERB8Q0qmpsqBT6CphA"
-Sources: Encapsule/holistic-master#d78b43e258380adfb596c6f3255f09ac0767b0a7
-Created: 2020-03-04T17:35:59.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/d2r2 v0.0.39 "hakai" build ID "UBSvcB5fQDOPQct0YsG-ww"
+Sources: Encapsule/holistic-master#c06e8e4e4e4bb8b4294ae0343788782af1f69a64
+Created: 2020-03-04T18:47:41.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
