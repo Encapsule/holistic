@@ -9,9 +9,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // CellProcessor.js
 var constructorFilter = require("./lib/filters/cp-method-constructor-filter");
 
-module.exports =
-/*#__PURE__*/
-function () {
+module.exports = /*#__PURE__*/function () {
   function CellProcessor(request_) {
     _classCallCheck(this, CellProcessor);
 

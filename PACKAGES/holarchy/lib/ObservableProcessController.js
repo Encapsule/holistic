@@ -31,9 +31,7 @@ var consoleStyles = require("./util/console-colors-lut");
 
 var logger = require("./util/holarchy-logger-filter");
 
-var ObservableProcessController =
-/*#__PURE__*/
-function () {
+var ObservableProcessController = /*#__PURE__*/function () {
   // ================================================================
   function ObservableProcessController(request_) {
     _classCallCheck(this, ObservableProcessController);

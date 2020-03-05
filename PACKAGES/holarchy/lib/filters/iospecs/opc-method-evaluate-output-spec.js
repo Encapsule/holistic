@@ -43,9 +43,9 @@ var opcEvalResultSpec = {
         ____label: "Total Transitions",
         ____description: "Total number of APM instances.",
         ____accept: "jsNumber"
-      } // counts
+      }
+    } // counts
 
-    }
   },
   // summary
   evalFrames: {
@@ -134,15 +134,15 @@ var opcEvalResultSpec = {
                 ____label: "Data Binding Spec Path",
                 ____description: "A filter-style dot-delimited namespace path URI referencing the filter spec namespace descriptor associated with dataPath.",
                 ____accept: "jsString"
-                /* Clip this reference into the CDS out of the response.result
-                specRef: {
-                    ____label: "Data Binding Spec Reference",
-                    ____description: "A reference to the filter spec namespace descriptor associated with dataRef.",
-                    ____accept: "jsObject" // This will always be an object because filter specs are always objects.
-                }
-                */
-
               }
+              /* Clip this reference into the CDS out of the response.result
+              specRef: {
+                  ____label: "Data Binding Spec Reference",
+                  ____description: "A reference to the filter spec namespace descriptor associated with dataRef.",
+                  ____accept: "jsObject" // This will always be an object because filter specs are always objects.
+              }
+              */
+
             },
             initialStep: {
               ____label: "Initial Step",
@@ -204,9 +204,9 @@ var opcEvalResultSpec = {
               p4_finalize: {
                 // APM step transition finalize response
                 ____accept: ["jsObject", "jsNull"] // TODO: Finish this filter response spec
-                // p4
 
-              }
+              } // p4
+
             },
             errors: {
               ____types: "jsObject",
@@ -229,19 +229,19 @@ var opcEvalResultSpec = {
               total: {
                 // total
                 ____types: "jsNumber"
-              } // errors
+              }
+            } // errors
 
-            } // evaluationResponse
+          } // evaluationResponse
 
-          } // cdsDataPathIRUT
+        } // cdsDataPathIRUT
 
-        } // bindings
+      } // bindings
 
-      } // evalFrame
+    } // evalFrame
 
-    } // evaluationFrames
+  } // evaluationFrames
 
-  }
 }; // opcEvalResultSpec
 
 module.exports = opcEvalResultSpec;

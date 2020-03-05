@@ -12,9 +12,7 @@ var getNamespaceInReferenceFromPathFilter = require("./filters/get-namespace-in-
 
 var dataPathResolveFilter = require("./filters/ocd-method-data-path-resolve-filter");
 
-var ObservableControllerData =
-/*#__PURE__*/
-function () {
+var ObservableControllerData = /*#__PURE__*/function () {
   // request = { spec: filter descriptor object, data: variant }
   function ObservableControllerData(request_) {
     _classCallCheck(this, ObservableControllerData);

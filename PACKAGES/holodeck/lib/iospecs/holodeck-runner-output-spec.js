@@ -94,9 +94,9 @@ module.exports = {
                   ____accept: ["jsNull", "jsString"]
                 },
                 result: {
-                  ____opaque: true // we cannot reasonably predict this value at this level of abstraction
+                  ____opaque: true
+                } // we cannot reasonably predict this value at this level of abstraction
 
-                }
               }
             }
           }

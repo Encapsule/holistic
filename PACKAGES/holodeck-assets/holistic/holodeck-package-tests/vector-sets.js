@@ -60,4 +60,13 @@ module.exports = [[{
       thisIsOpqaue: "so i can do wahtever i want... and it doesn't matter anyway. the harness is hard-wired to explode."
     }
   }
-}]];
+}
+/* DISABLE
+{
+    id: "yHBXQnMzTc-uD67HICQx-g",
+    name: "Call test harness #5",
+    description: "Call test harness #5 that is declared a non-idempotent, with a gif diff hunk size to test holodeck runner's handling of the post-harness-dispatch evaluation step performed currently by the runner filter.",
+    vectorRequest: { testMessage5: { thisIsOpaque: "this message is entirely ignored by the harness" } }
+}
+*/
+]];

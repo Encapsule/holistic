@@ -31,7 +31,8 @@ var factoryResponse = arccore.filter.create({
       "CMAT", // CellModel Artifact Tree (report object generated from CellModel data).
       "APM", // AbstractProcessModel
       "TOP", // TransitionOperator
-      "ACT"],
+      "ACT" // ControllerAction (TODO: Should be CellAction)
+      ],
       ____defaultValue: "CM"
     }
   },

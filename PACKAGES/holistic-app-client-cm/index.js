@@ -21,6 +21,7 @@ module.exports = {
     subcells: [require("./AppClientRuntime"), // manages the overall lifespan of the HTML5 client application.
     require("./AppClientDOMLocation"), // manages the application's interface between the DOM href and hashrouter locations and the state of the cellular runtime process.
     require("./AppClientView"), // provides high-level orchestration for lifespan of application-specific subview processes (a concept we haven't discussed yet).
-    require("./AppClientDisplayAdapter")]
+    require("./AppClientDisplayAdapter") // encapsules low level details of rendering HTML5 view via @encapsule/d2r2 and Facebook React on behalf of AppClientView.
+    ]
   })
 };

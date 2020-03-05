@@ -50,18 +50,18 @@ module.exports = new holarchy.TransitionOperator({
                   ____accept: "jsString",
                   ____inValueSet: ["===", "==", "<", "<=", ">", ">="] // operator
 
-                } // compare
-                // values
+                }
+              } // compare
+              // values
 
-              } // ocd
+            } // ocd
 
-            } // operators
+          } // operators
 
-          } // cm
+        } // cm
 
-        } // holarchy
+      } // holarchy
 
-      }
     }
   },
   // operatorRequest

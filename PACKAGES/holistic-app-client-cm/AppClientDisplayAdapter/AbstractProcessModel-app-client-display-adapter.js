@@ -62,14 +62,14 @@ module.exports = {
             ____label: "Render Data OCD Path",
             ____description: "Fully-qualified OCD path of the descriptor object to be deep copied and passed to <ComponentRouter/> via this.props.renderData.",
             ____accept: "jsString"
-          } // value
+          }
+        } // value
 
-        } // clock
+      } // clock
 
-      }
     },
     // inputs
-    private: {
+    "private": {
       ____types: "jsObject",
       ____defaultValue: {},
       renderCount: {
@@ -306,7 +306,7 @@ module.exports = {
         },
         nextStep: "render"
       }]
-    } // steps
+    }
+  } // steps
 
-  }
 }; // APM declaration

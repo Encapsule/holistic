@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -61,14 +61,12 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
       ____description: "Styles applied to the DIV container around the rendered markdown content.",
       ____accept: "jsObject",
       ____defaultValue: {
-        background: "yellow" // this is to alert developers that they should style their markdown
+        background: "yellow"
+      } // this is to alert developers that they should style their markdown
 
-      }
     }
   },
-  reactComponent:
-  /*#__PURE__*/
-  function (_React$Component) {
+  reactComponent: /*#__PURE__*/function (_React$Component) {
     _inherits(HolisticMarkdownContent, _React$Component);
 
     function HolisticMarkdownContent() {

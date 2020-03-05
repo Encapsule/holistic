@@ -71,11 +71,11 @@ module.exports = {
           exitActionRequestObject: {
             ____label: "Step Exit Action Request Object",
             ____description: "An OPC action request object to be dispatched by the OPC upon exit from this process step.",
-            ____accept: "jsObject" // exitActionRequestObject
+            ____accept: "jsObject"
+          } // exitActionRequestObject
 
-          } // exit
+        } // exit
 
-        }
       },
       // ~.step.stepName.actions
       // ~.steps.stepName.transitions is a queue of messages that models a sequence of deferred proceedure calls (DPC) dispatched when the Observable Process Model (APM) is evaluated at runtime.
@@ -97,13 +97,13 @@ module.exports = {
             ____label: "Target Step",
             ____description: "The name of the controller step that the controller should transition to iff the transition operator returns Boolean true.",
             ____accept: "jsString"
-          } // transitionModel
+          }
+        } // transitionModel
 
-        } // transitionsModel
+      } // transitionsModel
 
-      } // step
+    } // step
 
-    } // steps
+  } // steps
 
-  }
 }; // apm-method-constructor-input-spec

@@ -19,9 +19,9 @@ module.exports = {
     ____types: "jsArray",
     ____defaultValue: [],
     testHarnessFilter: {
-      ____accept: "jsObject" // test harness filter instance reference
+      ____accept: "jsObject"
+    } // test harness filter instance reference
 
-    }
   },
   testRunnerOptions: {
     ____types: "jsObject",

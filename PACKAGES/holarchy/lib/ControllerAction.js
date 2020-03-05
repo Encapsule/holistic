@@ -10,9 +10,7 @@ var arccore = require("@encapsule/arccore");
 
 var constructorFilter = require("./filters/cac-method-constructor-filter");
 
-module.exports =
-/*#__PURE__*/
-function () {
+module.exports = /*#__PURE__*/function () {
   function ControllerAction(request_) {
     _classCallCheck(this, ControllerAction);
 

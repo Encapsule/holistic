@@ -30,7 +30,8 @@ var factoryResponse = arccore.filter.create({
       ____inValueSet: ["CM", // CellModel
       "APM", // AbstractProcessModel
       "TOP", // TransitionOperator
-      "ACT"],
+      "ACT" // ControllerAction (TODO: Should be CellAction)
+      ],
       ____defaultValue: "CM"
     }
   },
