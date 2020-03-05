@@ -21,6 +21,9 @@ const factoryResponse = arccore.filter.create({
                 ____types: "jsObject",
                 node: {
                     ____accept: "jsString" // semver range
+                },
+                yarn: {
+                    ____accept: "jsString" // semver range
                 }
             },
 

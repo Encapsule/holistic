@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "hEjEMhDlQLeRzlnNM7AZew",
-    "buildSource": "0492939a4b94b463d66e95af7cc05e227e28c6ef",
-    "buildTime": 1583430354,
+    "buildID": "LMHnUvRrTVO6Aeas8vmaww",
+    "buildSource": "f5f6a7a9974559db8bd6280c8e5b0355467a9128",
+    "buildTime": 1583442864,
     "codename": "hakai-rc2",
     "contributors": [
         {
@@ -16,7 +16,8 @@
     ],
     "description": "This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.",
     "engines": {
-        "node": ">=12.16.1 <13"
+        "node": ">=12.16.1 <13",
+        "yarn": "1.22.0"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [

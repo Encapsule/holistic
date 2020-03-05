@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.39 "hakai-rc2" build ID "hEjEMhDlQLeRzlnNM7AZew"
-Sources: Encapsule/holistic-master#0492939a4b94b463d66e95af7cc05e227e28c6ef
-Created: 2020-03-05T17:45:54.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.39 "hakai-rc2" build ID "LMHnUvRrTVO6Aeas8vmaww"
+Sources: Encapsule/holistic-master#f5f6a7a9974559db8bd6280c8e5b0355467a9128
+Created: 2020-03-05T21:14:24.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -76,13 +76,29 @@ To get started you need a small set of core tools installed on your host OS:
 
 - [git](https://git-scm.com/)
 
-- [Node.js](https://nodejs.org)
+- [Node.js](https://nodejs.org) - **WE ARE CURRENTLY STANDARDIZED ON NODE v12.16.1 LTS**
 
-- [yarn](https://yarnpkg.com) (depends on Node.js)
+- [yarn](https://yarnpkg.com) (depends on Node.js) - **WE ARE CURRENTLY STANDARDIZED ON YARN v1.22.0**
 
-Most of you will likely already have all of these tool installed.
+```shell
 
-If not, then they are readily available for all major platforms at the links above.
+root@holarchy:~# node --version
+
+v12.16.1
+
+root@holarchy:~# npm --version
+
+6.14.2
+
+root@holarchy:~# yarn --version
+
+1.22.0
+
+```
+
+**IMPORTANT**
+
+Once you have configured these baseline tools dependencies, then all other concerns related to tools and libraries dependencies are managed directly or indirectly under developer control via `appgen`.
 
 ### Clone
 
@@ -229,9 +245,7 @@ Here is what happens when you execute `appgen` on your_app_repo:
 
 - Synthesize tool configuration files required by Makefile targets.
 
-- Execute `yarn install --check-files`.
-
-Once `appgen` has completed, 
+- Execute `yarn install --force --check-files`.
 
 ### Usage
 
@@ -249,15 +263,15 @@ Once `appgen` has completed,
 
 #### Project Update
 
-E E Dksjks l lksdf
+TODO
 
 #### Update Verification
 
-sf l llsdkfj wl kwksxcnsl
+TODO
 
 #### Update Commit
 
-fs j lkclkxs lwpo ns
+TODO
 
 ### Derived Projects
 
@@ -265,19 +279,19 @@ Some introductory text.
 
 #### yarn Integrations
 
- sdkjfsdfs whole list blah blah
+TODO
 
 #### Project Directory Structure
 
-Some initial discussion of the `appgen`-created directory structure.
+TODO
 
 #### Holistic App Build: Makefile
 
-An explanation of the `appgen`-generated Makefile created in the root of derived projects.
+TODO
 
 #### App-Specific Build: Makefile-App
 
-jdhf  fkjhsdfkj s
+TODO
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Holistic Platform Runtime
 
