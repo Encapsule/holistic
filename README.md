@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.39 hakai
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.39 hakai-rc2
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.39 "hakai" build ID "UBSvcB5fQDOPQct0YsG-ww"
-Sources: Encapsule/holistic-master#c06e8e4e4e4bb8b4294ae0343788782af1f69a64
-Created: 2020-03-04T18:47:41.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.39 "hakai-rc2" build ID "hEjEMhDlQLeRzlnNM7AZew"
+Sources: Encapsule/holistic-master#0492939a4b94b463d66e95af7cc05e227e28c6ef
+Created: 2020-03-05T17:45:54.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

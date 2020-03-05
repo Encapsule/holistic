@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "UBSvcB5fQDOPQct0YsG-ww",
-    "buildSource": "c06e8e4e4e4bb8b4294ae0343788782af1f69a64",
-    "buildTime": 1583347661,
-    "codename": "hakai",
+    "buildID": "hEjEMhDlQLeRzlnNM7AZew",
+    "buildSource": "0492939a4b94b463d66e95af7cc05e227e28c6ef",
+    "buildTime": 1583430354,
+    "codename": "hakai-rc2",
     "contributors": [
         {
             "name": "Christopher D. Russell",

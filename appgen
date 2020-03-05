@@ -449,7 +449,7 @@ consoleOutput = syncExec({
     command: command
 });
 console.log(consoleOutput);
-    
+
 command = [
     "cp -Rpv",
     path.join(resourceFilePaths.holistic.packageDir, "ASSETS/*"),
@@ -609,8 +609,9 @@ console.log("> ONE MOMENT PLEASE... Executing 'yarn install in '" + resourceFile
 console.log("");
 consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
-    command: "yarn install" // --check-files
+    command: "yarn install --force --checkfiles" // --check-files
 });
+
 console.log(consoleOutput);
 
 // ================================================================
