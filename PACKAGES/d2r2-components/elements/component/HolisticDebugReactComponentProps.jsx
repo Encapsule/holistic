@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -12,11 +12,11 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 // sources/common/view/elements/page/RUX_PagePanel_ReactDebug.jsx
 //
@@ -34,9 +34,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
       ____accept: "jsObject"
     }
   },
-  reactComponent:
-  /*#__PURE__*/
-  function (_React$Component) {
+  reactComponent: /*#__PURE__*/function (_React$Component) {
     _inherits(HolisticDebugReactComponentProps, _React$Component);
 
     function HolisticDebugReactComponentProps(props_) {
@@ -52,8 +50,8 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
         showAppStateController: false,
         showMetadataStore: false
       };
-      _this.onClickToggleDetails = _this.onClickToggleDetails.bind(_assertThisInitialized(_assertThisInitialized(_this)));
-      _this.onClikcToggleDetailsSection = _this.onClickToggleDetailsSection.bind(_assertThisInitialized(_assertThisInitialized(_this)));
+      _this.onClickToggleDetails = _this.onClickToggleDetails.bind(_assertThisInitialized(_this));
+      _this.onClikcToggleDetailsSection = _this.onClickToggleDetailsSection.bind(_assertThisInitialized(_this));
       return _this;
     }
 

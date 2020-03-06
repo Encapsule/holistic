@@ -6,7 +6,7 @@ const holisticAppPlatformManifestFilter = require('./LIB/holistic-platform-manif
 const filterResponse = holisticAppPlatformManifestFilter.request({
 
     applicationPackageManifest: {
-        engines: { node: ">=12.16.1 <13" },
+        engines: { node: ">=12.16.1 <13", yarn: "1.22.0" },
 
         scripts: {
             install: "# Installation complete. Enjoy the holistic platform 8>",
@@ -26,15 +26,15 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
     platformDependencies: {
 
         // Holistic platform build and test library dependencies.
-        "@babel/cli": "^7.2.3",
-        "@babel/core": "^7.2.2",
-        "@babel/plugin-transform-react-jsx": "^7.2.0",
-        "@babel/preset-env": "^7.2.3",
+        "@babel/cli": "^7.8.4",
+        "@babel/core": "^7.8.7",
+        "@babel/plugin-transform-react-jsx": "^7.8.3",
+        "@babel/preset-env": "^7.8.7",
         "chai": "^4.2.0",
         "eslint": "^5.10.0",
         "mockery": "^2.1.0",
-        "webpack": "4.29.5",
-        "webpack-cli": "3.2.3",
+        "webpack": "4.42.0",
+        "webpack-cli": "3.3.11",
         "css-loader": "3.0.0",
         "style-loader": "0.23.1",
         "handlebars": "^4.0.12",
@@ -65,7 +65,7 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "react": "16.12.0",
         "react-dom": "16.12.0",
         "react-markdown": "^2.5.0",
-        "request": "^2.88.0",
+        "request": "^2.88.0"
 
     } // devDependencies
 

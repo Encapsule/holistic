@@ -11,9 +11,7 @@ var arccore = require("@encapsule/arccore");
 
 var constructorRequestFilter = require("./filters/apm-method-constructor-filter");
 
-var AbstractProcessModel =
-/*#__PURE__*/
-function () {
+var AbstractProcessModel = /*#__PURE__*/function () {
   function AbstractProcessModel(request_) {
     _classCallCheck(this, AbstractProcessModel);
 

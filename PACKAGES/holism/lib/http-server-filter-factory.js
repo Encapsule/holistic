@@ -512,7 +512,7 @@ var factoryResponse = arccore.filter.create({
                                                 ETag: resourceDescriptor.resource.ETag,
                                                 "Cache-Control": "must-revalidate",
                                                 ...resourceDescriptor.resource.responseHeaders
-                                        },
+                                            },
                                             content: {
                                                 encoding: resourceDescriptor.resource.contentEncoding,
                                                 type: resourceDescriptor.resource.contentType

@@ -89,9 +89,9 @@ var factoryResponse = arccore.filter.create({
             ____label: "".concat(apmFilterName, " Instance"),
             ____types: "jsObject",
             ____appdsl: {
-              apm: apmID // I love this means of composition...
+              apm: apmID
+            } // I love this means of composition...
 
-            }
           }
         };
       }

@@ -35,7 +35,8 @@ var factoryResponse = holodeck.harnessFactory.request({
     },
     toJSON: {
       ____accept: ["jsString", // The instance is invalid and this is this._private.constructorError string.
-      "jsObject"]
+      "jsObject" // The instance is valid and this is this._private object.
+      ]
     }
   },
   harnessBodyFunction: function harnessBodyFunction(vectorRequest_) {

@@ -13,9 +13,9 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
   renderDataBindingSpec: {
     ____types: "jsObject",
     RUXBase_PageContent_AppDataStoreStatus: {
-      ____accept: "jsObject" // RUXBase_PageContent_AppDataStoreStatus
+      ____accept: "jsObject"
+    } // RUXBase_PageContent_AppDataStoreStatus
 
-    }
   },
   reactComponent: React.createClass({
     displayName: "RUXBase_PageContent_AppDataStoreStatus",

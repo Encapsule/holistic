@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "UBSvcB5fQDOPQct0YsG-ww",
-    "buildSource": "c06e8e4e4e4bb8b4294ae0343788782af1f69a64",
-    "buildTime": 1583347661,
-    "codename": "hakai",
+    "buildID": "u9ASKyIKSFibdS9aMuadJA",
+    "buildSource": "11781221ca8ff33700765a240a26e7e679e1f39b",
+    "buildTime": 1583477492,
+    "codename": "nalau",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -25,7 +25,8 @@
     },
     "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
     "engines": {
-        "node": ">=12.16.1 <13"
+        "node": ">=12.16.1 <13",
+        "yarn": "1.22.0"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -39,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.39"
+    "version": "0.0.40"
 }

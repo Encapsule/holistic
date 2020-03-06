@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "Holistic app platform: A system of runtime libraries, tools, and developer process for building Node.js services and stateful HTML5 applications with React and re-usable, testable, composable, remixable plug-and-play software models.",
-    "version": "0.0.39",
-    "codename": "hakai",
+    "version": "0.0.40",
+    "codename": "nalau",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "UBSvcB5fQDOPQct0YsG-ww",
-    "buildSource": "c06e8e4e4e4bb8b4294ae0343788782af1f69a64",
-    "buildTime": 1583347661,
-    "buildDateISO": "2020-03-04T18:47:41.000Z"
+    "buildID": "u9ASKyIKSFibdS9aMuadJA",
+    "buildSource": "11781221ca8ff33700765a240a26e7e679e1f39b",
+    "buildTime": 1583477492,
+    "buildDateISO": "2020-03-06T06:51:32.000Z"
 }

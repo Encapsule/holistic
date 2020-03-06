@@ -1,6 +1,6 @@
 "use strict";
 
-function _typeof(obj) { if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
 
@@ -36,9 +36,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
   // This is the format of an HTML render request to be routed to the React component specified below.
   renderDataBindingSpec: holismHttpErrorDataSpec,
   // When <ComponentRouter/> receives a render request whose signature matches our dataBindingSpec, bind the request to this.props and render via the React component specified here.
-  reactComponent:
-  /*#__PURE__*/
-  function (_React$Component) {
+  reactComponent: /*#__PURE__*/function (_React$Component) {
     _inherits(HolismHttpServerErrorPageView, _React$Component);
 
     function HolismHttpServerErrorPageView() {

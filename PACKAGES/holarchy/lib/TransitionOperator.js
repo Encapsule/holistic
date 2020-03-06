@@ -11,9 +11,7 @@ var arccore = require("@encapsule/arccore");
 
 var constructorFilter = require("./filters/top-method-constructor-filter");
 
-module.exports =
-/*#__PURE__*/
-function () {
+module.exports = /*#__PURE__*/function () {
   function TransitionOperator(request_) {
     _classCallCheck(this, TransitionOperator);
 

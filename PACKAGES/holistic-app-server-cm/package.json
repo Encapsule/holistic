@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "UBSvcB5fQDOPQct0YsG-ww",
-    "buildSource": "c06e8e4e4e4bb8b4294ae0343788782af1f69a64",
-    "buildTime": 1583347661,
-    "codename": "hakai",
+    "buildID": "u9ASKyIKSFibdS9aMuadJA",
+    "buildSource": "11781221ca8ff33700765a240a26e7e679e1f39b",
+    "buildTime": 1583477492,
+    "codename": "nalau",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -16,7 +16,8 @@
     ],
     "description": "Exports the HolisticAppServer CellModel for use in derived @encapsule/holistic applications/services.",
     "engines": {
-        "node": ">=12.16.1 <13"
+        "node": ">=12.16.1 <13",
+        "yarn": "1.22.0"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -30,8 +31,8 @@
     "name": "@encapsule/holistic-app-server-cm",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
-        "@encapsule/holarchy": "0.0.39",
-        "@encapsule/holarchy-cm": "0.0.39",
+        "@encapsule/holarchy": "0.0.40",
+        "@encapsule/holarchy-cm": "0.0.40",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -39,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.39"
+    "version": "0.0.40"
 }

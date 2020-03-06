@@ -146,9 +146,9 @@ module.exports = [{
           constructorRequest: {
             id: "ZbwxkWJgTEKjxXpYX0_h7Q",
             ocdTemplateSpec: {
-              ____opaque: true // valid filter spec, invalid OCD template spec
+              ____opaque: true
+            } // valid filter spec, invalid OCD template spec
 
-            }
           }
         }
       }
@@ -165,9 +165,9 @@ module.exports = [{
           constructorRequest: {
             id: "X5zbSBkaQeG6Wft5cGVRwg",
             ocdTemplateSpec: {
-              ____types: "jsString" // valid filter spec, invalid OCD template spec
+              ____types: "jsString"
+            } // valid filter spec, invalid OCD template spec
 
-            }
           }
         }
       }
@@ -184,9 +184,9 @@ module.exports = [{
           constructorRequest: {
             id: "vi6NeCCXSG61m6OMk7KZyw",
             ocdTemplateSpec: {
-              ____accept: "jsObject" // okay?
+              ____accept: "jsObject"
+            } // okay?
 
-            }
           }
         }
       }
@@ -203,9 +203,9 @@ module.exports = [{
           constructorRequest: {
             id: "waM_L9rTT6ySTY4ja__K3g",
             ocdTemplateSpec: {
-              ____types: ["jsObject"] // valid filter spec, invalid OCD template spec
+              ____types: ["jsObject"]
+            } // valid filter spec, invalid OCD template spec
 
-            }
           }
         }
       }
@@ -345,9 +345,9 @@ module.exports = [{
               badNamespace: {
                 ____opaque: true,
                 ____appdsl: {
-                  apm: "197ZsgbfRRGGMWqhwmaBDg" // valid IRUT so we'll check the binding namespace type constraint
+                  apm: "197ZsgbfRRGGMWqhwmaBDg"
+                } // valid IRUT so we'll check the binding namespace type constraint
 
-                }
               }
             }
           }
@@ -480,9 +480,9 @@ module.exports = [{
                 ____defaultValue: {},
                 // okay
                 ____appdsl: {
-                  apm: "T-apDENPTAO6iQShA-2qBQ" // not registered
+                  apm: "T-apDENPTAO6iQShA-2qBQ"
+                } // not registered
 
-                }
               }
             }
           }
