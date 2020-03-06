@@ -33,8 +33,8 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "chai": "^4.2.0",
         "eslint": "^5.10.0",
         "mockery": "^2.1.0",
-        "webpack": "4.29.5",
-        "webpack-cli": "3.2.3",
+        "webpack": "4.42.0",
+        "webpack-cli": "3.3.11",
         "css-loader": "3.0.0",
         "style-loader": "0.23.1",
         "handlebars": "^4.0.12",
@@ -65,7 +65,7 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "react": "16.12.0",
         "react-dom": "16.12.0",
         "react-markdown": "^2.5.0",
-        "request": "^2.88.0",
+        "request": "^2.88.0"
 
     } // devDependencies
 
