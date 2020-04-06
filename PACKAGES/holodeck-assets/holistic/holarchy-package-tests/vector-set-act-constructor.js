@@ -42,4 +42,44 @@ module.exports = [{
       }
     }
   }
+}, {
+  id: "PfsBYWSrQwSQCVQgaR1rPQ",
+  name: "ControllerAction constructor #3",
+  description: "Test ControllerAction class constructor #3 (specifies a result spec)",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        ControllerAction: {
+          constructorRequest: {
+            id: "PfsBYWSrQwSQCVQgaR1rPQ",
+            name: "ControllerAction constructor #3",
+            description: "Test ControllerAction class constructor #3 (specifies a result spec)",
+            actionRequestSpec: {
+              ____types: "jsObject",
+              test: {
+                ____types: "jsObject",
+                action2: {
+                  ____accept: "jsObject"
+                }
+              }
+            },
+            actionResultSpec: {
+              ____types: "jsObject",
+              CONSIPICUOUS_LABEL: {
+                ____accept: "jsObject"
+              }
+            },
+            bodyFunction: function bodyFunction(request_) {
+              return {
+                error: null,
+                result: {
+                  CONSPICUOUS_LABEL: request_.test.action2
+                }
+              };
+            }
+          }
+        }
+      }
+    }
+  }
 }];

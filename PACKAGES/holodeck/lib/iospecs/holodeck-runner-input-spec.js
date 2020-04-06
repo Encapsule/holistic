@@ -1,5 +1,7 @@
 "use strict";
 
+// holodeck-runner-input-spec.js
+// Specifies the acceptable format for a request value sent to the holodeck runner filter.
 module.exports = {
   ____types: "jsObject",
   id: {
@@ -37,6 +39,9 @@ module.exports = {
   testRequestSets: {
     ____types: "jsArray",
     ____defaultValue: [],
+    // TODO: Consider turning testRequestSet into a descriptor object w/id, name, description
+    // and tagging eval logs (e.g. IRUT-concatentation) with the test set ID so that it's a
+    // bit simpler to pickout vectors that belong to a logic test set in the eval logs.
     testRequestSet: {
       ____types: "jsArray",
       harnessRequest: {

@@ -14,8 +14,7 @@ module.exports = new holarchy.TransitionOperator({
   },
   bodyFunction: function bodyFunction(request_) {
     var response = {
-      error: null,
-      result: true
+      error: null
     };
     var errors = [];
     var inBreakScope = false;
@@ -33,10 +32,19 @@ module.exports = new holarchy.TransitionOperator({
         break;
       }
 
-      if (operatorResponse.result) {
-        response.result = false;
+      var filter = operatorResponse.result;
+      operatorResponse = filter.request({
+        context: request_.context,
+        operatorRequest: request_.operatorRequest.not
+      });
+
+      if (operatorResponse.error) {
+        errors.push("In transition operator NOT process operatorRequest='" + JSON.stringify(request_.operatorRequest.not) + "':");
+        errors.push(operatorResponse.error);
         break;
       }
+
+      response.result = !operatorResponse.result;
     }
 
     if (errors.length) response.error = errors.join(" ");

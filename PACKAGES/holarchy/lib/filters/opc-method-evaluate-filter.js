@@ -25,8 +25,6 @@ var opcMethodEvaluateInputSpec = require("./iospecs/opc-method-evaluate-input-sp
 
 var opcMethodEvaluateOutputSpec = require("./iospecs/opc-method-evaluate-output-spec");
 
-var consoleStyles = require("../util/console-colors-lut");
-
 var factoryResponse = arccore.filter.create({
   operationID: "T7PiatEGTo2dbdy8jOMHQg",
   operationName: "OPC Evaluation Filter",

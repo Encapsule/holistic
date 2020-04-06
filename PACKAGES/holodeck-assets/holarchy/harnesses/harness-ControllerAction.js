@@ -38,7 +38,8 @@ var factoryResponse = holodeck.harnessFactory.request({
       error: null,
       result: {
         isValid: controllerAction.isValid(),
-        toJSON: controllerAction.toJSON()
+        toJSON: controllerAction.toJSON(),
+        _private: controllerAction._private
       }
     };
     return response;

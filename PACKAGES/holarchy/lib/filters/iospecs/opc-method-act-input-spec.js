@@ -6,6 +6,11 @@ module.exports = {
   ____label: "OPC.act Method Request",
   ____description: "Defines the request format accepted by ObservableProcessController.act method.",
   ____types: "jsObject",
+  opcRef: {
+    ____label: "OPC Reference",
+    ____description: "A reference to the call ObservableProcessController class instance.",
+    ____accept: "jsObject"
+  },
   // "Actors" are functions that call ObservableProcessController.act to affect some "action".
   actorName: opcActorStackEntrySpec.actorName,
   actorTaskDescription: opcActorStackEntrySpec.actorTaskDescription,

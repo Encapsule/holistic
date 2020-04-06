@@ -91,8 +91,10 @@ var factoryResponse = arccore.filter.create({
         for (var testNumber = 0; testNumber < testSet.length; testNumber++) {
           var testRequest = _objectSpread({}, testSet[testNumber], {
             harnessDispatcher: harnessDispatcher,
-            harnessRunner: holisticTestRunner,
-            logsRootDir: request_.logsRootDir
+            harnessRunner: runnerFascade,
+            // note that we pass the fascade that calls this filter, not the filter itself down the MDR dispatch tree.
+            logsRootDir: request_.logsRootDir,
+            logsCurrentDir: helpers.getLogEvalDir(request_.logsRootDir, request_.id)
           }); // Process runner options vector exclusions.
 
 
@@ -144,6 +146,7 @@ var factoryResponse = arccore.filter.create({
           delete testRequest.harnessDispatcher;
           delete testRequest.harnessRunner;
           delete testRequest.logsRootDir;
+          delete testRequest.logsCurrentDir;
           testEvalDescriptor[idHolodeckRunnerEvalReport] = {};
           var harnessFilterId = harnessFilter ? harnessFilter.filterDescriptor.operationID : "000000000000000000";
           testEvalDescriptor[idHolodeckRunnerEvalReport][harnessFilterId] = {};
@@ -240,6 +243,16 @@ if (factoryResponse.error) {
 
 var holisticTestRunner = factoryResponse.result; // ================================================================
 // Build the test runner wrapper function (looks like a filter but it's not);
+// We make it look like a filter so that people can more easily peak at the export
+// and understand immediately what it is and how to use it. We do all this because
+// we actually want to leverage all three filter stages of the actual runner filter
+// for the purposes of testing. Unlike normal filter usable where an error is something
+// that you either act on conditionally (or report and return back to your caller),
+// we want capture failures that bounce off filter input stage (i.e. never make
+// into the actual runner bodyFunction), errors inside the runnerBodyFunction,
+// and any mishaps coming back out through the output stage of the filter.
+// And we want all of this to get logged to disk. So, we can't do it inside
+// the actual runner's bodyFunction. So, that's why this is like this.
 
 var runnerFascade = _objectSpread({}, holisticTestRunner, {
   request: function request(runnerRequest_) {

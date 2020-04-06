@@ -6,7 +6,7 @@ var opcEvaluateRequestSpec = {
   ____types: "jsObject",
   opcRef: {
     ____label: "OPC Reference",
-    ____description: "A reference to the calling ObervableControllerProcess class instance.",
+    ____description: "A reference to the calling ObervableControllerProcess class instance. (Set by OPC.act method that delegates to the filter).",
     ____accept: "jsObject"
   }
 };

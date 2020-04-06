@@ -49,6 +49,18 @@ module.exports = new holarchy.TransitionOperator({
             break;
           }
 
+          var filter = operatorResponse.result;
+          operatorResponse = filter.request({
+            context: request_.context,
+            operatorRequest: operatorRequest
+          });
+
+          if (operatorResponse.error) {
+            errors.push("In transition operator AND attempting to process operatorRequest='" + JSON.stringify(operatorRequest) + "':");
+            errors.push(operatorResponse.error);
+            break;
+          }
+
           if (operatorResponse.result) {
             response.result = true;
             break;
