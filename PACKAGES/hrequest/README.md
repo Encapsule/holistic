@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.39 hakai-rc6
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.40 nalau
 
 ## &#x25F0; Runtime library: @encapsule/hrequest
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.
 
 ```
-Package: @encapsule/hrequest v0.0.39 "hakai-rc6" build ID "upHG_GkqQRWrYR-QyS3khQ"
-Sources: Encapsule/holistic-master#a2063f36211e4b1c02581257966a55cabfa13f8a
-Created: 2020-03-06T03:05:27.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/hrequest v0.0.40 "nalau" build ID "fGshHNnzRkGa1_wPGHW_OA"
+Sources: Encapsule/holistic-master#b83c25e8f98d51eb994575320ed9444fff75dbae
+Created: 2020-04-06T21:35:08.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

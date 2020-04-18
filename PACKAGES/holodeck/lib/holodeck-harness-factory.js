@@ -56,7 +56,11 @@ var factoryResponse = arccore.filter.create({
         // MDR chaining to another holodeck runner instance (separate eval logs)
         logsRootDir: {
           ____accept: "jsString"
-        } // The calling holodeck runner's logsRootDir (needed if you MDR chain to a separate runner in your harness)
+        },
+        // The calling holodeck runner's logsRootDir (needed if you MDR chain to a separate runner in your harness)
+        logsCurrentDir: {
+          ____accept: "jsString"
+        } // The calling holodeck runner's log eval directory below logsRootDir
 
       };
       var innerResponse = arccore.filter.create({

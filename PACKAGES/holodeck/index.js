@@ -66,5 +66,10 @@ module.exports = {
   // See... there's just one model for all async code and for
   // testing all async code that makes sense.
   //
-  harnessFactory: require("./lib/holodeck-harness-factory")
+  harnessFactory: require("./lib/holodeck-harness-factory"),
+  // v2
+  Holodeck: require("./v2/Holodeck"),
+  HolodeckHarness: require("./v2/HolodeckHarness"),
+  // v2 hack (temporary)
+  generateFilterMarkdownString: require("./lib/helpers/helper-generate-filter-markdown-string")
 };

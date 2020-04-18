@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "upHG_GkqQRWrYR-QyS3khQ",
-    "buildSource": "a2063f36211e4b1c02581257966a55cabfa13f8a",
-    "buildTime": 1583463927,
-    "codename": "hakai-rc6",
+    "buildID": "fGshHNnzRkGa1_wPGHW_OA",
+    "buildSource": "b83c25e8f98d51eb994575320ed9444fff75dbae",
+    "buildTime": 1586208908,
+    "codename": "nalau",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -34,7 +34,7 @@
     "name": "@encapsule/d2r2-components",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
-        "@encapsule/d2r2": "0.0.39",
+        "@encapsule/d2r2": "0.0.40",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.39"
+    "version": "0.0.40"
 }
