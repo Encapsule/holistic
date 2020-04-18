@@ -276,9 +276,9 @@ var runnerFascade = _objectSpread({}, holisticTestRunner, {
       analysis.totalDispatchedVectors = resultPayload.summary.runnerStats.dispatched.length;
       console.log("> total dispatched vectors ... ".concat(analysis.totalDispatchedVectors));
       analysis.totalHarnessResults = resultPayload.summary.runnerStats.dispatched.length - resultPayload.summary.runnerStats.errors.length;
-      console.log("> total harness results .,.... ".concat(analysis.totalHarnessResults));
+      console.log("> total harness results ...... ".concat(analysis.totalHarnessResults));
       analysis.totalHarnessErrors = resultPayload.summary.runnerStats.errors.length;
-      console.log("> total harness errors ...,... ".concat(analysis.totalHarnessErrors));
+      console.log("> total harness errors ....... ".concat(analysis.totalHarnessErrors));
       analysis.totalRejectedVectors = resultPayload.summary.runnerStats.rejected.length;
       console.log("> total rejected vectors ..... ".concat(analysis.totalRejectedVectors));
     } else {
