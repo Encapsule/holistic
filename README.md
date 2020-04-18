@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.40 nalau
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.41 addenbroke
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.40 "nalau" build ID "fGshHNnzRkGa1_wPGHW_OA"
-Sources: Encapsule/holistic-master#b83c25e8f98d51eb994575320ed9444fff75dbae
-Created: 2020-04-06T21:35:08.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.41 "addenbroke" build ID "bPQWjwHRSRyW5kIBVDsC-Q"
+Sources: Encapsule/holistic-master#99fabf7c9ddfd4eff00da56a0c18d58e362dba24
+Created: 2020-04-18T16:54:56.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -40,8 +40,6 @@ Holistic app platform is becoming quite stable. But, lacks examples (required) a
 
     - &#x25F0; [@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
 
-    - &#x25F0; [@encapsule/hash-router](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
-
     - &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
 
     - &#x25F0; [@encapsule/holarchy-cm](PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm RTL package README...")
@@ -53,6 +51,8 @@ Holistic app platform is becoming quite stable. But, lacks examples (required) a
     - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
 
     - &#x25F0; [@encapsule/holistic-app-client-cm](PACKAGES/holistic-app-client-cm/README.md "Jump to holistic-app-client-cm RTL package README...")
+
+    - &#x25F0; [@encapsule/holistic-app-common-cm](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
 
     - &#x25F0; [@encapsule/holistic-app-server-cm](PACKAGES/holistic-app-server-cm/README.md "Jump to holistic-app-server-cm RTL package README...")
 
@@ -309,12 +309,6 @@ This package contains a collection of re-usable d2r2 React components for use wi
 
 > [README &#9656;](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
 
-### &#x25F0; [@encapsule/hash-router](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
-
-This package contains a minimal client-side hash router implementation that is designed to be integrated into higher-level abstractions. For example, a re-usable ObservableProcessModel (OPM).
-
-> [README &#9656;](PACKAGES/hash-router/README.md "Jump to hash-router RTL package README...")
-
 ### &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
 
 Cellular process modeling and runtime engine for Node.js and browser.
@@ -350,6 +344,12 @@ This package contains re-usable service filter plug-ins for use with the @encaps
 Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.
 
 > [README &#9656;](PACKAGES/holistic-app-client-cm/README.md "Jump to holistic-app-client-cm RTL package README...")
+
+### &#x25F0; [@encapsule/holistic-app-common-cm](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
+
+Exports the HolisticAppCommon CellModel library for use in derived HolisticAppServer and HolisticAppClient CellModels.
+
+> [README &#9656;](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
 
 ### &#x25F0; [@encapsule/holistic-app-server-cm](PACKAGES/holistic-app-server-cm/README.md "Jump to holistic-app-server-cm RTL package README...")
 

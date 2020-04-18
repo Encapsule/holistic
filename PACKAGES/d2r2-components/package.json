@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "fGshHNnzRkGa1_wPGHW_OA",
-    "buildSource": "b83c25e8f98d51eb994575320ed9444fff75dbae",
-    "buildTime": 1586208908,
-    "codename": "nalau",
+    "buildID": "bPQWjwHRSRyW5kIBVDsC-Q",
+    "buildSource": "99fabf7c9ddfd4eff00da56a0c18d58e362dba24",
+    "buildTime": 1587228896,
+    "codename": "addenbroke",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -20,7 +20,7 @@
     "description": "This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.",
     "engines": {
         "node": ">=12.16.1 <13",
-        "yarn": "1.22.0"
+        "yarn": "1.22.4"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -34,7 +34,7 @@
     "name": "@encapsule/d2r2-components",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.9",
-        "@encapsule/d2r2": "0.0.40",
+        "@encapsule/d2r2": "0.0.41",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.40"
+    "version": "0.0.41"
 }
