@@ -26,6 +26,8 @@ var holisticAppClientCMVectorSets = require("./holistic-app-client-cm-package-te
 
 var holisticAppServerCMVectorSets = require("./holistic-app-server-cm-package-tests/vector-sets");
 
+var holisticAppCommonCMVectorSets = require("./holistic-app-common-cm-package-tests/vector-sets");
+
 var factoryResponse = arccore.filter.create({
   operationID: "Ga_AZ-2HSHuB0uJ9l6n3Uw",
   operationName: "Holistic Test Runner Generator",
@@ -72,7 +74,7 @@ var factoryResponse = arccore.filter.create({
         logsRootDir: request_.logsDirectory,
         testHarnessFilters: [].concat(_toConsumableArray(holodeckPackageHarnesses), _toConsumableArray(holarchyPackageHarnesses)),
         testRunnerOptions: request_.testRunnerOptions,
-        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchyCMPackageVectorSets), _toConsumableArray(holisticAppClientCMVectorSets), _toConsumableArray(holisticAppServerCMVectorSets))
+        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchyCMPackageVectorSets), _toConsumableArray(holisticAppClientCMVectorSets), _toConsumableArray(holisticAppServerCMVectorSets), _toConsumableArray(holisticAppCommonCMVectorSets))
       });
 
       if (runnerResponse.error) {

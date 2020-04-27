@@ -143,7 +143,13 @@ var controlButtonStylesSpec = {
 var holisticAppThemeSpec = {
   ____label: "Holistic App Theme Styles",
   ____description: "A collection of low-level styles, colors, fonts, spacing, etc... applied by name by theme-aware React components.",
-  ____types: "jsObject",
+  ____types: ["jsUndefined", // ViewThemeProcessor initial theme output is undefined until it's read via ConrollerAction.
+  "jsObject"],
+  settings: {
+    ____label: "Theme Settings",
+    ____description: "A normalized copy of the theme settings used to generate this copy of the view theme document.",
+    ____accept: "jsObject"
+  },
   page: {
     ____label: "Page Styles",
     ____description: "Values used to style the full-page client application (typically below) content widgets.",
@@ -250,6 +256,7 @@ var holisticAppThemeSpec = {
       // Tool buttons differ from standard.normal buttons insofar as they typically use different spacing and typography settings (e.g. they're smaller).
       tool: controlButtonStylesSpec
     },
+    // ~.control.button
     checkbox: controlStylesSpec,
     radio: controlStylesSpec,
     slider: controlStylesSpec,

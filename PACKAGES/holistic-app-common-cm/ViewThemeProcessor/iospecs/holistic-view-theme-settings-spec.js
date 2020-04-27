@@ -1,5 +1,7 @@
 "use strict";
 
+var _regionShadowSettings;
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -63,6 +65,132 @@ var typographyHeadingSettings = _objectSpread({}, typographyBaseSettings, {
   }
 });
 
+var regionSpacingSettingsSpec = {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  margin: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    value: {
+      ____accept: "jsNumber",
+      ____defaultValue: 0
+    },
+    units: {
+      ____accept: "jsString",
+      ____inValueSet: ["px", "em", "pt"],
+      ____defaultValue: "px"
+    }
+  },
+  padding: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    value: {
+      ____accept: "jsNumber",
+      ____defaultValue: 0
+    },
+    units: {
+      ____accept: "jsString",
+      ____inValueSet: ["px", "em", "pt"],
+      ____defaultValue: "px"
+    }
+  }
+};
+var regionShapeSettingsSpec = {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  radius: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    value: {
+      ____accept: "jsNumber",
+      ____defaultValue: 0
+    },
+    units: {
+      ____accept: "jsString",
+      ____inValueSet: ["px", "em", "pt"],
+      ____defaultValue: "px"
+    }
+  },
+  size: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    value: {
+      ____accept: "jsNumber",
+      ____defaultValue: 0
+    },
+    units: {
+      ____accept: "jsString",
+      ____inValueSet: ["px", "em", "pt"],
+      ____defaultValue: "px"
+    }
+  },
+  style: {
+    ____accept: "jsString",
+    ____inValueSet: ["none", "solid", "dotted", "dashed"],
+    ____defaultValue: "none"
+  }
+}; // regionShapeSettingsSpec
+
+var regionShadowSettingsSpec = (_regionShadowSettings = {
+  ____types: "jsObject",
+  ____defaultValue: {}
+}, _defineProperty(_regionShadowSettings, "____defaultValue", {}), _defineProperty(_regionShadowSettings, "enabled", {
+  ____accept: "jsBoolean",
+  ____defaultValue: false
+}), _defineProperty(_regionShadowSettings, "hOffset", {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  value: {
+    ____accept: "jsNumber",
+    ____defaultValue: 0
+  },
+  units: {
+    ____accept: "jsString",
+    ____inValueSet: ["px", "em", "pt"],
+    ____defaultValue: "px"
+  }
+}), _defineProperty(_regionShadowSettings, "vOffset", {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  value: {
+    ____accept: "jsNumber",
+    ____defaultValue: 0
+  },
+  units: {
+    ____accept: "jsString",
+    ____inValueSet: ["px", "em", "pt"],
+    ____defaultValue: "px"
+  }
+}), _defineProperty(_regionShadowSettings, "blur", {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  value: {
+    ____accept: "jsNumber",
+    ____defaultValue: 0
+  },
+  units: {
+    ____accept: "jsString",
+    ____inValueSet: ["px", "em", "pt"],
+    ____defaultValue: "px"
+  }
+}), _defineProperty(_regionShadowSettings, "spread", {
+  ____types: "jsObject",
+  ____defaultValue: {},
+  value: {
+    ____accept: "jsNumber",
+    ____defaultValue: 0
+  },
+  units: {
+    ____accept: "jsString",
+    ____inValueSet: ["px", "em", "pt"],
+    ____defaultValue: "px"
+  }
+}), _defineProperty(_regionShadowSettings, "xset", {
+  ____accept: "jsString",
+  ____inValueSet: ["outset", "inset"],
+  ____defaultValue: "outset"
+}), _regionShadowSettings); // regionShadowSettingsSoec
+
 module.exports = {
   ____label: "Holistic App Theme Settings",
   ____description: "Settings are inputs used to derive the values in the Holistic App Theme Styles document (dynamically updated JSON).",
@@ -71,6 +199,13 @@ module.exports = {
   color: {
     ____types: "jsObject",
     ____defaultValue: {},
+    page: _objectSpread({
+      ____types: "jsObject",
+      ____defaultValue: {
+        backgroundColor: "#FFFFFF",
+        foregroundColor: "#000000"
+      }
+    }, holisticThemeSpecs.holisticAppThemeSpec.page.color),
     text: {
       ____types: "jsObject",
       ____defaultValue: {},
@@ -138,43 +273,126 @@ module.exports = {
       }
     }
   },
-  // Page styles are conventionally applied to BODY HTML tag. We seek to minimize any/all stylings at this level
-  // relying instead on browser defaults as much as possible. In cases where these defaults do not generally align
-  // w/how we wish to render our page views, we override the default browser styles for BODY. There are a limited
-  // number of these cases w/global impact on the entire page. These values are specified directly via theme settings
-  // and reflected w/out transformation in the theme document's page style values.
-  page: _objectSpread({}, holisticThemeSpecs.holisticAppThemeSpec.page, {
-    ____defaultValue: {
-      color: {
-        backgroundColor: "#FFFFFF",
-        foregroundColor: "#000000"
-      },
-      spacing: {
-        margin: "0px",
-        padding: "0px"
-      }
-    }
-  }),
-  // ~.page
-  panel: {
-    ____label: "Common Panel Styles",
+  // ~.color
+  spacing: {
     ____types: "jsObject",
-    ____defaultValue: {
-      spacing: {
-        margin: "0px",
-        padding: "1em"
-      },
-      shape: {
-        border: "1px solid rgba(0,0,0,0.2)",
-        borderRadius: "0.33em"
-      },
-      shadow: "1px 1px 0px 0px rgba(0,0,0,0.2)"
+    ____defaultValue: {},
+    page: _objectSpread({}, regionSpacingSettingsSpec),
+    panel: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      navigation: _objectSpread({}, regionSpacingSettingsSpec),
+      application: _objectSpread({}, regionSpacingSettingsSpec),
+      notification: _objectSpread({}, regionSpacingSettingsSpec),
+      tools: _objectSpread({}, regionSpacingSettingsSpec),
+      help: _objectSpread({}, regionSpacingSettingsSpec),
+      menu: _objectSpread({}, regionSpacingSettingsSpec)
     },
-    spacing: _objectSpread({}, holisticThemeSpecs.regionStylesSpec.spacing),
-    shape: _objectSpread({}, holisticThemeSpecs.regionStylesSpec.shape),
-    shadow: _objectSpread({}, holisticThemeSpecs.regionStylesSpec.shadow)
+    // ~.spacing.panel
+    window: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      modal: _objectSpread({}, regionSpacingSettingsSpec),
+      popup: _objectSpread({}, regionSpacingSettingsSpec),
+      tooltip: _objectSpread({}, regionSpacingSettingsSpec),
+      tool: _objectSpread({}, regionSpacingSettingsSpec),
+      content: _objectSpread({}, regionSpacingSettingsSpec)
+    },
+    // ~.spacing.window
+    control: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      button: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        standard: {
+          ____types: "jsObject",
+          ____defaultValue: {}
+        },
+        tool: {
+          ____types: "jsObject",
+          ____defaultValue: {}
+        }
+      } // ~.spacing.control.button
+
+    } // ~.spacing.control
+
   },
-  // ~.panel
+  // ~.spacing
+  shape: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    panel: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      navigation: _objectSpread({}, regionShapeSettingsSpec, {
+        ____defaultValue: {
+          radius: {
+            size: 0.33,
+            units: "em"
+          },
+          size: {
+            value: 1,
+            units: "px"
+          },
+          style: "solid"
+        }
+      }),
+      application: _objectSpread({}, regionShapeSettingsSpec),
+      notification: _objectSpread({}, regionShapeSettingsSpec),
+      tools: _objectSpread({}, regionShapeSettingsSpec),
+      help: _objectSpread({}, regionShapeSettingsSpec),
+      menu: _objectSpread({}, regionShapeSettingsSpec)
+    },
+    // ~.shape.panel
+    window: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      modal: _objectSpread({}, regionShapeSettingsSpec),
+      popup: _objectSpread({}, regionShapeSettingsSpec),
+      tooltip: _objectSpread({}, regionShapeSettingsSpec),
+      tool: _objectSpread({}, regionShapeSettingsSpec),
+      content: _objectSpread({}, regionShapeSettingsSpec)
+    },
+    // ~.shape.window
+    control: {
+      ____types: "jsObject",
+      ____defaultValue: {}
+    } // ~.shape.control
+
+  },
+  // ~.shape
+  shadow: {
+    ____types: "jsObject",
+    ____defaultValue: {},
+    panel: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      navigation: _objectSpread({}, regionShadowSettingsSpec),
+      application: _objectSpread({}, regionShadowSettingsSpec),
+      notification: _objectSpread({}, regionShadowSettingsSpec),
+      tools: _objectSpread({}, regionShadowSettingsSpec),
+      help: _objectSpread({}, regionShadowSettingsSpec),
+      menu: _objectSpread({}, regionShadowSettingsSpec)
+    },
+    // ~.shadow.panel
+    window: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      modal: _objectSpread({}, regionShadowSettingsSpec),
+      popup: _objectSpread({}, regionShadowSettingsSpec),
+      tooltip: _objectSpread({}, regionShadowSettingsSpec),
+      tool: _objectSpread({}, regionShadowSettingsSpec),
+      content: _objectSpread({}, regionShadowSettingsSpec)
+    },
+    // ~.shadow.window
+    control: {
+      ____types: "jsObject",
+      ____defaultValue: {}
+    } // ~.shadow.control
+
+  },
+  // ~.shadow
   typograph: {
     ____label: "Typography Style Settings",
     ____description: "Typography settings control the basic typeface and font style settings applied to a holistic app theme.",

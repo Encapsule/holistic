@@ -48,6 +48,7 @@ module.exports = /*#__PURE__*/function () {
     key: "readNamespace",
     value: function readNamespace(path_) {
       return this.isValid() ? methodFilterReadNamespace.request({
+        ocdClass: ObservableControllerData,
         ocdReference: this,
         path: path_
       }) : {
@@ -58,6 +59,7 @@ module.exports = /*#__PURE__*/function () {
     key: "writeNamespace",
     value: function writeNamespace(path_, data_) {
       return this.isValid() ? methodFilterWriteNamespace.request({
+        ocdClass: ObservableControllerData,
         ocdReference: this,
         path: path_,
         data: data_
@@ -69,6 +71,7 @@ module.exports = /*#__PURE__*/function () {
     key: "getNamespaceSpec",
     value: function getNamespaceSpec(path_) {
       return this.isValid() ? methodFilterGetNamespaceSpec.request({
+        ocdClass: ObservableControllerData,
         ocdReference: this,
         path: path_
       }) : {

@@ -4,9 +4,7 @@ var holarchy = require("@encapsule/holarchy");
 
 var ControllerAction = holarchy.ControllerAction;
 
-var themeSettingsSpec = require("./iospecs/holistic-app-theme-settings-spec");
-
-var themeObjectSpecs = require("./iospecs/holistic-app-theme-object-specs");
+var themeObjectSpecs = require("./iospecs/holistic-view-theme-object-specs");
 
 var themeTransformFunction = require("./theme-transform-function");
 
@@ -22,9 +20,8 @@ module.exports = new ControllerAction({
         ____types: "jsObject",
         theme: {
           ____types: "jsObject",
-          write: {
-            ____types: "jsObject",
-            settings: themeSettingsSpec
+          read: {
+            ____types: "jsObject"
           }
         }
       }
@@ -39,130 +36,89 @@ module.exports = new ControllerAction({
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true; // Here we bias for the expected typical case that theme settings have not changed,
-      // and that the controller action will return the previously-calculated theme document.
-      // Resolve the OCD path of the cell process' inputs namespace version in OCD shared memory.
+      inBreakScope = true; // Read the cell process inputs namespace from shared OCD memory.
 
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var ocdResponse = request_.context.ocdi.readNamespace({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#.inputs.version"
       });
 
-      if (rpResponse.error) {
-        errors.push(rpResponse.error);
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
         break;
       }
 
-      var ocdPath = rpResponse.result; // Read the cell process inputs namespace from shared OCD memory.
+      var inputVersion = ocdResponse.result; // defaults to value 0
+      // Read the cell process outputs namespace from shared OCD memory.
 
-      var ocdReadResponse = request_.context.ocdi.readNamespace(ocdPath);
-
-      if (ocdReadResponse.error) {
-        errors.push(ocdReadResponse.error);
-        break;
-      }
-
-      var inputVersion = ocdReadResponse.result; // Resolve the OCD path of the cell process' outputs namespace version in OCD shared memory.
-
-      rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      ocdResponse = request_.context.ocdi.readNamespace({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#.outputs.version"
       });
 
-      if (rpResponse.error) {
-        errors.push(rpResponse.error);
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
         break;
       }
 
-      ocdPath = rpResponse.result; // Read the cell process outputs namespace from shared OCD memory.
-
-      ocdReadResponse = request_.context.ocdi.readNamespace(ocdPath);
-
-      if (ocdReadResponse.error) {
-        errors.push(ocdReadResponse.error);
-        break;
-      }
-
-      var outputVersion = outputReadResponse.result; // Determine if the Holistic View Theme document stored in the cell process' outputs namespace.
+      var outputVersion = ocdResponse.result; // defaults to value -1
+      // Determine if the Holistic View Theme document stored in the cell process' outputs namespace.
       // is up-to-date w/respect to Holistic View Theme Settings stored in the cell process' inputs namespace.
 
       if (outputVersion !== -1 && outputVersion === inputVersion) {
-        rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+        // If we've previously generated the theme document, and it's up-to-date then read it and return it to the caller.
+        ocdResponse = request_.context.ocdi.readNamespace({
           apmBindingPath: request_.context.apmBindingPath,
           dataPath: "#.outputs.holisticAppTheme"
         });
 
-        if (rpResponse.error) {
-          errors.push(rpResponse.error);
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
           break;
         }
 
-        ocdPath = rpResponse.result;
-        ocdReadResponse = request_.context.ocdi.readNamespace(ocdPath);
-
-        if (ocdReadResponse.error) {
-          errors.push(ocdReadResponse.error);
-          break;
-        } // Return the cached Holistic App Theme document.
-
-
-        response.result = ocdReadResponse.result;
+        response.result = ocdResponse.result;
         break;
-      } // Resolve the OCD path of the cell process' inputs.themeSettings namespace.
+      } // Read the latest version of the theme settings from the model's input namespace.
 
 
-      rpResponse = holarchy.ObservableProcessData.dataPathResolve({
+      ocdResponse = request_.context.ocdi.readNamespace({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#.inputs.themeSettings"
       });
 
-      if (rpResponse.error) {
-        errors.push(rpResponse.error);
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
         break;
       }
 
-      ocdPath = rpResponse.result;
-      ocdReadResponse = request_.context.ocdi.readNamespace(ocdPath);
-
-      if (ocdReadResponse.error) {
-        errors.push(ocdReadResponse.error);
-        break;
-      }
-
-      var themeSettings = ocdReadResponse.result; // ================================================================
-      // DELEGATE TO THE ACTUAL THEME GENERATOR ALGORITHM HERE:
+      var themeSettings = ocdResponse.result; // Regenerate the theme document given the latest theme settings.
 
       var transformResponse = themeTransformFunction(themeSettings);
 
       if (transformResponse.error) {
         errors.push(transformResponse.error);
         break;
-      } // ================================================================
+      } // Setup the new output value for the model.
 
 
       var outputs = {
         version: inputVersion,
         holisticAppTheme: transformResponse.result
-      };
-      rpResponse = holarchy.ObservableProcessController.dataPathResolve({
+      }; // Update model's outputs namespace w/incremented version and new theme document values.
+
+      ocdResponse = request_.context.ocdi.writeNamespace({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#.outputs"
-      });
+      }, outputs);
 
-      if (rpResponse.error) {
-        errors.push(rpResponse.error);
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
         break;
-      }
+      } // Return the theme document to the caller.
 
-      ocdPath = rpResponse.result;
-      var ocdWriteResponse = request_.context.ocdi.writeNamespace(ocdPath, outputs);
 
-      if (ocdWriteResponse.error) {
-        errors.push(ocdWriteResponse.error);
-        break;
-      }
-
-      response.result = outputs;
+      response.result = outputs.holisticAppTheme;
     }
 
     if (errors.length) {
