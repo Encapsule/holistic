@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "6LMyWL8-QSqtruFAo9OhgQ",
-    "buildSource": "7a9199b2a197c44496f049d950219b0c415d0ca8",
-    "buildTime": 1587974289,
-    "codename": "addenbroke",
+    "buildID": "4TdUnG9oRMWxzoCBdYt5kA",
+    "buildSource": "e097c663ec8bf04f4287bdb62c6c4bcbc4a59475",
+    "buildTime": 1588463624,
+    "codename": "fifer",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -17,7 +17,7 @@
     "description": "This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.",
     "engines": {
         "node": ">=12.16.1 <13",
-        "yarn": "1.22.4"
+        "yarn": ">=1.22.0 <=1.22.4"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.41"
+    "version": "0.0.42"
 }

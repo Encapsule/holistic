@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.41 addenbroke
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.42 fifer
 
 ## &#x25F0; Runtime library: @encapsule/hrequest
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.
 
 ```
-Package: @encapsule/hrequest v0.0.41 "addenbroke" build ID "6LMyWL8-QSqtruFAo9OhgQ"
-Sources: Encapsule/holistic-master#7a9199b2a197c44496f049d950219b0c415d0ca8
-Created: 2020-04-27T07:58:09.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/hrequest v0.0.42 "fifer" build ID "4TdUnG9oRMWxzoCBdYt5kA"
+Sources: Encapsule/holistic-master#e097c663ec8bf04f4287bdb62c6c4bcbc4a59475
+Created: 2020-05-02T23:53:44.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
