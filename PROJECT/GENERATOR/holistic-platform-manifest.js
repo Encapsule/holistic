@@ -31,12 +31,12 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "@babel/plugin-transform-react-jsx": "7.10.4",
         "@babel/preset-env": "7.10.4",
         "chai": "^4.2.0",
-        "eslint": "^6.8.0",
+        "eslint": "7.4.0",
         "mockery": "^2.1.0",
-        "webpack": "4.42.0",
-        "webpack-cli": "3.3.11",
-        "css-loader": "3.0.0",
-        "style-loader": "0.23.1",
+        "webpack": "4.43.0",
+        "webpack-cli": "3.3.12",
+        "css-loader": "3.6.0",
+        "style-loader": "1.2.1",
         "handlebars": "^4.7.6", // TODO: exorcise this codebase of handlebars
 
         // Holistic platform runtime library dependencies.
@@ -62,7 +62,6 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "commander": "^2.19.0",
         "query-string": "^6.2.0",
         "mkdirp": "^1.0.4",
-        "query-string": "^6.2.0",
         "react": "16.12.0",
         "react-dom": "16.12.0",
         "react-markdown": "^2.5.0",
