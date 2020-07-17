@@ -41,9 +41,9 @@ var factoryResponse = holodeck.harnessFactory.request({
     // Actually two of them, combine their responses, and return it as our own.
     var message = request_.vectorRequest.testMessage5;
 
-    var harnessRequestA = _objectSpread({}, request_, {}, message.subVectorRequestA);
+    var harnessRequestA = _objectSpread(_objectSpread({}, request_), message.subVectorRequestA);
 
-    var harnessRequestB = _objectSpread({}, request_, {}, message.subVectorRequestB);
+    var harnessRequestB = _objectSpread(_objectSpread({}, request_), message.subVectorRequestB);
 
     return {
       error: null,

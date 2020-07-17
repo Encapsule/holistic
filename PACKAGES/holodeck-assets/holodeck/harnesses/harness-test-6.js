@@ -43,11 +43,11 @@ var factoryResponse = holodeck.harnessFactory.request({
   harnessBodyFunction: function harnessBodyFunction(request_) {
     var message = request_.vectorRequest.testMessage6;
 
-    var harnessRequestA = _objectSpread({}, request_, {}, message.subVectorRequestA);
+    var harnessRequestA = _objectSpread(_objectSpread({}, request_), message.subVectorRequestA);
 
-    var harnessRequestB = _objectSpread({}, request_, {}, message.subVectorRequestB);
+    var harnessRequestB = _objectSpread(_objectSpread({}, request_), message.subVectorRequestB);
 
-    return request_.harnessRunner.request(_objectSpread({}, request_, {
+    return request_.harnessRunner.request(_objectSpread(_objectSpread({}, request_), {}, {
       id: message.subRunnerID,
       name: "Test Subrunner #1",
       description: "Test to see if we can launch another runner from within a harness.",

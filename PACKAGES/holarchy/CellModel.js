@@ -130,7 +130,7 @@ module.exports = /*#__PURE__*/function () {
     key: "getArtifact",
     value: function getArtifact(request_) {
       // request = { id: optional, type: optional }
-      var response = getArtifactFilter.request(_objectSpread({}, request_, {
+      var response = getArtifactFilter.request(_objectSpread(_objectSpread({}, request_), {}, {
         CellModelInstance: this
       }));
 
@@ -146,7 +146,7 @@ module.exports = /*#__PURE__*/function () {
     key: "getCMConfig",
     value: function getCMConfig(request_) {
       // request = { id: optional CM ID, type: optional }
-      var response = getConfigFilter.request(_objectSpread({}, request_, {
+      var response = getConfigFilter.request(_objectSpread(_objectSpread({}, request_), {}, {
         CellModelInstance: this
       }));
 

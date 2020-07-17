@@ -21,9 +21,9 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
     render: function render() {
       var metadata = this.props.document.metadata;
       var theme = metadata.site.theme;
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         style: theme.base.RUXBase_PageContent.container
-      }, React.createElement("h1", null, "<RUXBase_PageContent/>"), React.createElement("h2", null, "<RUXBase_Page/> found no content to render."), React.createElement("h3", null, React.createElement("code", null, "RUXBase_Page.pageContentEP === undefined")));
+      }, /*#__PURE__*/React.createElement("h1", null, "<RUXBase_PageContent/>"), /*#__PURE__*/React.createElement("h2", null, "<RUXBase_Page/> found no content to render."), /*#__PURE__*/React.createElement("h3", null, /*#__PURE__*/React.createElement("code", null, "RUXBase_Page.pageContentEP === undefined")));
     }
   })
 });

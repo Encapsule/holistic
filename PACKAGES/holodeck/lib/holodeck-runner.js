@@ -89,7 +89,7 @@ var factoryResponse = arccore.filter.create({
         var testSet = request_.testRequestSets[setNumber]; // Inner set of test vectors...
 
         for (var testNumber = 0; testNumber < testSet.length; testNumber++) {
-          var testRequest = _objectSpread({}, testSet[testNumber], {
+          var testRequest = _objectSpread(_objectSpread({}, testSet[testNumber]), {}, {
             harnessDispatcher: harnessDispatcher,
             harnessRunner: runnerFascade,
             // note that we pass the fascade that calls this filter, not the filter itself down the MDR dispatch tree.
@@ -254,7 +254,7 @@ var holisticTestRunner = factoryResponse.result; // ============================
 // And we want all of this to get logged to disk. So, we can't do it inside
 // the actual runner's bodyFunction. So, that's why this is like this.
 
-var runnerFascade = _objectSpread({}, holisticTestRunner, {
+var runnerFascade = _objectSpread(_objectSpread({}, holisticTestRunner), {}, {
   request: function request(runnerRequest_) {
     // In this outer wrapper we're concerned only with the runnerRequest_.logsRootDir string
     // that we need to write the test runner filter response to a JSON-format logfile.

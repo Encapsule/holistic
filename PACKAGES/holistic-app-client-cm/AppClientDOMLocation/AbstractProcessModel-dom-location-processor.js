@@ -68,7 +68,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
     outputs: {
       ____types: "jsObject",
       ____defaultValue: {},
-      currentRoute: _objectSpread({}, routerEventDescriptorSpec, {
+      currentRoute: _objectSpread(_objectSpread({}, routerEventDescriptorSpec), {}, {
         ____types: ["jsNull", "jsObject"],
         ____defaultValue: null
       })

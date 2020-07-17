@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "4TdUnG9oRMWxzoCBdYt5kA",
-    "buildSource": "e097c663ec8bf04f4287bdb62c6c4bcbc4a59475",
-    "buildTime": 1588463624,
-    "codename": "fifer",
+    "buildID": "GXEuoGlHT-eV6exItZ2r7Q",
+    "buildSource": "529abe31b4c0bdfa5ef25d4620751113f4c30c8c",
+    "buildTime": 1594949572,
+    "codename": "gitnadoiks",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.42"
+    "version": "0.0.43"
 }

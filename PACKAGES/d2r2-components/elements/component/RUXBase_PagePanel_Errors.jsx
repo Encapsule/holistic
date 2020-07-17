@@ -66,49 +66,49 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
         var content = [];
 
         if (!this.state.showDetails) {
-          content.push(React.createElement("div", {
+          content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.closed.container
-          }, React.createElement("img", {
+          }, /*#__PURE__*/React.createElement("img", {
             src: "/advertise/rainier/images/json-doc.svg",
             style: theme.base.RUXBase_PagePanel_Errors.closed.icon,
             onClick: this.onClickToggleDetails,
             title: "Show error console..."
           })));
         } else {
-          content.push(React.createElement("div", {
+          content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.closed.container
-          }, React.createElement("img", {
+          }, /*#__PURE__*/React.createElement("img", {
             src: "/advertise/rainier/images/json-doc.svg",
             style: theme.base.RUXBase_PagePanel_Errors.closed.iconDisabled,
             onClick: this.onClickToggleDetails,
             title: "Hide error console..."
           })));
           var openPanelContent = [];
-          openPanelContent.push(React.createElement("div", {
+          openPanelContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.open.hideDetails,
             onClick: this.onClickToggleDetails,
             title: "Hide error console..."
-          }, React.createElement("img", {
+          }, /*#__PURE__*/React.createElement("img", {
             src: "/advertise/rainier/images/json-doc.svg",
             style: theme.base.RUXBase_PagePanel_Errors.open.icon
           }), metadata.site.name, " Runtime Error Console"));
           var openPanelContentInner = [];
-          openPanelContentInner.push(React.createElement("div", {
+          openPanelContentInner.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.open.guidance
-          }, React.createElement("p", null, "Errors reported here are ", React.createElement("strong", null, "fatal"), ", non-recoverable, errors typically caused by error(s) in new feature code...")));
+          }, /*#__PURE__*/React.createElement("p", null, "Errors reported here are ", /*#__PURE__*/React.createElement("strong", null, "fatal"), ", non-recoverable, errors typically caused by error(s) in new feature code...")));
           var errors = [];
 
           if (!appData.base.runtime.client.errors.length) {
-            errors.push(React.createElement("p", {
+            errors.push( /*#__PURE__*/React.createElement("p", {
               key: makeKey()
             }, "Error queue is empty."));
           } else {
             appData.base.runtime.client.errors.forEach(function (error_) {
-              errors.push(React.createElement(ComponentRouter, _extends({
+              errors.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
                 key: makeKey()
               }, self.props, {
                 renderData: error_
@@ -116,23 +116,23 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
             });
           }
 
-          openPanelContentInner.push(React.createElement("div", {
+          openPanelContentInner.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.open.errorListContainer
           }, errors));
-          openPanelContent.push(React.createElement("div", {
+          openPanelContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.open.containerInner
           }, openPanelContentInner));
-          content.push(React.createElement("div", {
+          content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: theme.base.RUXBase_PagePanel_Errors.open.container
           }, openPanelContent));
         }
 
-        return React.createElement("div", null, content);
+        return /*#__PURE__*/React.createElement("div", null, content);
       } catch (exception_) {
-        return React.createElement("div", null, "Fatal exception in <RUXBase_PagePanel_Errors/>: ", exception_.toString());
+        return /*#__PURE__*/React.createElement("div", null, "Fatal exception in <RUXBase_PagePanel_Errors/>: ", exception_.toString());
       }
     }
   })

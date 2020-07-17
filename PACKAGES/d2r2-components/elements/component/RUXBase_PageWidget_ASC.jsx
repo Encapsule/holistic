@@ -50,7 +50,7 @@ var SubcontrollerStateBox = React.createClass({
 
     var styles = arccore.util.clone(this.props.themeStyles);
     styles.backgroundColor = rgba;
-    return React.createElement("div", {
+    return /*#__PURE__*/React.createElement("div", {
       style: styles,
       title: this.props.subcontrollerName + ":" + this.props.subcontrollerState
     });
@@ -96,7 +96,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
         // If this is the case, display the loading message instead of the subcontroller state indicators.
 
         if (!this.props.appStateContext.appStateController) {
-          content.push(React.createElement("div", {
+          content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: widgetTheme.loadingTextContainer
           }, "Initializing. One moment please..."));
@@ -105,7 +105,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
 
           for (var subcontrollerName in appStateControllerMap) {
             var subcontrollerStateDescriptor = appStateControllerMap[subcontrollerName];
-            content.push(React.createElement(SubcontrollerStateBox, {
+            content.push( /*#__PURE__*/React.createElement(SubcontrollerStateBox, {
               key: makeKey(),
               subcontrollerName: subcontrollerName,
               subcontrollerState: subcontrollerStateDescriptor.state,
@@ -115,12 +115,12 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
           }
         }
 
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: widgetTheme.container,
           onClick: this.onClickScrambleColorBase
         }, content);
       } catch (exception_) {
-        return React.createElement("div", null, "RUXBase_PageWidget_ASC exception: ", exception_.toString());
+        return /*#__PURE__*/React.createElement("div", null, "RUXBase_PageWidget_ASC exception: ", exception_.toString());
       }
     }
   })

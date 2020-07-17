@@ -62,7 +62,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
           var childPageLinksAndDescriptions = [];
           pageMetadata.children.forEach(function (childPageURI_) {
             var childPageMetadata = appMetadataStore.getVertexProperty(childPageURI_);
-            if (childPageMetadata.view_options.show_in_sitemap) childPageLinksAndDescriptions.push(React.createElement("span", {
+            if (childPageMetadata.view_options.show_in_sitemap) childPageLinksAndDescriptions.push( /*#__PURE__*/React.createElement("span", {
               key: makeKey()
             }, renderPageLinkAndDescription(childPageURI_, x++, y)));
           });
@@ -84,45 +84,45 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
           pageContainerStyles.marginLeft = marginLeft;
 
           if (pageMetadata.children.length) {
-            return React.createElement("div", {
+            return /*#__PURE__*/React.createElement("div", {
               key: "Sitemap" + pageURI_,
               style: pageContainerStyles
-            }, React.createElement("div", {
+            }, /*#__PURE__*/React.createElement("div", {
               style: {
                 marginBottom: '0.75em'
               }
-            }, React.createElement("span", {
+            }, /*#__PURE__*/React.createElement("span", {
               style: {
                 verticalAlign: 'middle'
               }
-            }, "-", ' ', React.createElement("a", {
+            }, "-", ' ', /*#__PURE__*/React.createElement("a", {
               href: makeAbsoluteURI(pageURI_),
               title: pageMetadata.tooltip
-            }, React.createElement("strong", null, pageMetadata.name), " - ", pageMetadata.description))), React.createElement("div", {
+            }, /*#__PURE__*/React.createElement("strong", null, pageMetadata.name), " - ", pageMetadata.description))), /*#__PURE__*/React.createElement("div", {
               style: descriptionStyles
             }, pageMetadata.pageDescription), childPageLinksAndDescriptions.length ? childPageLinksAndDescriptions : '');
           } else {
-            return React.createElement("div", {
+            return /*#__PURE__*/React.createElement("div", {
               key: "Sitemap" + pageURI_,
               style: pageContainerStyles
-            }, React.createElement("div", null, React.createElement("span", {
+            }, /*#__PURE__*/React.createElement("div", null, /*#__PURE__*/React.createElement("span", {
               style: {
                 verticalAlign: 'middle'
               }
-            }, "\u2022", ' ', React.createElement("a", {
+            }, "\u2022", ' ', /*#__PURE__*/React.createElement("a", {
               href: makeAbsoluteURI(pageURI_),
               title: pageMetadata.tooltip
-            }, React.createElement("strong", null, pageMetadata.name), " - ", pageMetadata.description))), React.createElement("div", {
+            }, /*#__PURE__*/React.createElement("strong", null, pageMetadata.name), " - ", pageMetadata.description))), /*#__PURE__*/React.createElement("div", {
               style: descriptionStyles
             }, pageMetadata.pageDescription));
           }
         };
 
-        return React.createElement("div", {
+        return /*#__PURE__*/React.createElement("div", {
           style: theme.base.RUXBase_PageContent_Sitemap.container
         }, renderPageLinkAndDescription('/', 0, 1));
       } catch (exception_) {
-        return React.createElement("div", null, "Fatal exception in <RUXBase_PageContent_Sitemap>: + ", exception_.toString());
+        return /*#__PURE__*/React.createElement("div", null, "Fatal exception in <RUXBase_PageContent_Sitemap>: + ", exception_.toString());
       }
     } // render()
 

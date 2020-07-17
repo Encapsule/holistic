@@ -41,7 +41,7 @@ var typographyBaseSettings = {
   }
 };
 
-var typographyHeadingSettings = _objectSpread({}, typographyBaseSettings, {
+var typographyHeadingSettings = _objectSpread(_objectSpread({}, typographyBaseSettings), {}, {
   sizes: {
     ____types: "jsObject",
     h1: {
@@ -325,7 +325,7 @@ module.exports = {
     panel: {
       ____types: "jsObject",
       ____defaultValue: {},
-      navigation: _objectSpread({}, regionShapeSettingsSpec, {
+      navigation: _objectSpread(_objectSpread({}, regionShapeSettingsSpec), {}, {
         ____defaultValue: {
           radius: {
             size: 0.33,

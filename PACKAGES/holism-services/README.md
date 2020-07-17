@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.42 fifer
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.43 gitnadoiks
 
 ## &#x25F0; Runtime library: @encapsule/holism-services
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.
 
 ```
-Package: @encapsule/holism-services v0.0.42 "fifer" build ID "4TdUnG9oRMWxzoCBdYt5kA"
-Sources: Encapsule/holistic-master#e097c663ec8bf04f4287bdb62c6c4bcbc4a59475
-Created: 2020-05-02T23:53:44.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism-services v0.0.43 "gitnadoiks" build ID "GXEuoGlHT-eV6exItZ2r7Q"
+Sources: Encapsule/holistic-master#529abe31b4c0bdfa5ef25d4620751113f4c30c8c
+Created: 2020-07-17T01:32:52.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

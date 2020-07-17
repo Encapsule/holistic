@@ -89,7 +89,7 @@ var factoryResponse = arccore.filter.create({
         return "break";
       }
 
-      response.result = _objectSpread({}, constructorRequest_, {
+      response.result = _objectSpread(_objectSpread({}, constructorRequest_), {}, {
         harnessFilters: harnessFilters,
         harnessDiscriminator: innerResponse.result
       });

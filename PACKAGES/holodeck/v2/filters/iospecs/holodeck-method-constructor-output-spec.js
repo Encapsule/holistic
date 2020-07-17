@@ -10,7 +10,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 var inputFilterSpec = _objectSpread({}, require("./holodeck-method-constructor-input-spec"));
 
 delete inputFilterSpec.holodeckHarnesses;
-module.exports = _objectSpread({}, inputFilterSpec, {
+module.exports = _objectSpread(_objectSpread({}, inputFilterSpec), {}, {
   ____label: "Holodeck Constructor Result",
   harnessDiscriminator: {
     ____label: "Holodeck Harness Discriminator",

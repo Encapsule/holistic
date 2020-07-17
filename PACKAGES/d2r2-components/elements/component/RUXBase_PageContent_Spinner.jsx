@@ -120,7 +120,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
     },
     render: function render() {
       var self = this;
-      return React.createElement("div", {
+      return /*#__PURE__*/React.createElement("div", {
         ref: function ref(input) {
           self.targetElement = input;
         },

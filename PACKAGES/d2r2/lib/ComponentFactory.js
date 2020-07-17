@@ -86,7 +86,7 @@ var factoryResponse = arccore.filter.create({
           renderData: factoryRequest.renderDataBindingSpec
         },
         bodyFunction: function bodyFunction(renderRequest_) {
-          var reactElement = React.createElement(factoryRequest.reactComponent, _objectSpread({}, renderRequest_.reactContext, {
+          var reactElement = React.createElement(factoryRequest.reactComponent, _objectSpread(_objectSpread({}, renderRequest_.reactContext), {}, {
             renderData: renderRequest_.renderData
           }));
           return {

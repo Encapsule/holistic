@@ -50,6 +50,7 @@ function syncExec(request_) {
     // request_ = { command: string, cwd: string,  }
     // https://stackoverflow.com/questions/30134236/use-child-process-execsync-but-keep-output-in-console
     // return childProcess.execSync(request_.command, { cwd: request_.cwd, stdio: [0,1,2] });
+    console.log([ "subprocess command:", request_.command, "working directory", request_.cwd].join(" "));
     return childProcess.execSync(request_.command, { cwd: request_.cwd }).toString('utf8').trim();
 } // syncExec
 
@@ -469,14 +470,18 @@ console.log(consoleOutput);
 // that have appeared in the application's package.json are installed. And, that yarn.lock
 // is updated.
 
-holisticPlatformRuntimePackageNames.forEach(function(packageName_) {
+if (fs.existsSync(resourceFilePaths.application.packageModulesDir)) {
+    holisticPlatformRuntimePackageNames.forEach(function(packageName_) {
 
-    console.log("> Updating holistic platform runtime package dependency '" + packageName_ + "'...");
-    consoleOutput = syncExec({
-        cwd: resourceFilePaths.application.packageModulesDir,
-        command: "rm -rf " + packageName_
+	console.log("> Updating holistic platform runtime package dependency '" + packageName_ + "'...");
+	consoleOutput = syncExec({
+            cwd: resourceFilePaths.application.packageModulesDir,
+            command: "rm -drf " + packageName_
+	});
     });
-});
+} else {
+    console.log("The target repo has no 3rd-party dependencies installed yet. Nothing to clean...");
+}
 
 makeDirectory(resourceFilePaths.application.projectDir);
 touchFile(path.join(resourceFilePaths.application.projectDir, ".gitkeep"));
@@ -609,7 +614,7 @@ console.log("> ONE MOMENT PLEASE... Executing 'yarn install in '" + resourceFile
 console.log("");
 consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
-    command: "yarn install --force --checkfiles" // --check-files
+    command: "yarn install --force --checkfiles"
 });
 
 console.log(consoleOutput);

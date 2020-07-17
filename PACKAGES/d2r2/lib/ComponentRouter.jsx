@@ -8,15 +8,19 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
-
-function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
-
-function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 // sources/common/view/component-router/ComponentRouter.jsx
 // Looking for this module inside a large webpack bundle? Search for "SmNzf5U0RXSSyXe06mTRCg".
@@ -52,12 +56,14 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
   var ComponentRouter = /*#__PURE__*/function (_React$Component) {
     _inherits(ComponentRouter, _React$Component);
 
+    var _super = _createSuper(ComponentRouter);
+
     function ComponentRouter(props_) {
       var _this;
 
       _classCallCheck(this, ComponentRouter);
 
-      _this = _possibleConstructorReturn(this, _getPrototypeOf(ComponentRouter).call(this, props_));
+      _this = _super.call(this, props_);
       _this.state = {};
       _this.onToggleInspectViewBindingFilter = _this.onToggleInspectViewBindingFilter.bind(_assertThisInitialized(_this));
       _this.onMouseOverBindingFilter = _this.onMouseOverBindingFilter.bind(_assertThisInitialized(_this));
@@ -134,9 +140,9 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
           console.error("!!!!! <ComponentRouter/> ERROR: " + error);
           var theme = this.props.document.metadata.site.theme; // Pre-render a JSON-format copy of the specific `this.props.renderData` we cannot identify.
 
-          var renderDataJSON = this.props.renderData === undefined ? React.createElement("span", {
+          var renderDataJSON = this.props.renderData === undefined ? /*#__PURE__*/React.createElement("span", {
             key: makeKey()
-          }, "undefined") : React.createElement("span", {
+          }, "undefined") : /*#__PURE__*/React.createElement("span", {
             key: makeKey()
           }, "'", JSON.stringify(this.props.renderData, undefined, 4), "'");
           var supportedFilterListItems = [];
@@ -170,7 +176,7 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
 
             if (!self.state[filterName_] || !self.state[filterName_].inspect) {
               filterNameStyles.cursor = 'zoom-in';
-              listItemContent.push(React.createElement("span", {
+              listItemContent.push( /*#__PURE__*/React.createElement("span", {
                 key: makeKey(),
                 style: filterNameStyles,
                 onClick: clickHandler,
@@ -179,39 +185,39 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
               }, "[", filterName_, "]"));
             } else {
               filterNameStyles.cursor = 'zoom-out';
-              listItemContent.push(React.createElement("span", {
+              listItemContent.push( /*#__PURE__*/React.createElement("span", {
                 key: makeKey()
-              }, React.createElement("span", {
+              }, /*#__PURE__*/React.createElement("span", {
                 style: filterNameStyles,
                 onClick: clickHandler,
                 onMouseOver: onMouseOverHandler,
                 onMouseOut: onMouseOutHandler
-              }, "[", filterName_, "]"), React.createElement("br", null), React.createElement("br", null), React.createElement("pre", {
+              }, "[", filterName_, "]"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("pre", {
                 style: theme.classPRE,
                 onMouseOver: onMouseOutHandler,
                 onMouseOut: onMouseOutHandler
-              }, JSON.stringify(filterNameMap[filterName_], undefined, 4)), React.createElement("br", null)));
+              }, JSON.stringify(filterNameMap[filterName_], undefined, 4)), /*#__PURE__*/React.createElement("br", null)));
             }
 
-            supportedFilterListItems.push(React.createElement("li", {
+            supportedFilterListItems.push( /*#__PURE__*/React.createElement("li", {
               key: makeKey()
             }, listItemContent));
           });
-          return React.createElement("div", {
+          return /*#__PURE__*/React.createElement("div", {
             style: theme.ComponentRouterError.container
-          }, React.createElement("h1", null, "<ComponentRouter/> Error"), React.createElement("p", null, "<ComponentRouter/> cannot render the value of ", React.createElement("code", null, "this.props.renderData"), " it received because its", ' ', React.createElement("strong", null, "namespace::type"), "-derived data signature does not meet the input filter specification criteria of any of the React", ' ', "component data binding filters registered by this application."), React.createElement("h2", null, "Unrecognized this.props.renderData (JSON):"), React.createElement("pre", {
+          }, /*#__PURE__*/React.createElement("h1", null, "<ComponentRouter/> Error"), /*#__PURE__*/React.createElement("p", null, "<ComponentRouter/> cannot render the value of ", /*#__PURE__*/React.createElement("code", null, "this.props.renderData"), " it received because its", ' ', /*#__PURE__*/React.createElement("strong", null, "namespace::type"), "-derived data signature does not meet the input filter specification criteria of any of the React", ' ', "component data binding filters registered by this application."), /*#__PURE__*/React.createElement("h2", null, "Unrecognized this.props.renderData (JSON):"), /*#__PURE__*/React.createElement("pre", {
             style: theme.classPRE
-          }, "this.props.renderData === ", renderDataJSON), React.createElement("h2", null, "Underlying ARCcore.discriminator Error"), React.createElement("pre", {
+          }, "this.props.renderData === ", renderDataJSON), /*#__PURE__*/React.createElement("h2", null, "Underlying ARCcore.discriminator Error"), /*#__PURE__*/React.createElement("pre", {
             style: theme.classPRE
-          }, error), React.createElement("h2", null, "Registered React Components:"), React.createElement("p", null, "To correct this problem, please ensure that the value passed to <ComponentRouter/> via its ", React.createElement("code", null, "renderData"), " property has", ' ', "a ", React.createElement("strong", null, "namespace::type"), "-derived signature accepted by one of the following data-bound React components:"), React.createElement("ol", {
+          }, error), /*#__PURE__*/React.createElement("h2", null, "Registered React Components:"), /*#__PURE__*/React.createElement("p", null, "To correct this problem, please ensure that the value passed to <ComponentRouter/> via its ", /*#__PURE__*/React.createElement("code", null, "renderData"), " property has", ' ', "a ", /*#__PURE__*/React.createElement("strong", null, "namespace::type"), "-derived signature accepted by one of the following data-bound React components:"), /*#__PURE__*/React.createElement("ol", {
             style: theme.ComponentRouterError.filterList
           }, supportedFilterListItems));
         } catch (exception_) {
           var _theme = this.props.document.metadata.site.theme; // .ComponentRouterError.container;
 
-          return React.createElement("div", {
+          return /*#__PURE__*/React.createElement("div", {
             style: _theme.ComponentRouterError.container
-          }, React.createElement("h1", null, "<ComponentRouter/> INTERNAL ERROR"), React.createElement("p", null, "Unfortunately, there has been an internal error inside the <ComponentRouter> error handling logic that is preventing us from correctly displaying the our standard error and diagnostic view."), React.createElement("pre", {
+          }, /*#__PURE__*/React.createElement("h1", null, "<ComponentRouter/> INTERNAL ERROR"), /*#__PURE__*/React.createElement("p", null, "Unfortunately, there has been an internal error inside the <ComponentRouter> error handling logic that is preventing us from correctly displaying the our standard error and diagnostic view."), /*#__PURE__*/React.createElement("pre", {
             style: _theme.classPRE
           }, exception_.stack));
         } // end catch

@@ -251,7 +251,7 @@ var factoryResponse = arccore.filter.create({
                 var props = digraph.getVertexProperty(artifactID);
                 digraph.setVertexProperty({
                   u: artifactID,
-                  p: _objectSpread({}, props, {
+                  p: _objectSpread(_objectSpread({}, props), {}, {
                     artifact: artifact
                   })
                 });

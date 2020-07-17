@@ -279,7 +279,7 @@ var factoryResponse = arccore.filter.create({
 
                   var apmSpecOverlay = _apm.getDataSpec();
 
-                  provisionalSpecRef = _objectSpread({}, record.specRef, {}, apmSpecOverlay, {}, opcSpecOverlay, {
+                  provisionalSpecRef = _objectSpread(_objectSpread(_objectSpread(_objectSpread({}, record.specRef), apmSpecOverlay), opcSpecOverlay), {}, {
                     ____types: optionalNamespace ? ["jsObject", "jsUndefined"] : "jsObject"
                   });
                 } else {
