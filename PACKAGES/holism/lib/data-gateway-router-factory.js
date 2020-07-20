@@ -55,7 +55,7 @@ var factoryResponse = arccore.filter.create({
 
             const discriminator = innerFactoryResponse.result;
 
-            const routerId = arccore.identifier.irut.fromReference(ids.join("")).result;
+            const routerId = arccore.identifier.irut.fromReference(ids.sort().join("")).result;
 
             innerFactoryResponse = arccore.filter.create({
                 operationID: routerId,
@@ -84,7 +84,13 @@ var factoryResponse = arccore.filter.create({
                 errors.push(innerFactoryResponse.error);
                 break;
             }
-            response.result = innerFactoryResponse.result;
+
+            response.result = {
+                ...innerFactoryResponse.result,
+                routedServices: factoryRequest_.serviceFilters
+            };
+
+
             break;
         }
         if (errors.length) {
