@@ -46,7 +46,22 @@ module.exports = [{
                 }
               }
             }
-          }
+          },
+          actRequests: [{
+            actorName: "Test",
+            actionRequest: {
+              holarchy: {
+                CellProcessor: {
+                  process: {
+                    create: {
+                      apmID: "6OPnhgR9QWyEFaBpaZNb1A",
+                      cellProcessUniqueName: "test-process-1"
+                    }
+                  }
+                }
+              }
+            }
+          }]
         }
       }
     }

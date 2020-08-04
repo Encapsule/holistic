@@ -1,22 +1,25 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+// ControllerAction-clear-boolean-flag.js
+var ControllerAction = require("../../../ControllerAction");
 
-module.exports = new holarchy.TransitionOperator({
-  id: "kD1PcgqYQlm7fJatNG2ZsA",
-  name: "OCD Namespace Is Truthy",
-  description: "Returns Boolean true iff the indicated OCD namespace is truthy.",
-  operatorRequestSpec: {
+var ObservableControllerData = require("../../../ObservableControllerData");
+
+module.exports = new ControllerAction({
+  id: "_yxWfFLnTqqN-UxRdd7W5w",
+  name: "OCD Boolean Flag Clear",
+  description: "Set the Boolean-type OCD namespace specified by path to value false.",
+  actionRequestSpec: {
     ____types: "jsObject",
     holarchy: {
       ____types: "jsObject",
       cm: {
         ____types: "jsObject",
-        operators: {
+        actions: {
           ____types: "jsObject",
           ocd: {
             ____types: "jsObject",
-            isNamespaceTruthy: {
+            clearBooleanFlag: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"
@@ -27,18 +30,21 @@ module.exports = new holarchy.TransitionOperator({
       }
     }
   },
+  actionResultSpec: {
+    ____accept: "jsUndefined"
+  },
+  // no result
   bodyFunction: function bodyFunction(request_) {
     var response = {
-      error: null,
-      result: false
+      error: null
     };
     var errors = [];
     var inBreakScope = false;
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.cm.operators.ocd.isNamespaceTruthy;
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var message = request_.actionRequest.holarchy.cm.actions.ocd.clearBooleanFlag;
+      var rpResponse = ObservableControllerData.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
@@ -48,14 +54,12 @@ module.exports = new holarchy.TransitionOperator({
         break;
       }
 
-      var filterResponse = request_.context.ocdi.readNamespace(rpResponse.result);
+      var ocdResponse = request_.context.ocdi.writeNamespace(rpResponse.result, false);
 
-      if (filterResponse.error) {
-        errors.push(filterResponse.error);
-        break;
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
       }
 
-      response.result = filterResponse.result ? true : false;
       break;
     }
 
@@ -64,5 +68,6 @@ module.exports = new holarchy.TransitionOperator({
     }
 
     return response;
-  }
+  } // end bodyFunction
+
 });

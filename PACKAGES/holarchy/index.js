@@ -32,14 +32,25 @@ module.exports = {
 
   /*
     CellModel (CM) is an ES6 class instantiated with operator
-    new that represents a specific class of runtime "cell process".
+    new that represents a specific class of runtime "cell process"
+    that associates the shared memory and process behaviors defined
+    by an AbstractionProcessModel with speicfic sets of TransitionOperator
+    and ControllerActions required to orchestrate cell process step
+    transitions and their associated enter and exit action(s).
   */
   CellModel: CellModel,
 
   /*
-    AbstractProcessModel (OPM) is an ES6 class instantiated with
+    AbstractProcessModel (APM) is an ES6 class instantiated with
     operator new that represents the shared memory and runtime
-    behavior(s) of a CellModel (CM).
+    behavior(s) of a cell process abstractly (i.e. the means by
+    which anything that an AbstractProcessModel describes is actually
+    orchestrated/executed is not directly specified by an
+    AbstractProcessModel). APM specifically model the required/expected
+    behaviors of a runtime cell process by allowing developers to
+    declare orchestration rules and runtime side-effects (e.g. data
+    transoformation alogorithms) in terms of a hybrid Finite State Machine
+    (FSM) model.
   */
   AbstractProcessModel: AbstractProcessModel,
 
@@ -94,6 +105,19 @@ module.exports = {
     OCD to build the request and then call toJSON.
   */
   ObservableControllerData: ObservableControllerData,
+  // ================================================================
+  // ================================================================
+  // ================================================================
   // DEPRECATED: ApplicationStateController is deprecated. Use OCD.
-  ApplicationDataStore: ObservableControllerData
+  ApplicationDataStore: ObservableControllerData,
+  // ================================================================
+  // ================================================================
+  // ================================================================
+  // HolarchyCore is a CellModel that encapsulates core logic and memory
+  // operations for CellProcessor cell process manager process. It is
+  // exported from the @encapsule/holarchy package to support low-level
+  // testing of the ObservableProcessController (OPC) runtime host
+  // environment mechanism and the contents of HolarchyCore itself without
+  // using CellProcessor.
+  HolarchyCore: require("./lib/intrinsics/HolarchyCore")
 };

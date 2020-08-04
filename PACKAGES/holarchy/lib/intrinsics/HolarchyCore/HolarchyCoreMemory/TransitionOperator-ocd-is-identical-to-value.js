@@ -1,11 +1,13 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
-  id: "ggsavKiARsq7rjwn-lxdfA",
-  name: "OCD Namespace Is Greater Than Value",
-  description: "Returns Boolean true iff the indicated OCD namespace is greater than the indicated value. Limited to number and string value comparisons only.",
+var ObservableControllerData = require("../../../ObservableControllerData");
+
+module.exports = new TransitionOperator({
+  id: "k7THIKKDQMKOac1Rxh9tEQ",
+  name: "OCD Namespace Is Identical To Value",
+  description: "Returns Boolean true iff the indicated OCD namespace is identical (i.e. strictly equal (===)) to the indicated value. Limited to number and string value comparisons only.",
   operatorRequestSpec: {
     ____types: "jsObject",
     holarchy: {
@@ -16,7 +18,7 @@ module.exports = new holarchy.TransitionOperator({
           ____types: "jsObject",
           ocd: {
             ____types: "jsObject",
-            isNamespaceGreaterThanValue: {
+            isNamespaceIdenticalToValue: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"
@@ -40,8 +42,8 @@ module.exports = new holarchy.TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.cm.operators.ocd.isNamespaceGreaterThanValue;
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var message = request_.operatorRequest.holarchy.cm.operators.ocd.isNamespaceIdenticalToValue;
+      var rpResponse = ObservableControllerData.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
@@ -59,7 +61,7 @@ module.exports = new holarchy.TransitionOperator({
       } // TODO: It would be better to also confirm that both values are the same type.
 
 
-      response.result = filterResponse.result > message.value;
+      response.result = filterResponse.result === message.value;
       break;
     }
 

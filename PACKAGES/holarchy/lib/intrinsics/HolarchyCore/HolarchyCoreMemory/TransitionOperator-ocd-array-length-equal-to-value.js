@@ -1,8 +1,10 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
+var ObservableControllerData = require("../../../ObservableControllerData");
+
+module.exports = new TransitionOperator({
   id: "oaF3-dXwQkusjD3I2o9-8g",
   name: "OCD Array Length Equal to Value",
   description: "Returns Boolean true iff the length of the array stored at OCD path equals the specified numerical value (direct or indirect).",
@@ -45,7 +47,7 @@ module.exports = new holarchy.TransitionOperator({
     while (!inBreakScope) {
       inBreakScope = true;
       var message = request_.operatorRequest.holarchy.cm.operators.ocd.array;
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var rpResponse = ObservableControllerData.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
@@ -72,7 +74,7 @@ module.exports = new holarchy.TransitionOperator({
           break;
 
         case "[object String]":
-          rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+          rpResponse = ObservableControllerData.dataPathResolve({
             apmBindingPath: request_.context.apmBindingPath,
             dataPath: message.length.equalToValue
           });

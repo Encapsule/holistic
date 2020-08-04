@@ -23,6 +23,7 @@ module.exports = /*#__PURE__*/function () {
       };
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
+      this.act = this.act.bind(this);
       var filterResponse = constructorFilter.request(request_);
 
       if (filterResponse.error) {
@@ -44,13 +45,24 @@ module.exports = /*#__PURE__*/function () {
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
-    }
+    } // This method will undergo some considerable transformation in the future.
+    // It's not nearly done yet. But, done enough to use CellProcessor for many
+    // jobs...Just not yet jobs that require that we save/restore the contents
+    // of a CellProcessor and or specific subgraphs of the process digraph.
+
   }, {
     key: "toJSON",
     value: function toJSON() {
       return this.isValid() ? this._private : this._private.constructorError;
     }
+  }, {
+    key: "act",
+    value: function act(request_) {
+      return this.isValid() ? this._private.opc.act(request_) : {
+        error: this.toJSON()
+      };
+    }
   }]);
 
   return CellProcessor;
-}();
+}(); // class CellProcessor

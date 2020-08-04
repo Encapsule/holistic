@@ -1,8 +1,10 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
+var ObservableControllerData = require("../../../ObservableControllerData");
+
+module.exports = new TransitionOperator({
   id: "2w7n6KxdR8mdIliePJesLQ",
   name: "OCD Compare Values",
   description: "Returns Boolean true iff operand A and B values compare using the indicated comparison operator.",
@@ -84,7 +86,7 @@ module.exports = new holarchy.TransitionOperator({
       if (!message.a.path) {
         operandA = message.a.value;
       } else {
-        rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+        rpResponse = ObservableControllerData.dataPathResolve({
           apmBindingPath: request_.context.apmBindingPath,
           dataPath: message.a.path
         });
@@ -110,7 +112,7 @@ module.exports = new holarchy.TransitionOperator({
       if (!message.b.path) {
         operandB = message.b.value;
       } else {
-        rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+        rpResponse = ObservableControllerData.dataPathResolve({
           apmBindingPath: request_.context.apmBindingPath,
           dataPath: message.b.path
         });

@@ -1,14 +1,14 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
-  id: "0JIva4IFSm6Xm7i38g8uUA",
-  name: "OR Transition Expression Operator",
-  description: "Returns Boolean true iff any suboperations return true.",
+module.exports = new TransitionOperator({
+  id: "YgABX95wR86GCYrYaDLISA",
+  name: "AND Transition Expression Operator",
+  description: "Returns Boolean true iff all suboperations return true.",
   operatorRequestSpec: {
     ____types: "jsObject",
-    or: {
+    and: {
       ____types: "jsArray",
       operandOperatorVariant: {
         ____accept: "jsObject"
@@ -18,7 +18,7 @@ module.exports = new holarchy.TransitionOperator({
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null,
-      result: false
+      result: true
     };
     var errors = [];
     var inBreakScope = false;
@@ -26,8 +26,8 @@ module.exports = new holarchy.TransitionOperator({
     while (!inBreakScope) {
       inBreakScope = true;
 
-      if (!request_.operatorRequest.or.length) {
-        errors.push("Cannot evaluate OR operation with zero operands.");
+      if (!request_.operatorRequest.and.length) {
+        errors.push("Cannot evaluate AND operation with zero operands.");
         break;
       }
 
@@ -36,7 +36,7 @@ module.exports = new holarchy.TransitionOperator({
       var _iteratorError = undefined;
 
       try {
-        for (var _iterator = request_.operatorRequest.or[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
+        for (var _iterator = request_.operatorRequest.and[Symbol.iterator](), _step; !(_iteratorNormalCompletion = (_step = _iterator.next()).done); _iteratorNormalCompletion = true) {
           var operatorRequest = _step.value;
           var operatorResponse = request_.context.transitionDispatcher.request({
             context: request_.context,
@@ -61,8 +61,8 @@ module.exports = new holarchy.TransitionOperator({
             break;
           }
 
-          if (operatorResponse.result) {
-            response.result = true;
+          if (!operatorResponse.result) {
+            response.result = false;
             break;
           }
         }

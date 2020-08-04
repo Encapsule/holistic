@@ -1,9 +1,8 @@
 "use strict";
 
-var holarchy = {
-  ControllerAction: require("../ControllerAction")
-};
-module.exports = new holarchy.ControllerAction({
+var ControllerAction = require("../../ControllerAction");
+
+module.exports = new ControllerAction({
   id: "S1GqYjTtSQazSxkIL9vtpA",
   name: "OPC Intrinsic Status Action",
   description: "OPC-intrinsic performs a retrieval of transitive OPC instance status.",

@@ -1,11 +1,13 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
-  id: "k7THIKKDQMKOac1Rxh9tEQ",
-  name: "OCD Namespace Is Identical To Value",
-  description: "Returns Boolean true iff the indicated OCD namespace is identical (i.e. strictly equal (===)) to the indicated value. Limited to number and string value comparisons only.",
+var ObservableCellData = require("../../../ObservableControllerData");
+
+module.exports = new TransitionOperator({
+  id: "9tNY7o5GTUGH_xda2GhP-w",
+  name: "Cell Process In Step Operator",
+  description: "Returns Boolean true iff the indicated APM instance is in the indicated process step.",
   operatorRequestSpec: {
     ____types: "jsObject",
     holarchy: {
@@ -14,15 +16,15 @@ module.exports = new holarchy.TransitionOperator({
         ____types: "jsObject",
         operators: {
           ____types: "jsObject",
-          ocd: {
+          cell: {
             ____types: "jsObject",
-            isNamespaceIdenticalToValue: {
+            atStep: {
               ____types: "jsObject",
               path: {
                 ____accept: "jsString"
               },
-              value: {
-                ____accept: ["jsString", "jsNumber"]
+              step: {
+                ____accept: "jsString"
               }
             }
           }
@@ -33,15 +35,15 @@ module.exports = new holarchy.TransitionOperator({
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null,
-      result: false
+      result: null
     };
     var errors = [];
     var inBreakScope = false;
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.cm.operators.ocd.isNamespaceIdenticalToValue;
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var message = request_.operatorRequest.holarchy.cm.operators.cell.atStep;
+      var rpResponse = ObservableCellData.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });
@@ -51,15 +53,15 @@ module.exports = new holarchy.TransitionOperator({
         break;
       }
 
-      var filterResponse = request_.context.ocdi.readNamespace(rpResponse.result);
+      var processStepNamespace = "".concat(rpResponse.result, ".__apmiStep");
+      var filterResponse = request_.context.ocdi.readNamespace(processStepNamespace);
 
       if (filterResponse.error) {
         errors.push(filterResponse.error);
         break;
-      } // TODO: It would be better to also confirm that both values are the same type.
+      }
 
-
-      response.result = filterResponse.result === message.value;
+      response.result = filterResponse.result === message.step;
       break;
     }
 

@@ -1,8 +1,10 @@
 "use strict";
 
-var holarchy = require("@encapsule/holarchy");
+var TransitionOperator = require("../../../TransitionOperator");
 
-module.exports = new holarchy.TransitionOperator({
+var ObservableControllerData = require("../../../ObservableControllerData");
+
+module.exports = new TransitionOperator({
   id: "UeLs9PcASwuC7KR190eYhA",
   name: "OCD Boolean Flag Is Set",
   description: "Returns Boolean true iff the indicated Boolean flag namespace is true.",
@@ -38,7 +40,7 @@ module.exports = new holarchy.TransitionOperator({
     while (!inBreakScope) {
       inBreakScope = true;
       var message = request_.operatorRequest.holarchy.cm.operators.ocd.isBooleanFlagSet;
-      var rpResponse = holarchy.ObservableControllerData.dataPathResolve({
+      var rpResponse = ObservableControllerData.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: message.path
       });

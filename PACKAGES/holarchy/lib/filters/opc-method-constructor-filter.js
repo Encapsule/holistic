@@ -25,7 +25,7 @@ var opcMethodConstructorInputSpec = require("./iospecs/opc-method-constructor-in
 
 var opcMethodConstructorOutputSpec = require("./iospecs/opc-method-constructor-output-spec");
 
-var intrinsics = require("../intrinsics");
+var intrinsics = require("../intrinsics/OPC");
 
 var factoryResponse = arccore.filter.create({
   operationID: "XXile9azSHO39alE6mMKsg",

@@ -1,9 +1,8 @@
 "use strict";
 
-var holarchy = {
-  ControllerAction: require("../ControllerAction")
-};
-module.exports = new holarchy.ControllerAction({
+var ControllerAction = require("../../ControllerAction");
+
+module.exports = new ControllerAction({
   id: "KX0V_aQ3RzG01tzBS24MGw",
   name: "OPC Intrinsic NOOP Action",
   description: "OPC-intrinsic performs no operation (noop). When invoked via OPC.act, the effect is to perform no read/write operations on OPC-instanced shared memory. And, then perform an evaluation.",

@@ -1,9 +1,9 @@
 "use strict";
 
 // This module exports an @encapsule/holarchy Cell Model definition object.
-var holarchy = require("@encapsule/holarchy");
+var CellModel = require("../../../../CellModel");
 
-module.exports = new holarchy.CellModel({
+module.exports = new CellModel({
   id: "jQxlhOe-RDilxY0sNIierQ",
   name: "Holarchy Core Memory Operators",
   description: "A collection of TransitionOperator plug-ins that perform logical comparisons operatations on cell processs memory.",
