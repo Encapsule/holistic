@@ -77,7 +77,7 @@ var controllerAction = new ControllerAction({
 
       var apmProcessInstanceID = message.cellProcessUniqueName ? arccore.identifier.irut.fromReference(message.cellProcessUniqueName).result : arccore.identifier.irut.fromEther().result; // ... from which we can now derive the absolute OCD path of the new cell process (proposed).
 
-      var apmBindingPath = "".concat(apmProcessesNamespace, ".").concat(apmProcessInstanceID); // ... from which we can now derive the new cell process ID (proposed).
+      var apmBindingPath = "".concat(apmProcessesNamespace, ".cellProcessMap.").concat(apmProcessInstanceID); // ... from which we can now derive the new cell process ID (proposed).
 
       var cellProcessID = arccore.identifier.irut.fromReference(apmBindingPath).result; // ... And, while we're at it we'll need the ID of the proposed parent cell process as well.
 
@@ -124,7 +124,30 @@ var controllerAction = new ControllerAction({
           u: parentCellProcessID,
           v: cellProcessID
         }
-      }); // Response back to the caller w/information about the newly-created cell process.
+      });
+      ocdResponse = request_.context.ocdi.writeNamespace("".concat(cellProcessDigraphPath, ".revision"), processDigraph.revision + 1);
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      var apmProcessesRevisionNamespace = "".concat(apmProcessesNamespace, ".revision");
+      ocdResponse = request_.context.ocdi.readNamespace(apmProcessesRevisionNamespace);
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      var apmProcessesRevision = ocdResponse.result;
+      ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesRevisionNamespace, apmProcessesRevision + 1);
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      } // Respond back to the caller w/information about the newly-created cell process.
+
 
       response.result = {
         apmBindingPath: apmBindingPath,

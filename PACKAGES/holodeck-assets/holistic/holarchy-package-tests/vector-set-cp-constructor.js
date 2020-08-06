@@ -48,7 +48,7 @@ module.exports = [{
             }
           },
           actRequests: [{
-            actorName: "Test",
+            actorName: "CP constructor test #2",
             actionRequest: {
               holarchy: {
                 CellProcessor: {
@@ -56,6 +56,22 @@ module.exports = [{
                     create: {
                       apmID: "6OPnhgR9QWyEFaBpaZNb1A",
                       cellProcessUniqueName: "test-process-1"
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            actorName: "CP constructor test #2",
+            actionRequest: {
+              holarchy: {
+                CellProcessor: {
+                  process: {
+                    "delete": {
+                      cellProcessNamespace: {
+                        apmID: "6OPnhgR9QWyEFaBpaZNb1A",
+                        cellProcessUniqueName: "test-process-1"
+                      }
                     }
                   }
                 }

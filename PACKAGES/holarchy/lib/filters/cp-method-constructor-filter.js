@@ -5,7 +5,7 @@ var arccore = require("@encapsule/arccore");
 
 var CellModel = require("../../CellModel");
 
-var CellProcessorIntrinsics = require("../intrinsics/CellProcessor");
+var CellProcessManager = require("../intrinsics/CellProcessManager");
 
 var HolarchyCore = require("../intrinsics/HolarchyCore");
 
@@ -48,12 +48,11 @@ var factoryResponse = arccore.filter.create({
         errors.push(configResponse.error);
       }
 
-      var apmConfig = configResponse.result; // Synthesize the Cell Process Manager OCD filter specification.
+      var apmConfig = configResponse.result; // Synthesize the filter specification to be used to configure the ObservableProcessController's shared memory ObservableControllerData store for this CellProcess instance.
 
       var ocdTemplateSpec = {
         ____types: "jsObject"
-      };
-      ocdTemplateSpec[cpmMountingNamespaceName] = {}; // The Cell Process Manager manages some number of subcell processes.
+      }; // The Cell Process Manager manages some number of subcell processes.
       // Here we allocate a prescriptively-named map of process instances for each Abstract Process Model (APM)
       // discovered in the in the input CellModel instance.
 
@@ -65,41 +64,65 @@ var factoryResponse = arccore.filter.create({
         var apmFilterName = "[".concat(apmID, "::").concat(apmName, "]");
         var apmProcessesNamespace = "".concat(apmID, "_CellProcesses");
         ocdTemplateSpec[apmProcessesNamespace] = {
-          ____label: "".concat(apmFilterName, " Cell Processes Map"),
-          ____description: "A map of ".concat(apmFilterName, " process instances by process ID that are managed by the CellProcessor (~) runtime host instance."),
+          ____label: "".concat(apmFilterName, " Cell Processes Memory"),
+          ____description: "Shared cell process memory for cell processes bound to AbstractProcessModel ".concat(apmFilterName, "."),
           ____types: "jsObject",
-          ____asMap: true,
           ____defaultValue: {},
-          cellProcessID: {
-            ____label: "".concat(apmFilterName, " Cell Process Instance"),
-            ____description: "Cell process instance memory for ".concat(apmFilterName, ": ").concat(apmDescription),
+          cellProcessMap: {
+            ____label: "".concat(apmFilterName, " Cell Process Map"),
+            ____description: "A map of ".concat(apmFilterName, " process instances by process ID that are managed by the CellProcessor (~) runtime host instance."),
             ____types: "jsObject",
-            ____appdsl: {
-              apm: apmID
-            } // <3 <3 <3
+            ____asMap: true,
+            ____defaultValue: {},
+            cellProcessID: {
+              ____label: "".concat(apmFilterName, " Cell Process Instance"),
+              ____description: "Cell process instance memory for ".concat(apmFilterName, ": ").concat(apmDescription),
+              ____types: "jsObject",
+              ____appdsl: {
+                apm: apmID
+              } // <3 <3 <3
 
+            }
+          },
+          revision: {
+            ____accept: "jsNumber",
+            ____defaultValue: 0
           }
         };
       } // end for apmConfig.length
-      // Now create a new CellModel for the Cell Process Managager.
 
+
+      var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcess_AbstractProcessModel")).result; // Define the CellProcessor process manager process namespace in shared memory and bound our APM.
+      // Note that we specifiy a default value here ensuring that the process manager cell process is
+      // always started automatically whenever a CellProcess instance is constructed.
+
+      ocdTemplateSpec[cpmMountingNamespaceName] = {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        ____appdsl: {
+          apm: cpAPMID
+        }
+      }; // Now create a new CellModel for the Cell Process Managager.
 
       var cpCMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_CellModel")).result;
-      var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcess_AbstractProcessModel")).result;
       var cpCM = new CellModel({
         id: cpCMID,
-        name: "".concat(cpName, " Cell Processor"),
-        description: "Manages the lifespan of cell processes executing in the ".concat(cpName, " CellProcessor runtime host instance."),
+        name: "Cell Process Manager ".concat(cpName),
+        description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
         apm: {
           id: cpAPMID,
-          name: "".concat(cpName, " Cell Process Manager"),
-          description: "Defines shared memory and stateful behaviors for ".concat(cpName, " CellProcessor runtime host instance."),
+          name: "Cell Process Manager ".concat(cpName),
+          description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
           ocdDataSpec: {
             ____types: "jsObject",
             ____defaultValue: {},
             cellProcessDigraph: {
               ____types: "jsObject",
               ____defaultValue: {},
+              revision: {
+                ____accept: "jsNumber",
+                ____defaultValue: 0
+              },
               runtime: {
                 ____accept: ["jsUndefined", "jsObject"]
               },
@@ -141,62 +164,35 @@ var factoryResponse = arccore.filter.create({
             }
           }
         },
-        actions: CellProcessorIntrinsics.actions,
+        actions: CellProcessManager.actions,
         subcells: [HolarchyCore, request_.cellmodel]
       });
 
       if (!cpCM.isValid()) {
         errors.push(JSON.stringify(cpCM));
         break;
-      }
+      } // Extract all the flattened artifact registrations from the synthesized Cell Process Manager CellModel
+      // that are required to configure an ObservableProcessController runtime host instance to actually
+      // execute all the cell processes created from all the CellModel APM's...
 
-      ocdTemplateSpec["x7pM9bwcReupSRh0fcYTgw_CellProcessor"] = {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        ____appdsl: {
-          apm: cpAPMID
-        }
-      }; // Now instantiate an ObservableProcessController runtime host instance using configuration derived from the Cell Processor's model.
 
-      var innerResponse = void 0;
-      innerResponse = cpCM.getCMConfig({
-        type: "APM"
-      });
+      configResponse = cpCM.getCMConfig();
 
-      if (innerResponse.error) {
-        errors.push(InnerResponse.errror);
+      if (configResponse.error) {
+        errors.push(configResponse.error);
         break;
       }
 
-      var cpFinalAPM = innerResponse.result;
-      innerResponse = cpCM.getCMConfig({
-        type: "TOP"
-      });
+      var opcConfig = configResponse.result; // Now instantiate an ObservableProcessController runtime host instance using configuration derived from the Cell Processor's model.
 
-      if (innerResponse.error) {
-        errors.push(InnerResponse.errror);
-        break;
-      }
-
-      var cpFinalTOP = innerResponse.result;
-      innerResponse = cpCM.getCMConfig({
-        type: "ACT"
-      });
-
-      if (innerResponse.error) {
-        errors.push(innerResponse.error);
-        break;
-      }
-
-      var cpFinalACT = innerResponse.result;
       var cpOPC = new ObservableProcessController({
         id: arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_ObservableProcessController")).result,
         name: "".concat(cpName, " Observable Process Controller"),
         description: "Provides shared memory and runtime automata process orchestration for ".concat(cpName, " CellProcessor-resident cell processes."),
         ocdTemplateSpec: ocdTemplateSpec,
-        abstractProcessModelSets: [cpFinalAPM],
-        transitionOperatorSets: [cpFinalTOP],
-        controllerActionSets: [cpFinalACT]
+        abstractProcessModelSets: [opcConfig.apm],
+        transitionOperatorSets: [opcConfig.top],
+        controllerActionSets: [opcConfig.act]
       });
 
       if (!cpOPC.isValid()) {

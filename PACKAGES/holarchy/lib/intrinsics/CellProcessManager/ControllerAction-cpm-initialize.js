@@ -57,6 +57,7 @@ var controllerAction = new ControllerAction({
         vlist: [{
           u: arccore.identifier.irut.fromReference("~").result,
           p: {
+            apmBindingPath: "~",
             name: "Cell Process Manager"
           }
         }]

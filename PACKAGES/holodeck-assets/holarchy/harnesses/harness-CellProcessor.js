@@ -63,6 +63,9 @@ var factoryResponse = holodeck.harnessFactory.request({
           result: {
             ____opaque: true
           }
+        },
+        ocdJSON: {
+          ____accept: "jsObject"
         }
       }
     }
@@ -104,7 +107,8 @@ var factoryResponse = holodeck.harnessFactory.request({
         var actResponse = cpInstance.act(actRequest_);
         response.result.actionEvaluations.push({
           actRequest: actRequest_,
-          actResponse: actResponse
+          actResponse: actResponse,
+          ocdJSON: JSON.parse(JSON.stringify(cpInstance._private.opc._private.ocdi._private.storeData))
         });
       });
       return "break";
