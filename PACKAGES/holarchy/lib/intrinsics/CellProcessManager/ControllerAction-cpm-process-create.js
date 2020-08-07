@@ -108,7 +108,7 @@ var controllerAction = new ControllerAction({
       ocdResponse = request_.context.ocdi.writeNamespace(apmBindingPath, message.cellProcessInitData);
 
       if (ocdResponse.error) {
-        errors.push("Failed to create cell process at OCD path '".concat(newProcessNamespace, "' due to problems with the process initialization data specified."));
+        errors.push("Failed to create cell process at OCD path '".concat(apmBindingPath, "' due to problems with the process initialization data specified."));
         errors.push(ocdResponse.error);
       } // Record the new cell process in the cell process manager's digraph.
 

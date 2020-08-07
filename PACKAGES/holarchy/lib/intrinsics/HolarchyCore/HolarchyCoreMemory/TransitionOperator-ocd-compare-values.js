@@ -77,7 +77,7 @@ module.exports = new TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.cm.operators.ocd.values.areIdentical;
+      var message = request_.operatorRequest.holarchy.cm.operators.ocd.compare.values;
       var rpResponse = void 0;
       var ocdResponse = void 0; // Get operand A
 
