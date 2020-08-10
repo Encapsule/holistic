@@ -42,17 +42,17 @@ var controllerAction = new ControllerAction({
       inBreakScope = true;
       console.log("Cell Process Manager process initializing...");
       var message = request_.actionRequest.holarchy.CellProcessor.initialize;
-      var cellProcessDigraphPath = "~.".concat(cpmMountingNamespaceName, ".cellProcessDigraph");
-      var ocdResponse = request_.context.ocdi.readNamespace(cellProcessDigraphPath);
+      var cellProcessTreePath = "~.".concat(cpmMountingNamespaceName, ".cellProcessTree");
+      var ocdResponse = request_.context.ocdi.readNamespace(cellProcessTreePath);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
         break;
       }
 
-      var processDigraph = ocdResponse.result;
-      var graphFactoryResponse = arccore.graph.directed.create(processDigraph.serialized ? processDigraph.serialized : {
-        name: "Cell Process Digraph Model",
+      var cellProcessTreeData = ocdResponse.result;
+      var graphFactoryResponse = arccore.graph.directed.create(cellProcessTreeData.digraph ? cellProcessTreeData.digraph : {
+        name: "Cell Process Tree Digraph Model",
         description: "Tracks parent/child relationships between dynamically created cellular processes executing within a CellProcessor runtime host instance.",
         vlist: [{
           u: arccore.identifier.irut.fromReference("~").result,
@@ -68,10 +68,9 @@ var controllerAction = new ControllerAction({
         break;
       }
 
-      var cellProcessDigraph = graphFactoryResponse.result;
-      delete processDigraph.serialized;
-      processDigraph.runtime = cellProcessDigraph;
-      ocdResponse = request_.context.ocdi.writeNamespace(cellProcessDigraphPath, processDigraph);
+      var cellProcessTreeDigraph = graphFactoryResponse.result;
+      cellProcessTreeData.digraph = cellProcessTreeDigraph;
+      ocdResponse = request_.context.ocdi.writeNamespace(cellProcessTreePath, cellProcessTreeData);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);

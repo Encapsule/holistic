@@ -102,31 +102,36 @@ var factoryResponse = arccore.filter.create({
         ____appdsl: {
           apm: cpAPMID
         }
-      }; // Now create a new CellModel for the Cell Process Managager.
+      }; // Now create a new CellModel for the Cell Process Managager that will manage the data in the cpmMountingNamespaceName namespace.
 
       var cpCMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_CellModel")).result;
       var cpCM = new CellModel({
         id: cpCMID,
-        name: "Cell Process Manager ".concat(cpName),
+        name: "Cell Process Manager ".concat(cpName, " Model"),
         description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
         apm: {
           id: cpAPMID,
           name: "Cell Process Manager ".concat(cpName),
           description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
           ocdDataSpec: {
+            ____label: "Cell Process Manager",
+            ____description: "Namespace reserved for storage of root cell process manager data structures. Access this information only via ControllerActions and TransitionOperators.",
             ____types: "jsObject",
             ____defaultValue: {},
-            cellProcessDigraph: {
+            cellProcessTree: {
+              ____label: "Cell Process Tree",
+              ____description: "An @encapsule/arccore.graph DirectedGraph object used to keep track of the cell process tree.",
               ____types: "jsObject",
               ____defaultValue: {},
               revision: {
+                ____label: "Cell Process Tree Revision",
+                ____description: "A monotonically-increasing counter value that is incremented every time a cell process is created or deleted via ControllerAction call.",
                 ____accept: "jsNumber",
                 ____defaultValue: 0
               },
-              runtime: {
-                ____accept: ["jsUndefined", "jsObject"]
-              },
-              serialized: {
+              digraph: {
+                ____label: "Cell Process Runtime Model",
+                ____description: "A deserialized @encapsule/arccore.graph DirectedGraph class instance leveraged by the cell process manager action interface.",
                 ____accept: ["jsUndefined", "jsObject"]
               }
             }

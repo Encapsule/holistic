@@ -46,7 +46,7 @@ var controllerAction = new ControllerAction({
     cellProcessID: {
       ____accept: ["jsNull", "jsString"],
       ____defaultValue: null
-    } // This is an IRUT-format per-CellProcessor-instance-unique ID
+    } // This is an IRUT-format cell process ID
 
   },
   bodyFunction: function bodyFunction(request_) {
@@ -81,26 +81,28 @@ var controllerAction = new ControllerAction({
 
       var cellProcessID = arccore.identifier.irut.fromReference(apmBindingPath).result; // ... And, while we're at it we'll need the ID of the proposed parent cell process as well.
 
-      var parentCellProcessID = arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result; // Now we have to dereference the cell process manager's process digraph (always a single-rooted tree).
+      var parentCellProcessID = arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result; // Now we have to dereference the cell process manager's cell process tree digraph runtime model
 
-      var cellProcessDigraphPath = "~.".concat(cpmMountingNamespaceName, ".cellProcessDigraph");
-      ocdResponse = request_.context.ocdi.readNamespace(cellProcessDigraphPath);
+      var cellProcessTreePath = "~.".concat(cpmMountingNamespaceName, ".cellProcessTree"); // Read shared memory to retrieve a reference to the process manager's process tree data.
+
+      ocdResponse = request_.context.ocdi.readNamespace(cellProcessTreePath);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
         break;
       }
 
-      var processDigraph = ocdResponse.result; // Query the process digraph to determine the new cell process' ID slot has already been allocated.
+      var cellProcessTreeData = ocdResponse.result; // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
 
-      if (processDigraph.runtime.isVertex(cellProcessID)) {
-        errors.push("Invalid cellProcessUniqueName value '".concat(message.cellProcessUniqueName, "' is not unique; cell process already exists."));
+      if (cellProcessTreeData.digraph.isVertex(cellProcessID)) {
+        errors.push("Invalid cellProcessUniqueName value '".concat(message.cellProcessUniqueName, "' is not unique. Cell process '").concat(cellProcessID, "' already exists."));
         break;
-      } // Query the process digraph to determine if the parent cell process ID exists.
+      } // Query the process tree digraph to determine if the parent cell process ID exists.
 
 
-      if (!processDigraph.runtime.isVertex(parentCellProcessID)) {
-        errors.push("Invalid parent cell process specified for this new cell process. No such process ID '".concat(parentCellProcessID, "' found at OCD path '").concat(request_.context.apmBindingPath, "'."));
+      if (!cellProcessTreeData.digraph.isVertex(parentCellProcessID)) {
+        errors.push("The apmBindingPath '".concat(request_.context.apmBindingPath, "' specified by this request is not a valid parent cell process binding path."));
+        errors.push("Cell process ID '".concat(parentCellProcessID, "' is not known to cell process manager."));
         break;
       } // Attempt to initialize the new cell process' shared memory.
 
@@ -108,24 +110,24 @@ var controllerAction = new ControllerAction({
       ocdResponse = request_.context.ocdi.writeNamespace(apmBindingPath, message.cellProcessInitData);
 
       if (ocdResponse.error) {
-        errors.push("Failed to create cell process at OCD path '".concat(apmBindingPath, "' due to problems with the process initialization data specified."));
+        errors.push("Failed to create cell process at OCD path '".concat(newProcessNamespace, "' due to problems with the process initialization data specified."));
         errors.push(ocdResponse.error);
       } // Record the new cell process in the cell process manager's digraph.
 
 
-      processDigraph.runtime.addVertex({
+      cellProcessTreeData.digraph.addVertex({
         u: cellProcessID,
         p: {
           apmBindingPath: apmBindingPath
         }
       });
-      processDigraph.runtime.addEdge({
+      cellProcessTreeData.digraph.addEdge({
         e: {
           u: parentCellProcessID,
           v: cellProcessID
         }
       });
-      ocdResponse = request_.context.ocdi.writeNamespace("".concat(cellProcessDigraphPath, ".revision"), processDigraph.revision + 1);
+      ocdResponse = request_.context.ocdi.writeNamespace("".concat(cellProcessTreePath, ".revision"), cellProcessTreeData.revision + 1);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
