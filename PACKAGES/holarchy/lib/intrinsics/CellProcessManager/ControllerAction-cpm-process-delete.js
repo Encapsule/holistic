@@ -69,6 +69,12 @@ var controllerAction = new ControllerAction({
     } // this is an IRUT-format hash of parent process' apmBindingPath
 
   },
+  // NOTE: Unlike most ControllerAction bodyFunctions, process delete action DOES NOT consider
+  // request_.apmBindingPath at all!
+  //
+  // The process namespace of the cell process to delete is determined from the cell process tree digraph
+  // using cellProcessID that is either specified directly. Or, that is calculated from from apmBindingPath
+  // or cellProcessNamespace.
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null

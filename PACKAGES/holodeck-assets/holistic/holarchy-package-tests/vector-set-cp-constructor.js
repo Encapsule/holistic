@@ -113,6 +113,19 @@ module.exports = [{
             cellmodel: cellProcessTestFixture1
           },
           actRequests: [{
+            actorName: "CP constructor test #4",
+            actorTaskDescription: "Query the root cell process, the cell process manager.",
+            actionRequest: {
+              holarchy: {
+                CellProcessor: {
+                  process: {
+                    query: {}
+                  }
+                }
+              } // get all result sets on ~ namespace (Cell Process Manager)
+
+            }
+          }, {
             actorName: "CP constructor test #3",
             actorTaskDescription: "Construct an instance of the Process Test Fixture Model that is declared to create three child processes via self-similar mechanism.",
             actionRequest: {
@@ -126,6 +139,39 @@ module.exports = [{
                   }
                 }
               }
+            }
+          }, {
+            actorName: "CP constructor test #4",
+            actorTaskDescription: "Query the root cell process, the cell process manager.",
+            actionRequest: {
+              holarchy: {
+                CellProcessor: {
+                  process: {
+                    query: {}
+                  }
+                }
+              } // default all result sets query - can you guess what apmBindingAddress cellProcessID derives from here?
+
+            }
+          }, {
+            actorName: "CP constructor test #4",
+            actorTaskDescription: "Query the root cell process, the cell process manager.",
+            actionRequest: {
+              holarchy: {
+                CellProcessor: {
+                  process: {
+                    query: {
+                      queryCellProcess: {
+                        cellProcessNamespace: {
+                          apmID: "itgXQ5RWS66fcdsuZim8AQ",
+                          cellProcessUniqueName: "test3"
+                        }
+                      }
+                    }
+                  }
+                }
+              } // get all result sets
+
             }
           }, {
             actorName: "CP constructor test #3",

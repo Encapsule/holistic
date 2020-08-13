@@ -13,9 +13,11 @@ var controllerAction = new ControllerAction({
       ____types: "jsObject",
       CellProcessor: {
         ____types: "jsObject",
-        query: {
-          ____types: "jsObject" // TODO:
-
+        processes: {
+          ____types: "jsObject",
+          query: {
+            ____types: "jsObject"
+          }
         }
       }
     }
