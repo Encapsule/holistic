@@ -70,7 +70,7 @@ var controllerAction = new ControllerAction({
 
   },
   // NOTE: Unlike most ControllerAction bodyFunctions, process delete action DOES NOT consider
-  // request_.apmBindingPath at all!
+  // request_.context.apmBindingPath at all!
   //
   // The process namespace of the cell process to delete is determined from the cell process tree digraph
   // using cellProcessID that is either specified directly. Or, that is calculated from from apmBindingPath
@@ -91,7 +91,8 @@ var controllerAction = new ControllerAction({
       if (!message.cellProcessID && !message.apmBindingPath && !message.cellProcessNamespace) {
         errors.push("You need to specify cellProcessID. Or eiter apmBindingPath or cellProcessNamespace so that cellProcessID can be calculated.");
         return "break";
-      }
+      } // TODO: This should be converted to a cpmLib call
+
 
       var cellProcessID = message.cellProcessID ? message.cellProcessID : message.apmBindingPath ? arccore.identifier.irut.fromReference(message.apmBindingPath).result : arccore.identifier.irut.fromReference("~.".concat(message.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.cellProcessNamespace.cellProcessUniqueName).result)).result; // Now we have to dereference the cell process manager's process digraph (always a single-rooted tree).
 

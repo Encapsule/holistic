@@ -170,6 +170,7 @@ var factoryResponse = arccore.filter.create({
           }
         },
         actions: CellProcessManager.actions,
+        operators: CellProcessManager.operators,
         subcells: [HolarchyCore, request_.cellmodel]
       });
 

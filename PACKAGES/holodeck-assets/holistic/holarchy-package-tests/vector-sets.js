@@ -8,6 +8,6 @@ require("./vector-set-apm-constructor"), // Low-level ControllerAction ES6 class
 require("./vector-set-act-constructor"), // Low-level TransitionOperator ES6 class tests.
 require("./vector-set-top-constructor"), // Low-level CellModel ES6 class tests.
 require("./vector-set-cm-constructor"), // Low-level CellProcessor ES6 class tests.
-require("./vector-set-cp-constructor") // TOOD: Add harness and vector set for ObservableControllerData
+require("./vector-set-cp-constructor"), require("./vector-set-cpm-process-operators") // TOOD: Add harness and vector set for ObservableControllerData
 // Probably end up renaming to ObservableCellData to keep OCD acronym.
 ];

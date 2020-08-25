@@ -65,7 +65,7 @@ var factoryResponse = holodeck.harnessFactory.request({
           }
         },
         ocdJSON: {
-          ____accept: "jsObject"
+          ____accept: ["jsUndefined", "jsObject"]
         }
       }
     }
@@ -100,8 +100,6 @@ var factoryResponse = holodeck.harnessFactory.request({
         actionEvaluations: []
       };
       messageBody.actRequests.forEach(function (actRequest_) {
-        delete cpInstance._private.opc._private.lastEvaluationResponse; // why? I got this from OPC test harness. Need to look into this...
-
         if (!cpInstance.isValid()) {
           response.result.actionEvaluations.push({
             actRequest: actRequest_,
@@ -111,6 +109,8 @@ var factoryResponse = holodeck.harnessFactory.request({
           });
           return;
         }
+
+        delete cpInstance._private.opc._private.lastEvaluationResponse; // why? I got this from OPC test harness. Need to look into this...
 
         var actResponse = cpInstance.act(actRequest_); // Filter non-idempotent information out of the actResponse object.
 

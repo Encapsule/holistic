@@ -4,7 +4,7 @@ var TransitionOperator = require("../../../TransitionOperator");
 
 module.exports = new TransitionOperator({
   id: "0JIva4IFSm6Xm7i38g8uUA",
-  name: "OR Transition Expression Operator",
+  name: "Logical OR",
   description: "Returns Boolean true iff any suboperations return true.",
   operatorRequestSpec: {
     ____types: "jsObject",
