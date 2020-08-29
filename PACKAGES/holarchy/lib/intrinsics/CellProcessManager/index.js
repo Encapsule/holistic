@@ -7,7 +7,19 @@
 // Process Manager model; the app/service-independent parts only are specified and the rest is only
 // knowable at CellProcessor construction time via analysis of the CellModel passed to the constructor.
 module.exports = {
-  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query"), require("./ControllerAction-cpm-query")],
-  operators: [require("./TransitionOperator-cpm-child-processes-active"), require("./TransitionOperator-cpm-child-processes-all-in-step"), require("./TransitionOperator-cpm-child-processes-any-in-step"), require("./TransitionOperator-cpm-descendant-processes-any-in-step"), require("./TransitionOperator-cpm-descendant-processes-active"), require("./TransitionOperator-cpm-descendant-processes-all-in-step"), require("./TransitionOperator-cpm-parent-process-in-step")],
-  models: []
+  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query"), require("./ControllerAction-cpm-query") // TODO: Disable this action until it's needed and restabilize the tests (on a clean branch).
+  ],
+  operators: [require("./TransitionOperator-cpm-ancestor-processes-active"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-ancestor-processes-all-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-ancestor-processes-any-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-child-processes-active"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-child-processes-all-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-child-processes-any-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-descendant-processes-active"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-descendant-processes-all-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-descendant-processes-any-in-step"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-parent-process-active"), // STAGE 1 COMPLETE
+  require("./TransitionOperator-cpm-parent-process-in-step") // STAGE 1 COMPLETE
+  ],
+  submodels: []
 };

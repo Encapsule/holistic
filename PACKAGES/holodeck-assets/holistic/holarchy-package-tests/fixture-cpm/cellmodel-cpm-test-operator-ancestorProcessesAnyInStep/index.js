@@ -12,7 +12,37 @@ var cellModel = new holarchy.CellModel({
   apm: {
     id: "we5IUb__Smqwkl4ghRl3Lw",
     name: "CPM Ancestor Processes Any In Step Operator Test Process",
-    description: "A process to test CPM ancestor processes any in step operator."
+    description: "A process to test CPM ancestor processes any in step operator.",
+    steps: {
+      uninitialized: {
+        description: "Default step.",
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "wait_for_ancestor_processes_any_in_step_1"
+        }]
+      },
+      wait_for_ancestor_processes_any_in_step_1: {
+        description: "Wait for any ancestor processes to be in any of the specified process step(s).",
+        transitions: [{
+          transitionIf: {
+            holarchy: {
+              CellProcessor: {
+                ancestorProcessesAnyInStep: {
+                  apmStep: "ready",
+                  omitCellProcessor: false
+                }
+              }
+            }
+          },
+          nextStep: "test_pass_1"
+        }]
+      },
+      test_pass_1: {
+        description: "One or more ancestor processes are at the expected process step."
+      }
+    }
   }
 });
 

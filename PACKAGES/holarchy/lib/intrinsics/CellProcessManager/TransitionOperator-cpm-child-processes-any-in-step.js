@@ -1,6 +1,8 @@
 "use strict";
 
 // TransitionOperator-cpm-child-processes-any-in-step.js
+var arccore = require("@encapsule/arccore");
+
 var cpmLib = require("./lib");
 
 var TransitionOperator = require("../../TransitionOperator");
@@ -25,10 +27,117 @@ module.exports = new TransitionOperator({
     }
   },
   bodyFunction: function bodyFunction(request_) {
-    // Not implemented yet...
-    return {
+    var response = {
       error: null,
       result: false
     };
+    var errors = [];
+    var inBreakScope = false;
+
+    var _loop = function _loop() {
+      inBreakScope = true;
+      var message = request_.operatorRequest.holarchy.CellProcessor.childProcessesAnyInStep;
+      var cpmLibResponse = cpmLib.getProcessTreeData({
+        ocdi: request_.context.ocdi
+      });
+
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
+        return "break";
+      }
+
+      var cellProcessTreeData = cpmLibResponse.result;
+      cpmLibResponse = cpmLib.getProcessChildrenDescriptors({
+        cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
+        treeData: cellProcessTreeData
+      });
+
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
+        return "break";
+      }
+
+      var childCellProcessDescriptors = cpmLibResponse.result;
+
+      if (!childCellProcessDescriptors.length) {
+        response.result = false;
+        return "break";
+      }
+
+      var operatorRequest = {
+        or: []
+      };
+      childCellProcessDescriptors.forEach(function (childCellProcessDescriptor_) {
+        if (!Array.isArray(message.apmStep)) {
+          operatorRequest.or.push({
+            holarchy: {
+              cm: {
+                operators: {
+                  cell: {
+                    atStep: {
+                      step: message.apmStep,
+                      path: childCellProcessDescriptor_.apmBindingPath
+                    }
+                  }
+                }
+              }
+            }
+          });
+        } else {
+          var suboperatorRequest = {
+            or: []
+          };
+          message.apmStep.forEach(function (stepName_) {
+            subOperatorRequest.or.push({
+              holarchy: {
+                cm: {
+                  operators: {
+                    cell: {
+                      atStep: {
+                        step: stepName_,
+                        path: childCellProcessDescriptor_.apmBindingPath
+                      }
+                    }
+                  }
+                }
+              }
+            });
+          });
+          operatorRequest.or.push(suboperatorRequest);
+        }
+      });
+      var transitionRequest = {
+        context: {
+          apmBindingPath: "~",
+          // CellProcessor
+          ocdi: request_.context.ocdi,
+          transitionDispatcher: request_.context.transitionDispatcher
+        },
+        operatorRequest: operatorRequest
+      };
+      var dispatchResponse = request_.context.transitionDispatcher.request(transitionRequest);
+
+      if (dispatchResponse.error) {
+        errors.push("Internal error dispatching synthesised suboperator request:");
+        errors.push(dispatchResponse.error);
+        return "break";
+      } // Delegate.
+
+
+      response = dispatchResponse.result.request(transitionRequest);
+      return "break";
+    };
+
+    while (!inBreakScope) {
+      var _ret = _loop();
+
+      if (_ret === "break") break;
+    }
+
+    if (errors.length) {
+      response.error = errors.join(" ");
+    }
+
+    return response;
   }
 });

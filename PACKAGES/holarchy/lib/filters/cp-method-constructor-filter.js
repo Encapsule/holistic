@@ -92,7 +92,7 @@ var factoryResponse = arccore.filter.create({
       } // end for apmConfig.length
 
 
-      var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcess_AbstractProcessModel")).result; // Define the CellProcessor process manager process namespace in shared memory and bound our APM.
+      var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcess_AbstractProcessModel")).result; // Define the CellProcessor process manager process namespace in shared memory and bind our APM.
       // Note that we specifiy a default value here ensuring that the process manager cell process is
       // always started automatically whenever a CellProcess instance is constructed.
 

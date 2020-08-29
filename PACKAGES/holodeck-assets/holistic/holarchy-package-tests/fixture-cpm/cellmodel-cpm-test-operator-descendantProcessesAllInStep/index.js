@@ -12,8 +12,39 @@ var cellModel = new holarchy.CellModel({
   apm: {
     id: "XzNJP6LyTCOnhGPKpJIjzg",
     name: "CPM Descendant Processes ALl In Step Operator Test Process",
-    description: "A process to test the CPM descendant processes in step operator."
-  }
+    description: "A process to test the CPM descendant processes in step operator.",
+    steps: {
+      uninitialized: {
+        description: "Default",
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "wait_for_descendant_processes_all_in_step_1"
+        }]
+      },
+      wait_for_descendant_processes_all_in_step_1: {
+        description: "Wait for active descendant process(es) all in step.",
+        transitions: [{
+          transitionIf: {
+            holarchy: {
+              CellProcessor: {
+                descendantProcessesAllInStep: {
+                  apmStep: "ready"
+                }
+              }
+            }
+          },
+          // transitionIf
+          nextStep: "test_pass_1"
+        }]
+      },
+      test_pass_1: {
+        description: "All descendant processes have reached the desired step(s)."
+      }
+    }
+  },
+  subcells: [require("../cellmodel-dummy-A")]
 });
 
 if (!cellModel.isValid()) {

@@ -20,11 +20,11 @@ var cellModel = new holarchy.CellModel({
           transitionIf: {
             always: true
           },
-          nextStep: "wait_for_child_processes"
+          nextStep: "wait_for_child_processes_1"
         }]
       },
-      wait_for_child_processes: {
-        description: "Wait for an active child process(es).",
+      wait_for_child_processes_1: {
+        description: "Wait for active child process(es) active.",
         transitions: [{
           transitionIf: {
             holarchy: {
@@ -33,44 +33,16 @@ var cellModel = new holarchy.CellModel({
               }
             }
           },
-          nextStep: "wait_for_child_processes_all_in_step"
+          nextStep: "test_pass_1"
         }]
       },
-      wait_for_child_processes_all_in_step: {
-        description: "Wait for all child processes to reach goal step.",
-        transitions: [{
-          transitionIf: {
-            holarchy: {
-              CellProcessor: {
-                childProcessesAllInStep: {
-                  apmStep: "NEVER_HAPPENS"
-                }
-              }
-            }
-          },
-          nextStep: "has_child_processes_wait_descendant_processes"
-        }]
-      },
-      has_child_processes_wait_descendant_processes: {
-        description: "The test cell process has one or more children cell processes.",
-        transitions: [{
-          transitionIf: {
-            holarchy: {
-              CellProcessor: {
-                descendantProcessesActive: {}
-              }
-            }
-          },
-          nextStep: "has_descendant_processes"
-        }]
-      },
-      has_descendant_processes: {
-        description: "The test cell process has at least one child cell process that has one or more children."
+      test_pass_1: {
+        description: "The test process has detected one or more active child process(es)."
       }
     }
   },
   // apm
-  subcells: [require("../cellmodel-dummy-A"), require("../cellmodel-dummy-B"), require("../cellmodel-dummy-C"), require("../cellmodel-timeout-timer"), holarchyCML]
+  subcells: [require("../cellmodel-dummy-A")]
 });
 
 if (!cellModel.isValid()) {

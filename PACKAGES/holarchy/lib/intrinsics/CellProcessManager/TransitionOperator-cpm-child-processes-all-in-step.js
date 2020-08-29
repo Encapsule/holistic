@@ -65,7 +65,6 @@ module.exports = new TransitionOperator({
       var childCellProcessDescriptors = cpmLibResponse.result;
 
       if (!childCellProcessDescriptors.length) {
-        response.result = false;
         return "break";
       }
 
@@ -126,9 +125,10 @@ module.exports = new TransitionOperator({
         errors.push("Internal error dispatching synthesised suboperator request:");
         errors.push(dispatchResponse.error);
         return "break";
-      }
+      } // Delegate.
 
-      var delegateResponse = response = dispatchResponse.result.request(transitionRequest);
+
+      response = dispatchResponse.result.request(transitionRequest);
       return "break";
     };
 

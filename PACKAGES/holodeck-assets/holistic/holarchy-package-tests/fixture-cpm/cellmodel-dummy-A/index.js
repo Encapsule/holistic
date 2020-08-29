@@ -9,7 +9,30 @@ var cellModel = new holarchy.CellModel({
   apm: {
     id: "3E27IH_CQeqBUFsGm4tIIA",
     name: "Dummy Process A Process",
-    description: "Implements a trivial cell process that does nothing."
+    description: "Implements a trivial cell process that does nothing.",
+    steps: {
+      uninitialized: {
+        description: "Default cell process step.",
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "initialize"
+        }]
+      },
+      initialize: {
+        description: "The cell process is initializing.",
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "ready"
+        }]
+      },
+      ready: {
+        description: "The cell process is ready."
+      }
+    }
   }
 });
 
