@@ -7,6 +7,8 @@ var cpmLib = require("./lib");
 
 var TransitionOperator = require("../../TransitionOperator");
 
+var cellProcessQueryRequestFilterBySpec = require("./lib/iospecs/cell-process-query-request-filterby-spec");
+
 var transitionOperator = new TransitionOperator({
   id: "gJnA-VJTTLa0g9TKFmjv1Q",
   name: "Cell Process Manager: Ancestor Processes Active",
@@ -18,7 +20,8 @@ var transitionOperator = new TransitionOperator({
       CellProcessor: {
         ____types: "jsObject",
         ancestorProcessesActive: {
-          ____types: "jsObject"
+          ____types: "jsObject",
+          filterBy: cellProcessQueryRequestFilterBySpec
         }
       }
     }
@@ -32,6 +35,7 @@ var transitionOperator = new TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
+      var message = request_.operatorRequest.holarchy.CellProcessor.ancestorProcessesActive;
       var cpmLibResponse = cpmLib.getProcessTreeData({
         ocdi: request_.context.ocdi
       });
@@ -42,8 +46,10 @@ var transitionOperator = new TransitionOperator({
       }
 
       var cellProcessTreeData = cpmLibResponse.result;
-      cpmLibResponse = cpmLib.getProcessAncestorDescriptors({
+      cpmLibResponse = cpmLib.getProcessAncestorDescriptors.request({
         cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
+        filterBy: message.filterBy,
+        ocdi: request_.context.ocdi,
         treeData: cellProcessTreeData
       });
 

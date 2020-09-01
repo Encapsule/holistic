@@ -7,6 +7,8 @@ var cpmLib = require("./lib");
 
 var TransitionOperator = require("../../TransitionOperator");
 
+var cellProcessQueryRequestFilterBySpec = require("./lib/iospecs/cell-process-query-request-filterby-spec");
+
 module.exports = new TransitionOperator({
   id: "5P2MHjL4TXCqScp_xNrJyA",
   name: "Cell Process Manager: Child Processes All In Step",
@@ -26,7 +28,8 @@ module.exports = new TransitionOperator({
             stepName: {
               ____accept: "jsString"
             }
-          }
+          },
+          filterBy: cellProcessQueryRequestFilterBySpec
         }
       }
     }
@@ -52,8 +55,10 @@ module.exports = new TransitionOperator({
       }
 
       var cellProcessTreeData = cpmLibResponse.result;
-      cpmLibResponse = cpmLib.getProcessChildrenDescriptors({
+      cpmLibResponse = cpmLib.getProcessChildrenDescriptors.request({
         cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
+        filterBy: message.filterBy,
+        ocdi: request_.context.ocdi,
         treeData: cellProcessTreeData
       });
 

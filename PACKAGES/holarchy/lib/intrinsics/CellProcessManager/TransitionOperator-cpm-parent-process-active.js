@@ -5,7 +5,9 @@ var arccore = require("@encapsule/arccore");
 
 var cpmLib = require("./lib");
 
-var TransitionOperator = require("../../TransitionOperator"); // TODO: This operator will require one or more APM ID's be specified as a mandatory filter.
+var TransitionOperator = require("../../TransitionOperator");
+
+var cellProcessQueryRequestFilterBySpec = require("./lib/iospecs/cell-process-query-request-filterby-spec"); // TODO: This operator will require one or more APM ID's be specified as a mandatory filter.
 // Otherwise, this is essentially meaningless as it will always return true for all cell processes
 // created via CPM create process (because they're all by definition descendents of CPM, the intrincis cell process bound to the anonymous OCD namespace, ~).
 
@@ -21,7 +23,8 @@ var transitionOperator = new TransitionOperator({
       CellProcessor: {
         ____types: "jsObject",
         parentProcessActive: {
-          ____types: "jsObject"
+          ____types: "jsObject",
+          filterBy: cellProcessQueryRequestFilterBySpec
         }
       }
     }
@@ -35,7 +38,8 @@ var transitionOperator = new TransitionOperator({
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true; // This is all we can ever be 100% sure about based on the apmBindingPath.
+      inBreakScope = true;
+      var message = request_.operatorRequest.holarchy.CellProcessor.parentProcessActive; // This is all we can ever be 100% sure about based on the apmBindingPath.
 
       if (request_.context.apmBindingPath === "~") {
         break; // resposne.result === false
@@ -53,8 +57,10 @@ var transitionOperator = new TransitionOperator({
 
       var cellProcessTreeData = cpmLibResponse.result; // Get the parent process descriptor.
 
-      cpmLibResponse = cpmLib.getProcessParentDescriptor({
+      cpmLibResponse = cpmLib.getProcessParentDescriptor.request({
         cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
+        filterBy: message.filterBy,
+        ocdi: request_.context.ocdi,
         treeData: cellProcessTreeData
       });
 
