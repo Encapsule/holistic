@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "CMsLV0b-Sp-fPMFYWdd1Ug",
-    "buildSource": "55534b812f4da915606aeda194de6951748307b2",
-    "buildTime": 1599074122,
-    "codename": "trinity",
+    "buildID": "QnpfD8yER36rVKWb7XAwVw",
+    "buildSource": "04ee0c59f13b9a52b7c3048e0fd03ee32b660e9e",
+    "buildTime": 1599170660,
+    "codename": "crossroads",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.45"
+    "version": "0.0.46"
 }

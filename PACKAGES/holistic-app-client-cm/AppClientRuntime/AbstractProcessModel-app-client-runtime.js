@@ -8,48 +8,14 @@ module.exports = {
   ocdDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
-    "PPL45jw5RDWSMNsB97WIWg": {
+    "private": {
       ____types: "jsObject",
       ____defaultValue: {},
-      inputs: {
-        ____types: "jsObject",
-        ____defaultValue: {}
-      },
-      _private: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        windowLoaded: {
-          ____label: "window.onload Completed Flag",
-          ____description: "Boolean flag set when the window.onload event occurs.",
-          ____accept: "jsBoolean",
-          ____defaultValue: false
-        },
-        subprocesses: {
-          ____types: "jsObject",
-          ____defaultValue: {},
-          displayAdapter: {
-            ____types: ["jsUndefined", "jsObject"],
-            ____appdsl: {
-              apm: "IxoJ83u0TXmG7PLUYBvsyg"
-            }
-          },
-          viewProcessor: {
-            ____types: ["jsUndefined", "jsObject"],
-            ____appdsl: {
-              apm: "Hsu-43zBRgqHItCPWPiBng"
-            }
-          },
-          DOMLocation: {
-            ____types: ["jsUndefined", "jsObject"],
-            ____appdsl: {
-              apm: "-1Ptaq_zTUa8Gfv_3ODtDg"
-            }
-          }
-        }
-      },
-      outputs: {
-        ____types: "jsObject",
-        ____defaultValue: {}
+      windowLoaded: {
+        ____label: "window.onload Completed Flag",
+        ____description: "Boolean flag set when the window.onload event occurs.",
+        ____accept: "jsBoolean",
+        ____defaultValue: false
       }
     }
   },
@@ -96,15 +62,22 @@ module.exports = {
       actions: {
         enter: [{
           holarchy: {
-            cm: {
-              actions: {
-                cell: {
-                  process: {
-                    create: {
-                      apmBindingPath: "#.PPL45jw5RDWSMNsB97WIWg._private.subprocesses.viewProcessor",
-                      ocdInitData: {}
-                    }
-                  }
+            CellProcessor: {
+              process: {
+                create: {
+                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg",
+                  cellProcessUniqueName: "DOM Location Processor"
+                }
+              }
+            }
+          }
+        }, {
+          holarchy: {
+            CellProcessor: {
+              process: {
+                create: {
+                  apmID: "Hsu-43zBRgqHItCPWPiBng",
+                  cellProcessUniqueName: "Holistic Client App View Processor"
                 }
               }
             }
@@ -118,11 +91,20 @@ module.exports = {
         nextStep: "boot2_query_derived"
       }]
     },
+    // ================================================================
+    // **** CLIENT APPLICATION CALLBACK: QUERY
     boot2_query_derived: {
       description: "Query the derived client app for information required to initialize the core client app runtime.",
       actions: {
-        enter: [// { holistic: { app: { client: { runtime: { private: { actions: { queryDerivedAppConfig: true } } } } } } }
-        ]
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                query: {}
+              }
+            }
+          }
+        }]
       },
       transitions: [{
         transitionIf: {
@@ -141,9 +123,21 @@ module.exports = {
         nextStep: "boot4_config_derived"
       }]
     },
+    // ================================================================
+    // **** CLIENT APPLICATION CALLBACK: CONFIG
     boot4_config_derived: {
       description: "Configure the derived application runtime.",
-      // TODO: Dispatch an action that calls another action defined by this CellModel's APM but implemented by the derived application."
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                config: {}
+              }
+            }
+          }
+        }]
+      },
       transitions: [{
         transitionIf: {
           always: true
@@ -160,7 +154,7 @@ module.exports = {
               operators: {
                 ocd: {
                   isBooleanFlagSet: {
-                    path: "#.PPL45jw5RDWSMNsB97WIWg._private.windowLoaded"
+                    path: "#.private.windowLoaded"
                   }
                 }
               }
@@ -170,21 +164,58 @@ module.exports = {
         nextStep: "boot6_deserialize_app"
       }]
     },
+    // ================================================================
+    // **** CLIENT APPLICATION CALLBACK: DESERIALIZE
     boot6_deserialize_app: {
       description: "Access the boot ROM embedded in the hosting HTML document to get the suspended process state of the derived application.",
       actions: {
-        enter: []
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                deserialize: {}
+              }
+            }
+          }
+        }]
       },
-      transitions: []
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "boot7_init_app_view"
+      }]
     },
-    boot7_load_app_memory: {
-      description: "Load the deserialized app into the OCD to initialize the client app runtime."
+    boot7_init_app_view: {
+      description: "Initialize the view and d2r2/React display models. Performs a d2r2/ReactDOM.hydrate operation ultimately.",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "boot8_init_start_app"
+      }]
     },
-    boot8_init_app_view: {
-      description: "Initialize the view and d2r2/React display models. Performs a d2r2/ReactDOM.hydrate operation ultimately."
-    },
-    boot9_start_app: {
-      description: "Start the client application runtime."
+    // ================================================================
+    // **** CLIENT APPLICATION CALLBACK: START RUNTIME
+    boot8_init_start_app: {
+      description: "Start the client application runtime.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                start: {}
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "running"
+      }]
     },
     running: {
       description: "The client application is online and awaiting input from external actors."

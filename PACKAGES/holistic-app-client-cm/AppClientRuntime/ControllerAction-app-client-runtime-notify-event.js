@@ -63,7 +63,7 @@ module.exports = {
                   actions: {
                     ocd: {
                       setBooleanFlag: {
-                        path: "#.PPL45jw5RDWSMNsB97WIWg._private.windowLoaded"
+                        path: "#.private.windowLoaded"
                       }
                     }
                   }

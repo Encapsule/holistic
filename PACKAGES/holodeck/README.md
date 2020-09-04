@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.45 trinity
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.46 crossroads
 
 ## &#x25F0; Runtime library: @encapsule/holodeck
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.
 
 ```
-Package: @encapsule/holodeck v0.0.45 "trinity" build ID "CMsLV0b-Sp-fPMFYWdd1Ug"
-Sources: Encapsule/holistic-master#55534b812f4da915606aeda194de6951748307b2
-Created: 2020-09-02T19:15:22.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holodeck v0.0.46 "crossroads" build ID "QnpfD8yER36rVKWb7XAwVw"
+Sources: Encapsule/holistic-master#04ee0c59f13b9a52b7c3048e0fd03ee32b660e9e
+Created: 2020-09-03T22:04:20.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

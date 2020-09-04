@@ -32,11 +32,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
   ocdDataSpec: {
     ____label: "Client Hash Route Location Processor",
     ____types: "jsObject",
-    inputs: {
-      ____types: "jsObject",
-      ____defaultValue: {}
-    },
-    _private: {
+    "private": {
       ____types: "jsObject",
       ____defaultValue: {},
       routerEventCount: {
@@ -79,18 +75,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       description: "Default starting process step.",
       transitions: [{
         transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                cell: {
-                  atStep: {
-                    path: "#.//.//.//.//",
-                    step: "boot1_start_kernel"
-                  }
-                }
-              }
-            }
-          }
+          always: true
         },
         nextStep: "initialize"
       }]
@@ -147,7 +132,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
               operators: {
                 ocd: {
                   isBooleanFlagSet: {
-                    path: "#._private.updateObservers"
+                    path: "#.private.updateObservers"
                   }
                 }
               }
@@ -172,7 +157,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
               actions: {
                 ocd: {
                   clearBooleanFlag: {
-                    path: "#._private.updateObservers"
+                    path: "#.private.updateObservers"
                   }
                 }
               }
