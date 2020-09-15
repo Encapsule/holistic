@@ -2,9 +2,15 @@
 
 var CellModel = require("../../../CellModel");
 
-module.exports = new CellModel({
+var cellModel = new CellModel({
   id: "MDVBKW89TvO9T62Ge7GmNg",
   name: "Holarchy Core",
-  description: "Holarchy Core CellLibrary packages standard logic and shared memory cell process step transition operators and action plug-ins that are loaded automatically into every CellProcessor cellular process runtime environment instance.",
+  description: "Low-level glue models, actions, and operators for building re-usable infrastructure for execution within an ObservableProcessController (OPC) runtime host instance.",
   subcells: [require("./HolarchyCoreCell"), require("./HolarchyCoreLogic"), require("./HolarchyCoreMemory")]
 });
+
+if (!cellModel.isValid()) {
+  throw new Error(cellModel.toJSON());
+}
+
+module.exports = cellModel;

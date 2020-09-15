@@ -3,34 +3,34 @@
 // apm-method-constructor-input-spec.js
 module.exports = {
   ____label: "Abstract Process Model Descriptor",
-  ____description: "Declaration of an Abstract Process Model passed as input to AbstractProcessModel::constructor function.",
+  ____description: "Defines the memory used by and the typically stateful behavior(a) of a cell process.",
   ____types: "jsObject",
   id: {
-    ____label: "Controller ID",
+    ____label: "Process ID",
     ____description: "A unique developer-assigned IRUT identifier. This value is used to bind controller data namespaces to observable process models.",
     ____accept: "jsString"
   },
   name: {
-    ____label: "Controller Name",
-    ____description: "A pascal-cased string name to be used to reference this specific controller in the context of the application state system model.",
+    ____label: "Process Name",
+    ____description: "A pascal-cased string name to be used to reference this specific process in runtime error reporting and logs.",
     ____accept: "jsString"
   },
   description: {
-    ____label: "Controller Description",
-    ____description: "A short description of the function or subsystem that this controller models to help developers understand the application state system model partitioning.",
+    ____label: "Process Description",
+    ____description: "A short description of the function, behavior, or subsystem that a cell process created from this model embodies.",
     ____accept: "jsString"
   },
   ocdDataSpec: {
-    ____label: "Runtime Data Spec",
-    ____description: "A filter spec that defines this APM's required base properties. At runtime, OCP merges this information w/developer defined props and uses this merge to constrain OCDI.",
+    ____label: "Process Memory Spec",
+    ____description: "A filter spec that defines the memory to be allocated for a cell process associated w/this APM.",
     ____accept: "jsObject",
     ____defaultValue: {
       ____types: "jsObject"
     }
   },
   steps: {
-    ____label: "Controller Steps Declaration",
-    ____description: "An array of controller step descriptors that declare this controller's supported steps, transition conditions, and transition actions.",
+    ____label: "Process Steps",
+    ____description: "A Finite State Machine (FSM) model that defines the core runtime behavior(s) of a cell process.",
     ____types: "jsObject",
     ____defaultValue: {},
     ____asMap: true,

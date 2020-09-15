@@ -8,6 +8,8 @@ require("./vector-set-apm-constructor"), // Low-level ControllerAction ES6 class
 require("./vector-set-act-constructor"), // Low-level TransitionOperator ES6 class tests.
 require("./vector-set-top-constructor"), // Low-level CellModel ES6 class tests.
 require("./vector-set-cm-constructor"), // Low-level CellProcessor ES6 class tests.
-require("./vector-set-cp-constructor"), require("./vector-set-cpm-process-operators") // TOOD: Add harness and vector set for ObservableControllerData
+// ... includes CPM owned process create / delete / query action tests
+require("./vector-set-cp-constructor"), // ... includes test matrix (or part of it) for CPM owned process operators (ancesors, parent, children, descendants)
+require("./vector-set-cpm-process-operators"), require("./vector-set-cpm-shared-processes") // TOOD: Add harness and vector set for ObservableControllerData
 // Probably end up renaming to ObservableCellData to keep OCD acronym.
 ];

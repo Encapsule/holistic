@@ -1,16 +1,18 @@
 "use strict";
 
-// SOURCES/LIB/holarchy/lib/intrinsics/ControllerAction-cpm-process-create.js
+// SOURCES/LIB/holarchy/lib/intrinsics/CellProcessManager/ControllerAction-cpm-process-create.js
 var arccore = require("@encapsule/arccore");
 
 var ControllerAction = require("../../ControllerAction");
 
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 
+var cpmLib = require("./lib");
+
 var controllerAction = new ControllerAction({
   id: "SdL0-5kmTuiNrWNu7zGZhg",
   name: "Cell Process Manager: Process Create",
-  description: "Requests that the Cell Process Manager create a new cell process inside the CellProcessor runtime host instance.",
+  description: "Create a new child cell process bound to the specified APM that is owned by the requesting cell process, #. Or, the specified parent cell process (via override).",
   actionRequestSpec: {
     ____types: "jsObject",
     holarchy: {
@@ -25,12 +27,16 @@ var controllerAction = new ControllerAction({
               ____accept: "jsString"
             },
             cellProcessUniqueName: {
-              ____accept: ["jsUndefined", "jsString"]
+              ____accept: "jsString",
+              ____defaultValue: "singleton"
             },
             cellProcessInitData: {
               ____accept: "jsObject",
+              // An APM always defines an outer object w/known property names that we accept and pass through to action's body function.
               ____defaultValue: {}
             },
+            // This override is provided to support CellProcessor's intrinisic CellProcessManager process, ~.
+            // If you think you actually need to use this facility, please let me know what your use case(s) are.
             parentCellProcess: {
               ____label: "Parent Cell Process Override",
               ____description: "Explicitly overrides default action behavior of using #, the action's outer apmBindingPath value, as the parent cell process for the new cell process.",
@@ -86,8 +92,9 @@ var controllerAction = new ControllerAction({
       console.log("Cell Process Manager process create..."); // Dereference the body of the action request.
 
       var message = request_.actionRequest.holarchy.CellProcessor.process.create; // This is closely coupled w/the CellProcessor constructor filter.
+      // TODO: Replace w/cpmLib call
 
-      var apmProcessesNamespace = "~.".concat(message.apmID, "_CellProcesses"); // Query the ObservableCellData instance (ocdi) to determine if the apmID value passed by the caller induces an apmProcessNamespace value that's been pre-defined by the CellProcessor constructor.
+      var apmProcessesNamespace = "~.".concat(message.apmID, "_CellProcesses"); // Query the ObservableCellData instance (ocdi) to determine if apmProcessNamespace exists.
 
       var ocdResponse = request_.context.ocdi.getNamespaceSpec(apmProcessesNamespace);
 
@@ -95,12 +102,9 @@ var controllerAction = new ControllerAction({
         errors.push("Invalid apmID value '".concat(message.apmID, "' specified. No CellModel registered in this CellProcessor based on this AbstractProcessModel."));
         errors.push(ocdResponse.error);
         break;
-      } // Derive the IRUT-format hash of the caller's specified cellProcessUniqueName. Or, if not specified use a IRUT-format v4 UUID instead.
-      // The implication here is test vector log stability in holodeck primarily:
-      // So, I recommend but do not require that derived apps / services always specifiy cellProcessUniqueName value.
+      }
 
-
-      var apmProcessInstanceID = message.cellProcessUniqueName ? arccore.identifier.irut.fromReference(message.cellProcessUniqueName).result : arccore.identifier.irut.fromEther(); // ... from which we can now derive the absolute OCD path of the new cell process (proposed).
+      var apmProcessInstanceID = arccore.identifier.irut.fromReference(message.cellProcessUniqueName).result; // ... from which we can now derive the absolute OCD path of the new cell process (proposed).
 
       var apmBindingPath = "".concat(apmProcessesNamespace, ".cellProcessMap.").concat(apmProcessInstanceID); // ... from which we can now derive the new cell process ID (proposed).
 
@@ -108,13 +112,7 @@ var controllerAction = new ControllerAction({
       // NOTE: The CPM's cell process tree structure is used for managing the lifespan of cell processes; deleting a cell process via delete
       // process action will delete that cell process and all its decendants.
 
-      var parentCellProcessID = void 0;
-
-      if (!message.parentCellProcess) {
-        parentCellProcessID = arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result;
-      } else {}
-
-      parentCellProcessID = !message.parentCellProcess ? // if no override...
+      var parentCellProcessID = !message.parentCellProcess ? // if no override...
       arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result : // ... IRUT hash the outer context.apmBindingPath (aka #)
       // else if override
       message.parentCellProcess.cellProcessID ? // ... If the override specifies a cellProcessID ...
@@ -124,27 +122,27 @@ var controllerAction = new ControllerAction({
       arccore.identifier.irut.fromReference(message.parentCellProcess.apmBindingPath).result : // ... use it
       // else
       // ... deduce from apmID, cellProcessUniqueName and path conventions defined by CellProcess and CPM.
-      arccore.identifier.irut.fromReference("~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result; // TODO: Convert to cpmLib call.
-      // Now we have to dereference the cell process manager's cell process tree digraph runtime model
+      arccore.identifier.irut.fromReference("~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result; // Read shared memory to retrieve a reference to the CPM's private process management data.
 
-      var cellProcessTreePath = "~.".concat(cpmMountingNamespaceName, ".cellProcessTree"); // Read shared memory to retrieve a reference to the process manager's process tree data.
+      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+        ocdi: request_.context.ocdi
+      });
 
-      ocdResponse = request_.context.ocdi.readNamespace(cellProcessTreePath);
-
-      if (ocdResponse.error) {
-        errors.push(ocdResponse.error);
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
         break;
       }
 
-      var cellProcessTreeData = ocdResponse.result; // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
+      var cpmDataDescriptor = cpmLibResponse.result;
+      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses; // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
 
-      if (cellProcessTreeData.digraph.isVertex(cellProcessID)) {
+      if (ownedCellProcessesData.digraph.isVertex(cellProcessID)) {
         errors.push("Invalid cellProcessUniqueName value '".concat(message.cellProcessUniqueName, "' is not unique. Cell process '").concat(cellProcessID, "' already exists."));
         break;
       } // Query the process tree digraph to determine if the parent cell process ID exists.
 
 
-      if (!cellProcessTreeData.digraph.isVertex(parentCellProcessID)) {
+      if (!ownedCellProcessesData.digraph.isVertex(parentCellProcessID)) {
         errors.push("The apmBindingPath '".concat(request_.context.apmBindingPath, "' specified by this request is not a valid parent cell process binding path."));
         errors.push("Cell process ID '".concat(parentCellProcessID, "' is not known to cell process manager."));
         break;
@@ -159,19 +157,19 @@ var controllerAction = new ControllerAction({
       } // Record the new cell process in the cell process manager's digraph.
 
 
-      cellProcessTreeData.digraph.addVertex({
+      ownedCellProcessesData.digraph.addVertex({
         u: cellProcessID,
         p: {
           apmBindingPath: apmBindingPath
         }
       });
-      cellProcessTreeData.digraph.addEdge({
+      ownedCellProcessesData.digraph.addEdge({
         e: {
           u: parentCellProcessID,
           v: cellProcessID
         }
       });
-      ocdResponse = request_.context.ocdi.writeNamespace("".concat(cellProcessTreePath, ".revision"), cellProcessTreeData.revision + 1);
+      ocdResponse = request_.context.ocdi.writeNamespace("".concat(cpmDataDescriptor.path, ".ownedCellProcesses.revision"), ownedCellProcessesData.revision + 1);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);

@@ -1,5 +1,17 @@
 "use strict";
 
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
+
 // cp-method-constructor-filter.js
 var arccore = require("@encapsule/arccore");
 
@@ -118,23 +130,42 @@ var factoryResponse = arccore.filter.create({
             ____description: "Namespace reserved for storage of root cell process manager data structures. Access this information only via ControllerActions and TransitionOperators.",
             ____types: "jsObject",
             ____defaultValue: {},
-            cellProcessTree: {
-              ____label: "Cell Process Tree",
-              ____description: "An @encapsule/arccore.graph DirectedGraph object used to keep track of the cell process tree.",
+            ownedCellProcesses: {
+              ____label: "Owned Cell Processes Data",
+              ____description: "Data used by the CPM to track and manage the lifespan of cell processes tree created & destroyed w/the CPM process create & delete actions respectively.",
               ____types: "jsObject",
               ____defaultValue: {},
               revision: {
-                ____label: "Cell Process Tree Revision",
+                ____label: "Owned Cell Processes Data Revision",
                 ____description: "A monotonically-increasing counter value that is incremented every time a cell process is created or deleted via ControllerAction call.",
                 ____accept: "jsNumber",
                 ____defaultValue: 0
               },
               digraph: {
-                ____label: "Cell Process Runtime Model",
+                ____label: "Owned Cell Processes Data Model",
                 ____description: "A deserialized @encapsule/arccore.graph DirectedGraph class instance leveraged by the cell process manager action interface.",
                 ____accept: ["jsUndefined", "jsObject"]
               }
-            }
+            },
+            // ownedCellProcesses
+            sharedCellProcesses: {
+              ____label: "Shared Cell Processes Data",
+              ____description: "Data used by the CPM to track and manage the lifespan of reference-counted, shared, cell processes accessed via embedded helper cells that function as local in-cell-process proxies to other cell process(es).",
+              ____types: "jsObject",
+              ____defaultValue: {},
+              revision: {
+                ____label: "Shared Cell Processes Data Revision",
+                ____description: "A monotonically-increasing counter value that is incremented every time a shared cell process is created or deleted via ControllerAction call.",
+                ____accept: "jsNumber",
+                ____defaultValue: 0
+              },
+              digraph: {
+                ____label: "Shared Cell Processes Data Model",
+                ____description: "A deserialized @encapsule/arccore.graph DirectedGraph class instance leveraged by the cell process manager action interface.",
+                ____accept: ["jsUndefined", "jsObject"]
+              }
+            } // sharedCellProcesses
+
           },
           steps: {
             uninitialized: {
@@ -171,7 +202,7 @@ var factoryResponse = arccore.filter.create({
         },
         actions: CellProcessManager.actions,
         operators: CellProcessManager.operators,
-        subcells: [HolarchyCore, request_.cellmodel]
+        subcells: [].concat(_toConsumableArray(CellProcessManager.subcells), [HolarchyCore, request_.cellmodel])
       });
 
       if (!cpCM.isValid()) {

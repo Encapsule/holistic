@@ -38,7 +38,7 @@ module.exports = new TransitionOperator({
     while (!inBreakScope) {
       inBreakScope = true;
       var message = request_.operatorRequest.holarchy.CellProcessor.descendantProcessesActive;
-      var cpmLibResponse = cpmLib.getProcessTreeData({
+      var cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
       });
 
@@ -47,12 +47,13 @@ module.exports = new TransitionOperator({
         break;
       }
 
-      var cellProcessTreeData = cpmLibResponse.result;
+      var cpmDataDescriptor = cpmLibResponse.result;
+      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses;
       cpmLibResponse = cpmLib.getProcessDescendantDescriptors.request({
         cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
         filterBy: message.filterBy,
         ocdi: request_.context.ocdi,
-        treeData: cellProcessTreeData
+        treeData: ownedCellProcessesData
       });
 
       if (cpmLibResponse.error) {

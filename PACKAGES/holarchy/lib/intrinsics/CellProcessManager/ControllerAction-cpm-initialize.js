@@ -7,6 +7,8 @@ var ControllerAction = require("../../ControllerAction");
 
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 
+var cpmLib = require("./lib");
+
 var controllerAction = new ControllerAction({
   id: "VNaA0AMsTXawb32xLaNGTA",
   name: "Cell Process Manager: Initialize",
@@ -42,17 +44,18 @@ var controllerAction = new ControllerAction({
       inBreakScope = true;
       console.log("Cell Process Manager process initializing...");
       var message = request_.actionRequest.holarchy.CellProcessor.initialize;
-      var cellProcessTreePath = "~.".concat(cpmMountingNamespaceName, ".cellProcessTree");
-      var ocdResponse = request_.context.ocdi.readNamespace(cellProcessTreePath);
+      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+        ocdi: request_.context.ocdi
+      });
 
-      if (ocdResponse.error) {
-        errors.push(ocdResponse.error);
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
         break;
       }
 
-      var cellProcessTreeData = ocdResponse.result;
-      var graphFactoryResponse = arccore.graph.directed.create(cellProcessTreeData.digraph ? cellProcessTreeData.digraph : {
-        name: "Cell Process Tree Digraph Model",
+      var cpmDataDescriptor = cpmLibResponse.result;
+      var graphFactoryResponse = arccore.graph.directed.create(cpmDataDescriptor.data.ownedCellProcesses.digraph ? cpmDataDescriptor.data.ownedCellProcesses.digraph : {
+        name: "Owned Cell Processes Tree Model",
         description: "Tracks parent/child relationships between dynamically created cellular processes executing within a CellProcessor runtime host instance.",
         vlist: [{
           u: arccore.identifier.irut.fromReference("~").result,
@@ -68,9 +71,19 @@ var controllerAction = new ControllerAction({
         break;
       }
 
-      var cellProcessTreeDigraph = graphFactoryResponse.result;
-      cellProcessTreeData.digraph = cellProcessTreeDigraph;
-      ocdResponse = request_.context.ocdi.writeNamespace(cellProcessTreePath, cellProcessTreeData);
+      cpmDataDescriptor.data.ownedCellProcesses.digraph = graphFactoryResponse.result;
+      graphFactoryResponse = arccore.graph.directed.create(cpmDataDescriptor.data.sharedCellProcesses.digraph ? cpmDataDescriptor.data.sharedCellProcesses.digraph : {
+        name: "Shared Cell Processes Digraph Model",
+        description: "Tracks reference-counted relationships between shared cell processes and embedded worker cell processes."
+      });
+
+      if (graphFactoryResponse.error) {
+        errors.push(graphFactoryResponse.error);
+        break;
+      }
+
+      cpmDataDescriptor.data.sharedCellProcesses.digraph = graphFactoryResponse.result;
+      var ocdResponse = request_.context.ocdi.writeNamespace(cpmDataDescriptor.path, cpmDataDescriptor.data);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);

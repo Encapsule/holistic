@@ -176,7 +176,7 @@ var controllerAction = new ControllerAction({
       } // Get a reference to the Cell Process Manager's process tree descriptor object.
 
 
-      var cpmLibResponse = cpmLib.getProcessTreeData({
+      var cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
       });
 
@@ -185,7 +185,8 @@ var controllerAction = new ControllerAction({
         break;
       }
 
-      var cellProcessTreeData = cpmLibResponse.result; // Get a reference to this cell process' descriptor.
+      var cpmDataDescriptor = cpmLibResponse.result;
+      var cellProcessTreeData = cpmDataDescriptor.data.ownedCellProcesses; // Get a reference to this cell process' descriptor.
 
       cpmLibResponse = cpmLib.getProcessDescriptor.request({
         cellProcessID: cellProcessID,
