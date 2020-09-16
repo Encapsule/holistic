@@ -342,9 +342,12 @@ var factoryResponse = arccore.filter.create({
           var initialStep = _apmInstanceFrame.evalRequest.initialStep;
           var stepDescriptor = apmRef.getStepDescriptor(initialStep);
 
-          if (!stepDescriptor) {
+          var ocdResponse = opcRef._private.ocdi.readNamespace("".concat(apmBindingPath, ".__apmiStep"));
+
+          if (ocdResponse.error) {
+            // We take this as a blunt indicator that cells evaluated previously in the frame have killed this cell.
             logger.request({
-              logLevel: "warn",
+              logLevel: "info",
               opc: {
                 id: opcRef._private.id,
                 iid: opcRef._private.iid,
@@ -356,8 +359,22 @@ var factoryResponse = arccore.filter.create({
               subsystem: "opc",
               method: "evaluate",
               phase: "body",
-              message: "No step descriptor in model for [".concat(apmRef.getID(), "::").concat(apmRef.getName(), "] for step '").concat(initialStep, "'. Ignoring.")
+              message: "[".concat(apmRef.getID(), "::").concat(apmRef.getName(), "] was in initial step '").concat(initialStep, "'. But, now we find that it was put to death earlier in the evaluation frame. Back to dust...")
             });
+            _apmInstanceFrame.evalResponse.status = "cell-deleted";
+            _apmInstanceFrame.evalResponse.finishStep = "death";
+            continue;
+          }
+
+          if (!stepDescriptor) {
+            /* This is really just noise
+            logger.request({
+                logLevel: "info",
+                opc: { id: opcRef._private.id, iid: opcRef._private.iid, name: opcRef._private.name, evalCount: result.evalNumber, frameCount: result.summary.counts.frames, actorStack: opcRef._private.opcActorStack },
+                subsystem: "opc", method: "evaluate", phase: "body",
+                message: `[${apmRef.getID()}::${apmRef.getName()}] in initial terminal process step, '${initialStep}'. No process rules means to work for us. So, we're moving on...`
+            });
+            */
             _apmInstanceFrame.evalResponse.status = "noop";
             _apmInstanceFrame.evalResponse.finishStep = initialStep;
             continue;
@@ -411,9 +428,21 @@ var factoryResponse = arccore.filter.create({
                 error: "TransitionOperator threw an illegal exception that was handled by OPC: ".concat(topException_.message)
               };
             }
+            /*
+            apmInstanceFrame.evalResponse.phases.p1_toperator.push({
+                request: operatorRequest,
+                response: transitionResponse
+            });
+            */
+
 
             _apmInstanceFrame.evalResponse.phases.p1_toperator.push({
-              request: operatorRequest,
+              request: {
+                context: {
+                  apmBindingPath: operatorRequest.context.apmBindingPath
+                },
+                operatorRequest: operatorRequest.operatorRequest
+              },
               response: _transitionResponse
             });
 

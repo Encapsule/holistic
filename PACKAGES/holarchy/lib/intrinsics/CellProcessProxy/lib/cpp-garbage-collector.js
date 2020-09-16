@@ -43,137 +43,124 @@ var factoryResponse = arccore.filter.create({
         var leafVertices = sharedDigraph.getLeafVertices();
         var verticesToRemove = [];
         var sharedProcessesToDelete = [];
-        /*
-        if (!rootVertices.length) {
-            // The shared digraph has closed up on itself in some sort of cyclic topology.
-            // Or, perhaps it is now empty? If, so then we're done here.
-            if (sharedDigraph.verticesCount()) {
-                // Okay. There are vertex(ices) in the shared digraph. But, no root vertex set.
-                // So, some work to do in order to discern what's cyclic groups of shared cell processes
-                // none of which are serving any owned cell process(es). We do not allow self-referential
-                // clusters held in CellProcessor instance by virtue of the fact that they need just each
-                // other. But, there exists no owned cell process that needs any of them.
-                 const ownedProcessIDs = [];
-                const sharedProcessIDs = [];
-                 sharedDigraph.getVertices().forEach((vertex_) => {
-                    const examineVertexProp = sharedDigraph.getVertexProperty(vertex_);
-                    switch (examineVertexProp.role) {
-                    case "owned":
-                        ownedProcessIDs.push(vertex_);
-                        break;
-                    case "shared":
-                        sharedProcessIDs.push(vertex_);
-                        break;
-                    default:
-                        break;
-                    }
-                });
-                 if (!ownedProcessIDs.length) {
-                    while (sharedProcessIDs.length) {
-                        const deleteProcessID = sharedProcessIDs.pop();
-                        sharedProcessesToDelete.push(deleteProcessID);
-                    }
-                } else {
-                    // Okay. So, now we know there's at least one owned process holding some other
-                    // process by proxy connect(ions). But, we do not know if there exist isolated
-                    // pockets of shared process vertices that are holding themselves in CellProcessor.
-                
-                }
-            } else {
-                // So, nothing to do about that; it will get sorted below.
-            }
-        }
-        */
+        var inBreakScope2 = false;
 
-        while (rootVertices.length) {
-          var examineVertex = rootVertices.pop();
-          var examineVertexProp = sharedDigraph.getVertexProperty(examineVertex);
+        var _loop3 = function _loop3() {
+          inBreakScope2 = true; // ****************************************************************
+          // ****************************************************************
+          // ****************************************************************
+          // Analyze the current root vertex set.
 
-          switch (examineVertexProp.role) {
-            case "owned-proxy":
-            case "shared-proxy":
-              // A helper cell that has reached the root has, by definition, no cell process proxies connected to it.
-              verticesToRemove.push(examineVertex);
-              break;
+          while (rootVertices.length) {
+            var examineVertex = rootVertices.pop();
+            var examineVertexProp = sharedDigraph.getVertexProperty(examineVertex);
 
-            case "owned":
-              // A cell that is a process that is owned that has reached the root is an owned process that has no cell process proxies connected to it.
-              // However, it may be an owned process that hosts proxy(ies) that are connected to other cell processes.
-              // So, in this case the owned process vertex w/zero in-degree represents an owned process that is possibly
-              // holding references to other owned and shared processes. To determine if this is the case, we have to count
-              // its out-edges.
-              if (!sharedDigraph.outDegree(examineVertex)) {
-                // Okay. So this vertex represents an owned cell process that is itself hosting no connected cell process proxy instances at the moment.
-                // So, we no longer need to track it in the sharedCellProcesses.digraph.
+            switch (examineVertexProp.role) {
+              case "owned-proxy":
+              case "shared-proxy":
+                // A helper cell that has reached the root has, by definition, no cell process proxies connected to it.
                 verticesToRemove.push(examineVertex);
-              }
+                break;
 
-              break;
+              case "owned":
+                // A cell that is a process that is owned that has reached the root is an owned process that has no cell process proxies connected to it.
+                // However, it may be an owned process that hosts proxy(ies) that are connected to other cell processes.
+                // So, in this case the owned process vertex w/zero in-degree represents an owned process that is possibly
+                // holding references to other owned and shared processes. To determine if this is the case, we have to count
+                // its out-edges.
+                if (!sharedDigraph.outDegree(examineVertex)) {
+                  // Okay. So this vertex represents an owned cell process that is itself hosting no connected cell process proxy instances at the moment.
+                  // So, we no longer need to track it in the sharedCellProcesses.digraph.
+                  verticesToRemove.push(examineVertex);
+                }
 
-            case "shared":
-              // A cell that is a process that is shared that has reached the root has no connected cell process proxies. And, it represents the allocation
-              // of a special-owned cell process that is reference counted by this mechanism.
-              sharedProcessesToDelete.push(examineVertex);
-              break;
+                break;
 
-            default:
-              errors.push("Unexpected shared process role value '".concat(examineVertexProp.role, "'."));
+              case "shared":
+                // A cell that is a process that is shared that has reached the root has no connected cell process proxies. And, it represents the allocation
+                // of a special-owned cell process that is reference counted by this mechanism.
+                sharedProcessesToDelete.push(examineVertex);
+                break;
+
+              default:
+                errors.push("Unexpected shared process role value '".concat(examineVertexProp.role, "'."));
+                break;
+            }
+
+            if (errors.length) {
               break;
+            }
+          } // while examine all current root vertices
+
+
+          if (errors.length) {
+            return "break";
+          }
+
+          gcContinue = verticesToRemove.length + sharedProcessesToDelete.length > 0;
+
+          if (gcContinue) {
+            return "continue";
+          } // ****************************************************************
+          // ****************************************************************
+          // ****************************************************************
+          // Analyze the current edge vertex set.
+
+
+          while (leafVertices.length) {
+            var _examineVertex = leafVertices.pop();
+
+            var _examineVertexProp = sharedDigraph.getVertexProperty(_examineVertex);
+
+            switch (_examineVertexProp.role) {
+              case "owned-proxy":
+              case "shared-proxy":
+                // Any proxy that's in the shared digraph indicates that that proxy helper cell thinks its connected.
+                // The fact that it's now a leaf vertex indicates that it's no longer connected. This may actually
+                // only occur when the connection was from a proxy cell to an owned cell process that has been deleted.
+                // So, we want to update the cell process proxy helper cell's state (put it in broken state), and then
+                // we want to remove the proxy vertex as we only allow connected proxies in the shared digraph.
+                var ocdResponse = request_.ocdi.writeNamespace({
+                  apmBindingPath: _examineVertexProp.apmBindingPath,
+                  dataPath: "#.lcpConnect"
+                }, null);
+
+                if (ocdResponse.error) {
+                  errors.push(ocdResponse.error);
+                  break;
+                }
+
+                verticesToRemove.push(_examineVertex);
+                break;
+
+              case "owned":
+              case "shared":
+                break;
+
+              default:
+                errors.push("Unexpected shared process role value '".concat(_examineVertexProp.role, "'."));
+                break;
+            }
+
+            if (errors.length) {
+              break;
+            }
           }
 
           if (errors.length) {
-            break;
+            return "break";
           }
-        } // while examine all current root vertices
+
+          gcContinue = verticesToRemove.length + sharedProcessesToDelete.length > 0;
+
+          if (gcContinue) {
+            return "continue";
+          } // ****************************************************************
+          // ****************************************************************
+          // ****************************************************************
+          // Find self-referential clusters of shared processes w/no connected proxies from any owned processes.
 
 
-        if (errors.length) {
-          return "break";
-        }
-
-        while (leafVertices.length) {
-          var _examineVertex = leafVertices.pop();
-
-          var _examineVertexProp = sharedDigraph.getVertexProperty(_examineVertex);
-
-          switch (_examineVertexProp.role) {
-            case "owned-proxy":
-            case "shared-proxy":
-              // Any proxy that's in the shared digraph indicates that that proxy helper cell thinks its connected.
-              // The fact that it's now a leaf vertex indicates that it's no longer connected. This may actually
-              // only occur when the connection was from a proxy cell to an owned cell process that has been deleted.
-              // So, we want to update the cell process proxy helper cell's state (put it in broken state), and then
-              // we want to remove the proxy vertex as we only allow connected proxies in the shared digraph.
-              var ocdResponse = request_.ocdi.writeNamespace({
-                apmBindingPath: _examineVertexProp.apmBindingPath,
-                dataPath: "#.lcpConnect"
-              }, null);
-
-              if (ocdResponse.error) {
-                errors.push(ocdResponse.error);
-                break;
-              }
-
-              verticesToRemove.push(_examineVertex);
-              break;
-
-            case "owned":
-            case "shared":
-              break;
-
-            default:
-              errors.push("Unexpected shared process role value '".concat(_examineVertexProp.role, "'."));
-              break;
-          }
-        }
-
-        if (errors.length) {
-          return "break";
-        }
-
-        gcContinue = verticesToRemove.length + sharedProcessesToDelete.length > 0;
-
-        if (!gcContinue) {
           var ownedProcessVertices = [];
           sharedDigraph.getVertices().forEach(function (vertex_) {
             if (sharedDigraph.getVertexProperty(vertex_).role === "owned") {
@@ -212,7 +199,20 @@ var factoryResponse = arccore.filter.create({
           }
 
           gcContinue = verticesToRemove.length + sharedProcessesToDelete.length > 0;
-        }
+          return "break";
+        };
+
+        while (!inBreakScope2) {
+          var _ret3 = _loop3();
+
+          if (_ret3 === "break") break;
+          if (_ret3 === "continue") continue;
+        } // while (!inExamineScope)
+        // ****************************************************************
+        // ****************************************************************
+        // ****************************************************************
+        // Recycle the cells.
+
 
         while (sharedProcessesToDelete.length) {
           var deleteProcessID = sharedProcessesToDelete.pop();
@@ -245,11 +245,13 @@ var factoryResponse = arccore.filter.create({
 
         if (errors.length) {
           return "break";
-        }
+        } // Take out the trash.
+
 
         while (verticesToRemove.length) {
           sharedDigraph.removeVertex(verticesToRemove.pop());
-        }
+        } // Now, depending on gcContinue take another pass on the revised CPM digraphs.
+
       };
 
       while (gcContinue) {

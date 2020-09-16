@@ -163,7 +163,7 @@ var opcEvalResultSpec = {
               ____label: "APM Frame Status",
               ____description: "A string enumeration similar to a process step name indicating the status of this specific APM instance evaluation in the context of this evaluation frame.",
               ____accept: "jsString",
-              ____inValueSet: ["pending", "analyzing", "noop", "transitioning", "transitioned", "error"]
+              ____inValueSet: ["pending", "analyzing", "noop", "transitioning", "transitioned", "cell-deleted", "error"]
             },
             // status
             finishStep: {

@@ -79,7 +79,9 @@ var action = new ControllerAction({
       if (!cpmDataDescriptor.data.ownedCellProcesses.digraph.isVertex(thisCellProcessID)) {
         errors.push("Invalid apmBindingPath value '".concat(request_.context.apmBindingPath, "' does not resolve to an active worker or shared cell process."));
         break;
-      }
+      } // This ensures we're addressing an actuall CellProcessProxy-bound cell.
+      // And, get us a copy of its memory and its current connection state.
+
 
       var cppLibResponse = cppLib.getStatus.request({
         apmBindingPath: request_.context.apmBindingPath,
@@ -101,8 +103,10 @@ var action = new ControllerAction({
         break;
       } // At this point we know / are confident of the following:
       //
-      // - We know which existing owned (i.e. allocated w/CPM process create) OR shared (i.e. allocated w/CPM process open) cell process will OWN (i.e. will hold, by proxy in this example) a reference to another local owned or shared cell process.
-      // - We are confident that relative to the owner we can access the specified cell process proxy helper cell. And, that it is actually bound to the CellProcessProxy APM etc.
+      // - We know which existing owned (i.e. allocated w/CPM process create) OR shared (i.e. allocated w/CPM process open)
+      // cell process will OWN (i.e. will hold, by proxy in this example) a reference to another local owned or shared cell process.
+      // - We are confident that relative to the owner we can access the specified cell process proxy helper cell. And, that it is actually
+      // bound to the CellProcessProxy APM etc.
       //
       // However, we do not yet know anything yet about the local cell process that the caller wishes to connect to via the proxy instance. So, we look at that next.
 
@@ -273,7 +277,7 @@ var action = new ControllerAction({
         });
 
         if (cppLibResponse.error) {
-          errors.push("Oh no! An error occurred during garbage collection!");
+          errors.push("Oh snap! An error occurred during garbage collection!");
           errors.push(cppLibResponse.error);
           break;
         }
