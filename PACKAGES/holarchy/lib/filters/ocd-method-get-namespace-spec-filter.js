@@ -28,7 +28,7 @@ var factoryResponse = arccore.filter.create({
   },
   outputFilterSpec: {
     ____label: "OCD.getNamespaceSpec Result",
-    ____opaque: true // Result depends on the namespace's filter specification
+    ____accept: "jsObject" // Result depends on the namespace's filter specification
 
   },
   // outputFilterSpec

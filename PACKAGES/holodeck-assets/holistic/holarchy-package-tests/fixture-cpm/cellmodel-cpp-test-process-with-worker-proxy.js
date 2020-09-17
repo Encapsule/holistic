@@ -154,7 +154,23 @@ var cellModel = new holarchy.CellModel({
             always: true
           },
           nextStep: "disconnect_proxy"
-        }]
+        }],
+        actions: {
+          exit: [{
+            holarchy: {
+              CellProcessProxy: {
+                proxy: {
+                  proxyPath: "#.proxyTest",
+                  actionRequest: {
+                    CPPTestProcess1: {
+                      helloWorld: "Hello, other cell process that I have established a proxy connection to! How are are you doing?"
+                    }
+                  }
+                }
+              }
+            }
+          }]
+        }
       },
       disconnect_proxy: {
         description: "The proxy is connected. Now disconnect the proxy.",
@@ -236,10 +252,68 @@ var cellModel = new holarchy.CellModel({
         }]
       },
       test_process_complete: {
-        description: "The last step in the test process."
+        description: "The last step in the test process.",
+        transitions: [{
+          transitionIf: {
+            holarchy: {
+              CellProcessProxy: {
+                proxy: {
+                  proxyPath: "#.proxyTest",
+                  operatorRequest: {
+                    holarchy: {
+                      cm: {
+                        operators: {
+                          cell: {
+                            atStep: {
+                              path: "#",
+                              step: "test_process_complete"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          nextStep: "whatever"
+        }]
+      },
+      whatever: {
+        description: "Whatever"
       }
+    } // APM process model steps
+
+  },
+  // APM
+  actions: [{
+    id: "0MRiyw8rSnmdcN7uL2WWrQ",
+    name: "CPPTestProcess1: Test Action",
+    description: "Whatever.",
+    actionRequestSpec: {
+      ____types: "jsObject",
+      CPPTestProcess1: {
+        ____types: "jsObject",
+        helloWorld: {
+          ____accept: "jsString"
+        }
+      }
+    },
+    actionResultSpec: {
+      ____accept: "jsObject"
+    },
+    bodyFunction: function bodyFunction(request_) {
+      return {
+        error: null,
+        result: {
+          backAtYou: "Hello. Message was received.",
+          yourMessage: request_.actionRequest.CPPTestProcess1.helloWorld
+        }
+      };
     }
-  }
+  }],
+  operators: []
 });
 
 if (!cellModel.isValid()) {

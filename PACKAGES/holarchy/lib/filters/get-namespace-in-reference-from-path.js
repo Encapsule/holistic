@@ -115,9 +115,17 @@ var factoryResponse = arccore.filter.create({
 
         sourceRef = sourceRef[token];
         resolvedPathTokens.push(token);
-      }
+      } // while pathTokens.length
+
 
       if (errors.length) break;
+
+      if (request_.parseFilterSpec && Object.prototype.toString.call(sourceRef) !== "[object Object]") {
+        errors.push("Cannot resolve the specified OCD path '".concat(request_.namespacePath, "' to the namespace's corresponding filter specification because the data path you provided is wrong."));
+        errors.push("Specifically, the last namespace in the path '".concat(resolvedPathTokens.join("."), "' is not declared in this OCD instance's controlling filter specification."));
+        break;
+      }
+
       response.result = sourceRef;
       break;
     }

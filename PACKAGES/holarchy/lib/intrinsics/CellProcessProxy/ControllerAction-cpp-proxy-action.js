@@ -3,6 +3,8 @@
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/ControllerAction-cpp-proxy-action.js
 var ControllerAction = require("../../../lib/ControllerAction");
 
+var cppLib = require("./lib");
+
 var action = new ControllerAction({
   id: "rua1glcmTsOlYcfpZuiXnA",
   name: "Cell Process Proxy: Proxy Action",
@@ -29,13 +31,14 @@ var action = new ControllerAction({
     }
   },
   actionResultSpec: {
-    ____accept: "jsObject" // TODO
+    ____opaque: true // what do we know about this? nothing.
 
   },
   bodyFunction: function bodyFunction(request_) {
-    return {
-      error: null
-    };
+    return cppLib.proxyActionOperatorRequest.request({
+      requestType: "action",
+      originalRequestToProxy: request_
+    });
   }
 });
 
