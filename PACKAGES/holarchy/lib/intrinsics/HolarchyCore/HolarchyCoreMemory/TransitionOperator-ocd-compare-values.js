@@ -6,8 +6,8 @@ var ObservableControllerData = require("../../../ObservableControllerData");
 
 module.exports = new TransitionOperator({
   id: "2w7n6KxdR8mdIliePJesLQ",
-  name: "OCD Compare Values",
-  description: "Returns Boolean true iff operand A and B values compare using the indicated comparison operator.",
+  name: "OCD Namespace A ? B Value Comparison",
+  description: "Returns Boolean true iff operand A and B values compare using the indicated comparison operator. Note either A and/or B may be specified by value or path.",
   operatorRequestSpec: {
     ____types: "jsObject",
     holarchy: {

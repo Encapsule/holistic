@@ -32,6 +32,8 @@ var holisticAppServerCMVectorSets = require("./holistic-app-server-cm-package-te
 
 var holisticAppCommonCMVectorSets = require("./holistic-app-common-cm-package-tests/vector-sets");
 
+var mkdirp = require("mkdirp");
+
 var factoryResponse = arccore.filter.create({
   operationID: "Ga_AZ-2HSHuB0uJ9l6n3Uw",
   operationName: "Holistic Test Runner Generator",
@@ -69,7 +71,8 @@ var factoryResponse = arccore.filter.create({
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true; // HOLODECK TEST RUNNER DEFINITION
+      inBreakScope = true;
+      mkdirp(request_.logsDirectory); // HOLODECK TEST RUNNER DEFINITION
 
       var runnerResponse = holodeck.runnerFilter.request({
         id: "TxK2RjDjS2mQLkm_N8b6_Q",
