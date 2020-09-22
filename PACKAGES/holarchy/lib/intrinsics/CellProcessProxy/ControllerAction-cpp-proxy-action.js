@@ -35,10 +35,34 @@ var action = new ControllerAction({
 
   },
   bodyFunction: function bodyFunction(request_) {
-    return cppLib.proxyActionOperatorRequest.request({
-      requestType: "action",
-      originalRequestToProxy: request_
-    });
+    var response = {
+      error: null
+    };
+    var errors = [];
+    var inBreakScope = false;
+
+    while (!inBreakScope) {
+      inBreakScope = true;
+      var proxyResponse = cppLib.proxyActionOperatorRequest.request({
+        requestType: "action",
+        originalRequestToProxy: request_
+      });
+
+      if (proxyResponse.error) {
+        errors.push("Unable to proxy action request due to error that occurred in the cell your proxy is connected to.");
+        errors.push(proxyResponse.error);
+        break;
+      }
+
+      response.result = proxyResponse.result;
+      break;
+    }
+
+    if (errors.length) {
+      response.error = error.join(" ");
+    }
+
+    return response;
   }
 });
 

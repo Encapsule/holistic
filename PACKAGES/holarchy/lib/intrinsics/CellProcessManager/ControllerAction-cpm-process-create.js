@@ -89,7 +89,19 @@ var controllerAction = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      console.log("Cell Process Manager process create..."); // Dereference the body of the action request.
+      console.log("Cell Process Manager process create..."); // Read shared memory to retrieve a reference to the CPM's private process management data.
+
+      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+        ocdi: request_.context.ocdi
+      });
+
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
+        break;
+      }
+
+      var cpmDataDescriptor = cpmLibResponse.result;
+      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses; // Dereference the body of the action request.
 
       var message = request_.actionRequest.holarchy.CellProcessor.process.create; // This is closely coupled w/the CellProcessor constructor filter.
       // TODO: Replace w/cpmLib call
@@ -112,29 +124,29 @@ var controllerAction = new ControllerAction({
       // NOTE: The CPM's cell process tree structure is used for managing the lifespan of cell processes; deleting a cell process via delete
       // process action will delete that cell process and all its decendants.
 
-      var parentCellProcessID = !message.parentCellProcess ? // if no override...
-      arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result : // ... IRUT hash the outer context.apmBindingPath (aka #)
-      // else if override
-      message.parentCellProcess.cellProcessID ? // ... If the override specifies a cellProcessID ...
-      message.parentCellProcess.cellProcessID : // ... use it
-      // else
-      message.apmBindingPath ? // ... If the override specifies an apmBindingPath ...
-      arccore.identifier.irut.fromReference(message.parentCellProcess.apmBindingPath).result : // ... use it
-      // else
-      // ... deduce from apmID, cellProcessUniqueName and path conventions defined by CellProcess and CPM.
-      arccore.identifier.irut.fromReference("~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result; // Read shared memory to retrieve a reference to the CPM's private process management data.
+      var parentCellProcessID = null;
 
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
-        ocdi: request_.context.ocdi
-      });
+      if (!message.parentCellProcess) {
+        // NO EXPLICIT OVERRIDE PROVIDED.
+        // Assume the caller is a cell that wants to create a child process. We care if that cell is a process or not. If it's not, then it's a cell owned by a process. And, we need to know which.
+        cpmLibResponse = cpmLib.getOwnerProcessDescriptor.request({
+          cellPath: request_.context.apmBindingPath,
+          cpmDataDescriptor: cpmDataDescriptor,
+          ocdi: request_.context.ocdi,
+          treeData: ownedCellProcessesData
+        });
 
-      if (cpmLibResponse.error) {
-        errors.push(cpmLibResponse.error);
-        break;
-      }
+        if (cpmLibResponse.error) {
+          errors.push(cpmLibResponse.error);
+          break;
+        }
 
-      var cpmDataDescriptor = cpmLibResponse.result;
-      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses; // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
+        var cellOwnershipVector = cpmLibResponse.result;
+        parentCellProcessID = cellOwnershipVector.ownershipVector[cellOwnershipVector.ownershipVector.length - 1].cellProcessID; // is always the owning cell process
+      } else {
+        parentCellProcessID = message.parentCellProcess.cellProcessID ? message.parentCellProcess.cellProcessID : message.apmBindingPath ? arccore.identifier.irut.fromReference(message.parentCellProcess.apmBindingPath).result : arccore.identifier.irut.fromReference("~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result;
+      } // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
+
 
       if (ownedCellProcessesData.digraph.isVertex(cellProcessID)) {
         errors.push("Invalid cellProcessUniqueName value '".concat(message.cellProcessUniqueName, "' is not unique. Cell process '").concat(cellProcessID, "' already exists."));
