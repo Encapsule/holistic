@@ -3,7 +3,6 @@
 // cpm-get-owner-process-descriptor.js
 var arccore = require("@encapsule/arccore");
 /*
-
 e.g.
 ocdData = { // <= some arbitrary cell memory (i.e. we presume this object is bound to an APM and is a "cell"
     x: { // just an object owned by this cell
@@ -118,12 +117,12 @@ var factoryResponse = arccore.filter.create({
         var isCurrentPathCell = currentPathNamespaceSpec.____appdsl && currentPathNamespaceSpec.____appdsl.apm;
 
         if (!tokensProcessed && !isCurrentPathCell) {
-          errors.push("Invalid path '".concat(request_.path, "'. Path be be resolvable to an active cell to be a valid target for this request."));
+          errors.push("Invalid path '".concat(request_.cellPath, "'. The cellPath value must resolve to a cell (not just some cell's contained data) that is active as a helper. Or, that is active as either an owned are shared cell process managed by the CPM.\""));
           break;
         }
 
         if (!isCurrentPathCell) {
-          apmBindingPathTokens.pop();
+          pathTokens.pop();
           continue;
         }
 
@@ -138,7 +137,7 @@ var factoryResponse = arccore.filter.create({
           _activeCellDescriptor.cellRole = "helper";
           _activeCellDescriptor.cellStrategy = "helper";
           response.result.ownershipVector.push(_activeCellDescriptor);
-          apmBindingPathTokens.pop();
+          pathTokens.pop();
           continue;
         }
 

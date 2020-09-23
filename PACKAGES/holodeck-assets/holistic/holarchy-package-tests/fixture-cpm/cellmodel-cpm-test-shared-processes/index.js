@@ -533,6 +533,103 @@ var cppTestModel2 = new holarchy.CellModel({
   },
   subcells: [messengerModel]
 });
+var cppTestModel2A = new holarchy.CellModel({
+  id: "Cujmg-9jSpyAozTZfhkFLg",
+  name: "CPP Test Model 2A",
+  description: "A model that attempts to create a child process. We use this model to ensure that a cell cannot tell if its role is helper. Or, is active as a cell process (either owned or shared).",
+  apm: {
+    id: "RxRtYI77Sd6FMa1Iyv9dSg",
+    name: "CPP Test Process 2A",
+    description: "A process that attempts to create a child process. We use this model to ensure that a cell cannot tell if its role is helper. Or, is active as a cell process (either owned or shared).",
+    steps: {
+      uninitialized: {
+        description: "Default starting step.",
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "finished"
+        }],
+        actions: {
+          exit: [{
+            holarchy: {
+              CellProcessor: {
+                process: {
+                  create: {
+                    apmID: "Kh2lTQHGT9qG0j1omkJmAg"
+                    /* "CPP Test Message Process" */
+
+                  }
+                }
+              }
+            }
+          }]
+        }
+      },
+      finished: {
+        description: "Terminal step of CPP Test 2A process."
+      }
+    }
+  },
+  subcells: [messengerModel]
+});
+var cppTestModel2B = new holarchy.CellModel({
+  id: "QrdiLE9OTqe-SZcvxXbvKw",
+  name: "CPP Test Model 2B",
+  description: "A model that embeds helpers at various depths of its process memory space to test CPM's ability to track cell ownership correctly.",
+  apm: {
+    id: "V82j4g2-SBaCI2dGRHw-Xg",
+    name: "CPP Test Process 2B",
+    description: "A process that embeds owned helper processes at various depths of its process memory space to test CPM's ability to track cell ownership correctly.",
+    ocdDataSpec: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      justADataObjectNamespace: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        helperCellThatCallsProcessCreate: {
+          ____types: "jsObject",
+          ____appdsl: {
+            apm: "RxRtYI77Sd6FMa1Iyv9dSg"
+          }
+        }
+      }
+    }
+  }
+});
+var cppTestModel2C = new holarchy.CellModel({
+  id: "wLBTQ697Roi08S4f5BnoDg",
+  name: "CPP Test Model 2C",
+  description: "A model that embeds our other experiments to test yet more combinations of various cell and helper cell interconnect topologies.",
+  apm: {
+    id: "GUW2Fi3_SLaGrHy_X-nghA",
+    name: "CPP Test Process 2C",
+    description: "A process that embeds our other experiments to test yet more combinations of various cell and helper cell interconnect topologies.",
+    ocdDataSpec: {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      testProcess2: {
+        ____types: "jsObject",
+        ____appdsl: {
+          apm: "houKkWpYTX6hly7r79gD6g"
+        }
+      },
+      testProcess2A: {
+        ____types: "jsObject",
+        ____appdsl: {
+          apm: "RxRtYI77Sd6FMa1Iyv9dSg"
+        }
+      },
+      testProcess2B: {
+        ____types: "jsObject",
+        ____appdsl: {
+          apm: "V82j4g2-SBaCI2dGRHw-Xg"
+        }
+      }
+    }
+  },
+  subcells: [cppTestModel2, cppTestModel2A, cppTestModel2B]
+});
 var cppTestModel3 = new holarchy.CellModel({
   id: "QdTHgiTaR6CDG7mdBEfZng",
   name: "CPP Test Model 3",
@@ -583,10 +680,18 @@ var cppTestModel3 = new holarchy.CellModel({
           apm: "Kh2lTQHGT9qG0j1omkJmAg"
         } // messenger process
 
+      },
+      helper1D: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        ____appdsl: {
+          apm: "RxRtYI77Sd6FMa1Iyv9dSg"
+        } // CPP Test Process 2A
+
       }
     }
   },
-  subcells: [cppTestModel2, messengerModel]
+  subcells: [cppTestModel2, cppTestModel2A, messengerModel]
 });
 module.exports = new holarchy.CellModel({
   id: "asXXPy1URzacz2swT74u-A",
@@ -596,5 +701,5 @@ module.exports = new holarchy.CellModel({
   // Rather, they define the other CellModels that must also be registered with a CellProcessor instance in order for this cell to function
   // correctly at runtime in the CellProcessor instance.
   subcells: [messengerModel, // cppTestDroidModel,
-  cppTestModel1, cppTestModel2, cppTestModel3]
+  cppTestModel1, cppTestModel2, cppTestModel2A, cppTestModel2B, cppTestModel2C, cppTestModel3]
 });

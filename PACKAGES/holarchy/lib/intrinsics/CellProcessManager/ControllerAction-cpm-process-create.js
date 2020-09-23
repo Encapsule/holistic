@@ -125,28 +125,30 @@ var controllerAction = new ControllerAction({
       // process action will delete that cell process and all its decendants.
 
       var parentCellProcessID = null;
+      var queryCellPath = null;
 
       if (!message.parentCellProcess) {
-        // NO EXPLICIT OVERRIDE PROVIDED.
-        // Assume the caller is a cell that wants to create a child process. We care if that cell is a process or not. If it's not, then it's a cell owned by a process. And, we need to know which.
-        cpmLibResponse = cpmLib.getOwnerProcessDescriptor.request({
-          cellPath: request_.context.apmBindingPath,
-          cpmDataDescriptor: cpmDataDescriptor,
-          ocdi: request_.context.ocdi,
-          treeData: ownedCellProcessesData
-        });
-
-        if (cpmLibResponse.error) {
-          errors.push(cpmLibResponse.error);
-          break;
-        }
-
-        var cellOwnershipVector = cpmLibResponse.result;
-        parentCellProcessID = cellOwnershipVector.ownershipVector[cellOwnershipVector.ownershipVector.length - 1].cellProcessID; // is always the owning cell process
+        queryCellPath = request_.context.apmBindingPath;
       } else {
-        parentCellProcessID = message.parentCellProcess.cellProcessID ? message.parentCellProcess.cellProcessID : message.apmBindingPath ? arccore.identifier.irut.fromReference(message.parentCellProcess.apmBindingPath).result : arccore.identifier.irut.fromReference("~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result;
-      } // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
+        queryCellPath = message.parentCellProcess.apmBindingPath ? message.parentCellProcess.apmBindingPath : "~.".concat(message.parentCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.parentCellProcess.cellProcessNamespace.cellProcessUniqueName).result);
+      } // NO EXPLICIT OVERRIDE PROVIDED.
+      // Assume the caller is a cell that wants to create a child process. We care if that cell is a process or not. If it's not, then it's a cell owned by a process. And, we need to know which.
 
+
+      cpmLibResponse = cpmLib.getOwnerProcessDescriptor.request({
+        cellPath: queryCellPath,
+        cpmDataDescriptor: cpmDataDescriptor,
+        ocdi: request_.context.ocdi
+      });
+
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
+        break;
+      }
+
+      var cellOwnershipVector = cpmLibResponse.result;
+      parentCellProcessID = cellOwnershipVector.ownershipVector[cellOwnershipVector.ownershipVector.length - 1].cellProcessID; // is always the owning cell process
+      // Query the process tree digraph to determine if the new cell process' ID slot has already been allocated (i.e. it's a disallowed duplicate process create request).
 
       if (ownedCellProcessesData.digraph.isVertex(cellProcessID)) {
         errors.push("Invalid cellProcessUniqueName value '".concat(message.cellProcessUniqueName, "' is not unique. Cell process '").concat(cellProcessID, "' already exists."));
