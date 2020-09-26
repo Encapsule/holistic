@@ -54,7 +54,8 @@ var controllerAction = new ControllerAction({
                 ____accept: "jsString"
               },
               cellProcessUniqueName: {
-                ____accept: ["jsUndefined", "jsString"]
+                ____accept: "jsString",
+                ____defaultValue: "singleton"
               }
             }
           }
@@ -80,6 +81,8 @@ var controllerAction = new ControllerAction({
   // using cellProcessID that is either specified directly. Or, that is calculated from from apmBindingPath
   // or cellProcessNamespace.
   bodyFunction: function bodyFunction(request_) {
+    var _this = this;
+
     var response = {
       error: null
     };
@@ -88,7 +91,7 @@ var controllerAction = new ControllerAction({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      console.log("Cell Process Manager process delete..."); // Dereference the body of the action request.
+      console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] action start...")); // Dereference the body of the action request.
 
       var message = request_.actionRequest.holarchy.CellProcessor.process["delete"];
 
@@ -144,7 +147,7 @@ var controllerAction = new ControllerAction({
 
       var parentProcessID = ownedCellProcessesData.digraph.inEdges(cellProcessID)[0].u;
       var processesToDelete = [];
-      var digraphTraversalResponse = arccore.graph.directed.breadthFirstTraverse({
+      var digraphTraversalResponse = arccore.graph.directed.depthFirstTraverse({
         digraph: ownedCellProcessesData.digraph,
         options: {
           startVector: [cellProcessID]
@@ -167,46 +170,59 @@ var controllerAction = new ControllerAction({
         return "break";
       }
 
+      var cellProcessRemoveIDs = [];
+
       for (var i = 0; processesToDelete.length > i; i++) {
-        var _cellProcessID = processesToDelete[i];
-        var processDescriptor = ownedCellProcessesData.digraph.getVertexProperty(_cellProcessID);
-        var apmBindingPath = processDescriptor.apmBindingPath;
-        var apmBindingPathTokens = apmBindingPath.split(".");
-        var apmProcessesNamespace = apmBindingPathTokens.slice(0, apmBindingPathTokens.length - 1).join(".");
-        var apmProcessesRevisionNamespace = [].concat(_toConsumableArray(apmBindingPathTokens.slice(0, apmBindingPathTokens.length - 2)), ["revision"]).join(".");
+        var cellID = processesToDelete[i];
+        var cellDescriptor = ownedCellProcessesData.digraph.getVertexProperty(cellID);
 
-        var _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesNamespace);
+        if (cellDescriptor.role === "cell-process") {
+          cellProcessRemoveIDs.push(cellID);
+          var apmBindingPath = cellDescriptor.apmBindingPath;
+          var apmBindingPathTokens = apmBindingPath.split(".");
+          var apmProcessesNamespace = apmBindingPathTokens.slice(0, apmBindingPathTokens.length - 1).join(".");
+          var apmProcessesRevisionNamespace = [].concat(_toConsumableArray(apmBindingPathTokens.slice(0, apmBindingPathTokens.length - 2)), ["revision"]).join("."); // TODO: ObservableControllerData should abstract all common array and map type operations.
+          // DELETE CELL PROCESS FROM ObservableControllerData.
+          // You see... This is a horrible pattern. There are simpler way available even w/current OCD.
+          // But, there's a reason why I insist on using writeNamespace even here. And, why we 100% need OCD to support containers natively.
+          // Read the array...
 
-        if (_ocdResponse.error) {
-          errors.push(_ocdResponse.error);
-          break;
+          var _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesNamespace);
+
+          if (_ocdResponse.error) {
+            errors.push(_ocdResponse.error);
+            break;
+          }
+
+          var processesMemory = _ocdResponse.result; // Delete the element (this is the cell process)...
+
+          delete processesMemory[apmBindingPathTokens[apmBindingPathTokens.length - 1]]; // Write the entire array back into OCD (removing the cell process from OCD).
+
+          _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesNamespace, processesMemory);
+
+          if (_ocdResponse.error) {
+            errors.push(_ocdResponse.error);
+            break;
+          } // There's no reason why OCD cannot also support an efficient namespace increment operator.
+
+
+          _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesRevisionNamespace);
+
+          if (_ocdResponse.error) {
+            errors.push(_ocdResponse.error);
+            break;
+          }
+
+          var apmProcessesRevision = _ocdResponse.result;
+          _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesRevisionNamespace, apmProcessesRevision + 1);
+
+          if (_ocdResponse.error) {
+            errors.push(_ocdResponse.error);
+            break;
+          }
         }
 
-        var processesMemory = _ocdResponse.result;
-        delete processesMemory[apmBindingPathTokens[apmBindingPathTokens.length - 1]];
-        _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesNamespace, processesMemory);
-
-        if (_ocdResponse.error) {
-          errors.push(_ocdResponse.error);
-          break;
-        }
-
-        _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesRevisionNamespace);
-
-        if (_ocdResponse.error) {
-          errors.push(_ocdResponse.error);
-          break;
-        }
-
-        var apmProcessesRevision = _ocdResponse.result;
-        _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesRevisionNamespace, apmProcessesRevision + 1);
-
-        if (_ocdResponse.error) {
-          errors.push(_ocdResponse.error);
-          break;
-        }
-
-        ownedCellProcessesData.digraph.removeVertex(_cellProcessID);
+        ownedCellProcessesData.digraph.removeVertex(cellID);
       }
 
       if (errors.length) {
@@ -267,6 +283,7 @@ var controllerAction = new ControllerAction({
       response.error = errors.join(" ");
     }
 
+    console.log("[".concat(this.operationID, "::").concat(this.operationName, "] action completed w/status '").concat(response.error ? "ERROR" : "SUCCESS", "'."));
     return response;
   }
 });

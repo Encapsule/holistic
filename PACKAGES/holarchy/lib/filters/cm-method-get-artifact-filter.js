@@ -79,6 +79,12 @@ var factoryResponse = arccore.filter.create({
     if (errors.length) {
       errors.unshift("CellModel::getArtifact method error:");
       response.error = errors.join(" ");
+      response.result = {
+        // this is whatever we want because filter doesn't validate response.result iff response.error !== null
+        missingArtifact: "This object is not a valid CellModel artifact. Whatever you're asking for cannot be resolved due to error.",
+        alwaysCheckResponseError: "... because if you did you would know that this happened:",
+        error: response.error
+      };
     }
 
     return response;

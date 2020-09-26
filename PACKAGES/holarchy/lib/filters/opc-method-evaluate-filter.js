@@ -410,16 +410,16 @@ var factoryResponse = arccore.filter.create({
 
               if (_transitionResponse.error) {
                 _transitionResponse = {
-                  error: "TransitionOperator request rejected by MDR phase 1 discriminator. Bad request format; this request cannot be processed by any of the TransitionOperator's registered.",
-                  result: _transitionResponse.error
+                  error: "TransitionOperator request value type cannot be routed to any registered TransitionOperator plug-in filters based on runtime type feature analysis. Please check your request format vs. registered TransitionOperator plug-in filter request signatures. ".concat(_transitionResponse.error)
                 };
               } else {
                 var topFilter = _transitionResponse.result;
                 _transitionResponse = topFilter.request(operatorRequest);
 
                 if (_transitionResponse.error) {
+                  var errorMessage = ["TransitionOperator request was successfully parsed and routed to plug-in filter delegate [".concat(topFilter.filterDescriptor.operationID, "::").concat(topFilter.filterDescriptor.operationName, "]. But, the plug-in rejected the request with error: ").concat(_transitionResponse.error), "From the perspective of this error handler it's difficult to say precisely what this error means given the broad semantics of TransitionOperator filters. Here is a list of possible problems in decreasing order of liklihood:", "Your request format may be invalid above the point in the request data where the message router made its delegate selection and this error is the plug-in rejecting the request entirely.", "Or, the selected TransitionOperator plug-in filter may implement some sort of additional input value validation that constrains the permissible input beyond what's examined by the message router and TransitionOperator plug-in filters. And, you've violated API constraints.", "Or, you have made a valid request but applied the action to the wrong type of cell (i.e. you think you're acting on a cell bound to APM X but it's really bound to a Y).", "Or, the cell you're attempting to operator on is not in the correct process step or otherwise prepared to accept or take action on behalf of the caller.", "Or, there's a bug in the TransitionOperator plug-in filter itself.", "If you track down the source of this error and it's not on this list please report it!"].join(" ");
                   _transitionResponse = {
-                    error: "TransitionOperator request rejected by MDR phase 2 router. The selected TransitionOperator filter [".concat(topFilter.filterDescriptor.operationID, "::").concat(topFilter.filterDescriptor.operationName, "] rejected the request with error: ").concat(_transitionResponse.error)
+                    error: errorMessage
                   };
                 }
               }

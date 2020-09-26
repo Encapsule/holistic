@@ -3,195 +3,42 @@
 // cellmodel-cpp-test-process-with-worker-proxy.js
 var holarchy = require("@encapsule/holarchy");
 
+var modelSpace = require("./model-space"); // some weird shit that portends things to come...
+
+
+var cmCPPTestMessenger = require("./cellmodel-messenger");
+
+var cmCPPTestDroid = require("./cellmodel-droid");
+
 var connectProxyActionRequest = {
   holarchy: {
     CellProcessProxy: {
       connect: {
         proxyPath: "#.proxyTest",
         localCellProcess: {
-          // apmID: "i6htE08TRzaWc9Hq00B3sg", // this is a total lie - nonesuch
-          apmID: "J9RsPcp3RoS1QrZG-04XPg",
-          // proxy back to the host process
-          // instanceName -> default to singleton
-          instanceName: "Secondary Shared Test Process"
+          apmID: modelSpace.apmID("CPP Test 1"),
+          instanceName: "Test Process B"
         }
       }
     }
   }
 };
-
-var messengerModel = require("./cellmodel-messenger");
-
-var cppTestDroidModel = new holarchy.CellModel({
-  id: "-_Aig3K1Qvu8iqn6ncr00g",
-  name: "Test Droid Model",
-  description: "A generic model to help orchestrate test creation and experiment further with interesting CellModel usage patterns.",
-  apm: {
-    id: "e1eD7WDvTJqZwzu0i_FDGA",
-    name: "Test Droid Process",
-    description: "Provides a mechanism to pre-program a little droid agent to run tests as a cell inside of CellProcessor instance.",
-    ocdDataSpec: {
-      ____types: "jsObject",
-      construction: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        instanceName: {
-          ____accept: ["jsNull", "jsString"]
-        },
-        droidProcessRuntimeBehaviors: {
-          ____types: "jsArray",
-          ____defaultValue: [],
-          runtimeBehaviorDescriptor: {
-            ____types: "jsObject",
-            operatorRequest: {
-              ____accept: ["jsUndefined", "jsObject"]
-            },
-            actionRequest: {
-              ____types: ["jsUndefined", "jsObject", "jsArray"]
-            }
-          }
-        }
-      },
-      output: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        droidBehaviorLog: {
-          ____types: "jsArray",
-          ____defaultValue: [],
-          behaviorStepLog: {
-            ____accept: "jsObject"
-            /* TODO */
-
-          }
-        }
-      }
-    },
-    steps: {
-      uninitialized: {
-        description: "Default process start step.",
-        transitions: [{
-          transitionIf: {
-            holarchy: {
-              cm: {
-                operators: {
-                  ocd: {
-                    arrayIsEmpty: {
-                      path: "#.construction.droidProcessRuntimeBehaviors"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          nextStep: "waiting_for_behavior_sequence"
-        }, {
-          transitionIf: {
-            always: true
-          },
-          nextStep: "run_behavior_sequence"
-        }]
-      },
-      waiting_for_behavior_sequence: {
-        description: "Waiting for someone to write #.construction.droidProcessRuntimeBehaviors namespace with instructions.",
-        transitions: [{
-          transitionIf: {
-            not: {
-              holarchy: {
-                cm: {
-                  operators: {
-                    ocd: {
-                      arrayIsEmpty: {
-                        path: "#.construction.droidProcessRuntimeBehaviors"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          nextStep: "set_new_behavior"
-        }]
-      },
-      set_new_behavior: {
-        description: "Dequeueing new droid behavior...",
-        actions: {
-          enter: [{
-            "e1eD7WDvTJqZwzu0i_FDGA_workerAction": {
-              setNewBehavior: {}
-            }
-          }]
-        },
-        transitions: [{
-          transitionIf: {
-            always: true
-          },
-          nextStep: "wait_behavior_operator"
-        }]
-      },
-      wait_behavior_operator: {
-        description: "Wait for the condition specified by the currently set droid behavior.",
-        transitions: [{
-          transitionIf: {
-            "e1eD7WDvTJqZwzu0i_FDGA_workerOperator": {
-              evaluateBehaviorOperator: {}
-            }
-          },
-          nextStep: "run_behavior_actions"
-        }]
-      },
-      run_behavior_actions: {
-        description: "Running action(s) specified by the currently set droid behavior.",
-        actions: {
-          enter: [{
-            "e1eD7WDvTJqZwzu0i_FDGA_workerAction": {
-              runBehaviorActions: {}
-            }
-          }]
-        },
-        transitions: [{
-          transitionIf: {
-            holarchy: {
-              cm: {
-                operators: {
-                  ocd: {
-                    arrayIsEmpty: {
-                      path: "#.construction.droidProcessRuntimeBehaviors"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          nextStep: "droid_process_finished"
-        }, {
-          transitionIf: {
-            always: true
-          },
-          nextStep: "set_new_behavior"
-        }]
-      },
-      droid_process_finished: {
-        description: "The droid process is finished."
-      }
-    }
-  }
-});
 var cppTestModel1 = new holarchy.CellModel({
-  id: "w6WWHevPQOKeGOe6QSL5Iw",
-  name: "CPP Test Model 1",
+  id: modelSpace.cmID("CPP Test 1"),
+  name: "CPP Test 1",
   description: "A model that tests embedding of reusable generic local cell process proxy model in embedded worker role.",
   apm: {
-    id: "J9RsPcp3RoS1QrZG-04XPg",
-    name: "CPP Test Process 1",
+    id: modelSpace.apmID("CPP Test 1"),
+    name: "CPP Test 1",
     description: "A process that tests embedding of reusable generic local cell process proxy model in embedded worker role.",
     ocdDataSpec: {
       ____types: "jsObject",
+      ____defaultValue: {},
       construction: {
         ____types: "jsObject",
         ____defaultValue: {},
         instanceName: {
-          ____accept: ["jsNull", "jsString"],
-          ____defaultValue: null
+          ____accept: ["jsUndefined", "jsString"]
         }
       },
       proxyTest: {
@@ -473,15 +320,16 @@ var cppTestModel1 = new holarchy.CellModel({
   operators: []
 });
 var cppTestModel2 = new holarchy.CellModel({
-  id: "CIyx6qSlSCyeBKMAQbGMPA",
+  id: modelSpace.cmID("CPP Test 2"),
   name: "CPP Test Model 2",
   description: "A model that embeds a proxy. We use this model to ensure that a cell cannot tell if its role is helper (i.e. embedded in another model's ocdDataSpec via an object namesspace APM binding annotaton).",
   apm: {
-    id: "houKkWpYTX6hly7r79gD6g",
+    id: modelSpace.apmID("CPP Test 2"),
     name: "CPP Test Model 2",
     description: "A process that tests a cell's ability to use a cell proxy equivalent regardless of it itself is a helper cell (owned by a cell process). Or, a cell process (either owned or shared).",
     ocdDataSpec: {
       ____types: "jsObject",
+      ____defaultValue: {},
       construction: {
         ____types: "jsObject",
         ____defaultValue: {},
@@ -510,9 +358,7 @@ var cppTestModel2 = new holarchy.CellModel({
                 connect: {
                   proxyPath: "#.proxyTest",
                   localCellProcess: {
-                    apmID: "Kh2lTQHGT9qG0j1omkJmAg"
-                    /* "CPP Test Message Process" */
-
+                    apmID: modelSpace.apmID("CPP Test Messenger")
                   }
                 }
               }
@@ -531,15 +377,15 @@ var cppTestModel2 = new holarchy.CellModel({
       }
     }
   },
-  subcells: [messengerModel]
+  subcells: [cmCPPTestMessenger]
 });
 var cppTestModel2A = new holarchy.CellModel({
-  id: "Cujmg-9jSpyAozTZfhkFLg",
-  name: "CPP Test Model 2A",
+  id: modelSpace.cmID("CPP Test 2A"),
+  name: "CPP Test 2A",
   description: "A model that attempts to create a child process. We use this model to ensure that a cell cannot tell if its role is helper. Or, is active as a cell process (either owned or shared).",
   apm: {
-    id: "RxRtYI77Sd6FMa1Iyv9dSg",
-    name: "CPP Test Process 2A",
+    id: modelSpace.apmID("CPP Test 2A"),
+    name: "CPP Test 2A",
     description: "A process that attempts to create a child process. We use this model to ensure that a cell cannot tell if its role is helper. Or, is active as a cell process (either owned or shared).",
     steps: {
       uninitialized: {
@@ -556,9 +402,7 @@ var cppTestModel2A = new holarchy.CellModel({
               CellProcessor: {
                 process: {
                   create: {
-                    apmID: "Kh2lTQHGT9qG0j1omkJmAg"
-                    /* "CPP Test Message Process" */
-
+                    apmID: modelSpace.apmID("CPP Test Messenger")
                   }
                 }
               }
@@ -571,26 +415,35 @@ var cppTestModel2A = new holarchy.CellModel({
       }
     }
   },
-  subcells: [messengerModel]
+  subcells: [cmCPPTestMessenger]
 });
 var cppTestModel2B = new holarchy.CellModel({
-  id: "QrdiLE9OTqe-SZcvxXbvKw",
+  id: modelSpace.cmID("CPP Test 2B"),
   name: "CPP Test Model 2B",
   description: "A model that embeds helpers at various depths of its process memory space to test CPM's ability to track cell ownership correctly.",
   apm: {
-    id: "V82j4g2-SBaCI2dGRHw-Xg",
+    id: modelSpace.apmID("CPP Test 2B"),
     name: "CPP Test Process 2B",
     description: "A process that embeds owned helper processes at various depths of its process memory space to test CPM's ability to track cell ownership correctly.",
     ocdDataSpec: {
       ____types: "jsObject",
       ____defaultValue: {},
+      construction: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        instanceName: {
+          ____accept: ["jsString", "jsNull"],
+          ____defaultValue: null
+        }
+      },
       justADataObjectNamespace: {
         ____types: "jsObject",
         ____defaultValue: {},
         helperCellThatCallsProcessCreate: {
           ____types: "jsObject",
+          ____defaultValue: {},
           ____appdsl: {
-            apm: "RxRtYI77Sd6FMa1Iyv9dSg"
+            apm: modelSpace.apmID("CPP Test 2")
           }
         }
       }
@@ -598,32 +451,34 @@ var cppTestModel2B = new holarchy.CellModel({
   }
 });
 var cppTestModel2C = new holarchy.CellModel({
-  id: "wLBTQ697Roi08S4f5BnoDg",
+  id: modelSpace.cmID("CPP Test 2C"),
   name: "CPP Test Model 2C",
   description: "A model that embeds our other experiments to test yet more combinations of various cell and helper cell interconnect topologies.",
   apm: {
-    id: "GUW2Fi3_SLaGrHy_X-nghA",
+    id: modelSpace.apmID("CPP Test 2C"),
     name: "CPP Test Process 2C",
     description: "A process that embeds our other experiments to test yet more combinations of various cell and helper cell interconnect topologies.",
     ocdDataSpec: {
       ____types: "jsObject",
       ____defaultValue: {},
+
+      /*
       testProcess2: {
-        ____types: "jsObject",
-        ____appdsl: {
-          apm: "houKkWpYTX6hly7r79gD6g"
-        }
+          ____types: "jsObject",
+          ____defaultValue: {},
+          ____appdsl: { apm: "houKkWpYTX6hly7r79gD6g" }
       },
       testProcess2A: {
-        ____types: "jsObject",
-        ____appdsl: {
-          apm: "RxRtYI77Sd6FMa1Iyv9dSg"
-        }
+          ____types: "jsObject",
+          ____defaultValue: {},
+          ____appdsl: { apm: "RxRtYI77Sd6FMa1Iyv9dSg" }
       },
+      */
       testProcess2B: {
         ____types: "jsObject",
+        ____defaultValue: {},
         ____appdsl: {
-          apm: "V82j4g2-SBaCI2dGRHw-Xg"
+          apm: modelSpace.apmID("CPP Test 2B")
         }
       }
     }
@@ -631,75 +486,71 @@ var cppTestModel2C = new holarchy.CellModel({
   subcells: [cppTestModel2, cppTestModel2A, cppTestModel2B]
 });
 var cppTestModel3 = new holarchy.CellModel({
-  id: "QdTHgiTaR6CDG7mdBEfZng",
+  id: modelSpace.cmID("CPP Test 3"),
   name: "CPP Test Model 3",
   description: "Embeds CPP Test Model 2 as a helper cell to test if the CPM memory manager can correctly handle the helper cell's requests when it's functioning as a helper.",
   apm: {
-    id: "ZU4XFMxxT4-43mKsAp0dwA",
+    id: modelSpace.apmID("CPP Test 3"),
     name: "CPP Test Process 3",
     description: "Declares that this cell uses and owns a copy of CPP Test Model 2 whose lifespan is tied to this cell's lifespan (whatever role it's functioning in).",
     ocdDataSpec: {
       ____types: "jsObject",
+      ____defaultValue: {},
+
+      /*
       // Here we splice in a "helper" insance of CPP Test Model 2 that contains a proxy that it tries to connect when its process starts.
       helper1A: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        ____appdsl: {
-          apm: "houKkWpYTX6hly7r79gD6g"
-        } // cpp test 2 process
-
+          ____types: "jsObject",
+          ____defaultValue: {},
+          ____appdsl: { apm: "houKkWpYTX6hly7r79gD6g" } // cpp test 2 process
       },
       helper1B: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        helper2A: {
           ____types: "jsObject",
           ____defaultValue: {},
-          ____appdsl: {
-            apm: "houKkWpYTX6hly7r79gD6g"
-          } // cpp test 2 process
-
-        },
-        helper2B: {
-          ____types: "jsObject",
-          ____defaultValue: {},
-          helper3A: {
-            ____types: "jsObject",
-            ____defaultValue: {},
-            ____appdsl: {
-              apm: "houKkWpYTX6hly7r79gD6g"
-            } // cpp test 2 process
-
+          helper2A: {
+              ____types: "jsObject",
+              ____defaultValue: {},
+              ____appdsl: { apm: "houKkWpYTX6hly7r79gD6g" } // cpp test 2 process
+          },
+          helper2B: {
+              ____types: "jsObject",
+              ____defaultValue: {},
+              helper3A: {
+                  ____types: "jsObject",
+                  ____defaultValue: {},
+                  ____appdsl: { apm: "houKkWpYTX6hly7r79gD6g" } // cpp test 2 process
+              }
           }
-        }
       },
       helper1C: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        ____appdsl: {
-          apm: "Kh2lTQHGT9qG0j1omkJmAg"
-        } // messenger process
-
+          ____types: "jsObject",
+          ____defaultValue: {},
+          ____appdsl: { apm: "Kh2lTQHGT9qG0j1omkJmAg" } // messenger process
       },
       helper1D: {
+          ____types: "jsObject",
+          ____defaultValue: {},
+          ____appdsl: { apm: "RxRtYI77Sd6FMa1Iyv9dSg" } // CPP Test Process 2A
+      },
+      */
+      helper1E: {
         ____types: "jsObject",
         ____defaultValue: {},
         ____appdsl: {
-          apm: "RxRtYI77Sd6FMa1Iyv9dSg"
-        } // CPP Test Process 2A
-
+          apm: modelSpace.apmID("CPP Test 2C")
+        }
       }
     }
   },
-  subcells: [cppTestModel2, cppTestModel2A, messengerModel]
+  subcells: [cppTestModel2, cppTestModel2A, cppTestModel2B, cppTestModel2C, cmCPPTestMessenger]
 });
 module.exports = new holarchy.CellModel({
-  id: "asXXPy1URzacz2swT74u-A",
+  id: modelSpace.cmID("CPP Test Models Wrapper"),
   name: "CPP Test Models Wrapper",
   description: "A wrapper for CPP Test CellModels.",
   // TODO: Rename to 'usesCellModels' as the CellModels enumerated here do not actuall change anything about this CellModel's definition.
   // Rather, they define the other CellModels that must also be registered with a CellProcessor instance in order for this cell to function
   // correctly at runtime in the CellProcessor instance.
-  subcells: [messengerModel, // cppTestDroidModel,
+  subcells: [cmCPPTestMessenger, // cppTestDroid,
   cppTestModel1, cppTestModel2, cppTestModel2A, cppTestModel2B, cppTestModel2C, cppTestModel3]
 });

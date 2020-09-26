@@ -42,10 +42,12 @@ module.exports = {
         ____label: "OPC Evaluation Frame Limit",
         ____description: "The maximum number of frames allowed per system evaluation.",
         ____accept: "jsNumber",
-        ____defaultValue: 16,
+        ____defaultValue: 64,
         ____inRangeInclusive: {
           begin: 0,
-          end: 64
+          end: 256
+          /* seems unlikely any reasonable service would need this many frames. but, the important thing is to cap it. */
+
         }
       },
       firstEvaluation: {

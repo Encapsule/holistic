@@ -11,6 +11,7 @@ module.exports = {
       // ____label: <generated dynamically>
       // ____description: <generated dynamically>
       ____types: "jsObject",
+      ____defaultValue: {},
       __apmiStep: {
         // ____label: <generated dynamically>
         // ____description: <generated dynamically>
