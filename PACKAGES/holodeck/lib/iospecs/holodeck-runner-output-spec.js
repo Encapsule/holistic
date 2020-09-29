@@ -31,50 +31,11 @@ module.exports = {
           evalIndex: {
             ____types: "jsString"
           }
-        }
-      },
-      runnerEval: {
-        // TODO: These are placeholders for some TBD analysis stage to be added
-        // as a CI/CD quality gate. Minimally, this should check for diffs in
-        // idempotent function vector eval logs and reject the build. But, it
-        // could actually get quite a lot more sophisticated than that depending
-        // on project requirements. Anyway, manual inspection of diffs is holding
-        // up pretty well so far. And, this will be simpler to automate later.
-        ____types: "jsObject",
-        neutral: {
+        },
+        failures: {
           ____types: "jsArray",
           evalIndex: {
             ____types: "jsString"
-          }
-        },
-        pass: {
-          ____types: "jsObject",
-          expected: {
-            ____types: "jsArray",
-            evalIndex: {
-              ____types: "jsString"
-            }
-          },
-          actual: {
-            ____types: "jsArray",
-            evalIndex: {
-              ____types: "jsString"
-            }
-          }
-        },
-        fail: {
-          ____types: "jsObject",
-          expected: {
-            ____types: "jsArray",
-            evalIndex: {
-              ____types: "jsString"
-            }
-          },
-          actual: {
-            ____types: "jsArray",
-            evalIndex: {
-              ____types: "jsString"
-            }
           }
         }
       }

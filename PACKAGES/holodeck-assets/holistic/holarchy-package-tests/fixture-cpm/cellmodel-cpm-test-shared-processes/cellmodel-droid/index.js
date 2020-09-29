@@ -3,16 +3,15 @@
 // CellModel-CPPTestDroid.js
 var holarchy = require("@encapsule/holarchy");
 
-var modelSpace = require("../model-space"); // some weird shit that portends things to come...
-
+var cellspace = require("../../cellspace");
 
 var cmName = "CPP Test Droid";
 module.exports = new holarchy.CellModel({
-  id: modelSpace.cmID(cmName),
+  id: cellspace.cmID(cmName),
   name: cmName,
   description: "A generic model to help orchestrate test creation and experiment further with interesting CellModel usage patterns.",
   apm: {
-    id: modelSpace.apmID(cmName),
+    id: cellspace.apmID(cmName),
     name: cmName,
     description: "Provides a mechanism to pre-program a little droid agent to run tests as a cell inside of CellProcessor instance.",
     ocdDataSpec: {

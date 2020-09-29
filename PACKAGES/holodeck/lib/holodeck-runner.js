@@ -39,18 +39,8 @@ var factoryResponse = arccore.filter.create({
         runnerStats: {
           dispatched: [],
           rejected: [],
-          errors: []
-        },
-        runnerEval: {
-          neutral: [],
-          pass: {
-            expected: [],
-            actual: []
-          },
-          fail: {
-            expected: [],
-            actual: []
-          }
+          errors: [],
+          failures: []
         }
       },
       harnessEvalDescriptors: []
@@ -128,6 +118,25 @@ var factoryResponse = arccore.filter.create({
             if (testResponse.error) {
               testResponse.error = "The harness filter registered to handle this message type rejected your request with an error: ".concat(testResponse.error);
               resultPayload.summary.runnerStats.errors.push(testRequest.id);
+            } else {
+              // NOTE: HORRIBLE HACK to allow specific harness filters to set a vectorFailed Boolean flag in #.vectorFailed of vectorResponse.result object.
+              // It's done this way because I am too lazy and too busy to refactor the test harness factory infrastructure for holodeck v1 (and destabilize
+              // all existing v1 holodeck harness filter definitions in the process). So, hack it (for now). holodeck v2 may never get done w/the code I
+              // started; if we get CellProcessor stable w/holodeck v1 (which is not w/out issues which is why v2 in the first place). Then it makes no sense
+              // to write v2 holodeck by hand. It's a collection of CellModel like everything else. And, why implement RMDR protocols when you have ControllerAction?
+              if (Object.prototype.toString.call(testResponse.result) === "[object Object]") {
+                if (testResponse.result.harnessDispatch) {
+                  var key1 = Object.keys(testResponse.result.harnessDispatch)[0];
+                  var key2 = Object.keys(testResponse.result.harnessDispatch[key1])[0];
+                  var vectorResult = testResponse.result.harnessDispatch[key1][key2];
+
+                  if (Object.prototype.toString.call(vectorResult) === "[object Object]") {
+                    if (vectorResult.vectorFailed) {
+                      resultPayload.summary.runnerStats.failures.push(key2);
+                    }
+                  }
+                }
+              }
             }
           } // If this was a typical filter designed for use inside an application or a service we would
           // probably do some error checking at this point and fail the request if something went wrong.
@@ -281,6 +290,8 @@ var runnerFascade = _objectSpread(_objectSpread({}, holisticTestRunner), {}, {
       console.log("> total harness errors ....... ".concat(analysis.totalHarnessErrors));
       analysis.totalRejectedVectors = resultPayload.summary.runnerStats.rejected.length;
       console.log("> total rejected vectors ..... ".concat(analysis.totalRejectedVectors));
+      analysis.totalFailedVectors = resultPayload.summary.runnerStats.failures.length;
+      console.log("> total FAILED vectors ....... ".concat(analysis.totalFailedVectors));
     } else {
       console.error("Runner failed with error: ".concat(runnerResponse.error));
       console.log("Holodeck test vector evaluation log files may have been created/modified.");
