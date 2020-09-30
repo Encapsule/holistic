@@ -2,7 +2,7 @@
 
 var cppTestFixtureCellModel = require("./fixture-cpm");
 
-var cppTestModelSpace = require("./fixture-cpm/cellmodel-cpm-test-shared-processes/model-space");
+var cppTestModelSpace = require("./fixture-cpm/cellspace");
 
 module.exports = [{
   id: "kZ5M4SOwRdOWp_zWumRtYg",
