@@ -292,6 +292,12 @@ var runnerFascade = _objectSpread(_objectSpread({}, holisticTestRunner), {}, {
       console.log("> total rejected vectors ..... ".concat(analysis.totalRejectedVectors));
       analysis.totalFailedVectors = resultPayload.summary.runnerStats.failures.length;
       console.log("> total FAILED vectors ....... ".concat(analysis.totalFailedVectors));
+
+      if (analysis.totalFailedVectors) {
+        resultPayload.summary.runnerStats.failures.forEach(function (testVectorID_) {
+          console.error("! Failed test vector: " + testVectorID_);
+        });
+      }
     } else {
       console.error("Runner failed with error: ".concat(runnerResponse.error));
       console.log("Holodeck test vector evaluation log files may have been created/modified.");

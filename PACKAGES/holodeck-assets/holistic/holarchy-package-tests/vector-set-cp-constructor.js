@@ -56,58 +56,58 @@ module.exports = [{
               }
             }
           },
-          actRequests: [{
-            actorName: "CP constructor test #2",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      apmID: "6OPnhgR9QWyEFaBpaZNb1A",
-                      cellProcessUniqueName: "test-process-1"
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            actorName: "CP constructor test #2",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      apmID: "6OPnhgR9QWyEFaBpaZNb1A",
-                      cellProcessUniqueName: "test-process-1"
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            actorName: "CP constructor test #2",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      apmID: "6OPnhgR9QWyEFaBpaZNb1A",
-                      cellProcessUniqueName: "test-process-1"
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            actorName: "CP constructor test #2",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    "delete": {
-                      cellProcessNamespace: {
+          testActorRequests: [{
+            actRequest: {
+              actorName: "CP constructor test #2",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      create: {
                         apmID: "6OPnhgR9QWyEFaBpaZNb1A",
                         cellProcessUniqueName: "test-process-1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            // NOTE: Expected to return a response.error so override default behavior and accept it as a TEST PASS.
+            options: {
+              failTestIf: {
+                CellProcessor: {
+                  actionError: "fail-if-action-result"
+                }
+              }
+            },
+            actRequest: {
+              actorName: "CP constructor test #2",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      create: {
+                        apmID: "6OPnhgR9QWyEFaBpaZNb1A",
+                        cellProcessUniqueName: "test-process-1"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            actRequest: {
+              actorName: "CP constructor test #2",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      "delete": {
+                        cellProcessNamespace: {
+                          apmID: "6OPnhgR9QWyEFaBpaZNb1A",
+                          cellProcessUniqueName: "test-process-1"
+                        }
                       }
                     }
                   }

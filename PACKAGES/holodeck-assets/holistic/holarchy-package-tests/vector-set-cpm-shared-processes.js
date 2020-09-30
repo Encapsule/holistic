@@ -21,34 +21,18 @@ module.exports = [{
               id: cppTestModelSpace.cmID("CPP Test 1")
             }).result
           },
-          actRequests: [// ================================================================
+          testActorRequests: [// ================================================================
           {
-            actorName: "CPM Cell Process Proxy Test #1",
-            actorTaskDescription: "Instantiate test process that embeds a process proxy worker process.",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      apmID: cppTestModelSpace.apmID("CPP Test 1"),
-                      cellProcessUniqueName: "Test Process A"
-                    }
-                  }
-                }
-              }
-            }
-          }, // ================================================================
-          {
-            actorName: "CPM Cell Process Proxy Test #1",
-            actorTaskDescription: "Attempt to delete the newly created shared process (should fail).",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    "delete": {
-                      cellProcessNamespace: {
+            actRequest: {
+              actorName: "CPM Cell Process Proxy Test #1",
+              actorTaskDescription: "Instantiate test process that embeds a process proxy worker process.",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      create: {
                         apmID: cppTestModelSpace.apmID("CPP Test 1"),
-                        cellProcessUniqueName: "Test Process B"
+                        cellProcessUniqueName: "Test Process A"
                       }
                     }
                   }
@@ -57,16 +41,45 @@ module.exports = [{
             }
           }, // ================================================================
           {
-            actorName: "CPM Cell Process Proxy Test #1",
-            actorTaskDescription: "Attempt to delete the original test process (should succeed).",
-            actionRequest: {
-              holarchy: {
+            options: {
+              failTestIf: {
                 CellProcessor: {
-                  process: {
-                    "delete": {
-                      cellProcessNamespace: {
-                        apmID: cppTestModelSpace.apmID("CPP Test 1"),
-                        cellProcessUniqueName: "Test Process A"
+                  actionError: "fail-if-action-result"
+                }
+              }
+            },
+            actRequest: {
+              actorName: "CPM Cell Process Proxy Test #1",
+              actorTaskDescription: "Attempt to delete the newly created shared process (should fail).",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      "delete": {
+                        cellProcessNamespace: {
+                          apmID: cppTestModelSpace.apmID("CPP Test 1"),
+                          cellProcessUniqueName: "Test Process B"
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }, // ================================================================
+          {
+            actRequest: {
+              actorName: "CPM Cell Process Proxy Test #1",
+              actorTaskDescription: "Attempt to delete the original test process (should succeed).",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      "delete": {
+                        cellProcessNamespace: {
+                          apmID: cppTestModelSpace.apmID("CPP Test 1"),
+                          cellProcessUniqueName: "Test Process A"
+                        }
                       }
                     }
                   }
@@ -131,30 +144,42 @@ module.exports = [{
               id: cppTestModelSpace.cmID("CPP Test 3")
             }).result
           },
-          actRequests: [{
-            actorName: "CPM Shared Process Test #3",
-            actorTaskDescription: "Start a test process.",
-            actionRequest: {
-              holarchy: {
+          testActorRequests: [{
+            options: {
+              failTestIf: {
                 CellProcessor: {
-                  process: {
-                    create: {
-                      apmID: cppTestModelSpace.apmID("CPP Test 3")
+                  evaluateError: "fail-if-opc-no-errors"
+                }
+              }
+            },
+            // THIS IS WRONG! THIS TEST SHOULD PASS. THERE IS WHERE I LEFT OFF WHEN I WENT TO LOCK DOWN CELLPROCESS TEST HARNESS
+            actRequest: {
+              actorName: "CPM Shared Process Test #3",
+              actorTaskDescription: "Start a test process.",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      create: {
+                        apmID: cppTestModelSpace.apmID("CPP Test 3")
+                      }
                     }
                   }
                 }
               }
             }
           }, {
-            actorName: "CPM Shared Process Test #3",
-            actorTaskDescription: "Delete a test process.",
-            actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    "delete": {
-                      cellProcessNamespace: {
-                        apmID: cppTestModelSpace.apmID("CPP Test 3")
+            actRequest: {
+              actorName: "CPM Shared Process Test #3",
+              actorTaskDescription: "Delete a test process.",
+              actionRequest: {
+                holarchy: {
+                  CellProcessor: {
+                    process: {
+                      "delete": {
+                        cellProcessNamespace: {
+                          apmID: cppTestModelSpace.apmID("CPP Test 3")
+                        }
                       }
                     }
                   }

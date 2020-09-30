@@ -67,7 +67,7 @@ var factoryResponse = arccore.filter.create({
 
           var indexOfID = apmIDs.indexOf(apmBindingID);
 
-          if (indexOfID > 0) {
+          if (indexOfID >= 0) {
             response.result.push({
               cellProcessID: childCellProcessID,
               apmBindingPath: childCellProcessProps.apmBindingPath,
