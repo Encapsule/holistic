@@ -120,6 +120,24 @@ var holarchy = require("@encapsule/holarchy");
                     ____defaultValue: "fail-if-opc-has-errors"
                   } // cellEvaluation
 
+                },
+                postTestAnalysis: {
+                  ____types: "jsObject",
+                  ____defaultValue: {},
+                  CellProcessManager: {
+                    ____types: "jsObject",
+                    ____defaultValue: {},
+                    ownedProcessTableEmpty: {
+                      ____accept: "jsString",
+                      ____inValueSet: ["ignore-never-fail", "fail-if-any-owned-processes", "fail-if-no-owned-processes"],
+                      ____defaultValue: "fail-if-any-owned-processes"
+                    },
+                    sharedProcessTableEmpty: {
+                      ____accept: "jsString",
+                      ____inValueSet: ["ignore-never-fail", "fail-if-any-shared-processes", "fail-if-no-shared-processes"],
+                      ____defaultValue: "fail-if-any-shared-processes"
+                    }
+                  }
                 }
               }
             }
@@ -133,6 +151,9 @@ var holarchy = require("@encapsule/holarchy");
         // the CellProcessor harness sets this true if it decides that this vector has gone vectored off the rail based on default options and overrides if specified in vectorRequest
         ____accept: "jsBoolean",
         ____defaultValue: false
+      },
+      vectorFailedReason: {
+        ____accept: ["jsUndefined", "jsString"]
       },
       construction: {
         ____types: "jsObject",
@@ -230,6 +251,7 @@ var holarchy = require("@encapsule/holarchy");
           case "fail-if-instance-invalid":
             if (!cpInstance.isValid()) {
               response.result.vectorFailed = true;
+              resposne.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned an unexpected zombie instance.";
             }
 
             break;
@@ -237,6 +259,7 @@ var holarchy = require("@encapsule/holarchy");
           case "fail-if-instance-valid":
             if (cpInstance.isValid()) {
               response.result.vectorFailed = true;
+              response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned a valid instance when we expected a zombie.";
             }
 
             break;
@@ -250,6 +273,7 @@ var holarchy = require("@encapsule/holarchy");
             case "fail-if-opc-has-warnings":
               if (cpInstance.toJSON().opc.toJSON().constructionWarnings.length !== 0) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructur returned valid instance w/unexpected OPC construction warnings count > 0.";
               }
 
               break;
@@ -257,6 +281,7 @@ var holarchy = require("@encapsule/holarchy");
             case "fail-if-opc-no-warnings":
               if (cpInstance.toJSON().opc.toJSON().constructionWarnings.length === 0) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned valid instance w/unexpected OPC construction warnings count of zero.";
               }
 
               break;
@@ -271,6 +296,7 @@ var holarchy = require("@encapsule/holarchy");
 
               if (lastEvalResponse.error || lastEvalResponse.result.summary.counts.errors !== 0) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned valid instance w/unexpected OPC evaluation errors count > 0.";
               }
 
               break;
@@ -280,6 +306,7 @@ var holarchy = require("@encapsule/holarchy");
 
               if (!lastEvalResponse.error && lastEvalResponse.result.summary.counts.errors === 0) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned valid instance w/unexpected OPC evaluation errors count of zero.";
               }
 
               break;
@@ -324,6 +351,7 @@ var holarchy = require("@encapsule/holarchy");
             case "fail-if-action-error":
               if (actResponse.error) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act returned an unexpected error instead of expected result.";
                 failTestDueToTestActorRequest = true;
               }
 
@@ -332,6 +360,7 @@ var holarchy = require("@encapsule/holarchy");
             case "fail-if-action-result":
               if (!actResponse.error) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act returned an unexpected result instead of expected error.";
                 failTestDueToTestActorRequest = true;
               }
 
@@ -347,6 +376,7 @@ var holarchy = require("@encapsule/holarchy");
 
               if (_lastEvalResponse.error || _lastEvalResponse.result.summary.counts.errors !== 0) {
                 response.result.vectorFailed = true;
+                resposne.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act call induced OPC cell evaluation w/unexpected OPC transport errors.";
               }
 
               break;
@@ -356,6 +386,7 @@ var holarchy = require("@encapsule/holarchy");
 
               if (!_lastEvalResponse.error && _lastEvalResponse.result.summary.counts.errors === 0) {
                 response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act call induced OPC cell evaluation w/out expected OPC transport errors.";
               }
 
               break;
@@ -376,6 +407,55 @@ var holarchy = require("@encapsule/holarchy");
         }
 
         ; // while testActorRequests.length
+        // POST testActorRequests have been dispatched.
+        // If we're already going to fail the test, don't bother w/the analysis; it provides no extra value.
+
+        if (cpInstance.isValid() && !response.result.vectorFailed) {
+          var cellMemoryDump = cpInstance.toJSON().opc.toJSON().ocdi.toJSON();
+          var cpmMemoryDump = cellMemoryDump["x7pM9bwcReupSRh0fcYTgw_CellProcessor"];
+
+          switch (messageBody.options.failTestIf.postTestAnalysis.CellProcessManager.ownedProcessTableEmpty) {
+            case "ignore-never-fail":
+              break;
+
+            case "fail-if-any-owned-processes":
+              if (cpmMemoryDump.ownedCellProcesses.digraph.verticesCount() !== 1 || cpmMemoryDump.ownedCellProcesses.digraph.edgesCount()) {
+                response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Post-test execution analysis violation: CellProcessManager owned process table is not empty as expected.";
+              }
+
+              break;
+
+            case "fail-if-no-owned-processes":
+              if (cpmMemoryDump.ownedCellProcesses.digraph.verticesCount() < 2 || !cpmMemoryDump.ownedCellProcesses.digraph.edgesCount()) {
+                response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Post-test execution analysis violation: CellProcessManager owned process table is unexpectedly empty.";
+              }
+
+              break;
+          }
+
+          switch (messageBody.options.failTestIf.postTestAnalysis.CellProcessManager.sharedProcessTableEmpty) {
+            case "ignore-never-fail":
+              break;
+
+            case "fail-if-any-shared-processes":
+              if (cpmMemoryDump.sharedCellProcesses.digraph.verticesCount() || cpmMemoryDump.sharedCellProcesses.digraph.edgesCount()) {
+                response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Post-test execution analysis violation: CellProcessManager shared process table is not empty as expected.";
+              }
+
+              break;
+
+            case "fail-if-no-shared-processes":
+              if (cpmMemoryDump.sharedCellProcesses.digraph.verticesCount() < 1 || cpmMemoryDump.ownedCellProcesses.digraph.edgesCount() < 1) {
+                response.result.vectorFailed = true;
+                response.result.vectorFailedReason = "Post-test execution analysis violation: CellProcessManager owned process table is unexpectedly empty.";
+              }
+
+              break;
+          }
+        }
 
         return "break";
       };

@@ -30,6 +30,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "XyAdaaZ_S9OTkRuwBYe4Ew",
             name: "CPM Ancestor Processes Active Test",
@@ -87,6 +96,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "vzOf_2LZTgG7PSWqr_JzgA",
             name: "CPM Ancestor Processes All In Step Operator Test",
@@ -143,6 +161,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "FLusrxY-QpulvQ5jpazAgg",
             name: "CPM Ancestor Processes Any In Step Operator Test",
@@ -194,6 +221,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "DhIrP3aDRQGrnmV63573iA",
             name: "CPM Child Processes Active Test",
@@ -275,6 +311,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "Jq9BQRTXQmmSznq40NvuiQ",
             name: "CPM Child Processes All In Step Operator Test",
@@ -357,6 +402,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "BSXTNPAaRXKR5C5OrJzSwQ",
             name: "CPM Child Processes Any In Step Operator Test",
@@ -432,6 +486,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "frzhwqHrSCi1Ta9Mz1gQDg",
             name: "CPM Descendant Processes Active Test",
@@ -514,6 +577,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "tydUf2gSSgSjSmrrF8nkyw",
             name: "CPM Descendant Processes All In Step Test",
@@ -596,6 +668,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "OFSWJDZdQVSnkUxpu0THsw",
             name: "CPM Descendant Processes Any In Step Test",
@@ -667,6 +748,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "rdh8dW74RnO7lWGNlFR79A",
             name: "CPM Parent Process Active Test",
@@ -718,6 +808,15 @@ module.exports = [// -----------------------------------------------------------
     holistic: {
       holarchy: {
         CellProcessor: {
+          options: {
+            failTestIf: {
+              postTestAnalysis: {
+                CellProcessManager: {
+                  ownedProcessTableEmpty: "fail-if-no-owned-processes"
+                }
+              }
+            }
+          },
           constructorRequest: {
             id: "E4OfrQ0iS8yTV2DUaw7GGg",
             name: "CPM Parent Process In Step Operator Test",
