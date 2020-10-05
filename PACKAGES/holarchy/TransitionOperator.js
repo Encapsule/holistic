@@ -6,16 +6,16 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// AbstractProcessModel.js
+// TransitionOperator.js
 var arccore = require("@encapsule/arccore");
 
-var constructorRequestFilter = require("./filters/apm-method-constructor-filter");
+var constructorFilter = require("./lib/filters/top-method-constructor-filter");
 
-var AbstractProcessModel = /*#__PURE__*/function () {
-  function AbstractProcessModel(request_) {
-    _classCallCheck(this, AbstractProcessModel);
+module.exports = /*#__PURE__*/function () {
+  function TransitionOperator(request_) {
+    _classCallCheck(this, TransitionOperator);
 
-    // #### sourceTag: If9EVP5OSPqQZz07Dg_05Q
+    // #### sourceTag: FuMaLlqkSwW7przxe2XSdw
     var errors = [];
     var inBreakScope = false;
 
@@ -27,14 +27,12 @@ var AbstractProcessModel = /*#__PURE__*/function () {
       this.vdid = null;
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
+      this.getFilter = this.getFilter.bind(this);
       this.getID = this.getID.bind(this);
       this.getVDID = this.getVDID.bind(this);
       this.getName = this.getName.bind(this);
       this.getDescription = this.getDescription.bind(this);
-      this.getStepDescriptor = this.getStepDescriptor.bind(this);
-      this.getDataSpec = this.getDataSpec.bind(this);
-      this.getDigraph = this.getDigraph.bind(this);
-      var filterResponse = constructorRequestFilter.request(request_);
+      var filterResponse = constructorFilter.request(request_);
 
       if (filterResponse.error) {
         errors.push(filterResponse.error);
@@ -46,12 +44,12 @@ var AbstractProcessModel = /*#__PURE__*/function () {
     }
 
     if (errors.length) {
-      errors.unshift("AbstractProcessModel::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
+      errors.unshift("TransitionOperator::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
       this._private.constructorError = errors.join(" ");
     }
   }
 
-  _createClass(AbstractProcessModel, [{
+  _createClass(TransitionOperator, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -63,17 +61,23 @@ var AbstractProcessModel = /*#__PURE__*/function () {
         return this._private.constructorError;
       }
 
-      return {
+      var response = {
         id: this.getID(),
         vdid: this.getVDID(),
         name: this.getName(),
         description: this.getDescription()
       };
+      return response;
+    }
+  }, {
+    key: "getFilter",
+    value: function getFilter() {
+      return this.isValid() ? this._private : this._private.constructorError;
     }
   }, {
     key: "getID",
     value: function getID() {
-      return this.isValid() ? this._private.declaration.id : this._private.constructorError;
+      return this.isValid() ? this._private.filterDescriptor.operationID : this._privateConstructorError;
     }
   }, {
     key: "getVDID",
@@ -87,31 +91,14 @@ var AbstractProcessModel = /*#__PURE__*/function () {
   }, {
     key: "getName",
     value: function getName() {
-      return this.isValid() ? this._private.declaration.name : this._private.constructorError;
+      return this.isValid() ? this._private.filterDescriptor.operationName : this._privateConstructorError;
     }
   }, {
     key: "getDescription",
     value: function getDescription() {
-      return this.isValid() ? this._private.declaration.description : this._private.constructorError;
-    }
-  }, {
-    key: "getStepDescriptor",
-    value: function getStepDescriptor(stepLabel_) {
-      return this.isValid() ? this._private.declaration.steps[stepLabel_] : this._private.constructorError;
-    }
-  }, {
-    key: "getDataSpec",
-    value: function getDataSpec() {
-      return this.isValid() ? this._private.declaration.ocdDataSpec : this._private.constructorError;
-    }
-  }, {
-    key: "getDigraph",
-    value: function getDigraph() {
-      return this.isValid() ? this._private.digraph : this._private.constructorError;
+      return this.isValid() ? this._private.filterDescriptor.operationDescription : this._private.constructorError;
     }
   }]);
 
-  return AbstractProcessModel;
+  return TransitionOperator;
 }();
-
-module.exports = AbstractProcessModel;

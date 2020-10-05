@@ -1,7 +1,7 @@
 "use strict";
 
 // transition-operator-always-filter.js
-var TransitionOperator = require("../../../TransitionOperator");
+var TransitionOperator = require("../../../../TransitionOperator");
 
 module.exports = new TransitionOperator({
   id: "e89cwnP4Qd6MocAhzdOJgw",

@@ -11,11 +11,11 @@ var arccore = require("@encapsule/arccore");
 
 var ObservableProcessController = require("../ObservableProcessController");
 
-var AbstractProcessModel = require("../AbstractProcessModel");
+var AbstractProcessModel = require("../../AbstractProcessModel");
 
-var TransitionOperator = require("../TransitionOperator");
+var TransitionOperator = require("../../TransitionOperator");
 
-var ControllerAction = require("../ControllerAction");
+var ControllerAction = require("../../ControllerAction");
 
 var indexVertices = {
   CM: "INDEX_CM",

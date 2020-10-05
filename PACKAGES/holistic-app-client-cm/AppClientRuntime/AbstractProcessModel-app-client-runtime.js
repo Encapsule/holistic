@@ -3,7 +3,7 @@
 // AbstractProcessModel-app-client-kernel-declaration.js
 module.exports = {
   id: "PPL45jw5RDWSMNsB97WIWg",
-  name: "Holistic Client App Runtime Kernel",
+  name: "Holistic Client App Kernel",
   description: "This model manages, tracks, and controls the lifecycle of the client application.",
   ocdDataSpec: {
     ____types: "jsObject",
@@ -65,8 +65,9 @@ module.exports = {
             CellProcessor: {
               process: {
                 create: {
-                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg",
-                  cellProcessUniqueName: "DOM Location Processor"
+                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                  /* "Holistic App Client Kernel: DOM Location Processor" */
+
                 }
               }
             }
@@ -76,8 +77,21 @@ module.exports = {
             CellProcessor: {
               process: {
                 create: {
-                  apmID: "Hsu-43zBRgqHItCPWPiBng",
-                  cellProcessUniqueName: "Holistic Client App View Processor"
+                  apmID: "Hsu-43zBRgqHItCPWPiBng"
+                  /* "Holistic App Client Kernel: Client View Processor" */
+
+                }
+              }
+            }
+          }
+        }, {
+          holarchy: {
+            CellProcessor: {
+              process: {
+                create: {
+                  apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                  /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+
                 }
               }
             }

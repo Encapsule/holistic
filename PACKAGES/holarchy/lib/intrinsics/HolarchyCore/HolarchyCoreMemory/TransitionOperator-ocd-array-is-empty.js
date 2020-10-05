@@ -1,7 +1,7 @@
 "use strict";
 
 // TransitionOperator-ocd-array-is-empty.js
-var TransitionOperator = require("../../../TransitionOperator");
+var TransitionOperator = require("../../../../TransitionOperator");
 
 var ObservableControllerData = require("../../../ObservableControllerData");
 

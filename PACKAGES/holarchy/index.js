@@ -1,21 +1,34 @@
 "use strict";
 
-// @encapsule/holarchy package exports.
+/*
+  O       o O       o O       o
+  | O   o | | O   o | | O   o |
+  | | O | | | | O | | | | O | |
+  | o   O | | o   O | | o   O |
+  o       O o       O o       O
+*/
+// @encapsule/holarchy - the keystone of holistic app platform
+// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
 var packageMeta = require("./package.json");
 
 var CellModel = require("./CellModel");
 
 var CellProcessor = require("./CellProcessor");
 
-var ObservableProcessController = require("./lib/ObservableProcessController");
+var CellProcessPlane = require("./CellProcessPlane");
 
-var AbstractProcessModel = require("./lib/AbstractProcessModel");
+var AbstractProcessModel = require("./AbstractProcessModel");
 
-var TransitionOperator = require("./lib/TransitionOperator");
+var TransitionOperator = require("./TransitionOperator");
 
-var ControllerAction = require("./lib/ControllerAction");
+var ControllerAction = require("./ControllerAction"); // Implementation details of in-OS-process CellProcessor cellular software service runtime host environment.
 
-var ObservableControllerData = require("./lib/ObservableControllerData");
+
+var ObservableProcessController = require("./lib/ObservableProcessController"); // OPC - cellular runtime core (leveraced by CellProcessor (CP))
+
+
+var ObservableControllerData = require("./lib/ObservableControllerData"); // OCD - celluar runtime memory core (leveraged by ObservableProcessController (OPC))
+
 
 module.exports = {
   __meta: {
@@ -74,6 +87,13 @@ module.exports = {
     cellular process(es) defined by SoftwareCellModel class instances.
   */
   CellProcessor: CellProcessor,
+
+  /*
+    CellProcessPlane is an ES6 class instantiated with operator new
+    that is used to derive CellModel and AbstractProcessModel ID IRUT's
+    from dot-delimited, developer-defined string constants.
+  */
+  CellProcessPlane: CellProcessPlane,
   // ================================================================
   // IMPLEMENTATION
   // ================================================================
@@ -109,7 +129,7 @@ module.exports = {
   // ================================================================
   // ================================================================
   // DEPRECATED: ApplicationStateController is deprecated. Use OCD.
-  ApplicationDataStore: ObservableControllerData,
+  // ApplicationDataStore: ObservableControllerData,
   // ================================================================
   // ================================================================
   // ================================================================

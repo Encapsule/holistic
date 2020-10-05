@@ -1,7 +1,7 @@
 "use strict";
 
 // ControllerAction-ocd-read-namespace-indirect.js
-var ControllerAction = require("../../../ControllerAction");
+var ControllerAction = require("../../../../ControllerAction");
 
 var ObservableControllerData = require("../../../ObservableControllerData");
 

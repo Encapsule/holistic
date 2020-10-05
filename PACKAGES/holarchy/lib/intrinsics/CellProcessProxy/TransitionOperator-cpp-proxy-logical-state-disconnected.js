@@ -1,7 +1,7 @@
 "use strict";
 
 // TransitionOperator-cpp-proxy-logical-state-disconnect.js
-var TransitionOperator = require("../../../lib/TransitionOperator");
+var TransitionOperator = require("../../../TransitionOperator");
 
 var cppLib = require("./lib");
 

@@ -5,7 +5,7 @@ var arccore = require("@encapsule/arccore");
 
 var cpmLib = require("./lib");
 
-var TransitionOperator = require("../../TransitionOperator");
+var TransitionOperator = require("../../../TransitionOperator");
 
 var cellProcessQueryRequestFilterBySpec = require("./lib/iospecs/cell-process-query-request-filterby-spec"); // TODO: This operator will require one or more APM ID's be specified as a mandatory filter.
 // Otherwise, this is essentially meaningless as it will always return true for all cell processes

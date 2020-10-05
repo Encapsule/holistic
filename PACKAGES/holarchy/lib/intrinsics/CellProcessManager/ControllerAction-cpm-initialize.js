@@ -3,7 +3,7 @@
 // SOURCES/LIB/holarchy/lib/intrinsics/ControllerAction-cpm-initialize.js
 var arccore = require("@encapsule/arccore");
 
-var ControllerAction = require("../../ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 

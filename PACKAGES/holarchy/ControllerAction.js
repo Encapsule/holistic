@@ -6,21 +6,21 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// TransitionOperator.js
 var arccore = require("@encapsule/arccore");
 
-var constructorFilter = require("./filters/top-method-constructor-filter");
+var constructorFilter = require("./lib/filters/cac-method-constructor-filter");
 
 module.exports = /*#__PURE__*/function () {
-  function TransitionOperator(request_) {
-    _classCallCheck(this, TransitionOperator);
+  function ControllerAction(request_) {
+    _classCallCheck(this, ControllerAction);
 
-    // #### sourceTag: FuMaLlqkSwW7przxe2XSdw
+    // #### sourceTag: ufoEHFc9RKOiy4gPXLT1lA
     var errors = [];
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true;
+      inBreakScope = true; // Allocate private per-class-instance state.
+
       this._private = {
         constructorError: null
       };
@@ -44,12 +44,12 @@ module.exports = /*#__PURE__*/function () {
     }
 
     if (errors.length) {
-      errors.unshift("TransitionOperator::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
+      errors.unshift("ControllerAction::constructor for [".concat(request_ && request_.id ? request_.id : "unspecified", "::").concat(request_ && request_.name ? request_.name : "unspecified", "] failed yielding a zombie instance."));
       this._private.constructorError = errors.join(" ");
     }
   }
 
-  _createClass(TransitionOperator, [{
+  _createClass(ControllerAction, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -77,7 +77,7 @@ module.exports = /*#__PURE__*/function () {
   }, {
     key: "getID",
     value: function getID() {
-      return this.isValid() ? this._private.filterDescriptor.operationID : this._privateConstructorError;
+      return this.isValid() ? this._private.filterDescriptor.operationID : this._private.constructorError;
     }
   }, {
     key: "getVDID",
@@ -91,7 +91,7 @@ module.exports = /*#__PURE__*/function () {
   }, {
     key: "getName",
     value: function getName() {
-      return this.isValid() ? this._private.filterDescriptor.operationName : this._privateConstructorError;
+      return this.isValid() ? this._private.filterDescriptor.operationName : this._private.constructorError;
     }
   }, {
     key: "getDescription",
@@ -100,5 +100,5 @@ module.exports = /*#__PURE__*/function () {
     }
   }]);
 
-  return TransitionOperator;
+  return ControllerAction;
 }();

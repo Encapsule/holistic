@@ -15,7 +15,7 @@ function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len 
 // SOURCES/LIB/holarchy/lib/intrinsics/ControllerAction-cpm-process-delete.js
 var arccore = require("@encapsule/arccore");
 
-var ControllerAction = require("../../ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 

@@ -1,6 +1,6 @@
 "use strict";
 
-var ControllerAction = require("../../../ControllerAction");
+var ControllerAction = require("../../../../ControllerAction");
 
 var ObservableControllerData = require("../../../ObservableControllerData");
 

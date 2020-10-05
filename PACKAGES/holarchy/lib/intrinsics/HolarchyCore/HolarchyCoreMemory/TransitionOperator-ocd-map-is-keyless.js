@@ -1,7 +1,7 @@
 "use strict";
 
 // TransitionOperator-ocd-map-is-keyless
-var TransitionOperator = require("../../../TransitionOperator");
+var TransitionOperator = require("../../../../TransitionOperator");
 
 var ObservableControllerData = require("../../../ObservableControllerData");
 

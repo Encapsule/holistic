@@ -1,7 +1,7 @@
 "use strict";
 
 // AbstractProcessModel-cpp.js
-var AbstractProcessModel = require("../../../lib/AbstractProcessModel");
+var AbstractProcessModel = require("../../../AbstractProcessModel");
 
 var apm = new AbstractProcessModel({
   id: "CPPU-UPgS8eWiMap3Ixovg",

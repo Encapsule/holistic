@@ -1,7 +1,7 @@
 "use strict";
 
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/TransitionOperator-cpp-proxy-operator.js
-var TransitionOperator = require("../../../lib/TransitionOperator");
+var TransitionOperator = require("../../../TransitionOperator");
 
 var cppLib = require("./lib");
 

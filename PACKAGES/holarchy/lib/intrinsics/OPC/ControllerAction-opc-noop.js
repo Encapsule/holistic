@@ -1,6 +1,6 @@
 "use strict";
 
-var ControllerAction = require("../../ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 module.exports = new ControllerAction({
   id: "KX0V_aQ3RzG01tzBS24MGw",

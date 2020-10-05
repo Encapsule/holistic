@@ -1,7 +1,7 @@
 "use strict";
 
 // SOURCES/LIB/holarchy/lib/intrinsics/ControllerAction-cpm-query.js
-var ControllerAction = require("../../ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var controllerAction = new ControllerAction({
   id: "L2mTv5LvT12WIYb0cYOsLA",

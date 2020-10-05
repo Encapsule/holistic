@@ -9,7 +9,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // SOURCES/LIB/holarchy/lib/intrinsics/ControllerAction-cpm-process-query.js
 var arccore = require("@encapsule/arccore");
 
-var ControllerAction = require("../../ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var cpmLib = require("./lib");
 

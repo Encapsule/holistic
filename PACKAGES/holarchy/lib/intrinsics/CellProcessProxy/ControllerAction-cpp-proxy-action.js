@@ -1,7 +1,7 @@
 "use strict";
 
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/ControllerAction-cpp-proxy-action.js
-var ControllerAction = require("../../../lib/ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var cppLib = require("./lib");
 

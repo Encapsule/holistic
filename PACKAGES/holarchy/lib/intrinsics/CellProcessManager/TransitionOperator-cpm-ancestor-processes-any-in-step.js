@@ -5,7 +5,7 @@ var arccore = require("@encapsule/arccore");
 
 var cpmLib = require("./lib");
 
-var TransitionOperator = require("../../TransitionOperator");
+var TransitionOperator = require("../../../TransitionOperator");
 
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 

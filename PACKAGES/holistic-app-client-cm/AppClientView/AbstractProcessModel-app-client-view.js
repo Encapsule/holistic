@@ -3,7 +3,7 @@
 // AbstractProcessModel-app-client-view-declaration.js
 module.exports = {
   id: "Hsu-43zBRgqHItCPWPiBng",
-  name: "Holistic Client App View Processor",
+  name: "Holistic App Client Kernel: Client View Processor",
   description: "Encapsulates the high-level details of selecting, creating, and updating d2r2/React Client Display Adaptor update signals.",
   ocdDataSpec: {
     ____types: "jsObject",

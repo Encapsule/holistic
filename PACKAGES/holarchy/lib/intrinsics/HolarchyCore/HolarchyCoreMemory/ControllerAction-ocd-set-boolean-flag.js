@@ -1,7 +1,7 @@
 "use strict";
 
 // ControllerAction-set-boolean-flag.js
-var ControllerAction = require("../../../ControllerAction");
+var ControllerAction = require("../../../../ControllerAction");
 
 var ObservableControllerData = require("../../../ObservableControllerData");
 

@@ -3,7 +3,7 @@
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/ControllerAction-cpp-proxy-disconnect.js
 var arccore = require("@encapsule/arccore");
 
-var ControllerAction = require("../../../lib/ControllerAction");
+var ControllerAction = require("../../../ControllerAction");
 
 var OCD = require("../../../lib/ObservableControllerData");
 

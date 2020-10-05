@@ -1,6 +1,6 @@
 "use strict";
 
-var TransitionOperator = require("../../../TransitionOperator");
+var TransitionOperator = require("../../../../TransitionOperator");
 
 var ObservableCellData = require("../../../ObservableControllerData");
 
