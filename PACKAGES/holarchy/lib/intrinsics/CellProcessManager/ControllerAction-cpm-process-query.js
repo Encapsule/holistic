@@ -54,7 +54,8 @@ var controllerAction = new ControllerAction({
                   ____accept: "jsString"
                 },
                 cellProcessUniqueName: {
-                  ____accept: ["jsUndefined", "jsString"]
+                  ____accept: "jsString",
+                  ____defaultValue: "singleton"
                 }
               }
             },

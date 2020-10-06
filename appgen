@@ -269,7 +269,7 @@ if (!fs.existsSync(resourceFilePaths.application.appManifest)) {
     });
     if (filterResponse.error) {
         console.error("ERROR: Unable to write a default holistic application manifest to the application repo!");
-        console.error(filterRepsonse.error);
+        console.error(filterResponse.error);
         process.exit(1);
     }
     console.log("> Write '" + resourceFilePaths.application.appManifest + "'.");

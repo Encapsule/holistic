@@ -1,3 +1,3 @@
 "use strict";
 
-module.exports = [require("./harness-ControllerAction"), require("./harness-ObservableProcessController"), require("./harness-AbstractProcessModel"), require("./harness-TransitionOperator"), require("./harness-CellModel"), require("./harness-CellProcessor")];
+module.exports = [require("./harness-ObservableControllerData"), require("./harness-ObservableProcessController"), require("./harness-CellModel"), require("./harness-AbstractProcessModel"), require("./harness-ControllerAction"), require("./harness-TransitionOperator"), require("./harness-CellProcessor")];

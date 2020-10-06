@@ -79,7 +79,7 @@ var factoryResponse = arccore.filter.create({
 
       var proxyMemorySpec = ocdResponse.result;
 
-      if (!proxyMemorySpec.____appdsl && !proxyMemorySpec.____appdsl.apm) {
+      if (!proxyMemorySpec.____appdsl || !proxyMemorySpec.____appdsl.apm) {
         errors.push("There isn't even a possibility of there being a cell process proxy (or even a cell) at the path specified for the cell process proxy cell because it has no APM binding.");
         errors.push("With apmBindingPath='".concat(request_.apmBindingPath, "' and dataPath='").concat(request_.proxyPath, "' = '").concat(proxyCellPath, "':"));
         errors.push(ocdResponse.error);

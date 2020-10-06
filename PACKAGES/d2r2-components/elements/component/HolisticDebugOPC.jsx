@@ -62,7 +62,7 @@ var factoryResponse = reactComponentBindingFactory.create({
 });
 
 if (factoryResponse.error) {
-  throw new Error(factoryRepsonse.error);
+  throw new Error(factoryResponse.error);
 }
 
 module.exports = factoryResponse.result;

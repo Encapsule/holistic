@@ -37,7 +37,7 @@ var filterFactoryResponse = arccore.filter.create({
                         var errorDescriptor = {
                             httpStatus: 200,
                             appStatus: 500,
-                            message: ("Exception attempting to deserialize repsonse JSON: '" + exception_.toString() + "'")
+                            message: ("Exception attempting to deserialize response JSON: '" + exception_.toString() + "'")
                         };
                         requestContext.errorHandler(JSON.stringify(errorDescriptor));
                     } // end catch
