@@ -148,7 +148,7 @@ var factoryResponse = arccore.filter.create({
           var vertexProp = sharedCellProcesses.digraph.getVertexProperty(currentPathCellID);
 
           if (vertexProp.role === "shared") {
-            isCurrentPathCellProcessShared = false;
+            isCurrentPathCellProcessOwned = false;
           } else {
             errors.push("Internal error in CPM >:/");
             break;

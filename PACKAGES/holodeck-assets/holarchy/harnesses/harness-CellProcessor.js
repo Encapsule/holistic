@@ -251,7 +251,7 @@ var holarchy = require("@encapsule/holarchy");
           case "fail-if-instance-invalid":
             if (!cpInstance.isValid()) {
               response.result.vectorFailed = true;
-              resposne.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned an unexpected zombie instance.";
+              response.result.vectorFailedReason = "Test setup invariant violation: CellProcessor constructor returned an unexpected zombie instance.";
             }
 
             break;
@@ -376,7 +376,7 @@ var holarchy = require("@encapsule/holarchy");
 
               if (_lastEvalResponse.error || _lastEvalResponse.result.summary.counts.errors !== 0) {
                 response.result.vectorFailed = true;
-                resposne.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act call induced OPC cell evaluation w/unexpected OPC transport errors.";
+                response.result.vectorFailedReason = "Test execution analysis violation: CellProcessor.act call induced OPC cell evaluation w/unexpected OPC transport errors.";
               }
 
               break;
