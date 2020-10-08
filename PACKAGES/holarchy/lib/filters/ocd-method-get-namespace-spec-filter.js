@@ -69,8 +69,7 @@ var factoryResponse = arccore.filter.create({
 
       var filterResponse = getNamespaceInReferenceFromPathFilter.request({
         namespacePath: fqPath,
-        sourceRef: request_.ocdReference._private.storeDataSpec,
-        parseFilterSpec: true
+        specRef: request_.ocdReference._private.storeDataSpec
       });
 
       if (filterResponse.error) {

@@ -428,13 +428,6 @@ var factoryResponse = arccore.filter.create({
                 error: "TransitionOperator threw an illegal exception that was handled by OPC: ".concat(topException_.message)
               };
             }
-            /*
-            apmInstanceFrame.evalResponse.phases.p1_toperator.push({
-                request: operatorRequest,
-                response: transitionResponse
-            });
-            */
-
 
             _apmInstanceFrame.evalResponse.phases.p1_toperator.push({
               request: {

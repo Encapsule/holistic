@@ -149,7 +149,7 @@ var controllerAction = new ControllerAction({
       });
 
       if (cpmLibResponse.error) {
-        errors.push("Cannot create cell process because we cannot determine which other cell process should be assigned ownership of the proposed new cell process w/ID '".concat(newCellProcessID, "' at path '").concat(apmBindingPath, "'."));
+        errors.push("While attempting to create new cell process '".concat(newCellProcessID, "' at path '").concat(newCellProcessBindingPath, "' an error occurred while determining which existing cell process should be assigned ownership of the new cell process based on a create process request received from cell at path '").concat(queryCellPath, "'. Detail:"));
         errors.push(cpmLibResponse.error);
         break;
       }

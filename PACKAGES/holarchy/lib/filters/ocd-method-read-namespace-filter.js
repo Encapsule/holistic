@@ -74,8 +74,7 @@ var factoryResponse = arccore.filter.create({
         var operationId = arccore.identifier.irut.fromReference("read-filter" + fqPath).result;
         var filterResponse = getNamespaceInReferenceFromPathFilter.request({
           namespacePath: fqPath,
-          sourceRef: request_.ocdReference._private.storeDataSpec,
-          parseFilterSpec: true
+          specRef: request_.ocdReference._private.storeDataSpec
         });
 
         if (filterResponse.error || !filterResponse.result) {
@@ -93,7 +92,8 @@ var factoryResponse = arccore.filter.create({
           bodyFunction: function bodyFunction() {
             return getNamespaceInReferenceFromPathFilter.request({
               namespacePath: fqPath,
-              sourceRef: request_.ocdReference._private.storeData
+              dataRef: request_.ocdReference._private.storeData,
+              specRef: request_.ocdReference._private.storeDataSpec
             });
           },
           outputFilterSpec: targetNamespaceSpec
