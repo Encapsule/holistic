@@ -137,9 +137,8 @@ var factoryResponse = arccore.filter.create({
             actionResponse = actionFilter.request(controllerActionRequest);
 
             if (actionResponse.error) {
-              var errorMessage = ["ControllerAction request was successfully parsed and routed to plug-in filter delegate [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]. But, the plug-in rejected the request with error: ").concat(actionResponse.error), "From the perspective of this error handler it's difficult to say precisely what this error means given the broad semantics of ControllerAction plug-in filters. Here is a list of possible problems in decreasing order of liklihood:", "Your request format may be invalid above the point in the request data where the message router made its delegate selection and this error is the plug-in rejecting the request entirely.", "Or, the selected ControllerAction plug-in filter may implement some sort of additional input value validation that constrains the permissible input beyond what's examined by the message router and ControllerAction plug-in filters. And, you've violated API constraints.", "Or, you have made a valid request but applied the action to the wrong type of cell (i.e. you think you're acting on a cell bound to APM X but it's really bound to a Y).", "Or, the cell you're attempting to act upon is not in the correct process step or otherwise prepared to accept or take action on behalf of the caller.", "Or, there's a bug in the ControllerAction plug-in filter itself.", "If you track down the source of this error and it's not on this list please report it!"].join(" ");
               actionResponse = {
-                error: errorMessage
+                error: "ControllerAction request was successfully parsed and routed to plug-in filter delegate [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]. But, the plug-in rejected the request with error: ").concat(actionResponse.error)
               };
             }
           }

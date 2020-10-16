@@ -9,7 +9,7 @@ var getNamespaceInReferenceFromPathFilter = require("./get-namespace-in-referenc
 
 var factoryResponse = arccore.filter.create({
   operationID: "DD5Kc2KETyOPQ07hYu8n-w",
-  operationName: "OCD.getNamespaceSpec Method Filter",
+  operationName: "OCD::getNamespaceSpec Filter",
   operationDescription: "Implements ObservableControllerData::getNamespaceSpec method.",
   inputFilterSpec: {
     ____label: "OCD.getNamespaceSpec Request",

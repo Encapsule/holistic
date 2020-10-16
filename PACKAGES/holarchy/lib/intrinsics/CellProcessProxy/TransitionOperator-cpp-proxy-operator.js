@@ -17,11 +17,6 @@ var action = new TransitionOperator({
         ____types: "jsObject",
         proxy: {
           ____types: "jsObject",
-          // Proxy (i.e. forward through) this proxy to another local cell process...
-          proxyPath: {
-            ____accept: "jsString",
-            ____defaultValue: "#"
-          },
           // ... an arbitrary TransitionOperator request.
           operatorRequest: {
             ____accept: "jsObject"
@@ -31,10 +26,35 @@ var action = new TransitionOperator({
     }
   },
   bodyFunction: function bodyFunction(request_) {
-    return cppLib.proxyActionOperatorRequest.request({
-      requestType: "operator",
-      originalRequestToProxy: request_
-    });
+    var response = {
+      error: null,
+      result: false
+    };
+    var errors = [];
+    var inBreakScope = false;
+
+    while (!inBreakScope) {
+      inBreakScope = true;
+      var proxyResponse = cppLib.proxyActionOperatorRequest.request({
+        requestType: "operator",
+        originalRequestToProxy: request_
+      });
+
+      if (proxyResponse.error) {
+        errors.push("Unable to proxy operator request due to error:");
+        errors.push(proxyResponse.error);
+        break;
+      }
+
+      response.result = proxyResponse.result;
+      break;
+    }
+
+    if (errors.length) {
+      repsonse.error = errors.join(" ");
+    }
+
+    return response;
   }
 });
 

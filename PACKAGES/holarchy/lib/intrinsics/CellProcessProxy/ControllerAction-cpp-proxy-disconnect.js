@@ -22,13 +22,7 @@ var action = new ControllerAction({
       CellProcessProxy: {
         ____types: "jsObject",
         disconnect: {
-          ____types: "jsObject",
-          // Disconnect this cell process proxy process instance...
-          proxyPath: {
-            ____accept: "jsString",
-            ____defaultValue: "#"
-          } // ... from the local cell process that the proxy is connected to.
-
+          ____accept: "jsObject"
         }
       }
     }
@@ -58,12 +52,13 @@ var action = new ControllerAction({
       }
 
       var cpmDataDescriptor = cpmLibResponse.result;
-      var sharedCellProcesses = cpmDataDescriptor.data.sharedCellProcesses; // This ensures we're addressing an actuall CellProcessProxy-bound cell.
+      var sharedCellProcesses = cpmDataDescriptor.data.sharedCellProcesses;
+      var proxyHelperPath = request_.context.apmBindingPath; // Take request_.context.apmBindingPath to be the path of the cell bound to CellProcessProxy that the caller wishes to disconnect.
+      // This ensures we're addressing an actuall CellProcessProxy-bound cell.
       // And, get us a copy of its memory and its current connection state.
 
       var cppLibResponse = cppLib.getStatus.request({
-        apmBindingPath: request_.context.apmBindingPath,
-        proxyPath: message.proxyPath,
+        proxyHelperPath: proxyHelperPath,
         ocdi: request_.context.ocdi
       });
 
@@ -76,23 +71,22 @@ var action = new ControllerAction({
       var cppMemoryStatusDescriptor = cppLibResponse.result;
 
       if (cppMemoryStatusDescriptor.status === "disconnected") {
-        // We're already disconnected. So, this is a noop.
+        // We're already disconnected. So, there is nothing to do."
         response.result = {
           actionTaken: "noop"
         };
         break;
       }
 
-      var proxyPath = cppMemoryStatusDescriptor.paths.resolvedPath;
-      var proxyID = arccore.identifier.irut.fromReference(proxyPath).result;
+      var proxyID = arccore.identifier.irut.fromReference(proxyHelperPath).result;
 
       if (!sharedCellProcesses.digraph.isVertex(proxyID)) {
-        errors.push("INTERNAL ERROR: proxy disconnect action has found your proxy at path '".concat(proxyPath, "' in '").concat(cppMemoryStatusDescriptor.status, "' status."));
-        errors.push("But, we cannot find the expected sharedCellProcesses.digraph vertex '".concat(proxtID, "'? Please report this..."));
+        errors.push("INTERNAL ERROR: proxy disconnect action has found your proxy at path '".concat(proxyHelperPath, "' in '").concat(cppMemoryStatusDescriptor.status, "' status."));
+        errors.push("But, we cannot find the expected sharedCellProcesses.digraph vertex '".concat(proxyID, "'? Please report this..."));
         break;
       }
 
-      var ocdResponse = request_.context.ocdi.writeNamespace(proxyPath, {}); // resets the state of the proxy cell
+      var ocdResponse = request_.context.ocdi.writeNamespace("".concat(proxyHelperPath, ".CPPU-UPgS8eWiMap3Ixovg_private"), {}); // resets the state of the proxy cell
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);

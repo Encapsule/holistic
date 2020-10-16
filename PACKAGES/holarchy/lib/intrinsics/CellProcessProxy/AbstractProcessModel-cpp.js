@@ -10,20 +10,25 @@ var apm = new AbstractProcessModel({
   ocdDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
-    lcpRequest: {
-      ____types: ["jsUndefined", "jsObject"],
-      apmID: {
-        ____accept: "jsString"
+    // This namespace is named like this so that it can be used to discriminate between calls through a connected proxy from calls to the proxy itself.
+    "CPPU-UPgS8eWiMap3Ixovg_private": {
+      ____types: "jsObject",
+      ____defaultValue: {},
+      lcpRequest: {
+        ____types: ["jsUndefined", "jsObject"],
+        apmID: {
+          ____accept: "jsString"
+        },
+        instanceName: {
+          ____accept: "jsString"
+        }
       },
-      instanceName: {
-        ____accept: "jsString"
+      lcpConnect: {
+        ____accept: ["jsUndefined", // the cell process proxy is disconnected currently
+        "jsString", // the apmBindingPath of the connected local cell process (lcp)
+        "jsNull" // the previous connection has been disconnected due to deletion of owned lcp
+        ]
       }
-    },
-    lcpConnect: {
-      ____accept: ["jsUndefined", // the cell process proxy is disconnected currently
-      "jsString", // the apmBindingPath of the connected local cell process (lcp)
-      "jsNull" // the previous connection has been disconnected due to deletion of owned lcp
-      ]
     }
   }
   /*

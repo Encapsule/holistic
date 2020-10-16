@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "t10PUwZHS3e8dhu3oBpMRA",
-    "buildSource": "10e623d9d2dbfb86af25bf3795dc8ec73e9af666",
-    "buildTime": 1602183020,
-    "codename": "crossroads",
+    "buildID": "ZXPD8CvjQ9KbOYWHZ1j5Ng",
+    "buildSource": "2b35fd605b69b47b69ee2c3541b4ca6ffb318e7e",
+    "buildTime": 1602847922,
+    "codename": "alexandrite",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.46"
+    "version": "0.0.47"
 }

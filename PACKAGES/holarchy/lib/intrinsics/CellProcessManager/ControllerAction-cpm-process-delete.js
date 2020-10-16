@@ -37,23 +37,15 @@ var controllerAction = new ControllerAction({
           ____types: "jsObject",
           "delete": {
             ____types: "jsObject",
-            // Either of
-            cellProcessID: {
-              ____accept: ["jsUndefined", "jsString"]
-            },
-            // Preferred
-            // ... or
-            apmBindingPath: {
-              ____accept: ["jsUndefined", "jsString"]
-            },
-            // Equivalent, but less efficient
-            // ... or
-            cellProcessNamespace: {
-              ____types: ["jsUndefined", "jsObject"],
+            coordinates: {
+              ____types: ["jsUndefined", // because it's optional. If not specified, then the default behavior is to use request_.context.apmBindingPath to deduce the cell process to delete.
+              "jsString", // because it might be a cellProcessPath or cellProcessID
+              "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
+              ],
               apmID: {
                 ____accept: "jsString"
               },
-              cellProcessUniqueName: {
+              instanceName: {
                 ____accept: "jsString",
                 ____defaultValue: "singleton"
               }
@@ -74,12 +66,6 @@ var controllerAction = new ControllerAction({
     } // this is an IRUT-format hash of parent process' apmBindingPath
 
   },
-  // NOTE: Unlike most ControllerAction bodyFunctions, process delete action DOES NOT consider
-  // request_.context.apmBindingPath at all!
-  //
-  // The process namespace of the cell process to delete is determined from the cell process tree digraph
-  // using cellProcessID that is either specified directly. Or, that is calculated from from apmBindingPath
-  // or cellProcessNamespace.
   bodyFunction: function bodyFunction(request_) {
     var _this = this;
 
@@ -91,18 +77,22 @@ var controllerAction = new ControllerAction({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] action start...")); // Dereference the body of the action request.
+      console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] action start..."));
+      var messageBody = request_.actionRequest.holarchy.CellProcessor.process["delete"];
+      var coordinates = messageBody.coordinates ? messageBody.coordinates : request_.context.apmBindingPath;
+      var cpmLibResponse = cpmLib.resolveCellProcessCoordinates.request({
+        coordinates: coordinates,
+        ocdi: request_.context.ocdi
+      });
 
-      var message = request_.actionRequest.holarchy.CellProcessor.process["delete"];
-
-      if (!message.cellProcessID && !message.apmBindingPath && !message.cellProcessNamespace) {
-        errors.push("You need to specify cellProcessID. Or eiter apmBindingPath or cellProcessNamespace so that cellProcessID can be calculated.");
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
         return "break";
-      } // TODO: This should be converted to a cpmLib call
+      }
 
-
-      var cellProcessID = message.cellProcessID ? message.cellProcessID : message.apmBindingPath ? arccore.identifier.irut.fromReference(message.apmBindingPath).result : arccore.identifier.irut.fromReference("~.".concat(message.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.cellProcessNamespace.cellProcessUniqueName).result)).result;
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      var resolvedCoordinates = cpmLibResponse.result;
+      var cellProcessID = resolvedCoordinates.cellProcessID;
+      cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
       });
 

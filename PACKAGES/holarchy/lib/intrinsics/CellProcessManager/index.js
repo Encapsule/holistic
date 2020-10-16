@@ -7,12 +7,12 @@
 // Process Manager model; the app/service-independent parts only are specified and the rest is only
 // knowable at CellProcessor construction time via analysis of the CellModel passed to the constructor.
 module.exports = {
-  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query") // TODO: Disabled until I have time to think about
+  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query"), // TODO: Disabled until I have time to think about
   // which facets of the Cell Process Manager's state
   // data we want to expose. And, to what ends.
   // require("./ControllerAction-cpm-query")
-  ],
-  operators: [require("./TransitionOperator-cpm-ancestor-processes-active"), // STAGE 1 COMPLETE
+  require("./ControllerAction-cpm-action-request-on")],
+  operators: [require("./TransitionOperator-cpm-operator-request-on"), require("./TransitionOperator-cpm-ancestor-processes-active"), // STAGE 1 COMPLETE
   require("./TransitionOperator-cpm-ancestor-processes-all-in-step"), // STAGE 1 COMPLETE
   require("./TransitionOperator-cpm-ancestor-processes-any-in-step"), // STAGE 1 COMPLETE
   require("./TransitionOperator-cpm-child-processes-active"), // STAGE 1 COMPLETE

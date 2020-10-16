@@ -328,6 +328,10 @@ var holarchy = require("@encapsule/holarchy");
           }).result);
         });
 
+        if (!cpInstance.isValid()) {
+          return "break";
+        }
+
         while (testActorRequests.length) {
           var testActorRequest = testActorRequests.shift(); // FIFO the test actor requests.
 

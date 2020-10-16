@@ -32,31 +32,17 @@ var controllerAction = new ControllerAction({
           query: {
             ____types: "jsObject",
             filterBy: cellProcessQueryRequestFilterBySpec,
-            queryCellProcess: {
-              ____label: "Query Cell Process Override",
-              ____description: "Allows the caller to optionally override that default action behavior to specify the cell process ID to query.",
-              // If queryCellProcess object is ommitted, then we deduce the cell process ID from the controller action's outer apmBindingPath.
-              ____types: ["jsUndefined", "jsObject"],
-              // Either of
-              cellProcessID: {
-                ____accept: ["jsUndefined", "jsString"]
+            coordinates: {
+              ____types: ["jsUndefined", // because it's optional. If not specified, then the default behavior is to use request_.context.apmBindingPath to deduce the cell process to delete.
+              "jsString", // because it might be a cellProcessPath or cellProcessID
+              "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
+              ],
+              apmID: {
+                ____accept: "jsString"
               },
-              // Preferred
-              // ... or
-              apmBindingPath: {
-                ____accept: ["jsUndefined", "jsString"]
-              },
-              // Equivalent, but less efficient
-              // ... or
-              cellProcessNamespace: {
-                ____types: ["jsUndefined", "jsObject"],
-                apmID: {
-                  ____accept: "jsString"
-                },
-                cellProcessUniqueName: {
-                  ____accept: "jsString",
-                  ____defaultValue: "singleton"
-                }
+              instanceName: {
+                ____accept: "jsString",
+                ____defaultValue: "singleton"
               }
             },
             resultSets: {
@@ -156,28 +142,28 @@ var controllerAction = new ControllerAction({
     while (!inBreakScope) {
       inBreakScope = true;
       console.log("Cell Process Manager process query...");
-      var message = request_.actionRequest.holarchy.CellProcessor.process.query;
+      var messageBody = request_.actionRequest.holarchy.CellProcessor.process.query;
 
-      if (!message.resultSets.parent && !message.resultSets.ancestors && !message.resultSets.children && !message.resultSets.descendants) {
+      if (!messageBody.resultSets.parent && !messageBody.resultSets.ancestors && !messageBody.resultSets.children && !messageBody.resultSets.descendants) {
         errors.push("Invalid cell process query request. If you explicitly set resultSets flags then you must set at least one result set Boolean flag.");
         break;
       }
 
-      var cellProcessID = null;
+      var coordinates = messageBody.coordinates ? messageBody.coordinates : request_.context.apmBindingPath;
+      var cpmLibResponse = cpmLib.resolveCellProcessCoordinates.request({
+        coordinates: coordinates,
+        ocdi: request_.context.ocdi
+      });
 
-      if (message.queryCellProcess) {
-        if (!message.queryCellProcess.cellProcessID && !message.queryCellProcess.apmBindingPath && !message.queryCellProcess.cellProcessNamespace) {
-          errors.push("Invalid cell process query request. If you explicitly set queryCellProcess then you must specify cellProcessID. Or either apmBindingPath or cellProcessNamespace so that cellProcessID can be calculated.");
-          break;
-        }
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
+        break;
+      }
 
-        cellProcessID = message.queryCellProcesscellProcessID ? message.queryCellProcess.cellProcessID : message.queryCellProcess.apmBindingPath ? arccore.identifier.irut.fromReference(message.queryCellProcess.apmBindingPath).result : arccore.identifier.irut.fromReference("~.".concat(message.queryCellProcess.cellProcessNamespace.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.queryCellProcess.cellProcessNamespace.cellProcessUniqueName).result)).result;
-      } else {
-        cellProcessID = arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result;
-      } // Get a reference to the Cell Process Manager's process tree descriptor object.
+      var resolvedCoordinates = cpmLibResponse.result;
+      var cellProcessID = resolvedCoordinates.cellProcessID; // Get a reference to the Cell Process Manager's process tree descriptor object.
 
-
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
       });
 
@@ -203,14 +189,14 @@ var controllerAction = new ControllerAction({
       var cellProcessDescriptor = cpmLibResponse.result;
       response.result = {
         query: _objectSpread(_objectSpread({}, cellProcessDescriptor), {}, {
-          resultSets: message.resultSets
+          resultSets: messageBody.resultSets
         })
       };
 
-      if (message.resultSets.parent) {
+      if (messageBody.resultSets.parent) {
         cpmLibResponse = cpmLib.getProcessParentDescriptor.request({
           cellProcessID: cellProcessID,
-          filterBy: message.filterBy,
+          filterBy: messageBody.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -224,10 +210,10 @@ var controllerAction = new ControllerAction({
       } // anscestors; parent and it's parent...
 
 
-      if (message.resultSets.ancestors) {
+      if (messageBody.resultSets.ancestors) {
         cpmLibResponse = cpmLib.getProcessAncestorDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: message.filterBy,
+          filterBy: messageBody.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -241,10 +227,10 @@ var controllerAction = new ControllerAction({
       } // children
 
 
-      if (message.resultSets.children) {
+      if (messageBody.resultSets.children) {
         cpmLibResponse = cpmLib.getProcessChildrenDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: message.filterBy,
+          filterBy: messageBody.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -258,10 +244,10 @@ var controllerAction = new ControllerAction({
       } // descendants; children and their children...
 
 
-      if (message.resultSets.descendants) {
+      if (messageBody.resultSets.descendants) {
         cpmLibResponse = cpmLib.getProcessDescendantDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: message.filterBy,
+          filterBy: messageBody.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });

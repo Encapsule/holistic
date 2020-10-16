@@ -5,7 +5,7 @@ var arccore = require("@encapsule/arccore");
 
 var factoryResponse = arccore.filter.create({
   operationID: "RNUkdw8VT8WLz5H_i-SwYg",
-  operationName: "Data Path Resolve Filter",
+  operationName: "OCD::dataPathResolve Filter",
   operationDescription: "Optionally converts an APM binding path-relative path to a fully-qualified OCD path.",
   inputFilterSpec: {
     ____label: "Data Path Resolve Request",

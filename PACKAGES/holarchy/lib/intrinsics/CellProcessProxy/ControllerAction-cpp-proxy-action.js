@@ -17,11 +17,6 @@ var action = new ControllerAction({
         ____types: "jsObject",
         proxy: {
           ____types: "jsObject",
-          // Proxy (i.e. forward through) this proxy to another local cell process...
-          proxyPath: {
-            ____accept: "jsString",
-            ____defaultValue: "#"
-          },
           // ... an arbitrary ControllerAction request.
           actionRequest: {
             ____accept: "jsObject"
@@ -49,7 +44,7 @@ var action = new ControllerAction({
       });
 
       if (proxyResponse.error) {
-        errors.push("Unable to proxy action request due to error that occurred in the cell your proxy is connected to.");
+        errors.push("Unable to proxy action request due to error:");
         errors.push(proxyResponse.error);
         break;
       }

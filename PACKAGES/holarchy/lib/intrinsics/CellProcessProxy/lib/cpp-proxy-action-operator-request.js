@@ -1,9 +1,26 @@
 "use strict";
 
 // cpp-proxy-action-operator-request.js
+
+/*
+  NOTE: WE EXPECT THIS MODULE TO BE COMPLETELY DEPRECATED BY THE VIRTUALIZATION OF CELL PROCESS PROXY
+  IN THE OCD LAYER BELOW OPC PLANNED FOR v0.0.48 PLATFORM RELEASE. MEANWHILE, IT IS REQUIRED TO
+  MAINTAIN THIS SHIM IN ORDER TO AFFECT A SINGLE-LEVEL INDIRECTION VIA A CONNECTED CELLPROCESSPROXY HELPER
+  CELL INSTANCE.
+
+  For v0.0.47-alexandrite release that seeks to establish self-consistent patterns for inter-cell
+  and inter-cell-process communication (both are often required simultaneously) we will require that,
+  consistent w/new guidelines, any attempt to call this shim will be assumed to have been delegated
+  via new CPM actOn or OpOn action/operator request call. And, it always the responsibility of
+  actOn and OpOn to delegate using the appropriate binding path. In this case, that means that this
+  filter should only be called when passed request.originalRequestToProxy.context.apmBindingPath
+  that resolves to a cell that's bound to CPP APM. Otherwise it should fail.
+
+*/
 var arccore = require("@encapsule/arccore");
 
-var cppGetStatusFilter = require("./cpp-get-status-filter");
+var cppGetStatusFilter = require("./cpp-get-status-filter"); // This module is exported into lib/index.js. But, so is cpp-get-status-filter. So, we'll just grab what we need here.
+
 
 var factoryResponse = arccore.filter.create({
   operationID: "3jzAnKzYTrqfbOggqk_FUw",
@@ -32,18 +49,17 @@ var factoryResponse = arccore.filter.create({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.requestType === "action" ? request_.originalRequestToProxy.actionRequest.holarchy.CellProcessProxy.proxy : request_.originalRequestToProxy.operatorRequest.holarchy.CellProcessProxy.proxy; // This ensures we're addressing an actual CellProcessProxy-bound cell.
-      // And, get us a copy of its memory and its current connection state.
+      var message = request_.requestType === "action" ? request_.originalRequestToProxy.actionRequest.holarchy.CellProcessProxy.proxy : request_.originalRequestToProxy.operatorRequest.holarchy.CellProcessProxy.proxy; // This ensures we're addressing an actual CellProcessProxy-bound cell. And, get us a copy of its memory and its current connection state.
 
+      var proxyHelperPath = request_.originalRequestToProxy.context.apmBindingPath;
       var cppLibResponse = cppGetStatusFilter.request({
-        apmBindingPath: request_.originalRequestToProxy.context.apmBindingPath,
-        proxyPath: message.proxyPath,
+        proxyHelperPath: proxyHelperPath,
         ocdi: request_.originalRequestToProxy.context.ocdi
       });
 
       if (cppLibResponse.error) {
         errors.push("Cannot locate the cell process proxy cell instance.");
-        errors.push("Failed to resolve request from cell '".concat(request_.originalRequestToProxy.context.apmBindingPath, "' to access cell proxy helper at '").concat(message.proxyPath, "'."));
+        errors.push("Failed to resolve request from cell '".concat(request_.originalRequestToProxy.context.apmBindingPath, "' to access cell proxy helper at '").concat(proxyHelperPath, "'."));
         errors.push(cppLibResponse.error);
         break;
       }

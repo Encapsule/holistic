@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.46 crossroads
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.47 alexandrite
 
 ## &#x25F0; Runtime library: @encapsule/d2r2-components
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.
 
 ```
-Package: @encapsule/d2r2-components v0.0.46 "crossroads" build ID "t10PUwZHS3e8dhu3oBpMRA"
-Sources: Encapsule/holistic-master#10e623d9d2dbfb86af25bf3795dc8ec73e9af666
-Created: 2020-10-08T18:50:20.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/d2r2-components v0.0.47 "alexandrite" build ID "ZXPD8CvjQ9KbOYWHZ1j5Ng"
+Sources: Encapsule/holistic-master#2b35fd605b69b47b69ee2c3541b4ca6ffb318e7e
+Created: 2020-10-16T11:32:02.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

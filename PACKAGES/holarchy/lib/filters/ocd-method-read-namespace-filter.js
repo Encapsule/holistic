@@ -9,7 +9,7 @@ var ocdMethodPathSpec = require("./iospecs/ocd-method-path-spec");
 
 var factoryResponse = arccore.filter.create({
   operationID: "wjTFsXoyQ_ehUHIdegBumQ",
-  operationName: "OCD.readNamespace Method Filter",
+  operationName: "OCD::readNamespace Method Filter",
   operationDescription: "Implements ObservableControllerData::readNamespace method.",
   inputFilterSpec: {
     ____label: "OCD Read Namespace Request",

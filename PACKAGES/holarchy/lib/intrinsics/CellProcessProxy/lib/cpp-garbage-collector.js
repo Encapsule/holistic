@@ -227,9 +227,16 @@ var factoryResponse = arccore.filter.create({
             actionRequest: {
               holarchy: {
                 CellProcessor: {
-                  process: {
-                    "delete": {
-                      cellProcessID: deleteProcessID
+                  actOn: {
+                    coordinates: deleteProcessID,
+                    actionRequest: {
+                      holarchy: {
+                        CellProcessor: {
+                          process: {
+                            "delete": {}
+                          }
+                        }
+                      }
                     }
                   }
                 }
