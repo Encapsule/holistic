@@ -39,38 +39,34 @@ module.exports = {
           }
         }
       }
-    },
+    }
+    /*,
     harnessEvalDescriptors: {
       ____types: "jsArray",
       harnessEvalDescriptor: {
-        ____types: "jsObject",
-        ____asMap: true,
-        holodeckRunnerEvalReportId: {
           ____types: "jsObject",
           ____asMap: true,
-          holodeckHarnessId: {
-            ____types: "jsObject",
-            ____asMap: true,
-            vectorId: {
+          holodeckRunnerEvalReportId: {
               ____types: "jsObject",
-              harnessRequest: {
-                ____accept: "jsObject" // This has already been filtered through the harness filter's output stage
-
-              },
-              harnessResponse: {
-                ____types: "jsObject",
-                error: {
-                  ____accept: ["jsNull", "jsString"]
-                },
-                result: {
-                  ____opaque: true
-                } // we cannot reasonably predict this value at this level of abstraction
-
+              ____asMap: true,
+              holodeckHarnessId: {
+                  ____types: "jsObject",
+                  ____asMap: true,
+                  vectorId: {
+                      ____types: "jsObject",
+                      harnessRequest: {
+                          ____accept: "jsObject" // This has already been filtered through the harness filter's output stage
+                      },
+                      harnessResponse: {
+                          ____types: "jsObject",
+                          error: { ____accept: [ "jsNull", "jsString" ] },
+                          result: { ____opaque: true } // we cannot reasonably predict this value at this level of abstraction
+                      }
+                  }
               }
-            }
           }
-        }
       }
-    }
+    } */
+
   }
 };

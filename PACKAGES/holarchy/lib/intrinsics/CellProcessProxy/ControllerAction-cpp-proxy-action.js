@@ -3,7 +3,8 @@
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/ControllerAction-cpp-proxy-action.js
 var ControllerAction = require("../../../ControllerAction");
 
-var cppLib = require("./lib");
+var cppLib = require("./lib"); // TO BE REMOVED in v0.0.48!
+
 
 var action = new ControllerAction({
   id: "rua1glcmTsOlYcfpZuiXnA",

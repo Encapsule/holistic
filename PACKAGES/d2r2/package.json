@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "ZXPD8CvjQ9KbOYWHZ1j5Ng",
-    "buildSource": "2b35fd605b69b47b69ee2c3541b4ca6ffb318e7e",
-    "buildTime": 1602847922,
+    "buildID": "TgplrQgPTBST7J5Ur45-lw",
+    "buildSource": "c4403c0df80c7e9a0395229f964fcacb6a8abd30",
+    "buildTime": 1603133000,
     "codename": "alexandrite",
     "contributors": [
         {
@@ -35,7 +35,7 @@
     "main": "index.js",
     "name": "@encapsule/d2r2",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.9",
+        "@encapsule/arccore": "0.1.10",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },

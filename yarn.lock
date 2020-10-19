@@ -2,15 +2,15 @@
 # yarn lockfile v1
 
 
-"@encapsule/arccore@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@encapsule/arccore/-/arccore-0.1.9.tgz#a79689ac13a330d6a003955f0b8c8e2c650a51ee"
-  integrity sha512-uVv/0qK0Jw71jbj2O+9HqCHVEpQhA9xtxmiVzxsGcjR77KCE2sVza/SgLVEf/ANWVXXawCUI2eJ1B0Hejy8a3Q==
+"@encapsule/arccore@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@encapsule/arccore/-/arccore-0.1.10.tgz#29c23c31746446b8a457b3d3d101ecac24c98193"
+  integrity sha512-CWq9CMS0fLTQJdlT4Fxmgnqiwg0cXbCh6YUp2cloQTH5Cbq6HEW0buFYh77Ipxt93qkqQrynpJEE3U3JyyS0Mw==
 
-"@encapsule/arctools@0.1.9":
-  version "0.1.9"
-  resolved "https://registry.yarnpkg.com/@encapsule/arctools/-/arctools-0.1.9.tgz#8cf175fe6a1bdffa8427ef2b876729b93f99735a"
-  integrity sha512-DuuW0sBRdLD+US8EXQxqDjMb2OsRAmdggDFPQLlKPbnAaTZ6JmeCqMI4qpxn2pAmGOYI4Jr7zCSFSD/8Bl3vHA==
+"@encapsule/arctools@0.1.10":
+  version "0.1.10"
+  resolved "https://registry.yarnpkg.com/@encapsule/arctools/-/arctools-0.1.10.tgz#f88a4b8c0f6d99817e7428d45e55549852a9a93b"
+  integrity sha512-CLmBQUl+0vUN7BgsoDq03f1EgWxvoTTf6IjaAVNPZsNem2lNIpj5bTnzwMbGTG8FOLy71yG/6XIE4VcsW7tRRA==
   dependencies:
     chalk "^1.1.1"
     commander "^2.9.0"

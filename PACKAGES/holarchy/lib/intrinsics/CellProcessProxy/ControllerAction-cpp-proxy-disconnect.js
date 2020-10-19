@@ -5,7 +5,7 @@ var arccore = require("@encapsule/arccore");
 
 var ControllerAction = require("../../../ControllerAction");
 
-var OCD = require("../../../lib/ObservableControllerData");
+var ObservableControllerData = require("../../../lib/ObservableControllerData");
 
 var cpmLib = require("../CellProcessManager/lib");
 
@@ -17,10 +17,15 @@ var action = new ControllerAction({
   description: "Disconnect a connected cell process proxy from whatever local cell process it is currently connected to.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessProxy: {
+      proxy: {
         ____types: "jsObject",
+        proxyCoordinates: {
+          ____label: "Cell Process Proxy Helper Cell Coordinates Variant (Optional)",
+          ____accept: "jsString",
+          ____defaultValue: "#"
+        },
         disconnect: {
           ____accept: "jsObject"
         }
@@ -40,7 +45,39 @@ var action = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.actionRequest.holarchy.CellProcessProxy.disconnect; // Get the CPM process' data.
+      var messageBody = request_.actionRequest.CellProcessor.proxy;
+
+      if (arccore.identifier.irut.isIRUT(messageBody.proxyCoordinates).result) {
+        errors.push("Cannot resolve location of the cell process proxy helper cell to link given a cell process ID!");
+        break;
+      }
+
+      var ocdResponse = ObservableControllerData.dataPathResolve({
+        apmBindingPath: request_.context.apmBindingPath,
+        dataPath: messageBody.proxyCoordinates
+      });
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      var proxyHelperPath = ocdResponse.result; // This ensures we're addressing an actuall CellProcessProxy-bound cell.
+      // And, get us a copy of its memory and its current connection state.
+
+      var cppLibResponse = cppLib.getStatus.request({
+        proxyHelperPath: proxyHelperPath,
+        ocdi: request_.context.ocdi
+      });
+
+      if (cppLibResponse.error) {
+        errors.push("Cannot locate the cell process proxy cell instance.");
+        errors.push(cppLibResponse.error);
+        break;
+      } // Okay - we're talking to an active CellProcessProxy helper cell.
+
+
+      var cppMemoryStatusDescriptor = cppLibResponse.result; // Get the CPM process' data.
 
       var cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
@@ -53,22 +90,6 @@ var action = new ControllerAction({
 
       var cpmDataDescriptor = cpmLibResponse.result;
       var sharedCellProcesses = cpmDataDescriptor.data.sharedCellProcesses;
-      var proxyHelperPath = request_.context.apmBindingPath; // Take request_.context.apmBindingPath to be the path of the cell bound to CellProcessProxy that the caller wishes to disconnect.
-      // This ensures we're addressing an actuall CellProcessProxy-bound cell.
-      // And, get us a copy of its memory and its current connection state.
-
-      var cppLibResponse = cppLib.getStatus.request({
-        proxyHelperPath: proxyHelperPath,
-        ocdi: request_.context.ocdi
-      });
-
-      if (cppLibResponse.error) {
-        errors.push("Cannot locate the cell process proxy cell instance.");
-        errors.push(cppLibResponse.error);
-        break;
-      }
-
-      var cppMemoryStatusDescriptor = cppLibResponse.result;
 
       if (cppMemoryStatusDescriptor.status === "disconnected") {
         // We're already disconnected. So, there is nothing to do."
@@ -86,7 +107,7 @@ var action = new ControllerAction({
         break;
       }
 
-      var ocdResponse = request_.context.ocdi.writeNamespace("".concat(proxyHelperPath, ".CPPU-UPgS8eWiMap3Ixovg_private"), {}); // resets the state of the proxy cell
+      ocdResponse = request_.context.ocdi.writeNamespace("".concat(proxyHelperPath, ".CPPU-UPgS8eWiMap3Ixovg_private"), {}); // resets the state of the proxy cell
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);

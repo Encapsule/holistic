@@ -3,7 +3,8 @@
 // SOURCES/LIB/holarchy/lib/intrinsics/CellProcessProxy/TransitionOperator-cpp-proxy-operator.js
 var TransitionOperator = require("../../../TransitionOperator");
 
-var cppLib = require("./lib");
+var cppLib = require("./lib"); // TO BE REMOVED in v0.0.48!
+
 
 var action = new TransitionOperator({
   id: "FTxze-WaRp6HS0Dlr_Ke6A",

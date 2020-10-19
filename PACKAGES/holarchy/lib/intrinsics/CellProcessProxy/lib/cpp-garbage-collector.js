@@ -225,20 +225,10 @@ var factoryResponse = arccore.filter.create({
             actorName: "Cell Process Proxy: Garbage Collector",
             actorTaskDescription: "Deleting unneeded shared cell process.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: deleteProcessID,
-                    actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            "delete": {}
-                          }
-                        }
-                      }
-                    }
-                  }
+              CellProcessor: {
+                process: {
+                  deactivate: {},
+                  processCoordinates: deleteProcessID
                 }
               }
             }

@@ -17,18 +17,29 @@ var action = new ControllerAction({
   description: "Disconnect a connected cell process proxy process (if connected). And, connect the proxy to the specified local cell process.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessProxy: {
+      proxy: {
         ____types: "jsObject",
+        proxyCoordinates: {
+          ____label: "Cell Process Proxy Helper Cell Coordinates Variant (Optional)",
+          ____accept: "jsString",
+          ____defaultValue: "#"
+        },
         connect: {
           ____types: "jsObject",
-          apmID: {
-            ____accept: "jsString"
-          },
-          instanceName: {
-            ____accept: "jsString",
-            ____defaultValue: "singleton"
+          processCoordinates: {
+            ____label: "Cell Process Coordinates Variant (Required)",
+            ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell process. Or, an IRUT that resolves to a known cellProcessID.
+            "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+            ],
+            apmID: {
+              ____accept: "jsString"
+            },
+            instanceName: {
+              ____accept: "jsString",
+              ____defaultValue: "singleton"
+            }
           }
         }
       }
@@ -48,9 +59,24 @@ var action = new ControllerAction({
     while (!inBreakScope) {
       inBreakScope = true;
       var runGarbageCollector = false;
-      var message = request_.actionRequest.holarchy.CellProcessProxy.connect;
-      var proxyHelperPath = request_.context.apmBindingPath; // Take request_.context.apmBindingPath to be the path of the cell bound to CellProcessProxy that the caller wishes to connected.
-      // This ensures we're addressing an actuall CellProcessProxy-bound cell.
+      var messageBody = request_.actionRequest.CellProcessor.proxy;
+
+      if (arccore.identifier.irut.isIRUT(messageBody.proxyCoordinates).result) {
+        errors.push("Cannot resolve location of the cell process proxy helper cell to link given a cell process ID!");
+        break;
+      }
+
+      var ocdResponse = OCD.dataPathResolve({
+        apmBindingPath: request_.context.apmBindingPath,
+        dataPath: messageBody.proxyCoordinates
+      });
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      var proxyHelperPath = ocdResponse.result; // This ensures we're addressing an actuall CellProcessProxy-bound cell.
       // And, get us a copy of its memory and its current connection state.
 
       var cppLibResponse = cppLib.getStatus.request({
@@ -102,6 +128,7 @@ var action = new ControllerAction({
         break;
       }
 
+      var proxyHelperID = cellOwnershipReport.ownershipVector[0].cellID;
       var proxyOwnerProcessID = cellOwnershipReport.ownershipVector[1].cellID;
       var proxyOwnerProcessPath = cellOwnershipReport.ownershipVector[1].cellPath; // At this point we know / are confident of the following:
       //
@@ -112,17 +139,19 @@ var action = new ControllerAction({
       //
       // However, we do not yet know anything yet about the local cell process that the caller wishes to connect to via the proxy instance. So, we look at that next.
 
-      var lcpBindingPath = "~.".concat(message.apmID, "_CellProcesses.cellProcessMap.").concat(arccore.identifier.irut.fromReference(message.instanceName).result);
-      var ocdResponse = request_.context.ocdi.getNamespaceSpec(lcpBindingPath);
+      cpmLibResponse = cpmLib.resolveCellProcessCoordinates.request({
+        coordinates: messageBody.connect.processCoordinates,
+        ocdi: request_.context.ocdi
+      });
 
-      if (ocdResponse.error) {
-        errors.push("Unable to connect CellProcessProxy at path '".concat(proxyHelperPath, "' to a cell process with APM ID value '").concat(message.apmID, "' as specified. This AbstractProcessModel is not known inside this CellProcessor instance."));
-        errors.push(ocdResponse.error);
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
         break;
       }
 
-      var lcpProcessID = arccore.identifier.irut.fromReference(lcpBindingPath).result;
-      var proxyHelperID = cellOwnershipReport.ownershipVector[0].cellID; // We now know it's possible to create an instance of the localCellProcess. But, we still do not know if the lcp is already present in
+      var resolvedProcessCoordinates = cpmLibResponse.result;
+      var lcpBindingPath = resolvedProcessCoordinates.cellProcessPath;
+      var lcpProcessID = resolvedProcessCoordinates.cellProcessID; // We now know it's possible to create an instance of the localCellProcess. But, we still do not know if the lcp is already present in
       // either the sharedCellProcesses.digraph and/or the ownedCellProcesses.digraph. And, the logic is a bit tricky. However, at this point
       // we can start to mutate the graphs because we're past the point where any bad input provided via request_ is likely to cause an error.
 
@@ -202,25 +231,20 @@ var action = new ControllerAction({
             actorName: "Cell Process Proxy: open connection",
             actorTaskDescription: "Attempting to create a new owned worker process that will be managed as a shared cell process.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: message.apmID,
-                        instanceName: message.instanceName
-                      },
-                      cellProcessData: {
-                        construction: {
-                          instanceName: message.instanceName
-                        }
+              CellProcessor: {
+                process: {
+                  processCoordinates: lcpProcessID,
+                  activate: {
+                    processData: {
+                      construction: {
+                        instanceName: resolvedProcessCoordinates.coordinates.instanceName
                       }
                     }
                   }
                 }
               }
             },
-            apmBindingPath: "~" // shared cell processes are owned by the CellProcessor instnace's Cell Process Manager daemon process.
+            apmBindingPath: "~" // shared cell processes are owned by the CellProcessor instance's Cell Process Manager daemon process.
 
           });
 
@@ -250,10 +274,7 @@ var action = new ControllerAction({
 
       ocdResponse = request_.context.ocdi.writeNamespace(proxyHelperPath, {
         "CPPU-UPgS8eWiMap3Ixovg_private": {
-          lcpRequest: {
-            apmID: message.apmID,
-            instanceName: message.instanceName
-          },
+          lcpRequest: resolvedProcessCoordinates.coordinates,
           lcpConnect: lcpBindingPath
         }
       });

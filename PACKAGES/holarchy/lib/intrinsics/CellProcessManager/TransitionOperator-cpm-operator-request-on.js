@@ -19,29 +19,25 @@ var transitionOperator = new TransitionOperator({
   description: "Generically re-routes the TransitionOperator request specified by operatorRequest to the active cell indicated by apmBindingPath + path, or path (iff path is fully-qualified).",
   operatorRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        opOn: {
-          ____types: "jsObject",
-          cellPath: {
+        cellCoordinates: {
+          ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell. Or, an IRUT that resolves to a known cellProcessID.
+          "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          ],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
+          },
+          instanceName: {
             ____accept: "jsString",
-            ____defaultValue: "#"
-          },
-          cellProcessCoordinates: {
-            ____types: ["jsUndefined", "jsObject"],
-            apmID: {
-              ____accept: "jsString"
-            },
-            instanceName: {
-              ____accept: "jsString",
-              ____defaultValue: "singleton"
-            }
-          },
-          cellProcessID: {
-            ____accept: ["jsUndefined", "jsString"]
-          },
+            ____defaultValue: "singleton"
+          }
+        },
+        delegate: {
+          ____types: "jsObject",
           operatorRequest: {
             ____accept: "jsObject"
           }
@@ -58,29 +54,44 @@ var transitionOperator = new TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var messageBody = request_.operatorRequest.holarchy.CellProcessor.opOn;
-      var ocdResponse = ObservableControllerData.dataPathResolve({
-        dataPath: messageBody.cellPath,
-        apmBindingPath: request_.context.apmBindingPath
+      var messageBody = request_.operatorRequest.CellProcessor.cell;
+      var unresolvedCoordinates = messageBody.cellCoordinates;
+
+      if (Object.prototype.toString.call(unresolvedCoordinates) === "[object String]" && unresolvedCoordinates.startsWith("#")) {
+        var ocdResponse = ObservableControllerData.dataPathResolve({
+          apmBindingPath: request_.context.apmBindingPath,
+          dataPath: unresolvedCoordinates
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        unresolvedCoordinates = ocdResponse.result;
+      }
+
+      var cpmLibResponse = cpmLib.resolveCellCoordinates.request({
+        coordinates: unresolvedCoordinates,
+        ocdi: request_.context.ocdi
       });
 
-      if (ocdResponse.error) {
-        errors.push(ocdResponse.error);
+      if (cpmLibResponse.error) {
+        errors.push(cpmLibResponse.error);
         break;
       }
 
-      var targetCellPath = ocdResponse.result;
+      var targetCellPath = cpmLibResponse.result.cellPath;
       var operatorResponse = request_.context.transitionDispatcher.request({
         context: _objectSpread(_objectSpread({}, request_.context), {}, {
           apmBindingPath: targetCellPath
         }),
-        operatorRequest: messageBody.operatorRequest
+        operatorRequest: messageBody.delegate.operatorRequest
       });
 
       if (operatorResponse.error) {
-        errors.push("Unable to resolve TransitionOperator plug-in to process specified request:");
+        errors.push("Unrecognized TransitionOperator request format; unable to resolve plug-in filter.");
         errors.push(operatorResponse.error);
-        errros.push("Check the format of your TransitionOperator request for syntax error(s). Failing that, possibly you have failed to register CellModel's?");
         break;
       }
 
@@ -89,13 +100,12 @@ var transitionOperator = new TransitionOperator({
         context: _objectSpread(_objectSpread({}, request_.context), {}, {
           apmBindingPath: targetCellPath
         }),
-        operatorRequest: messageBody.operatorRequest
+        operatorRequest: messageBody.delegate.operatorRequest
       });
 
       if (operatorResponse.error) {
-        errors.push("We were not able to delegate your TransitionOperator request to a plug-in. However, the plug-in subsequently rejected your request with error:");
+        errors.push("TransitionOperator plug-in failed while processing delegated operator request.");
         errors.push(operatorResponse.error);
-        errors.push("Check the details of TransitionOperator plug-in to ensure you're calling it correctly.");
         break;
       }
 

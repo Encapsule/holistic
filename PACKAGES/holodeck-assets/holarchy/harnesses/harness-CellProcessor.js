@@ -147,6 +147,9 @@ var holarchy = require("@encapsule/holarchy");
     },
     testVectorResultOutputSpec: {
       ____types: "jsObject",
+      vectorOptions: {
+        ____accept: "jsObject"
+      },
       vectorFailed: {
         // the CellProcessor harness sets this true if it decides that this vector has gone vectored off the rail based on default options and overrides if specified in vectorRequest
         ____accept: "jsBoolean",
@@ -173,6 +176,9 @@ var holarchy = require("@encapsule/holarchy");
         ____defaultValue: [],
         testActionSummary: {
           ____types: "jsObject",
+          testHarnessActionOptions: {
+            ____accept: "jsObject"
+          },
           testHarnessActionSummary: {
             ____types: "jsObject",
             testDisposition: {
@@ -235,6 +241,7 @@ var holarchy = require("@encapsule/holarchy");
         }
 
         response.result = {
+          vectorOptions: messageBody.options,
           vectorFailed: false,
           // ?
           construction: {
@@ -397,6 +404,7 @@ var holarchy = require("@encapsule/holarchy");
           }
 
           response.result.testActionLog.push({
+            testHarnessActionOptions: testActorRequest.options,
             testHarnessActionSummary: {
               testDisposition: failTestDueToTestActorRequest ? "TEST FAIL" : "TEST PASS",
               actionRequest: actResponse.error ? "FAIL" : "PASS",

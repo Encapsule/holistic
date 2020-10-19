@@ -52,16 +52,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Ancestor Processes Active Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "hybdu0VoQjWnOFs5vC3Tzw",
-                        //  "CPM Ancestor Processes Active Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "hybdu0VoQjWnOFs5vC3Tzw",
+
+                    /* "CPM Ancestor Processes Active Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -120,16 +118,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Ancestor Processes All In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "c09ke74xRza4Q9u2Ly0NIA",
-                        // "CPM Ancestor Processes All In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "c09ke74xRza4Q9u2Ly0NIA",
+
+                    /*"CPM Ancestor Processes All In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -187,16 +183,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Ancestor Processes Any In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "we5IUb__Smqwkl4ghRl3Lw",
-                        // "CPM Ancestor Processes Any In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "we5IUb__Smqwkl4ghRl3Lw",
+
+                    /* "CPM Ancestor Processes Any In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -249,16 +243,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes Active Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "LVjhjYUcQXOYcbI_xbepJQ",
-                        // CPM Child Processes Active Operator Test Process
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "LVjhjYUcQXOYcbI_xbepJQ",
+
+                    /* CPM Child Processes Active Operator Test Process*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -267,29 +259,28 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes Active Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "LVjhjYUcQXOYcbI_xbepJQ",
-                      // CPM Child Processes Active Operator Test Process
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "LVjhjYUcQXOYcbI_xbepJQ",
+
+                    /* CPM Child Processes Active Operator Test Process*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -348,16 +339,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes All In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "vjz7U4NWRE2_UlAvAjmS6g",
-                        // "CPM Child Processes All In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "vjz7U4NWRE2_UlAvAjmS6g",
+
+                    /* "CPM Child Processes All In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -366,29 +355,28 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes All In Step Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "vjz7U4NWRE2_UlAvAjmS6g",
-                      // "CPM Child Processes All In Step Operator Test Process"
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "vjz7U4NWRE2_UlAvAjmS6g",
+
+                    /* "CPM Child Processes All In Step Operator Test Process" */
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -448,16 +436,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes All In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "8LE0CnuHRMOKoGXn1kHdNA",
-                        // "CPM Child Processes Any In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "8LE0CnuHRMOKoGXn1kHdNA",
+
+                    /* "CPM Child Processes Any In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -466,29 +452,27 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes All In Step Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "8LE0CnuHRMOKoGXn1kHdNA",
-                      // "CPM Child Processes Any In Step Operator Test Process"
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "8LE0CnuHRMOKoGXn1kHdNA",
+                    // "CPM Child Processes Any In Step Operator Test Process"
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -541,16 +525,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Descendant Processes Active Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "cYpoxyyZSwm19CqH3v7eLQ",
-                        // "CPM Descendant Processes Active Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "cYpoxyyZSwm19CqH3v7eLQ",
+
+                    /* "CPM Descendant Processes Active Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -559,29 +541,27 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Child Processes Active Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "cYpoxyyZSwm19CqH3v7eLQ",
-                      // "CPM Descendant Processes Active Operator Test Process"
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "cYpoxyyZSwm19CqH3v7eLQ",
+                    // "CPM Descendant Processes Active Operator Test Process"
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -641,16 +621,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Descendant Processes All In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "XzNJP6LyTCOnhGPKpJIjzg",
-                        // "CPM Descendant Processes ALl In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "XzNJP6LyTCOnhGPKpJIjzg",
+
+                    /* "CPM Descendant Processes ALl In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -659,29 +637,27 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Descendant Processes All In Step Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "XzNJP6LyTCOnhGPKpJIjzg",
-                      // "CPM Descendant Processes ALl In Step Operator Test Process"
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "XzNJP6LyTCOnhGPKpJIjzg",
+                    // "CPM Descendant Processes ALl In Step Operator Test Process"
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -741,16 +717,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Descendant Processes All In Step Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "TR7suTjQSKOBK5bGKztIcg",
-                        //  "CPM Descendant Processes Any In Step Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "TR7suTjQSKOBK5bGKztIcg",
+
+                    /* "CPM Descendant Processes Any In Step Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -759,29 +733,27 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Descendant Processes All In Step Test",
             actorTaskDescription: "Start the second process instance. We will use this process to trigger a process step change in the first test process instance.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  actOn: {
-                    coordinates: {
-                      apmID: "TR7suTjQSKOBK5bGKztIcg",
-                      //  "CPM Descendant Processes Any In Step Test Process"
-                      instanceName: "Test Process"
-                    },
+              CellProcessor: {
+                cell: {
+                  delegate: {
                     actionRequest: {
-                      holarchy: {
-                        CellProcessor: {
-                          process: {
-                            create: {
-                              coordinates: {
-                                apmID: "3E27IH_CQeqBUFsGm4tIIA",
-                                // Dummy Process A Process
-                                instanceName: "Child Process"
-                              }
-                            }
+                      CellProcessor: {
+                        process: {
+                          activate: {},
+                          processCoordinates: {
+                            apmID: "3E27IH_CQeqBUFsGm4tIIA",
+
+                            /* Dummy Process A Process*/
+                            instanceName: "Child Process"
                           }
                         }
                       }
                     }
+                  },
+                  cellCoordinates: {
+                    apmID: "TR7suTjQSKOBK5bGKztIcg",
+                    //  "CPM Descendant Processes Any In Step Test Process"
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -830,16 +802,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Parent Process Active Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "kAuEmZA9Qn24PEZLBygGyA",
-                        // "CPM Parent Process Active Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "kAuEmZA9Qn24PEZLBygGyA",
+
+                    /* "CPM Parent Process Active Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }
@@ -892,16 +862,14 @@ module.exports = [// -----------------------------------------------------------
             actorName: "CPM Parent Process In Step Operator Test",
             actorTaskDescription: "Start the first process instance. We will use this process as our test.",
             actionRequest: {
-              holarchy: {
-                CellProcessor: {
-                  process: {
-                    create: {
-                      coordinates: {
-                        apmID: "UMlS451nSWq6yDZNwcUTaw",
-                        // "CPM Parent Process In Step Operator Test Process"
-                        instanceName: "Test Process"
-                      }
-                    }
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "UMlS451nSWq6yDZNwcUTaw",
+
+                    /* "CPM Parent Process In Step Operator Test Process"*/
+                    instanceName: "Test Process"
                   }
                 }
               }

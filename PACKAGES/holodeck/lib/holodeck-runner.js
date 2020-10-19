@@ -42,8 +42,7 @@ var factoryResponse = arccore.filter.create({
           errors: [],
           failures: []
         }
-      },
-      harnessEvalDescriptors: []
+      }
     };
     var response = {
       error: null,
@@ -216,7 +215,6 @@ var factoryResponse = arccore.filter.create({
             });
           }
 
-          resultPayload.harnessEvalDescriptors.push(testEvalDescriptor);
           resultPayload.summary.requests++;
         } // for testNumber
 

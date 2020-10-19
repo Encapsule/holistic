@@ -17,7 +17,7 @@ var arccore = require("@encapsule/arccore");
 
 var ControllerAction = require("../../../ControllerAction");
 
-var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
+var ObservableControllerData = require("../../../lib/ObservableControllerData");
 
 var cpmLib = require("./lib");
 
@@ -29,28 +29,25 @@ var controllerAction = new ControllerAction({
   description: "Requests that the Cell Process Manager delete a branch of the cell process tree.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      process: {
         ____types: "jsObject",
-        process: {
-          ____types: "jsObject",
-          "delete": {
-            ____types: "jsObject",
-            coordinates: {
-              ____types: ["jsUndefined", // because it's optional. If not specified, then the default behavior is to use request_.context.apmBindingPath to deduce the cell process to delete.
-              "jsString", // because it might be a cellProcessPath or cellProcessID
-              "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
-              ],
-              apmID: {
-                ____accept: "jsString"
-              },
-              instanceName: {
-                ____accept: "jsString",
-                ____defaultValue: "singleton"
-              }
-            }
+        processCoordinates: {
+          ____types: ["jsString", // because it might be a cellProcessPath or cellProcessID
+          "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
+          ],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
+          },
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
           }
+        },
+        deactivate: {
+          ____accept: "jsObject"
         }
       }
     }
@@ -78,10 +75,29 @@ var controllerAction = new ControllerAction({
     var _loop = function _loop() {
       inBreakScope = true;
       console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] action start..."));
-      var messageBody = request_.actionRequest.holarchy.CellProcessor.process["delete"];
-      var coordinates = messageBody.coordinates ? messageBody.coordinates : request_.context.apmBindingPath;
+      var messageBody = request_.actionRequest.CellProcessor.process;
+      var unresolvedCoordinates = messageBody.processCoordinates;
+
+      if (Object.prototype.toString.call(unresolvedCoordinates) === "[object String]") {
+        if (!arccore.identifier.irut.isIRUT(unresolvedCoordinates).result) {
+          if (unresolvedCoordinates.startsWith("#")) {
+            var _ocdResponse = ObservableControllerData.dataPathResolve({
+              apmBindingPath: request_.context.apmBindingPath,
+              dataPath: unresolvedCoordinates
+            });
+
+            if (_ocdResponse.error) {
+              errors.push(_ocdResponse.error);
+              return "break";
+            }
+
+            unresolvedCoordinates = _ocdResponse.result;
+          }
+        }
+      }
+
       var cpmLibResponse = cpmLib.resolveCellProcessCoordinates.request({
-        coordinates: coordinates,
+        coordinates: unresolvedCoordinates,
         ocdi: request_.context.ocdi
       });
 
@@ -177,37 +193,37 @@ var controllerAction = new ControllerAction({
           // But, there's a reason why I insist on using writeNamespace even here. And, why we 100% need OCD to support containers natively.
           // Read the array...
 
-          var _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesNamespace);
+          var _ocdResponse2 = request_.context.ocdi.readNamespace(apmProcessesNamespace);
 
-          if (_ocdResponse.error) {
-            errors.push(_ocdResponse.error);
+          if (_ocdResponse2.error) {
+            errors.push(_ocdResponse2.error);
             break;
           }
 
-          var processesMemory = _ocdResponse.result; // Delete the element (this is the cell process)...
+          var processesMemory = _ocdResponse2.result; // Delete the element (this is the cell process)...
 
           delete processesMemory[apmBindingPathTokens[apmBindingPathTokens.length - 1]]; // Write the entire array back into OCD (removing the cell process from OCD).
 
-          _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesNamespace, processesMemory);
+          _ocdResponse2 = request_.context.ocdi.writeNamespace(apmProcessesNamespace, processesMemory);
 
-          if (_ocdResponse.error) {
-            errors.push(_ocdResponse.error);
+          if (_ocdResponse2.error) {
+            errors.push(_ocdResponse2.error);
             break;
           } // There's no reason why OCD cannot also support an efficient namespace increment operator.
 
 
-          _ocdResponse = request_.context.ocdi.readNamespace(apmProcessesRevisionNamespace);
+          _ocdResponse2 = request_.context.ocdi.readNamespace(apmProcessesRevisionNamespace);
 
-          if (_ocdResponse.error) {
-            errors.push(_ocdResponse.error);
+          if (_ocdResponse2.error) {
+            errors.push(_ocdResponse2.error);
             break;
           }
 
-          var apmProcessesRevision = _ocdResponse.result;
-          _ocdResponse = request_.context.ocdi.writeNamespace(apmProcessesRevisionNamespace, apmProcessesRevision + 1);
+          var apmProcessesRevision = _ocdResponse2.result;
+          _ocdResponse2 = request_.context.ocdi.writeNamespace(apmProcessesRevisionNamespace, apmProcessesRevision + 1);
 
-          if (_ocdResponse.error) {
-            errors.push(_ocdResponse.error);
+          if (_ocdResponse2.error) {
+            errors.push(_ocdResponse2.error);
             break;
           }
         }

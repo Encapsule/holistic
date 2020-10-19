@@ -23,6 +23,10 @@ module.exports = [{
                 ocdDataSpec: {
                   ____types: "jsObject",
                   ____defaultValue: {},
+                  construction: {
+                    ____accept: "jsObject",
+                    ____defaultValue: {}
+                  },
                   count: {
                     ____types: "jsNumber",
                     ____defaultValue: 0
@@ -49,18 +53,22 @@ module.exports = [{
                   connect_proxy: {
                     description: "Attempt to connect the proxy.",
                     actions: {
-                      enter: [{
-                        holarchy: {
-                          CellProcessor: {
-                            actOn: {
-                              coordinates: "#.proxy",
+                      enter: [// Note that this is deliberately verbose. We could equivalently write:
+                      // { CellProcess: { connect: { proxy: { proxyCoordindates: "#.proxy" processCoordinates: { coordinates: { apmID: "mctGtkfiQmeO93Va6WkGZw" /*Back to host*/ } } } } }
+                      {
+                        CellProcessor: {
+                          cell: {
+                            cellCoordinates: "#.proxy",
+                            delegate: {
                               actionRequest: {
-                                holarchy: {
-                                  CellProcessProxy: {
+                                CellProcessor: {
+                                  proxy: {
                                     connect: {
-                                      apmID: "mctGtkfiQmeO93Va6WkGZw"
-                                      /*Back to host*/
+                                      processCoordinates: {
+                                        apmID: "mctGtkfiQmeO93Va6WkGZw"
+                                        /*Back to host*/
 
+                                      }
                                     }
                                   }
                                 }
@@ -72,17 +80,11 @@ module.exports = [{
                     },
                     transitions: [{
                       transitionIf: {
-                        holarchy: {
-                          CellProcessor: {
-                            opOn: {
-                              cellPath: "#.proxy",
-                              operatorRequest: {
-                                holarchy: {
-                                  CellProcessProxy: {
-                                    isBroken: {}
-                                  }
-                                }
-                              }
+                        CellProcessor: {
+                          proxy: {
+                            proxyCoordinates: "#.proxy",
+                            connect: {
+                              statusIs: "broken"
                             }
                           }
                         }
@@ -90,17 +92,11 @@ module.exports = [{
                       nextStep: "connect_proxy_error"
                     }, {
                       transitionIf: {
-                        holarchy: {
-                          CellProcessor: {
-                            opOn: {
-                              cellPath: "#.proxy",
-                              operatorRequest: {
-                                holarchy: {
-                                  CellProcessProxy: {
-                                    isDisconnected: {}
-                                  }
-                                }
-                              }
+                        CellProcessor: {
+                          proxy: {
+                            proxyCoordinates: "#.proxy",
+                            connect: {
+                              statusIs: "disconnected"
                             }
                           }
                         }
@@ -108,17 +104,11 @@ module.exports = [{
                       nextStep: "connect_proxy_error"
                     }, {
                       transitionIf: {
-                        holarchy: {
-                          CellProcessor: {
-                            opOn: {
-                              cellPath: "#.proxy",
-                              operatorRequest: {
-                                holarchy: {
-                                  CellProcessProxy: {
-                                    isConnected: {}
-                                  }
-                                }
-                              }
+                        CellProcessor: {
+                          proxy: {
+                            proxyCoordinates: "#.proxy",
+                            connect: {
+                              statusIs: "connected"
                             }
                           }
                         }
@@ -146,14 +136,13 @@ module.exports = [{
               actorName: "Proxy Test A",
               actorTaskDescription: "Start test process.",
               actionRequest: {
-                holarchy: {
-                  CellProcessor: {
-                    process: {
-                      create: {
-                        coordinates: {
-                          apmID: "mctGtkfiQmeO93Va6WkGZw"
-                        }
-                      }
+                CellProcessor: {
+                  process: {
+                    activate: {
+                      /* default processData */
+                    },
+                    processCoordinates: {
+                      apmID: "mctGtkfiQmeO93Va6WkGZw"
                     }
                   }
                 }
@@ -164,21 +153,11 @@ module.exports = [{
               actorName: "Proxy Test A",
               actorTaskDescription: "Start test process.",
               actionRequest: {
-                holarchy: {
-                  CellProcessor: {
-                    actOn: {
-                      coordinates: {
-                        apmID: "mctGtkfiQmeO93Va6WkGZw"
-                      },
-                      actionRequest: {
-                        holarchy: {
-                          CellProcessor: {
-                            process: {
-                              "delete": {}
-                            }
-                          }
-                        }
-                      }
+                CellProcessor: {
+                  process: {
+                    deactivate: {},
+                    processCoordinates: {
+                      apmID: "mctGtkfiQmeO93Va6WkGZw"
                     }
                   }
                 }

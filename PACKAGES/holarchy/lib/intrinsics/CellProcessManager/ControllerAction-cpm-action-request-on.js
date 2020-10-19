@@ -1,6 +1,6 @@
 "use strict";
 
-// ControllerAction-cpm-aciton-request-on.js
+// ControllerAction-cpm-action-request-on.js
 var ControllerAction = require("../../../ControllerAction");
 
 var ObservableControllerData = require("../../../lib/ObservableControllerData");
@@ -13,25 +13,26 @@ var controllerAction = new ControllerAction({
   description: "Generically re-routes the ControllerAction request specified by actRequest to the active cell specified by apmBindingPath + path, or path (iff path is fully-qualified).",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        actOn: {
-          ____types: "jsObject",
-          coordinates: {
-            ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell. Or, an IRUT that resolves to a known cellProcessID.
-            "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
-            ],
-            ____defaultValue: "#",
-            apmID: {
-              ____accept: "jsString"
-            },
-            instanceName: {
-              ____accept: "jsString",
-              ____defaultValue: "singleton"
-            }
+        cellCoordinates: {
+          ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell. Or, an IRUT that resolves to a known cellProcessID.
+          "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          ],
+          ____defaultValue: "#",
+          // i.e. query the current cell
+          apmID: {
+            ____accept: "jsString"
           },
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        delegate: {
+          ____types: "jsObject",
           actionRequest: {
             ____accept: "jsObject"
           }
@@ -52,14 +53,13 @@ var controllerAction = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var messageBody = request_.actionRequest.holarchy.CellProcessor.actOn;
-      var coordinates = messageBody.coordinates;
-      var coordinatesTypeString = Object.prototype.toString.call(coordinates);
+      var messageBody = request_.actionRequest.CellProcessor.cell;
+      var unresolvedCoordinates = messageBody.cellCoordinates;
 
-      if ("[object String]" === coordinatesTypeString && messageBody.coordinates.startsWith("#")) {
+      if (Object.prototype.toString.call(unresolvedCoordinates) === "[object String]") {
         var ocdResponse = ObservableControllerData.dataPathResolve({
           apmBindingPath: request_.context.apmBindingPath,
-          dataPath: messageBody.coordinates
+          dataPath: unresolvedCoordinates
         });
 
         if (ocdResponse.error) {
@@ -67,11 +67,11 @@ var controllerAction = new ControllerAction({
           break;
         }
 
-        coordinates = ocdResponse.result;
+        unresolvedCoordinates = ocdResponse.result;
       }
 
       var cpmLibResponse = cpmLib.resolveCellCoordinates.request({
-        coordinates: coordinates,
+        coordinates: unresolvedCoordinates,
         ocdi: request_.context.ocdi
       });
 
@@ -84,7 +84,7 @@ var controllerAction = new ControllerAction({
       var actResponse = request_.context.act({
         actorName: "Cell Process Manager: actOn",
         actorTaskDescription: "Delegating ControllerAction request to cell at path '".concat(targetCellPath, "'."),
-        actionRequest: messageBody.actionRequest,
+        actionRequest: messageBody.delegate.actionRequest,
         apmBindingPath: targetCellPath
       });
 

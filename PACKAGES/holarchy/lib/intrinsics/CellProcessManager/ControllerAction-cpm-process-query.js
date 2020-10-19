@@ -11,6 +11,8 @@ var arccore = require("@encapsule/arccore");
 
 var ControllerAction = require("../../../ControllerAction");
 
+var ObservableControllerData = require("../../../lib/ObservableControllerData");
+
 var cpmLib = require("./lib");
 
 var cellProcessQueryResponseDescriptorSpec = require("./lib/iospecs/cell-process-query-response-descriptor-spec");
@@ -23,52 +25,50 @@ var controllerAction = new ControllerAction({
   description: "Performs a query on a specific cell process managed by the Cell Process Manager.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        process: {
+        cellCoordinates: {
+          ____types: ["jsString", // because it might be a cellProcessPath or cellProcessID
+          "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
+          ],
+          ____defaultValue: "#",
+          // i.e. query the current cell
+          apmID: {
+            ____accept: "jsString"
+          },
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        query: {
           ____types: "jsObject",
-          query: {
+          filterBy: cellProcessQueryRequestFilterBySpec,
+          resultSets: {
             ____types: "jsObject",
-            filterBy: cellProcessQueryRequestFilterBySpec,
-            coordinates: {
-              ____types: ["jsUndefined", // because it's optional. If not specified, then the default behavior is to use request_.context.apmBindingPath to deduce the cell process to delete.
-              "jsString", // because it might be a cellProcessPath or cellProcessID
-              "jsObject" // because it might be a raw coordinates apmID, instanceName descriptor
-              ],
-              apmID: {
-                ____accept: "jsString"
-              },
-              instanceName: {
-                ____accept: "jsString",
-                ____defaultValue: "singleton"
-              }
+            ____defaultValue: {
+              parent: true,
+              ancestors: true,
+              children: true,
+              descendants: true
             },
-            resultSets: {
-              ____types: "jsObject",
-              ____defaultValue: {
-                parent: true,
-                ancestors: true,
-                children: true,
-                descendants: true
-              },
-              parent: {
-                ____accept: "jsBoolean",
-                ____defaultValue: false
-              },
-              ancestors: {
-                ____accept: "jsBoolean",
-                ____defaultValue: false
-              },
-              children: {
-                ____accept: "jsBoolean",
-                ____defaultValue: false
-              },
-              descendants: {
-                ____accept: "jsBoolean",
-                ____defaultValue: false
-              }
+            parent: {
+              ____accept: "jsBoolean",
+              ____defaultValue: false
+            },
+            ancestors: {
+              ____accept: "jsBoolean",
+              ____defaultValue: false
+            },
+            children: {
+              ____accept: "jsBoolean",
+              ____defaultValue: false
+            },
+            descendants: {
+              ____accept: "jsBoolean",
+              ____defaultValue: false
             }
           }
         }
@@ -142,20 +142,42 @@ var controllerAction = new ControllerAction({
     while (!inBreakScope) {
       inBreakScope = true;
       console.log("Cell Process Manager process query...");
-      var messageBody = request_.actionRequest.holarchy.CellProcessor.process.query;
+      var messageBody = request_.actionRequest.CellProcessor.cell;
 
-      if (!messageBody.resultSets.parent && !messageBody.resultSets.ancestors && !messageBody.resultSets.children && !messageBody.resultSets.descendants) {
-        errors.push("Invalid cell process query request. If you explicitly set resultSets flags then you must set at least one result set Boolean flag.");
+      if (!messageBody.query.resultSets.parent && !messageBody.query.resultSets.ancestors && !messageBody.query.resultSets.children && !messageBody.query.resultSets.descendants) {
+        errors.push("Invalid cell process query request. If you explicitly set resultSets flags then you must set at least one result set flag true.");
         break;
       }
 
-      var coordinates = messageBody.coordinates ? messageBody.coordinates : request_.context.apmBindingPath;
+      var unresolvedCoordinates = messageBody.cellCoordinates;
+
+      if (Object.prototype.toString.call(unresolvedCoordinates) === "[object String]") {
+        var ocdResponse = ObservableControllerData.dataPathResolve({
+          apmBindingPath: request_.context.apmBindingPath,
+          dataPath: unresolvedCoordinates
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        unresolvedCoordinates = ocdResponse.result;
+      } // TODO !!!
+      // As we are currently calling this action there would seemingly be little trouble w/this resolution call.
+      // However, when this action is called it will be dispatched w/request_.context.apmBindingPath set to the _cell_ binding path.
+      // This may or may not be a cell process path depending on if the cell was explicity activated. Or, exists by virtue of
+      // being part of (what we call a helper cell) of another cell that was explicitly activated.
+      // SO... We expect that this call will fail when passed a cell coordindates vs process coordinates.
+
+
       var cpmLibResponse = cpmLib.resolveCellProcessCoordinates.request({
-        coordinates: coordinates,
+        coordinates: unresolvedCoordinates,
         ocdi: request_.context.ocdi
       });
 
       if (cpmLibResponse.error) {
+        errors.push("YOU HAVE HIT A KNOWN LIMITATION OF @encapsule/holarchy v0.0.47-alexandrite:");
         errors.push(cpmLibResponse.error);
         break;
       }
@@ -189,14 +211,14 @@ var controllerAction = new ControllerAction({
       var cellProcessDescriptor = cpmLibResponse.result;
       response.result = {
         query: _objectSpread(_objectSpread({}, cellProcessDescriptor), {}, {
-          resultSets: messageBody.resultSets
+          resultSets: messageBody.query.resultSets
         })
       };
 
-      if (messageBody.resultSets.parent) {
+      if (messageBody.query.resultSets.parent) {
         cpmLibResponse = cpmLib.getProcessParentDescriptor.request({
           cellProcessID: cellProcessID,
-          filterBy: messageBody.filterBy,
+          filterBy: messageBody.query.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -210,10 +232,10 @@ var controllerAction = new ControllerAction({
       } // anscestors; parent and it's parent...
 
 
-      if (messageBody.resultSets.ancestors) {
+      if (messageBody.query.resultSets.ancestors) {
         cpmLibResponse = cpmLib.getProcessAncestorDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: messageBody.filterBy,
+          filterBy: messageBody.query.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -227,10 +249,10 @@ var controllerAction = new ControllerAction({
       } // children
 
 
-      if (messageBody.resultSets.children) {
+      if (messageBody.query.resultSets.children) {
         cpmLibResponse = cpmLib.getProcessChildrenDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: messageBody.filterBy,
+          filterBy: messageBody.query.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
@@ -244,10 +266,10 @@ var controllerAction = new ControllerAction({
       } // descendants; children and their children...
 
 
-      if (messageBody.resultSets.descendants) {
+      if (messageBody.query.resultSets.descendants) {
         cpmLibResponse = cpmLib.getProcessDescendantDescriptors.request({
           cellProcessID: cellProcessID,
-          filterBy: messageBody.filterBy,
+          filterBy: messageBody.query.filterBy,
           ocdi: request_.context.ocdi,
           treeData: cellProcessTreeData
         });
