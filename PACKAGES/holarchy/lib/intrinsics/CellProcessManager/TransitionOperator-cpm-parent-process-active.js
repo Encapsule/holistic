@@ -18,13 +18,30 @@ var transitionOperator = new TransitionOperator({
   description: "Returns Boolean true iff request.context.apmBindingPath is a cell process with an active parent process.",
   operatorRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        parentProcessActive: {
+        cellCoordinates: {
+          ____types: [// If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell.
+          // Or, an IRUT that resolves to a known cellProcessID (that by definition must resolve to an active cell).
+          "jsString", // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          "jsObject"],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
+          },
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        query: {
           ____types: "jsObject",
-          filterBy: cellProcessQueryRequestFilterBySpec
+          filterBy: cellProcessQueryRequestFilterBySpec,
+          parentProcessActive: {
+            ____accept: "jsObject"
+          }
         }
       }
     }
@@ -38,15 +55,16 @@ var transitionOperator = new TransitionOperator({
     var inBreakScope = false;
 
     while (!inBreakScope) {
-      inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.CellProcessor.parentProcessActive; // This is all we can ever be 100% sure about based on the apmBindingPath.
+      inBreakScope = true; // This is all we can ever be 100% sure about based on the apmBindingPath.
 
       if (request_.context.apmBindingPath === "~") {
         break; // response.result === false
-      } // So, we have to query the CPM process tree.
+      }
 
-
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      var messageBody = request_.operatorRequest.CellProcessor.cell;
+      var cpmLibResponse = cpmLib.cellProcessFamilyOperatorPrologue.request({
+        unresolvedCellCoordinates: messageBody.cellCoordinates,
+        apmBindingPath: request_.context.apmBindingPath,
         ocdi: request_.context.ocdi
       });
 
@@ -55,14 +73,13 @@ var transitionOperator = new TransitionOperator({
         break;
       }
 
-      var cpmDataDescriptor = cpmLibResponse.result;
-      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses; // Get the parent process descriptor.
+      var prologueData = cpmLibResponse.result; // Get the parent process descriptor.
 
       cpmLibResponse = cpmLib.getProcessParentDescriptor.request({
-        cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
-        filterBy: message.filterBy,
+        cellProcessID: prologueData.resolvedCellCoordinates.cellPathID,
+        filterBy: messageBody.query.filterBy,
         ocdi: request_.context.ocdi,
-        treeData: ownedCellProcessesData
+        treeData: prologueData.ownedCellProcessesData
       });
 
       if (cpmLibResponse.error) {

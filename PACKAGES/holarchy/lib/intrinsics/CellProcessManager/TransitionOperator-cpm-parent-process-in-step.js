@@ -7,6 +7,8 @@ var cpmLib = require("./lib");
 
 var TransitionOperator = require("../../../TransitionOperator");
 
+var ObservableControllerData = require("../../../lib/ObservableControllerData");
+
 var cpmMountingNamespaceName = require("../../filters/cpm-mounting-namespace-name");
 
 var cpmApmBindingPath = "~.".concat(cpmMountingNamespaceName);
@@ -19,21 +21,38 @@ module.exports = new TransitionOperator({
   description: "Returns Boolean true request.context.apmBindingPath is a cell process whose parent cell process is in the specified process step.",
   operatorRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        parentProcessInStep: {
-          ____types: "jsObject",
-          apmStep: {
-            // If apmStep is a single step name (string) then all child cell processes must be in that step.
-            // If apmStep is an array of step names (strings), then all child cell processes must be in any of the indicated steps.
-            ____types: ["jsString", "jsArray"],
-            stepName: {
-              ____accept: "jsString"
-            }
+        cellCoordinates: {
+          ____types: [// If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell.
+          // Or, an IRUT that resolves to a known cellProcessID (that by definition must resolve to an active cell).
+          "jsString", // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          "jsObject"],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
           },
-          filterBy: cellProcessQueryRequestFilterBySpec
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        query: {
+          ____types: "jsObject",
+          filterBy: cellProcessQueryRequestFilterBySpec,
+          parentProcessInStep: {
+            ____types: "jsObject",
+            apmStep: {
+              // If apmStep is a single step name (string) then all child cell processes must be in that step.
+              // If apmStep is an array of step names (strings), then all child cell processes must be in any of the indicated steps.
+              ____types: ["jsString", "jsArray"],
+              stepName: {
+                ____accept: "jsString"
+              }
+            }
+          }
         }
       }
     }
@@ -47,15 +66,16 @@ module.exports = new TransitionOperator({
     var inBreakScope = false;
 
     var _loop = function _loop() {
-      inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.CellProcessor.parentProcessInStep; // This is all we can ever be 100% sure about based on the apmBindingPath.
+      inBreakScope = true; // This is all we can ever be 100% sure about based on the apmBindingPath.
 
       if (request_.context.apmBindingPath === "~") {
         return "break"; // response.result === false
-      } // So, we have to query the CPM process tree.
+      }
 
-
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      var messageBody = request_.operatorRequest.CellProcessor.cell;
+      var cpmLibResponse = cpmLib.cellProcessFamilyOperatorPrologue.request({
+        unresolvedCellCoordinates: messageBody.cellCoordinates,
+        apmBindingPath: request_.context.apmBindingPath,
         ocdi: request_.context.ocdi
       });
 
@@ -64,14 +84,13 @@ module.exports = new TransitionOperator({
         return "break";
       }
 
-      var cpmDataDescriptor = cpmLibResponse.result;
-      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses; // Get the parent process descriptor.
+      var prologueData = cpmLibResponse.result; // Get the parent process descriptor.
 
       cpmLibResponse = cpmLib.getProcessParentDescriptor.request({
-        cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
-        filterBy: message.filterBy,
+        cellProcessID: prologueData.resolvedCellCoordinates.cellPathID,
+        filterBy: messageBody.query.filterBy,
         ocdi: request_.context.ocdi,
-        treeData: ownedCellProcessesData
+        treeData: prologueData.ownedCellProcessesData
       });
 
       if (cpmLibResponse.error) {
@@ -88,14 +107,15 @@ module.exports = new TransitionOperator({
 
       response.result = parentCellProcessDescriptor.apmBindingPath ? true : false;
       var operatorRequest = {};
+      var queryBody = messageBody.query.parentProcessInStep;
 
-      if (!Array.isArray(message.apmStep)) {
+      if (!Array.isArray(queryBody.apmStep)) {
         operatorRequest.holarchy = {
           cm: {
             operators: {
               cell: {
                 atStep: {
-                  step: message.apmStep,
+                  step: queryBody.apmStep,
                   path: parentCellProcessDescriptor.apmBindingPath
                 }
               }
@@ -104,7 +124,7 @@ module.exports = new TransitionOperator({
         };
       } else {
         operatorRequest.or = [];
-        message.apmStep.forEach(function (stepName_) {
+        queryBody.apmStep.forEach(function (stepName_) {
           operatorRequest.or.push({
             holarchy: {
               cm: {

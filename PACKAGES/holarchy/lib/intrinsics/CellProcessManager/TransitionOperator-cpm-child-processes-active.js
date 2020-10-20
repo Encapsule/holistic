@@ -15,13 +15,29 @@ module.exports = new TransitionOperator({
   description: "Returns Boolean true iff request.context.apmBindingPath is a cell process with one or more child cell processes.",
   operatorRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        childProcessesActive: {
+        cellCoordinates: {
+          ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell. Or, an IRUT that resolves to a known cellProcessID.
+          "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          ],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
+          },
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        query: {
           ____types: "jsObject",
-          filterBy: cellProcessQueryRequestFilterBySpec
+          filterBy: cellProcessQueryRequestFilterBySpec,
+          childProcessesActive: {
+            ____accept: "jsObject"
+          }
         }
       }
     }
@@ -36,8 +52,10 @@ module.exports = new TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.CellProcessor.childProcessesActive;
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      var messageBody = request_.operatorRequest.CellProcessor.cell;
+      var cpmLibResponse = cpmLib.cellProcessFamilyOperatorPrologue.request({
+        unresolvedCellCoordinates: messageBody.cellCoordinates,
+        apmBindingPath: request_.context.apmBindingPath,
         ocdi: request_.context.ocdi
       });
 
@@ -46,13 +64,12 @@ module.exports = new TransitionOperator({
         break;
       }
 
-      var cpmDataDescriptor = cpmLibResponse.result;
-      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses;
+      var prologueData = cpmLibResponse.result;
       cpmLibResponse = cpmLib.getProcessChildrenDescriptors.request({
-        cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
-        filterBy: message.filterBy,
+        cellProcessID: prologueData.resolvedCellCoordinates.cellPathID,
+        filterBy: messageBody.query.filterBy,
         ocdi: request_.context.ocdi,
-        treeData: ownedCellProcessesData
+        treeData: prologueData.ownedCellProcessesData
       });
 
       if (cpmLibResponse.error) {

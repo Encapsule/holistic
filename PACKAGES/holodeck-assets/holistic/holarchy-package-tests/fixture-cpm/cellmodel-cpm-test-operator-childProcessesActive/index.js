@@ -27,9 +27,11 @@ var cellModel = new holarchy.CellModel({
         description: "Wait for active child process(es) active.",
         transitions: [{
           transitionIf: {
-            holarchy: {
-              CellProcessor: {
-                childProcessesActive: {}
+            CellProcessor: {
+              cell: {
+                query: {
+                  childProcessesActive: {}
+                }
               }
             }
           },

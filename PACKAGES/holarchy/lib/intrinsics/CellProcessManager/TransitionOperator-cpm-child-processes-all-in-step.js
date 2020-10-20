@@ -15,21 +15,37 @@ module.exports = new TransitionOperator({
   description: "Returns Boolean true request.context.apmBindingPath is a cell process whose child processes are all in the specified process step.",
   operatorRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      cell: {
         ____types: "jsObject",
-        childProcessesAllInStep: {
-          ____types: "jsObject",
-          apmStep: {
-            // If apmStep is a single step name (string) then all child cell processes must be in that step.
-            // If apmStep is an array of step names (strings), then all child cell processes must be in any of the indicated steps.
-            ____types: ["jsString", "jsArray"],
-            stepName: {
-              ____accept: "jsString"
-            }
+        cellCoordinates: {
+          ____types: ["jsString", // If a string, then the caller-supplied value must be either a fully-qualified or relative path to a cell. Or, an IRUT that resolves to a known cellProcessID.
+          "jsObject" // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
+          ],
+          ____defaultValue: "#",
+          apmID: {
+            ____accept: "jsString"
           },
-          filterBy: cellProcessQueryRequestFilterBySpec
+          instanceName: {
+            ____accept: "jsString",
+            ____defaultValue: "singleton"
+          }
+        },
+        query: {
+          ____types: "jsObject",
+          filterBy: cellProcessQueryRequestFilterBySpec,
+          childProcessesAllInStep: {
+            ____types: "jsObject",
+            apmStep: {
+              // If apmStep is a single step name (string) then all child cell processes must be in that step.
+              // If apmStep is an array of step names (strings), then all child cell processes must be in any of the indicated steps.
+              ____types: ["jsString", "jsArray"],
+              stepName: {
+                ____accept: "jsString"
+              }
+            }
+          }
         }
       }
     }
@@ -44,8 +60,10 @@ module.exports = new TransitionOperator({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.CellProcessor.childProcessesAllInStep;
-      var cpmLibResponse = cpmLib.getProcessManagerData.request({
+      var messageBody = request_.operatorRequest.CellProcessor.cell;
+      var cpmLibResponse = cpmLib.cellProcessFamilyOperatorPrologue.request({
+        unresolvedCellCoordinates: messageBody.cellCoordinates,
+        apmBindingPath: request_.context.apmBindingPath,
         ocdi: request_.context.ocdi
       });
 
@@ -54,13 +72,12 @@ module.exports = new TransitionOperator({
         return "break";
       }
 
-      var cpmDataDescriptor = cpmLibResponse.result;
-      var ownedCellProcessesData = cpmDataDescriptor.data.ownedCellProcesses;
+      var prologueData = cpmLibResponse.result;
       cpmLibResponse = cpmLib.getProcessChildrenDescriptors.request({
-        cellProcessID: arccore.identifier.irut.fromReference(request_.context.apmBindingPath).result,
-        filterBy: message.filterBy,
+        cellProcessID: prologueData.resolvedCellCoordinates.cellPathID,
+        filterBy: messageBody.query.filterBy,
         ocdi: request_.context.ocdi,
-        treeData: ownedCellProcessesData
+        treeData: prologueData.ownedCellProcessesData
       });
 
       if (cpmLibResponse.error) {
@@ -77,15 +94,16 @@ module.exports = new TransitionOperator({
       var operatorRequest = {
         and: []
       };
+      var queryBody = messageBody.query.childProcessesAllInStep;
       childCellProcessDescriptors.forEach(function (childCellProcessDescriptor_) {
-        if (!Array.isArray(message.apmStep)) {
+        if (!Array.isArray(queryBody.apmStep)) {
           operatorRequest.and.push({
             holarchy: {
               cm: {
                 operators: {
                   cell: {
                     atStep: {
-                      step: message.apmStep,
+                      step: queryBody.apmStep,
                       path: childCellProcessDescriptor_.apmBindingPath
                     }
                   }
@@ -97,7 +115,7 @@ module.exports = new TransitionOperator({
           var suboperatorRequest = {
             or: []
           };
-          message.apmStep.forEach(function (stepName_) {
+          queryBody.apmStep.forEach(function (stepName_) {
             subOperatorRequest.or.push({
               holarchy: {
                 cm: {

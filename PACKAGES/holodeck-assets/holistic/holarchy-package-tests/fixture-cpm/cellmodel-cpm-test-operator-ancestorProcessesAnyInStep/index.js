@@ -27,11 +27,13 @@ var cellModel = new holarchy.CellModel({
         description: "Wait for any ancestor processes to be in any of the specified process step(s).",
         transitions: [{
           transitionIf: {
-            holarchy: {
-              CellProcessor: {
-                ancestorProcessesAnyInStep: {
-                  apmStep: "ready",
-                  omitCellProcessor: false
+            CellProcessor: {
+              cell: {
+                query: {
+                  ancestorProcessesAnyInStep: {
+                    apmStep: "ready",
+                    omitCellProcessor: false
+                  }
                 }
               }
             }

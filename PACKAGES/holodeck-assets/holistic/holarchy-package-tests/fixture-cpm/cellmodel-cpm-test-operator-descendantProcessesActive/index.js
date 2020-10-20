@@ -27,9 +27,11 @@ var cellModel = new holarchy.CellModel({
         description: "Wait for descendant process(es) active.",
         transitions: [{
           transitionIf: {
-            holarchy: {
-              CellProcessor: {
-                descendantProcessesActive: {}
+            CellProcessor: {
+              cell: {
+                query: {
+                  descendantProcessesActive: {}
+                }
               }
             }
           },
