@@ -28,6 +28,10 @@ module.exports = [{
           // constructorRequest
           methodCalls: [{
             methodName: "readNamespace",
+            argv: ["~.foo.bar"] // should fail gracefully
+
+          }, {
+            methodName: "readNamespace",
             argv: ["~.testMap"]
           }, {
             methodName: "writeNamespace",
