@@ -324,14 +324,15 @@ var cppTestModel1 = new holarchy.CellModel({
                       CellProcessProxy: {
                         proxy: {
                           operatorRequest: {
-                            holarchy: {
-                              cm: {
-                                operators: {
-                                  cell: {
-                                    atStep: {
-                                      path: "#",
-                                      step: "test_process_complete"
-                                    }
+                            /*Note this signature update*/
+                            CellProcessor: {
+                              cell: {
+                                cellCoordinates: "#",
+                                query: {
+                                  inStep: {
+                                    apmStep: "test_process_complete"
+                                    /*could now also be array of step value strings*/
+
                                   }
                                 }
                               }

@@ -94,14 +94,12 @@ module.exports = new TransitionOperator({
       childCellProcessDescriptors.forEach(function (childCellProcessDescriptor_) {
         if (!Array.isArray(queryBody.apmStep)) {
           operatorRequest.or.push({
-            holarchy: {
-              cm: {
-                operators: {
-                  cell: {
-                    atStep: {
-                      step: queryBody.apmStep,
-                      path: childCellProcessDescriptor_.apmBindingPath
-                    }
+            CellProcessor: {
+              cell: {
+                cellCoordinates: childCellProcessDescriptor_.apmBindingPath,
+                query: {
+                  inStep: {
+                    apmStep: queryBody.apmStep
                   }
                 }
               }
@@ -113,14 +111,12 @@ module.exports = new TransitionOperator({
           };
           queryBody.apmStep.forEach(function (stepName_) {
             subOperatorRequest.or.push({
-              holarchy: {
-                cm: {
-                  operators: {
-                    cell: {
-                      atStep: {
-                        step: stepName_,
-                        path: childCellProcessDescriptor_.apmBindingPath
-                      }
+              CellProcessor: {
+                cell: {
+                  cellCoordinates: childCellProcessDescriptor_.apmBindingPath,
+                  query: {
+                    inStep: {
+                      apmStep: stepName_
                     }
                   }
                 }

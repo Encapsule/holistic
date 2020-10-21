@@ -117,14 +117,12 @@ var transitionOperator = new TransitionOperator({
 
         if (!Array.isArray(queryBody.apmStep)) {
           operatorRequest.or.push({
-            holarchy: {
-              cm: {
-                operators: {
-                  cell: {
-                    atStep: {
-                      step: queryBody.apmStep,
-                      path: ancestorCellProcessDescriptor_.apmBindingPath
-                    }
+            CellProcessor: {
+              cell: {
+                cellCoordinates: ancestorCellProcessDescriptor_.apmBindingPath,
+                query: {
+                  inStep: {
+                    apmStep: queryBody.apmStep
                   }
                 }
               }
@@ -136,14 +134,12 @@ var transitionOperator = new TransitionOperator({
           };
           queryBody.apmStep.forEach(function (stepName_) {
             subOperatorRequest.or.push({
-              holarchy: {
-                cm: {
-                  operators: {
-                    cell: {
-                      atStep: {
-                        step: stepName_,
-                        path: ancestorCellProcessDescriptor_.apmBindingPath
-                      }
+              CellProcessor: {
+                cell: {
+                  cellCoordinates: ancestorCellProcessDescriptor_.apmBindingPath,
+                  query: {
+                    inStep: {
+                      apmStep: stepName_
                     }
                   }
                 }
