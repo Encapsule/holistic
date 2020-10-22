@@ -19,8 +19,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
   | o   O | | o   O | | o   O |
   o       O o       O o       O
 */
-// @encapsule/holarchy - the keystone of holistic app platform
-// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
+// @encapsule/holarchy Copyright (C) 2020 Christopher D. Russell for Encapsule Project
+// ObservableProcessController.js
+
+/*
+  ObservableProcessController is configured per-CellProcessor-instance to host
+  a specific class of cellular runtime services composed of active cells
+  (memory objects managed by ObservableProcessController) associated N:1 with
+  AbstractProcessModel declarations (registered w/the ObservableProcessController
+  instance at class instance construction).
+*/
 var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("./util/SimpleStopwatch");
@@ -95,6 +103,17 @@ var ObservableProcessController = /*#__PURE__*/function () {
         // if the instance was constructed in "automatic" evaluate mode.
 
         if (this._private.options.evaluate.firstEvaluation === "constructor") {
+          logger.request({
+            opc: {
+              id: this._private.id,
+              iid: this._private.iid,
+              name: this._private.name
+            },
+            subsystem: "opc",
+            method: "constructor",
+            phase: "body",
+            message: "Performing first cell runtime plane evaluation on OPC instance \"".concat(this._private.iid, "\"...")
+          });
           filterResponse = this.act({
             actorName: "ObservableProcessController::constructor",
             actorTaskDescription: "Performing initial post-construction system evaluation.",
@@ -112,6 +131,18 @@ var ObservableProcessController = /*#__PURE__*/function () {
             errors.push(filterResponse.error);
             break;
           }
+        } else {
+          logger.request({
+            opc: {
+              id: this._private.id,
+              iid: this._private.iid,
+              name: this._private.name
+            },
+            subsystem: "opc",
+            method: "constructor",
+            phase: "body",
+            message: "First cell runtime plane evaluation on OPC instance \"".concat(this._private.iid, "\" has been defferred until first action request...")
+          });
         }
 
         break;

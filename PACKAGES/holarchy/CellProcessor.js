@@ -6,8 +6,18 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+/*
+  O       o O       o O       o
+  | O   o | | O   o | | O   o |
+  | | O | | | | O | | | | O | |
+  | o   O | | o   O | | o   O |
+  o       O o       O o       O
+*/
+// @encapsule/holarchy Copyright (C) 2020 Christopher D. Russell for Encapsule Project
 // CellProcessor.js
 var constructorFilter = require("./lib/filters/cp-method-constructor-filter");
+
+var logger = require("./lib/util/holarchy-logger-filter");
 
 module.exports = /*#__PURE__*/function () {
   function CellProcessor(request_) {

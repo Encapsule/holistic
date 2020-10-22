@@ -168,13 +168,13 @@ var factoryResponse = arccore.filter.create({
                 return "(".concat(stackEntry_.actorName, ")");
               }).join(" > ");
               message = ["%cOPC::act <".concat(request_.opc.iid.substr(0, 4), "...> actor stack: ").concat(actorStack)];
-              var border = "2px solid ".concat(consoleColorsLUT.opc.act.borderColor);
+              var border = "4px solid ".concat(consoleColorsLUT.opc.act.borderColor);
               var marginLeft = "".concat(12 * (request_.opc.actorStack.length - 1), "px");
               styles += "border-left: ".concat(border, "; margin-left: ").concat(marginLeft, ";");
 
               switch (request_.phase) {
                 case "prologue":
-                  styles += "border-top: 2px solid ".concat(consoleColorsLUT.opc.act.borderTopColor, ";");
+                  styles += "border-top: 4px solid ".concat(consoleColorsLUT.opc.act.borderTopColor, ";");
 
                   if (request_.opc.actorStack.length === 1) {
                     styles += "margin-top: 1em";
@@ -189,7 +189,7 @@ var factoryResponse = arccore.filter.create({
                   break;
 
                 case "epilogue":
-                  styles += "border-bottom: 2px solid ".concat(consoleColorsLUT.opc.act.borderBottomColor, ";");
+                  styles += "border-bottom: 4px solid ".concat(consoleColorsLUT.opc.act.borderBottomColor, ";");
                   message.push(request_.message);
                   break;
 

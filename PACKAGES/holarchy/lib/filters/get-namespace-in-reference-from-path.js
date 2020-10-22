@@ -100,8 +100,7 @@ var arccore = require("@encapsule/arccore");
         resolvedSpecPathTokens.push(currentToken);
         var dataRef = request_.dataRef;
         var specRef = request_.specRef;
-        var dataRefQuery = dataRef ? true : false;
-        console.log("> OCD.getNamespaceInReferenceFromPath ".concat(dataRefQuery ? "store data" : "store specification", " search on OCD namespace path '").concat(request_.namespacePath, "' starting..."));
+        var dataRefQuery = dataRef ? true : false; // console.log(`> OCD.getNamespaceInReferenceFromPath ${dataRefQuery?"store data":"store specification"} search on OCD namespace path '${request_.namespacePath}' starting...`);
 
         while (pathTokens.length) {
           var resolveFilterSpecContainerElementDescriptor = false;
@@ -207,21 +206,18 @@ var arccore = require("@encapsule/arccore");
               if (specRef.____appdsl && specRef.____appdsl.apm && specRef.____appdsl.apm === "CPPU-UPgS8eWiMap3Ixovg"
               /*"Holarchy Cell Process Proxy Helper Process"*/
               ) {
-                console.log("> OCD::getNamespaceInReferenceFromPath is currently examining specRef path '".concat(resolvedSpecPathTokens.join("."), "' that is declared as a CellProcessProxy helpers cell instance."));
+                // console.log(`> OCD::getNamespaceInReferenceFromPath is currently examining specRef path '${resolvedSpecPathTokens.join(".")}' that is declared as a CellProcessProxy helpers cell instance.`);
                 var endOfSearch = pathTokens.length === 0;
 
                 if (endOfSearch) {
                   // The search has ended on a CellProcessProxy helper cell. Figure out how to respond.
-                  if (request_.cellProxyOptions.resolveModel === "resolve-intermediate-proxies") {
-                    // We're done. dataRef is what the caller has asked for.
-                    console.log("..... Returning data reference to CellProcessProxy instance memory at path '".concat(resolvedPathTokens.join("."), "'."));
-                  } else {
-                    console.log("..... We think we should now complete this request by attempting to resolve through the proxy '".concat(resolvedPathTokens.join("."), "' in order to return a reference to the connected cell process."));
-                  }
-                } else {
-                  // The search has encounted a CellProcessProxy helper cell while the search is in progress.
-                  console.log("..... We think we should now attempt to resolve through the proxy '".concat(resolvedPathTokens.join("."), "' and then complete the search using remain path tokens applied to updated dataRef and specRef."));
-                } // end if !endOfSearch
+                  if (request_.cellProxyOptions.resolveModel === "resolve-intermediate-proxies") {// We're done. dataRef is what the caller has asked for.
+                    // console.log(`..... Returning data reference to CellProcessProxy instance memory at path '${resolvedPathTokens.join(".")}'.`);
+                  } else {// console.log(`..... We think we should now complete this request by attempting to resolve through the proxy '${resolvedPathTokens.join(".")}' in order to return a reference to the connected cell process.`);
+                    }
+                } else {// The search has encounted a CellProcessProxy helper cell while the search is in progress.
+                    // console.log(`..... We think we should now attempt to resolve through the proxy '${resolvedPathTokens.join(".")}' and then complete the search using remain path tokens applied to updated dataRef and specRef.`);
+                  } // end if !endOfSearch
 
               } // if current data namespace is a CellProcessProxy helper cell.
 

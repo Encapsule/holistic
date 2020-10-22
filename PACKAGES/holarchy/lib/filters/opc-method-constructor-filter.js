@@ -42,7 +42,9 @@ var factoryResponse = arccore.filter.create({
     var filterResponse;
 
     var _loop = function _loop() {
-      inBreakScope = true; // Note that if no failure occurs in this filter then response.result
+      inBreakScope = true;
+      console.log("OPC::constructor [".concat(request_.id, "::").concat(request_.name, "] enter..."));
+      console.log("> Processing cellular service class definition..."); // Note that if no failure occurs in this filter then response.result
       // will be assigned to OPCI this._private namespace.
 
       var result = {
@@ -101,6 +103,7 @@ var factoryResponse = arccore.filter.create({
       // Note that there's a 1:N relationship between an APM declaration and binding instances of an APM.
       // This is because a single APM declaration may be bound to an arbitrary number of OCD namespaces.
 
+      console.log("> Registering AbstractProcessModel instances...");
       request_.abstractProcessModelSets.push(intrinsics.models);
 
       for (var index0 = 0; index0 < request_.abstractProcessModelSets.length; index0++) {
@@ -134,9 +137,10 @@ var factoryResponse = arccore.filter.create({
         var message = "WARNING: No AbstractProcessModel class instances registered!";
         console.warn(message);
         result.constructionWarnings.push(message);
-      } // ================================================================
-      // Instantiate a temporary filter for the purposes of validating and normalizing the developer-specified OCD template spec.
+      }
 
+      console.log("> Processing cell runtime plane memory specification..."); // ================================================================
+      // Instantiate a temporary filter for the purposes of validating and normalizing the developer-specified OCD template spec.
 
       var factoryResponse = arccore.filter.create({
         operationID: "demo",
@@ -155,7 +159,8 @@ var factoryResponse = arccore.filter.create({
       // and synthesize the OCD's runtime filter spec from template + APM-provided template + OPC overlay aspects.
       // Traverse the controller data filter specification and find all namespace declarations containing an APM binding.
 
-      var errorRootNamespace = "Rejecting OCD spec template. The root namespace must be declared with literally just the ____types: \"jsObject\" quanderscore directive; no other directives are allowed in ~ namespace."; // Analyze the type constraint on the root namespace, ~, of the ocdTemplateSpec.
+      var errorRootNamespace = "Rejecting OCD spec template. The root namespace must be declared with literally just the ____types: \"jsObject\" quanderscore directive; no other directives are allowed in ~ namespace.";
+      console.log("> Locating cell activation coordinates in cell runtime plane memory..."); // Analyze the type constraint on the root namespace, ~, of the ocdTemplateSpec.
 
       if (result.ocdTemplateSpec.____opaque || result.ocdTemplateSpec.____accept || Array.isArray(result.ocdTemplateSpec.____types) || result.ocdTemplateSpec.____types !== "jsObject") {
         errors.push(errorRootNamespace);
@@ -338,6 +343,7 @@ var factoryResponse = arccore.filter.create({
       // Construct the contained Observable Controller Data that the OPC instance uses to manage the state associated with APM instances.
 
 
+      console.log("> Configuring cell runtime plane memory controller...");
       var ocdInstance = new ObservableControllerData({
         spec: result.ocdRuntimeSpec,
         data: request_.ocdInitData
@@ -350,78 +356,21 @@ var factoryResponse = arccore.filter.create({
       }
 
       result.ocdi = ocdInstance; // ================================================================
-      // Build an arccore.discriminator filter instance to route transition
-      // operatror request messages to a registered transition operator
-      // filter for processing. This is an application of the Discriminated
-      // Message Routing (DMR) pattern.
-
-      var transitionOperatorFilters = []; // Flatten the array of array of TransitionOperator classes and extract their arccore.filter references.
-
-      request_.transitionOperatorSets.push(intrinsics.operators);
-      request_.transitionOperatorSets.forEach(function (transitionOperatorSet_) {
-        transitionOperatorSet_.forEach(function (transitionOperatorInstance_) {
-          if (!transitionOperatorInstance_.isValid()) {
-            var _warningMessage3 = "WARNING: Ignoring invalid TransitionOperator class instance: ".concat(transitionOperatorInstance_.toJSON());
-
-            result.constructionWarnings.push(_warningMessage3);
-          } else {
-            var filter = transitionOperatorInstance_.getFilter();
-            var id = filter.filterDescriptor.operationID; // Silently de-duplicate.
-
-            if (!result.transitionDispatcherFilterMap[id]) {
-              result.transitionDispatcherFilterMap[id] = filter;
-              transitionOperatorFilters.push(filter);
-            }
-          }
-        });
-      });
-
-      if (transitionOperatorFilters.length >= 2) {
-        filterResponse = arccore.discriminator.create({
-          // TODO: At some point we will probably switch this is force resolution of the target filter ID
-          // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
-          // transition operator filters that are called and we otherwise do not know this because it's
-          // not encoded obviously in a transition operator's request.
-          options: {
-            action: "getFilter"
-          },
-          filters: transitionOperatorFilters
-        });
-
-        if (filterResponse.error) {
-          errors.push(filterResponse.error);
-          return "break";
-        }
-
-        result.transitionDispatcher = filterResponse.result;
-      } else {
-        var _warningMessage4 = "WARNING: No TransitionOperator class instances have been registered!";
-        result.constructionWarnings.push(_warningMessage4);
-        console.warn(_warningMessage4); // Register a dummy discriminator.
-
-        result.transitionDispatcher = {
-          request: function request() {
-            return {
-              error: "No TransitionOperator class instances registered!"
-            };
-          }
-        };
-      } // ================================================================
       // Build an arccore.discrimintor filter instance to route controller
       // action request messages to a registitered controller action filter
       // for processing. This is an application of the Discriminated Message
       // Routing (DMR) pattern.
 
-
       var controllerActionFilters = []; // Flatten the array of array of ControllerAction classes and extract their arccore.filter references.
 
+      console.log("> Configuring cell runtime plane action request space processor...");
       request_.controllerActionSets.push(intrinsics.actions);
       request_.controllerActionSets.forEach(function (controllerActionSet_) {
         controllerActionSet_.forEach(function (controllerActionInstance_) {
           if (!controllerActionInstance_.isValid()) {
-            var _warningMessage5 = "WARNING: Ignoring invalid ControllerAction class instance: ".concat(controllerActionInstance_.toJSON());
+            var _warningMessage3 = "WARNING: Ignoring invalid ControllerAction class instance: ".concat(controllerActionInstance_.toJSON());
 
-            result.constructionWarnings.push(_warningMessage5);
+            result.constructionWarnings.push(_warningMessage3);
           } else {
             var filter = controllerActionInstance_.getFilter();
             var id = filter.filterDescriptor.operationID; // Silently de-duplicate.
@@ -453,9 +402,9 @@ var factoryResponse = arccore.filter.create({
 
         result.actionDispatcher = filterResponse.result;
       } else {
-        var _warningMessage6 = "WARNING: No ControllerAction class instances have been registered!";
-        result.constructionWarnings.push(_warningMessage6);
-        console.warn(_warningMessage6);
+        var _warningMessage4 = "WARNING: No ControllerAction class instances have been registered!";
+        result.constructionWarnings.push(_warningMessage4);
+        console.warn(_warningMessage4);
         result.actionDispatcher = {
           request: function request() {
             return {
@@ -464,10 +413,70 @@ var factoryResponse = arccore.filter.create({
           }
         };
       } // ================================================================
+      // Build an arccore.discriminator filter instance to route transition
+      // operatror request messages to a registered transition operator
+      // filter for processing. This is an application of the Discriminated
+      // Message Routing (DMR) pattern.
+
+
+      var transitionOperatorFilters = []; // Flatten the array of array of TransitionOperator classes and extract their arccore.filter references.
+
+      console.log("> Configuring cell runtime plane operator request space processor...");
+      request_.transitionOperatorSets.push(intrinsics.operators);
+      request_.transitionOperatorSets.forEach(function (transitionOperatorSet_) {
+        transitionOperatorSet_.forEach(function (transitionOperatorInstance_) {
+          if (!transitionOperatorInstance_.isValid()) {
+            var _warningMessage5 = "WARNING: Ignoring invalid TransitionOperator class instance: ".concat(transitionOperatorInstance_.toJSON());
+
+            result.constructionWarnings.push(_warningMessage5);
+          } else {
+            var filter = transitionOperatorInstance_.getFilter();
+            var id = filter.filterDescriptor.operationID; // Silently de-duplicate.
+
+            if (!result.transitionDispatcherFilterMap[id]) {
+              result.transitionDispatcherFilterMap[id] = filter;
+              transitionOperatorFilters.push(filter);
+            }
+          }
+        });
+      });
+
+      if (transitionOperatorFilters.length >= 2) {
+        filterResponse = arccore.discriminator.create({
+          // TODO: At some point we will probably switch this is force resolution of the target filter ID
+          // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
+          // transition operator filters that are called and we otherwise do not know this because it's
+          // not encoded obviously in a transition operator's request.
+          options: {
+            action: "getFilter"
+          },
+          filters: transitionOperatorFilters
+        });
+
+        if (filterResponse.error) {
+          errors.push(filterResponse.error);
+          return "break";
+        }
+
+        result.transitionDispatcher = filterResponse.result;
+      } else {
+        var _warningMessage6 = "WARNING: No TransitionOperator class instances have been registered!";
+        result.constructionWarnings.push(_warningMessage6);
+        console.warn(_warningMessage6); // Register a dummy discriminator.
+
+        result.transitionDispatcher = {
+          request: function request() {
+            return {
+              error: "No TransitionOperator class instances registered!"
+            };
+          }
+        };
+      } // ================================================================
       // Finish up if no error(s).
 
 
       if (!errors.length) {
+        console.log("> Cellular service class definition accepted. Cell runtime plane is now ACTIVE.");
         response.result = _objectSpread({
           request_: request_
         }, result); // validated+normalized request_ overwritten with ...result
@@ -485,6 +494,7 @@ var factoryResponse = arccore.filter.create({
       response.error = errors.join(" ");
     }
 
+    console.log("OPC::constructor [".concat(request_.id, "::").concat(request_.name, "] exit."));
     return response;
   } // bodyFunction
 

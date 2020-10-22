@@ -184,12 +184,26 @@ var factoryResponse = arccore.filter.create({
             subsystem: "opc",
             method: "act",
             phase: "body",
-            message: "WAITING ON CELLS..."
+            message: "Propagating cell action affects through active cells..."
           }); // Evaluate is an actor too. It adds itself to the OPC actor stack.
           // And is responsible itself for ensuring that it cleans up after
           // itself no matter how it may fail.
 
           evaluateResponse = opcRef._evaluate();
+          logger.request({
+            opc: {
+              id: opcRef._private.id,
+              iid: opcRef._private.iid,
+              name: opcRef._private.name,
+              evalCount: opcRef._private.evalCount,
+              frameCount: 0,
+              actorStack: opcRef._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "act",
+            phase: "body",
+            message: "Action affects propogation complete. CellProcessor instance will now go back to sleep."
+          });
 
           if (evaluateResponse.error) {
             errors.push("Unable to evaluate OPC state after executing controller action due to error:");

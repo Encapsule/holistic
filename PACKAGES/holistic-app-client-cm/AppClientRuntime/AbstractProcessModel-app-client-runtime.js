@@ -61,38 +61,35 @@ module.exports = {
       description: "Start core client app kernel subsystems.",
       actions: {
         enter: [{
-          holarchy: {
-            CellProcessor: {
-              process: {
-                create: {
-                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
-                  /* "Holistic App Client Kernel: DOM Location Processor" */
+          CellProcessor: {
+            process: {
+              activate: {},
+              processCoordinates: {
+                apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                /* "Holistic App Client Kernel: DOM Location Processor" */
 
-                }
               }
             }
           }
         }, {
-          holarchy: {
-            CellProcessor: {
-              process: {
-                create: {
-                  apmID: "Hsu-43zBRgqHItCPWPiBng"
-                  /* "Holistic App Client Kernel: Client View Processor" */
+          CellProcessor: {
+            process: {
+              activate: {},
+              processCoordinates: {
+                apmID: "Hsu-43zBRgqHItCPWPiBng"
+                /* "Holistic App Client Kernel: Client View Processor" */
 
-                }
               }
             }
           }
         }, {
-          holarchy: {
-            CellProcessor: {
-              process: {
-                create: {
-                  apmID: "IxoJ83u0TXmG7PLUYBvsyg"
-                  /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+          CellProcessor: {
+            process: {
+              activate: {},
+              processCoordinates: {
+                apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
 
-                }
               }
             }
           }
