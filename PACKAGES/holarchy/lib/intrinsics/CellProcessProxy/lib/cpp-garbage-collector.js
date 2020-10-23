@@ -104,7 +104,7 @@ var factoryResponse = arccore.filter.create({
           } // ****************************************************************
           // ****************************************************************
           // ****************************************************************
-          // Analyze the current edge vertex set.
+          // Analyze the current leaf vertex set.
 
 
           while (leafVertices.length) {
@@ -122,7 +122,7 @@ var factoryResponse = arccore.filter.create({
                 // we want to remove the proxy vertex as we only allow connected proxies in the shared digraph.
                 var ocdResponse = request_.ocdi.writeNamespace({
                   apmBindingPath: _examineVertexProp.apmBindingPath,
-                  dataPath: "#.lcpConnect"
+                  dataPath: "#.CPPU-UPgS8eWiMap3Ixovg_private.lcpConnect"
                 }, null);
 
                 if (ocdResponse.error) {
@@ -223,7 +223,7 @@ var factoryResponse = arccore.filter.create({
           sharedDigraph.removeVertex(deleteProcessID);
           var actResponse = request_.act({
             actorName: "Cell Process Proxy: Garbage Collector",
-            actorTaskDescription: "Deleting unneeded shared cell process.",
+            actorTaskDescription: "Deleting unreferenced shared cell process.",
             actionRequest: {
               CellProcessor: {
                 process: {
