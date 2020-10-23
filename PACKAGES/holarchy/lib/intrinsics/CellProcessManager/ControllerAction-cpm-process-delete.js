@@ -248,7 +248,7 @@ var controllerAction = new ControllerAction({
       });
 
       if (cppLibResponse.error) {
-        errors.push(cppResponse.error);
+        errors.push(cppLibResponse.error);
         return "break";
       }
 
@@ -260,7 +260,7 @@ var controllerAction = new ControllerAction({
         });
 
         if (cppLibResponse.error) {
-          errors.push(cppResponse.error);
+          errors.push(cppLibResponse.error);
           return "break";
         }
 

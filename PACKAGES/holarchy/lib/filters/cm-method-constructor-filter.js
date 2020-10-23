@@ -52,7 +52,7 @@ var factoryResponse = arccore.filter.create({
       }
 
       if (!idResponse.result) {
-        errors.push("Bad SMR ID specified:");
+        errors.push("Bad CellModel ID IRUT specified:");
         errors.push(idResponse.guidance);
       } // Optimistically initialize the response.result object.
 

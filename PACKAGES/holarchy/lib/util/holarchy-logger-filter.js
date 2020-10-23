@@ -168,7 +168,7 @@ var factoryResponse = arccore.filter.create({
                 return "(".concat(stackEntry_.actorName, ")");
               }).join(" > ");
               message = ["%cOPC::act <".concat(request_.opc.iid.substr(0, 4), "...> actor stack: ").concat(actorStack)];
-              var border = "4px solid ".concat(consoleColorsLUT.opc.act.borderColor);
+              var border = "8px solid ".concat(consoleColorsLUT.opc.act.borderColor);
               var marginLeft = "".concat(12 * (request_.opc.actorStack.length - 1), "px");
               styles += "border-left: ".concat(border, "; margin-left: ").concat(marginLeft, ";");
 
