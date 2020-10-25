@@ -122,7 +122,16 @@ var apm = new holarchy.AbstractProcessModel({
       }]
     },
     initializing: {
-      description: "d2r2/React Client Display Adaptor process is initializing..."
+      description: "d2r2/React Client Display Adaptor process is initializing...",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "initialized"
+      }]
+    },
+    initialized: {
+      description: "d2r2/React Client Display Adaptor is initialized (temporary placeholder)."
     } // ----------------------------------------------------------------
 
     /*

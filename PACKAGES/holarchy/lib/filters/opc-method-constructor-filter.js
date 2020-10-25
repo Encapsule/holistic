@@ -160,7 +160,7 @@ var factoryResponse = arccore.filter.create({
       // Traverse the controller data filter specification and find all namespace declarations containing an APM binding.
 
       var errorRootNamespace = "Rejecting OCD spec template. The root namespace must be declared with literally just the ____types: \"jsObject\" quanderscore directive; no other directives are allowed in ~ namespace.";
-      console.log("> Locating cell activation coordinates in cell runtime plane memory..."); // Analyze the type constraint on the root namespace, ~, of the ocdTemplateSpec.
+      console.log("> Locating cell activation coordinates in cell runtime plane memory specification..."); // Analyze the type constraint on the root namespace, ~, of the ocdTemplateSpec.
 
       if (result.ocdTemplateSpec.____opaque || result.ocdTemplateSpec.____accept || Array.isArray(result.ocdTemplateSpec.____types) || result.ocdTemplateSpec.____types !== "jsObject") {
         errors.push(errorRootNamespace);
@@ -355,7 +355,8 @@ var factoryResponse = arccore.filter.create({
         return "break";
       }
 
-      result.ocdi = ocdInstance; // ================================================================
+      result.ocdi = ocdInstance;
+      console.log("+ Cell plane memory controller configured; read/write access to cellplane enabled."); // ================================================================
       // Build an arccore.discrimintor filter instance to route controller
       // action request messages to a registitered controller action filter
       // for processing. This is an application of the Discriminated Message
@@ -363,7 +364,7 @@ var factoryResponse = arccore.filter.create({
 
       var controllerActionFilters = []; // Flatten the array of array of ControllerAction classes and extract their arccore.filter references.
 
-      console.log("> Configuring cell runtime plane action request space processor...");
+      console.log("> Configuring cell runtime plane action request bus...");
       request_.controllerActionSets.push(intrinsics.actions);
       request_.controllerActionSets.forEach(function (controllerActionSet_) {
         controllerActionSet_.forEach(function (controllerActionInstance_) {
@@ -401,6 +402,7 @@ var factoryResponse = arccore.filter.create({
         }
 
         result.actionDispatcher = filterResponse.result;
+        console.log("+ Action request bus configured to route arbitrary request object to 1 of ".concat(controllerActionFilters.length, " registered ControllerAction plug-in filters."));
       } else {
         var _warningMessage4 = "WARNING: No ControllerAction class instances have been registered!";
         result.constructionWarnings.push(_warningMessage4);
@@ -421,7 +423,7 @@ var factoryResponse = arccore.filter.create({
 
       var transitionOperatorFilters = []; // Flatten the array of array of TransitionOperator classes and extract their arccore.filter references.
 
-      console.log("> Configuring cell runtime plane operator request space processor...");
+      console.log("> Configuring cell runtime plane operator request bus...");
       request_.transitionOperatorSets.push(intrinsics.operators);
       request_.transitionOperatorSets.forEach(function (transitionOperatorSet_) {
         transitionOperatorSet_.forEach(function (transitionOperatorInstance_) {
@@ -459,6 +461,7 @@ var factoryResponse = arccore.filter.create({
         }
 
         result.transitionDispatcher = filterResponse.result;
+        console.log("+ Operator request bus configured to route arbitrary request object to 1 of ".concat(transitionOperatorFilters.length, " registered TransitionOperator plug-in filters."));
       } else {
         var _warningMessage6 = "WARNING: No TransitionOperator class instances have been registered!";
         result.constructionWarnings.push(_warningMessage6);

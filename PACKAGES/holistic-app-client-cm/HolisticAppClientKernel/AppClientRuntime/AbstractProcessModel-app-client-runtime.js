@@ -21,16 +21,16 @@ module.exports = {
   },
   steps: {
     uninitialized: {
-      description: "Default starting process step.",
+      description: "Default starting process step. Start the Holistic App Client Kernel daemon cell processes on process step exit.",
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "boot0_hook_events"
+        nextStep: "kernel-boot"
       }]
     },
-    boot0_hook_events: {
-      description: "Hooking DOM events pertinent to tracking the lifecycle of this instance of the client application running inside the user's browser.",
+    "kernel-boot": {
+      description: "Initializing the holistic app client kernel process...",
       actions: {
         enter: [{
           holistic: {
@@ -48,19 +48,7 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
-        nextStep: "boot1_start_kernel"
-      }]
-    },
-    boot1_start_kernel: {
-      description: "Start core client app kernel subsystems.",
-      actions: {
-        enter: [{
+        }, {
           CellProcessor: {
             process: {
               activate: {},
@@ -99,19 +87,19 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot2_query_derived"
+        nextStep: "kernel-signal-lifecycle-init"
       }]
     },
-    // ================================================================
-    // **** CLIENT APPLICATION CALLBACK: QUERY
-    boot2_query_derived: {
-      description: "Query the derived client app for information required to initialize the core client app runtime.",
+    "kernel-signal-lifecycle-init": {
+      description: "Informing the derived holistic app client process that it is time initialize any private external subsystems that it requires and manages external to this CellProcessor instance.",
       actions: {
         enter: [{
           holistic: {
             app: {
               client: {
-                query: {}
+                lifecycle: {
+                  init: {}
+                }
               }
             }
           }
@@ -121,29 +109,73 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot3_wait_kernel"
+        nextStep: "kernel-wait-subprocesses"
       }]
     },
-    boot3_wait_kernel: {
-      description: "Wait for the core client app kernel subsystems to become available.",
-      transitions: [// TODO: We want to check status of subprocesses and errors etc. here before calling any client app derived code.
-      {
+    "kernel-wait-subprocesses": {
+      description: "Waiting for holistic app client kernel subprocesses to come online...",
+      transitions: [{
         transitionIf: {
-          always: true
+          and: [{
+            CellProcessor: {
+              cell: {
+                query: {
+                  inStep: {
+                    apmStep: "wait"
+                  }
+                },
+                cellCoordinates: {
+                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                  /* "Holistic App Client Kernel: DOM Location Processor" */
+
+                }
+              }
+            }
+          }, {
+            CellProcessor: {
+              cell: {
+                query: {
+                  inStep: {
+                    apmStep: "initialized"
+                  }
+                },
+                cellCoordinates: {
+                  apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                  /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+
+                }
+              }
+            }
+          }, {
+            CellProcessor: {
+              cell: {
+                query: {
+                  inStep: {
+                    apmStep: "wait_app_config"
+                  }
+                },
+                cellCoordinates: {
+                  apmID: "Hsu-43zBRgqHItCPWPiBng"
+                  /* "Holistic App Client Kernel: Client View Processor" */
+
+                }
+              }
+            }
+          }]
         },
-        nextStep: "boot4_config_derived"
+        nextStep: "kernel-signal-lifecycle-query"
       }]
     },
-    // ================================================================
-    // **** CLIENT APPLICATION CALLBACK: CONFIG
-    boot4_config_derived: {
-      description: "Configure the derived application runtime.",
+    "kernel-signal-lifecycle-query": {
+      description: "Querying the derived holistic app client process for its runtime requirements and capabilities.",
       actions: {
         enter: [{
           holistic: {
             app: {
               client: {
-                config: {}
+                lifecycle: {
+                  query: {}
+                }
               }
             }
           }
@@ -153,11 +185,11 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot5_wait_browser"
+        nextStep: "kernel-wait-browser-tab-init"
       }]
     },
-    boot5_wait_browser: {
-      description: "Wait for the browser to finish loading the HTML document and its referenced external resources (scripts, CSS, images, fonts, JSON, ...",
+    "kernel-wait-browser-tab-init": {
+      description: "Waiting for the browser to finish load/parse of the current HTML5 document so that we can safely presume all the resources that it references are accessible.",
       transitions: [{
         transitionIf: {
           holarchy: {
@@ -172,19 +204,31 @@ module.exports = {
             }
           }
         },
-        nextStep: "boot6_deserialize_app"
+        nextStep: "kernel-deserialize-init-data"
       }]
     },
-    // ================================================================
-    // **** CLIENT APPLICATION CALLBACK: DESERIALIZE
-    boot6_deserialize_app: {
-      description: "Access the boot ROM embedded in the hosting HTML document to get the suspended process state of the derived application.",
+    "kernel-deserialize-init-data": {
+      description: "Deserializing holistic app client init data written by the holistic app server into the now loaded and ready HTML5 document.",
+      // TODO: We need to do some generic pre-processing here. And, then dispatch lifecycle signal deserialize to the derived app.
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "kernel-signal-lifecycle-deserialize"
+      }]
+    },
+    "kernel-signal-lifecycle-deserialize": {
+      description: "Informing the derived holistic app client process that it is time to deserialize derived-application-specific init data written into the now loaded and ready HTML5 document by the holistic app server.",
       actions: {
         enter: [{
           holistic: {
             app: {
               client: {
-                deserialize: {}
+                lifecycle: {
+                  deserialize: {
+                    /*TODO*/
+                  }
+                }
               }
             }
           }
@@ -194,28 +238,31 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "boot7_init_app_view"
+        nextStep: "kernel-configure-runtime-environment"
       }]
     },
-    boot7_init_app_view: {
-      description: "Initialize the view and d2r2/React display models. Performs a d2r2/ReactDOM.hydrate operation ultimately.",
+    "kernel-configure-runtime-environment": {
+      description: "Preparing the holistic app client runtime environment...",
+      // TODO: Placeholder - we'll need probably to do a little work at this phase of the kernel boot process.
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "boot8_init_start_app"
+        nextStep: "kernel-signal-lifecycle-config"
       }]
     },
-    // ================================================================
-    // **** CLIENT APPLICATION CALLBACK: START RUNTIME
-    boot8_init_start_app: {
-      description: "Start the client application runtime.",
+    "kernel-signal-lifecycle-config": {
+      description: "Informing the derived holistic app client process that it is time to perform its final configuration steps before the client application is started.",
       actions: {
         enter: [{
           holistic: {
             app: {
               client: {
-                start: {}
+                lifecycle: {
+                  config: {
+                    /*TODO*/
+                  }
+                }
               }
             }
           }
@@ -225,20 +272,46 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "running"
+        nextStep: "kernel-final-prelaunch"
       }]
     },
-    running: {
-      description: "The client application is online and awaiting input from external actors."
+    "kernel-final-prelaunch": {
+      description: "Performing final runtime environment adjustments before starting the derived client app process.",
+      // TODO
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "kernel-signal-lifecycle-start"
+      }]
     },
-    error_process_boot_failure: {
-      description: "Client application process boot failed due to unrecoverable error(s)."
+    "kernel-signal-lifecycle-start": {
+      description: "Informing the derived holistic app client process that it is time to start the show!",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                lifecycle: {
+                  start: {
+                    /*TODO*/
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "kernel-started"
+      }]
     },
-    error_process_resume_failure: {
-      description: "Client application process resume failured due to unrecoverable error(s)."
-    },
-    error_process_runtime_failure: {
-      description: "Client application process crashed at runtime due to unexpected and unrecoverable error(s)."
+    "kernel-started": {
+      description: "The holistic app client kernel process is initialized. And, the derived client app is now running."
     }
-  }
+  } // steps
+
 };

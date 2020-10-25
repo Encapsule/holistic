@@ -20,7 +20,7 @@ var factoryResponse = arccore.filter.create({
       "jsString", // If an object, then the caller has specified the low-level apmID, instanceName coordinates directly.
       "jsObject"],
       ____defaultValue: "#",
-      apmBindingPath: {
+      apmID: {
         ____accept: "jsString"
       },
       instanceName: {
