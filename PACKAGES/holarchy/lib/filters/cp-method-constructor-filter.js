@@ -47,8 +47,8 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         console.log("| o   O | | o   O | | o   O |");
         console.log("o       O o       O o       O");
         console.log("CellProcessor::constructor [".concat(request_.id, "::").concat(request_.name, "] enter..."));
-        console.log("> Configuring process controller for the requested cellular runtime service class...");
-        var cpName = "[".concat(request_.id, "::").concat(request_.name, "]"); // Dereference the input CellModel.
+        console.log("> Configuring a contained ObservableProcessController instance to host this specific class of cellular runtime service...");
+        var cpName = "".concat(request_.name, " Runtime Host"); // Dereference the input CellModel.
 
         var cellmodel = request_.cellmodel instanceof CellModel ? request_.cellmodel : new CellModel(request_.cellmodel);
 
@@ -112,7 +112,7 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         } // end for apmConfig.length
 
 
-        var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcess_AbstractProcessModel")).result; // Define the CellProcessor process manager process namespace in shared memory and bind our APM.
+        var cpAPMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessManager_AbstractProcessModel")).result; // Define the CellProcessor process manager process namespace in shared memory and bind our APM.
         // Note that we specifiy a default value here ensuring that the process manager cell process is
         // always started automatically whenever a CellProcess instance is constructed.
 
@@ -127,11 +127,11 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         var cpCMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_CellModel")).result;
         var cpCM = new CellModel({
           id: cpCMID,
-          name: "Cell Process Manager ".concat(cpName, " Model"),
+          name: "".concat(cpName, " CellProcessManager"),
           description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
           apm: {
             id: cpAPMID,
-            name: "Cell Process Manager ".concat(cpName),
+            name: "".concat(cpName, " Cell Process Manager"),
             description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
             ocdDataSpec: {
               ____label: "Cell Process Manager",
@@ -232,8 +232,8 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
 
         var cpOPC = new ObservableProcessController({
           id: arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_ObservableProcessController")).result,
-          name: "".concat(cpName, " Observable Process Controller"),
-          description: "Provides shared memory and runtime automata process orchestration for ".concat(cpName, " CellProcessor-resident cell processes."),
+          name: "".concat(cpName, " ObservableProcessController"),
+          description: "Provides generic shared memory and runtime evaluation services (aka \"cell plane\") for '".concat(cpName, "' CellProcessor instance."),
           ocdTemplateSpec: ocdTemplateSpec,
           abstractProcessModelSets: [opcConfig.apm],
           transitionOperatorSets: [opcConfig.top],
@@ -260,7 +260,8 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
       }
 
       if (!response.error) {
-        console.log("> Process controller configuration succeeded. CellProcessor instance is online awaiting actions.");
+        console.log("> ObservableProcessController instance initialized.");
+        console.log("> CellProcessor instance initialized. Call method 'act' to interact w/this cellular process.");
         console.log("CellProcessor::constructor [".concat(request_.id, "::").concat(request_.name, "] exit."));
         console.log("O       o O       o O       o");
         console.log("| O   o | | O   o | | O   o |");

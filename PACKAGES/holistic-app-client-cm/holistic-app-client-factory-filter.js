@@ -153,13 +153,13 @@ var holarchy = require("@encapsule/holarchy");
         var appClientCellModel = new holarchy.CellModel({
           // CellModel declaration description object.
           id: request_.cellModelID,
-          name: "".concat(request_.name, " App Client CellModel (synthesized)"),
-          description: "Synthesized holistic app client CellModel for derived application '".concat(request_.name, "'."),
+          name: "".concat(request_.name, " App Client Runtime (synthesized)"),
+          description: "Synthesized holistic app client runtime CellModel for derived application '".concat(request_.name, "'."),
           apm: {
             // AbstractProcessModel declaration descriptor object
             id: request_.apmID,
-            name: "".concat(request_.name, " AbtractProcessModel (synthesized)"),
-            description: "Synthesized holistic app client AbstractProcessModel for derived application '".concat(request_.name, "'."),
+            name: "".concat(request_.name, " App Client Runtime (synthesized)"),
+            description: "Synthesized holistic app client runtime AbstractProcessModel for derived application '".concat(request_.name, "'."),
             ocdDataSpec: {
               ____label: "".concat(request_.name, " Process Memory"),
               ____description: "ObservableControllerData specification for APM ID '".concat(request_.apmID, "'."),
