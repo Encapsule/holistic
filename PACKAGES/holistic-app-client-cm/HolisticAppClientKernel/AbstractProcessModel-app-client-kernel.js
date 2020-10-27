@@ -26,7 +26,29 @@ module.exports = {
           ____accept: "jsString"
         }
       },
+      serviceProcesses: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        domLocationProcessor: {
+          ____accept: ["jsUndefined", "jsObject"]
+        },
+        d2r2DisplayAdapter: {
+          ____accept: ["jsUndefined", "jsObject"]
+        },
+        clientViewProcessor: {
+          ____accept: ["jsUndefined", "jsObject"]
+        }
+      },
+      appQueryResult: {
+        ____accept: ["jsUndefined", "jsObject"]
+      },
       bootROMData: {
+        ____accept: ["jsUndefined", "jsObject"]
+      },
+      appBootROMData: {
+        ____accept: ["jsUndefined", "jsObject"]
+      },
+      appConfigResult: {
         ____accept: ["jsUndefined", "jsObject"]
       },
       windowLoaded: {
@@ -69,34 +91,61 @@ module.exports = {
         }, // TODO: fix this request signature
         {
           CellProcessor: {
-            process: {
-              activate: {},
-              processCoordinates: {
-                apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
-                /* "Holistic App Client Kernel: DOM Location Processor" */
+            util: {
+              writeActionResponseToPath: {
+                dataPath: "#._private.serviceProcesses.domLocationProcessor",
+                actionRequest: {
+                  CellProcessor: {
+                    process: {
+                      activate: {},
+                      processCoordinates: {
+                        apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                        /* "Holistic App Client Kernel: DOM Location Processor" */
 
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }, {
           CellProcessor: {
-            process: {
-              activate: {},
-              processCoordinates: {
-                apmID: "IxoJ83u0TXmG7PLUYBvsyg"
-                /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+            util: {
+              writeActionResponseToPath: {
+                dataPath: "#._private.serviceProcesses.d2r2DisplayAdapter",
+                actionRequest: {
+                  CellProcessor: {
+                    process: {
+                      activate: {},
+                      processCoordinates: {
+                        apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                        /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
 
+                      }
+                    }
+                  }
+                }
               }
             }
           }
         }, {
           CellProcessor: {
-            process: {
-              activate: {},
-              processCoordinates: {
-                apmID: "Hsu-43zBRgqHItCPWPiBng"
-                /* "Holistic App Client Kernel: Client View Processor" */
+            util: {
+              writeActionResponseToPath: {
+                dataPath: "#._private.serviceProcesses.clientViewProcessor",
+                actionRequest: {
+                  CellProcessor: {
+                    process: {
+                      activate: {},
+                      processCoordinates: {
+                        apmID: "Hsu-43zBRgqHItCPWPiBng"
+                        /* "Holistic App Client Kernel: Client View Processor" */
 
+                      }
+                    }
+                  }
+                }
               }
             }
           }

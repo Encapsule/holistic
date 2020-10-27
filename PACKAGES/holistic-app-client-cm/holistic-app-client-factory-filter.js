@@ -309,10 +309,9 @@ var holarchy = require("@encapsule/holarchy");
               }
             },
             actionResultSpec: {
-              ____opaque: true
-              /* TODO */
-
+              ____accept: "jsUndefined"
             },
+            // The app client kernel does not care what the app client runtime does inside of its lifecycle init action.
             bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.initFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.query
@@ -339,9 +338,17 @@ var holarchy = require("@encapsule/holarchy");
               }
             },
             actionResultSpec: {
-              ____opaque: true
-              /*TODO*/
-
+              ____label: "Holistic App Client Runtime Query Result",
+              ____types: "jsObject",
+              ____defaultValue: {},
+              d2r2ComponentsArray: {
+                ____label: "Application-Defined d2r2 Components Array",
+                ____types: "jsArray",
+                ____defaultValue: [],
+                d2r2Component: {
+                  ____accept: "jsObject"
+                }
+              }
             },
             bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.queryFunction
           }, // ----------------------------------------------------------------
@@ -373,9 +380,14 @@ var holarchy = require("@encapsule/holarchy");
               }
             },
             actionResultSpec: {
-              ____opaque: true
-              /*TODO*/
-
+              ____label: "Holistic App Client Runtime Deserialize Result",
+              ____types: "jsObject",
+              ____defaultValue: {},
+              appBootROMData: {
+                ____description: "An opaque, application-defined object returned by the derived app client runtime process in response to the deserialize lifecycle event. This object is passed back to the derived app client runtime process via action request during subsequent kernel dispatch of the config lifecycle action.",
+                ____accept: "jsObject",
+                ____defaultValue: {}
+              }
             },
             bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.deserializeFunction
           }, // ----------------------------------------------------------------
@@ -395,7 +407,26 @@ var holarchy = require("@encapsule/holarchy");
                     lifecycle: {
                       ____types: "jsObject",
                       config: {
-                        ____accept: "jsObject"
+                        ____types: "jsObject",
+                        appInitialClientRoute: {
+                          ____opaque: true
+                        },
+                        // TODO: not even sure I want/need this yet.
+                        appBootROMData: {
+                          ____accept: "jsObject"
+                        },
+                        appRuntimeServiceProcesses: {
+                          ____types: "jsObject",
+                          appClientKernelProcessID: {
+                            ____accept: "jsString"
+                          },
+                          d2r2DisplayAdapterProcessID: {
+                            ____accept: "jsString"
+                          },
+                          domLocationProcessorProcessID: {
+                            ____accept: "jsString"
+                          }
+                        }
                       }
                     }
                   }
@@ -403,8 +434,8 @@ var holarchy = require("@encapsule/holarchy");
               }
             },
             actionResultSpec: {
-              ____opaque: true
-              /*TODO*/
+              ____accept: "jsUndefined"
+              /*currently we take nothing back*/
 
             },
             bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.configFunction

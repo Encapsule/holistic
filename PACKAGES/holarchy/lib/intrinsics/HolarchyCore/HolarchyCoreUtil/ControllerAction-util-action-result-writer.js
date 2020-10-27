@@ -6,38 +6,28 @@ var ObservableControllerData = require("../../../ObservableControllerData");
 
 var controllerAction = new ControllerAction({
   id: "aXju3wSBQnufe0r51Y04wg",
-  name: "Write Sub-Action Response",
+  name: "Holarchy Core Util: Action Response Writer",
   description: "A low-level utility action that dispatches a subaction returning the response to the caller and writing it also to the indicated OCD response namespace.",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      core: {
+      util: {
         ____types: "jsObject",
-        writeSubactionResponse: {
+        writeActionResponseToPath: {
           ____types: "jsObject",
-          subactionRequest: {
-            ____label: "Sub-Action Request",
-            ____description: "Some caller-specified action request that we're to dispatch on their behalf so that we can save the response in shared memory.",
+          actionRequest: {
             ____accept: "jsObject"
           },
-          writeResponsePath: {
-            ____label: "Write Response Path",
-            ____description: "Absolute (begins in ~), cell-relative (begins in #), OCD path to write the subaction response. Note that relative paths are also supported here.",
+          dataPath: {
             ____accept: "jsString"
           }
         }
       }
     }
   },
-  actionResult: {
-    ____types: "jsObject",
-    error: {
-      ____accept: ["jsNull", "jsString"]
-    },
-    result: {
-      ____opaque: true
-    }
+  actionResultSpec: {
+    ____accept: "jsObject"
   },
   bodyFunction: function bodyFunction(request_) {
     var response = {
@@ -48,9 +38,9 @@ var controllerAction = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.actionRequest.holarchy.core.writeSubactionResponse;
+      var messageBody = request_.actionRequest.CellProcessor.util.writeActionResponseToPath;
       var rpResponse = ObservableControllerData.dataPathResolve({
-        dataPath: message.writeResponsePath,
+        dataPath: messageBody.dataPath,
         apmBindingPath: request_.context.apmBindingPath
       });
 
@@ -60,12 +50,19 @@ var controllerAction = new ControllerAction({
       }
 
       var writeResponsePath = rpResponse.result; // resolved to absolute OCD path (that may be invalid).
-      // Dispatch the subaction...
+
+      var ocdResponse = request_.context.ocdi.getNamespaceSpec(writeResponsePath);
+
+      if (ocdResponse.error) {
+        errors.push(ocdResponse.error);
+        break;
+      } // Dispatch the subaction...
+
 
       var subactionResponse = request_.context.act({
         actorName: "Write Subaction Response",
         actorTaskDescription: "Dispatching caller-specified subaction in order to write the response to a caller-specified OCD namespace.",
-        actionRequest: message.subactionRequest,
+        actionRequest: messageBody.actionRequest,
         apmBindingPath: request_.context.apmBindingPath
       });
 
@@ -76,10 +73,10 @@ var controllerAction = new ControllerAction({
       } // Attempt to write the subaction response to the indicated namespace path.
 
 
-      var ocdResponse = request_.context.ocdi.writeNamespace(writeResponsePath, response);
+      ocdResponse = request_.context.ocdi.writeNamespace(writeResponsePath, response);
 
       if (ocdResponse.error) {
-        errors.push("Failed to write subaction response to OCD path '".concat(writeResponsePath, "'. Operation failed with error:"));
+        errors.push("Failed to write subaction response to dataPath '".concat(writeResponsePath, "'. Operation failed with error:"));
         errors.push(ocdResponse.error);
         errors.push("See response.result for the actual subaction response that we were not able to write."); // TODO?
 
@@ -99,7 +96,7 @@ var controllerAction = new ControllerAction({
 });
 
 if (!controllerAction.isValid()) {
-  throw new Error(controllerAction.jsJSON());
+  throw new Error(controllerAction.toJSON());
 }
 
 module.exports = controllerAction;
