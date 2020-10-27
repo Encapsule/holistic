@@ -91,21 +91,7 @@ var factoryResponse = arccore.filter.create({
           subsystem: "opc",
           method: "act",
           phase: "body",
-          message: "ACTOR: ".concat(request_.actorName)
-        });
-        logger.request({
-          opc: {
-            id: opcRef._private.id,
-            iid: opcRef._private.iid,
-            name: opcRef._private.name,
-            evalCount: opcRef._private.evalCount,
-            frameCount: 0,
-            actorStack: opcRef._private.opcActorStack
-          },
-          subsystem: "opc",
-          method: "act",
-          phase: "body",
-          message: "WANTS TO: ".concat(request_.actorTaskDescription)
+          message: request_.actorTaskDescription
         }); // Dispatch the action on behalf of the actor.
 
         var actionResponse = null;
@@ -116,7 +102,7 @@ var factoryResponse = arccore.filter.create({
 
           if (actionResponse.error) {
             actionResponse = {
-              error: "ControllerAction request value type cannot be routed to any registered ControllerAction plug-in filters based on runtime type feature analysis. ".concat(actionResponse.error, " Please check your request format vs. registered ControllerAction plug-in filter request signatures.")
+              error: "Invalid action request cannot be routed to any ControllerAction plug-in delegate."
             };
           } else {
             var actionFilter = actionResponse.result;
@@ -132,13 +118,13 @@ var factoryResponse = arccore.filter.create({
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "Dispatching ControllerAction filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]...")
+              message: "... action request routed to delegate filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "].")
             });
             actionResponse = actionFilter.request(controllerActionRequest);
 
             if (actionResponse.error) {
               actionResponse = {
-                error: "ControllerAction request was successfully parsed and routed to plug-in filter delegate [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "]. But, the plug-in rejected the request with error: ").concat(actionResponse.error)
+                error: "Action request was routed and subsequently rejected by the selected ControllerAction plug-in with error: ".concat(actionResponse.error)
               };
             }
           }

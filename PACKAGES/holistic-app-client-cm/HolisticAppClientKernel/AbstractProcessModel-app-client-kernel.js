@@ -8,9 +8,27 @@ module.exports = {
   ocdDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
-    "private": {
+    _private: {
       ____types: "jsObject",
       ____defaultValue: {},
+      bootROMElementID: {
+        ____types: "jsString",
+        ____defaultValue: "idClientBootROM"
+      },
+      derivedAppClientProcessCoordinates: {
+        ____label: "Derived App Client Runtime Process Coordinates",
+        ____description: "The cell process coordinates to be used to launch the derived app client cell process.",
+        ____types: "jsObject",
+        apmID: {
+          ____accept: "jsString"
+        },
+        instanceName: {
+          ____accept: "jsString"
+        }
+      },
+      bootROMData: {
+        ____accept: ["jsUndefined", "jsObject"]
+      },
       windowLoaded: {
         ____label: "window.onload Completed Flag",
         ____description: "Boolean flag set when the window.onload event occurs.",
@@ -48,7 +66,8 @@ module.exports = {
               }
             }
           }
-        }, {
+        }, // TODO: fix this request signature
+        {
           CellProcessor: {
             process: {
               activate: {},
@@ -64,8 +83,8 @@ module.exports = {
             process: {
               activate: {},
               processCoordinates: {
-                apmID: "Hsu-43zBRgqHItCPWPiBng"
-                /* "Holistic App Client Kernel: Client View Processor" */
+                apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
 
               }
             }
@@ -75,8 +94,8 @@ module.exports = {
             process: {
               activate: {},
               processCoordinates: {
-                apmID: "IxoJ83u0TXmG7PLUYBvsyg"
-                /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+                apmID: "Hsu-43zBRgqHItCPWPiBng"
+                /* "Holistic App Client Kernel: Client View Processor" */
 
               }
             }
@@ -97,8 +116,12 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                lifecycle: {
-                  init: {}
+                kernel: {
+                  _private: {
+                    signalLifecycleEvent: {
+                      eventLabel: "init"
+                    }
+                  }
                 }
               }
             }
@@ -173,8 +196,12 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                lifecycle: {
-                  query: {}
+                kernel: {
+                  _private: {
+                    signalLifecycleEvent: {
+                      eventLabel: "query"
+                    }
+                  }
                 }
               }
             }
@@ -197,26 +224,30 @@ module.exports = {
               operators: {
                 ocd: {
                   isBooleanFlagSet: {
-                    path: "#.private.windowLoaded"
+                    path: "#._private.windowLoaded"
                   }
                 }
               }
             }
           }
         },
-        nextStep: "kernel-deserialize-init-data"
-      }]
-    },
-    "kernel-deserialize-init-data": {
-      description: "Deserializing holistic app client init data written by the holistic app server into the now loaded and ready HTML5 document.",
-      // TODO: We need to do some generic pre-processing here. And, then dispatch lifecycle signal deserialize to the derived app.
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
         nextStep: "kernel-signal-lifecycle-deserialize"
       }]
     },
+
+    /*
+    "kernel-deserialize-init-data": {
+        description: "Deserializing holistic app client init data written by the holistic app server into the now loaded and ready HTML5 document.",
+        actions: {
+            enter: [
+                { holistic: { app: { client: { kernel: { private: { deserializeBootROM: {} } } } } } }
+            ]
+        },
+        transitions: [
+            { transitionIf: { always: true }, nextStep: "kernel-signal-lifecycle-deserialize" }
+        ]
+    },
+    */
     "kernel-signal-lifecycle-deserialize": {
       description: "Informing the derived holistic app client process that it is time to deserialize derived-application-specific init data written into the now loaded and ready HTML5 document by the holistic app server.",
       actions: {
@@ -224,9 +255,11 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                lifecycle: {
-                  deserialize: {
-                    /*TODO*/
+                kernel: {
+                  _private: {
+                    signalLifecycleEvent: {
+                      eventLabel: "deserialize"
+                    }
                   }
                 }
               }
@@ -243,7 +276,7 @@ module.exports = {
     },
     "kernel-configure-runtime-environment": {
       description: "Preparing the holistic app client runtime environment...",
-      // TODO: Placeholder - we'll need probably to do a little work at this phase of the kernel boot process.
+      // TODO placeholder for any work that needs to be done after the derived app client has performed deserialization.
       transitions: [{
         transitionIf: {
           always: true
@@ -258,9 +291,11 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                lifecycle: {
-                  config: {
-                    /*TODO*/
+                kernel: {
+                  _private: {
+                    signalLifecycleEvent: {
+                      eventLabel: "config"
+                    }
                   }
                 }
               }
@@ -277,7 +312,7 @@ module.exports = {
     },
     "kernel-final-prelaunch": {
       description: "Performing final runtime environment adjustments before starting the derived client app process.",
-      // TODO
+      // TODO placeholder for any work that needs to be done after the derived app client has configured itself.
       transitions: [{
         transitionIf: {
           always: true
@@ -292,9 +327,11 @@ module.exports = {
           holistic: {
             app: {
               client: {
-                lifecycle: {
-                  start: {
-                    /*TODO*/
+                kernel: {
+                  _private: {
+                    signalLifecycleEvent: {
+                      eventLabel: "start"
+                    }
                   }
                 }
               }

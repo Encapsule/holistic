@@ -141,7 +141,7 @@ var holarchy = require("@encapsule/holarchy");
       ____description: "Pass this CellModel to CellProcessor constructor function and then activate a cell process with the APM ID you specified to start the HTML5 client application service.",
       ____accept: "jsObject"
     },
-    bodyFunction: function bodyFunction(request_) {
+    bodyFunction: function bodyFunction(clientFactoryRequest_) {
       var response = {
         error: null
       };
@@ -152,17 +152,17 @@ var holarchy = require("@encapsule/holarchy");
         inBreakScope = true;
         var appClientCellModel = new holarchy.CellModel({
           // CellModel declaration description object.
-          id: request_.cellModelID,
-          name: "".concat(request_.name, " App Client Runtime (synthesized)"),
-          description: "Synthesized holistic app client runtime CellModel for derived application '".concat(request_.name, "'."),
+          id: clientFactoryRequest_.cellModelID,
+          name: "".concat(clientFactoryRequest_.name, " App Client Runtime (synthesized)"),
+          description: "Synthesized holistic app client runtime CellModel for derived application '".concat(clientFactoryRequest_.name, "'."),
           apm: {
             // AbstractProcessModel declaration descriptor object
-            id: request_.apmID,
-            name: "".concat(request_.name, " App Client Runtime (synthesized)"),
-            description: "Synthesized holistic app client runtime AbstractProcessModel for derived application '".concat(request_.name, "'."),
+            id: clientFactoryRequest_.apmID,
+            name: "".concat(clientFactoryRequest_.name, " App Client Runtime (synthesized)"),
+            description: "Synthesized holistic app client runtime AbstractProcessModel for derived application '".concat(clientFactoryRequest_.name, "'."),
             ocdDataSpec: {
-              ____label: "".concat(request_.name, " Process Memory"),
-              ____description: "ObservableControllerData specification for APM ID '".concat(request_.apmID, "'."),
+              ____label: "".concat(clientFactoryRequest_.name, " Process Memory"),
+              ____description: "ObservableControllerData specification for APM ID '".concat(clientFactoryRequest_.apmID, "'."),
               ____types: "jsObject",
               ____defaultValue: {} // TBD
 
@@ -182,13 +182,13 @@ var holarchy = require("@encapsule/holarchy");
 
           },
           // apm
-          subcells: [].concat(_toConsumableArray(request_.appClientCellModels), [require("./HolisticAppClientKernel")]),
+          subcells: [].concat(_toConsumableArray(clientFactoryRequest_.appClientCellModels), [require("./HolisticAppClientKernel")]),
           actions: [// ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.start
           // Call this action from outside CellProcessor in the client.js module to start the derived app client process.
           // clientAppCellProcessor.act({ actorName: "bootstrap", actorTaskDescription: "start the show...", actionRequest: { holistic: { app: { client: { start: {} } } } } });
           {
-            id: arccore.identifier.irut.fromReference("".concat(request_.cellModelID, "::holistic.app.client.start")).result,
+            id: arccore.identifier.irut.fromReference("".concat(clientFactoryRequest_.cellModelID, "::holistic.app.client.start")).result,
             name: "Holistic App Client Lifecycle Action: Initialize",
             description: "This action is invoked by the Holistic App Client Kernel process to inform the derived app client process to initialize itself.",
             actionRequestSpec: {
@@ -200,7 +200,7 @@ var holarchy = require("@encapsule/holarchy");
                   client: {
                     ____types: "jsObject",
                     start: {
-                      ____types: "jsObject" // TODO
+                      ____types: "jsObject" // TODO? Options?
 
                     }
                   }
@@ -221,19 +221,28 @@ var holarchy = require("@encapsule/holarchy");
 
               while (!inBreakScope) {
                 inBreakScope = true;
-                var actorName = "".concat(request_.name, " App Client Launcher");
+                var actorName = "".concat(clientFactoryRequest_.name, " App Client Launcher");
                 var actResponse = controllerActionRequest_.context.act({
                   actorName: actorName,
-                  actorTaskDescription: "Attempting to launch the Holistic App Client Kernel process on behalf of derived application '".concat(request_.name, "'."),
+                  actorTaskDescription: "Attempting to launch the Holistic App Client Kernel process on behalf of derived application '".concat(clientFactoryRequest_.name, "'."),
                   actionRequest: {
                     CellProcessor: {
                       process: {
-                        activate: {},
                         processCoordinates: {
                           apmID: "PPL45jw5RDWSMNsB97WIWg"
                           /* Holistic App Client Kernel */
                           ,
                           instanceName: "daemon"
+                        },
+                        activate: {
+                          processData: {
+                            _private: {
+                              derivedAppClientProcessCoordinates: {
+                                apmID: clientFactoryRequest_.apmID,
+                                instanceName: "daemon"
+                              }
+                            }
+                          }
                         }
                       }
                     }
@@ -247,13 +256,13 @@ var holarchy = require("@encapsule/holarchy");
 
                 actResponse = controllerActionRequest_.context.act({
                   actorName: actorName,
-                  actorTaskDescription: "Attempting to launch derived application '".concat(request_.name, "' process."),
+                  actorTaskDescription: "Attempting to launch derived application '".concat(clientFactoryRequest_.name, "' process."),
                   actionRequest: {
                     CellProcessor: {
                       process: {
                         activate: {},
                         processCoordinates: {
-                          apmID: request_.apmID,
+                          apmID: clientFactoryRequest_.apmID,
                           instanceName: "daemon"
                         }
                       }
@@ -278,7 +287,7 @@ var holarchy = require("@encapsule/holarchy");
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.init
           {
-            id: arccore.identifier.irut.fromReference("".concat(request_.cellModelID, "::holistic.app.client.lifecycle.init")).result,
+            id: arccore.identifier.irut.fromReference("".concat(clientFactoryRequest_.cellModelID, "::holistic.app.client.lifecycle.init")).result,
             name: "Holistic App Client Lifecycle Action: Initialize",
             description: "This action is dispatched by the Holistic App Client Kernel cell process to provide the derived app client cell process with an opportunity to configure/initialize any library and/or runtime code that is _external_ to this CellProcessor instance. ControllerAction bodyFunction should not write CellProcessor memory.",
             actionRequestSpec: {
@@ -304,11 +313,11 @@ var holarchy = require("@encapsule/holarchy");
               /* TODO */
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.initFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.initFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.query
           {
-            id: arccore.identifier.irut.fromReference("{request_.cellModelID}::holistic.app.client.lifecycle.query").result,
+            id: arccore.identifier.irut.fromReference("{clientFactoryRequest_.cellModelID}::holistic.app.client.lifecycle.query").result,
             name: "Holistic App Client Lifecycle Action: Query",
             description: "This action is dispatched by the Holistic App Client Kernel cell process to query the derived app client process for its requirements and capabilities.",
             actionRequestSpec: {
@@ -334,11 +343,11 @@ var holarchy = require("@encapsule/holarchy");
               /*TODO*/
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.queryFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.queryFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.deserialize
           {
-            id: arccore.identifier.irut.fromReference("{request_.cellModelID}::holistic.app.client.lifecycle.deserialize").result,
+            id: arccore.identifier.irut.fromReference("{clientFactoryRequest_.cellModelID}::holistic.app.client.lifecycle.deserialize").result,
             name: "Holistic App Client Lifecycle Action: Deserialize",
             description: "This action is dispatched by the Holistic App Client Kernel cell process after the HTML5 document has been completely loaded from the holistic app server via HTTP(S) to delegate the processing of derived-client-app-specific \"bootROM\" initialization data (serialized into the HTML5 document by the holistic app server).",
             actionRequestSpec: {
@@ -352,7 +361,11 @@ var holarchy = require("@encapsule/holarchy");
                     lifecycle: {
                       ____types: "jsObject",
                       deserialize: {
-                        ____accept: "jsObject"
+                        ____types: "jsObject",
+                        bootROMData: {
+                          ____accept: "jsObject"
+                        } // TODO: We will want to schematize this object when we bring holistic app server kernel online.
+
                       }
                     }
                   }
@@ -364,11 +377,11 @@ var holarchy = require("@encapsule/holarchy");
               /*TODO*/
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.deserializeFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.deserializeFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.config
           {
-            id: arccore.identifier.irut.fromReference("{request_.cellModelID}::holistic.app.client.lifecycle.config").result,
+            id: arccore.identifier.irut.fromReference("{clientFactoryRequest_.cellModelID}::holistic.app.client.lifecycle.config").result,
             name: "Holistic App Client Lifecycle Action: Configure",
             description: "This action is invoked by the Holistic App Client Kernel process to inform the derived app client process that it is time to configure itself.needed to complete the initialization of the kernel process.",
             actionRequestSpec: {
@@ -394,11 +407,11 @@ var holarchy = require("@encapsule/holarchy");
               /*TODO*/
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.configFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.configFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.start
           {
-            id: arccore.identifier.irut.fromReference("{request_.cellModelID}::holistic.app.client.lifecycle.start").result,
+            id: arccore.identifier.irut.fromReference("{clientFactoryRequest_.cellModelID}::holistic.app.client.lifecycle.start").result,
             name: "Holistic App Client Lifecycle Action: Query",
             description: "This action is invoked by the Holistic App Client Kernel process to query the derived app client process for information needed to complete the initialization of the kernel process.",
             actionRequestSpec: {
@@ -424,11 +437,11 @@ var holarchy = require("@encapsule/holarchy");
               /*TODO*/
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.startFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.startFunction
           }, // ----------------------------------------------------------------
           // ControllerAction: holistic.app.client.lifecycle.error
           {
-            id: arccore.identifier.irut.fromReference("{request_.cellModelID}::holistic.app.client.lifecycle.error").result,
+            id: arccore.identifier.irut.fromReference("{clientFactoryRequest_.cellModelID}::holistic.app.client.lifecycle.error").result,
             name: "Holistic App Client Lifecycle Action: Query",
             description: "This action is invoked by the Holistic App Client Kernel process to query the derived app client process for information needed to complete the initialization of the kernel process.",
             actionRequestSpec: {
@@ -454,7 +467,7 @@ var holarchy = require("@encapsule/holarchy");
               /*TODO*/
 
             },
-            bodyFunction: request_.appClientKernelIntegrations.lifecycleSignalActions.errorFunction
+            bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.errorFunction
           }]
         });
 
