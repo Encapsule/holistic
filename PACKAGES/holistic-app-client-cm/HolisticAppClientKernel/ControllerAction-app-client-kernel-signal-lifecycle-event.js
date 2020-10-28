@@ -46,7 +46,7 @@ var controllerAction = new holarchy.ControllerAction({
       inBreakScope = true;
       var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.kernel._private.signalLifecycleEvent;
-      console.log("".concat(actorName, " signalling lifecycle event '").concat(messageBody.eventLabel, "'..."));
+      console.log("".concat(actorName, " signaling lifecycle event '").concat(messageBody.eventLabel, "'..."));
       var ocdResponse = request_.context.ocdi.getNamespaceSpec(request_.context.apmBindingPath);
 
       if (ocdResponse.error) {
@@ -237,6 +237,93 @@ var controllerAction = new holarchy.ControllerAction({
           var cellProcessQueryResult = actResponse.result.actionResult;
           actResponse = request_.context.act({
             actorName: actorName,
+            actorTaskDescription: "Connecting derived app client process proxy helper cell back to the app client kernel process.",
+            actionRequest: {
+              CellProcessor: {
+                cell: {
+                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  delegate: {
+                    actionRequest: {
+                      CellProcessor: {
+                        proxy: {
+                          proxyCoordinates: "#.kernelProxy",
+                          connect: {
+                            processCoordinates: cellProcessQueryResult.query.cellProcessID
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
+
+          actResponse = request_.context.act({
+            actorName: actorName,
+            actorTaskDescription: "Connected derived app client process proxy helper cell to kernel-provided display adapter service process.",
+            actionRequest: {
+              CellProcessor: {
+                cell: {
+                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  delegate: {
+                    actionRequest: {
+                      CellProcessor: {
+                        proxy: {
+                          proxyCoordinates: "#.displayProxy",
+                          connect: {
+                            processCoordinates: kernelPrivateData.serviceProcesses.d2r2DisplayAdapter.result.cellProcessID
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
+
+          actResponse = request_.context.act({
+            actorName: actorName,
+            actorTaskDescription: "Connected derived app client process proxy helper cell to kernel-provided DOM location processor service process.",
+            actionRequest: {
+              CellProcessor: {
+                cell: {
+                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  delegate: {
+                    actionRequest: {
+                      CellProcessor: {
+                        proxy: {
+                          proxyCoordinates: "#.locationProxy",
+                          connect: {
+                            processCoordinates: kernelPrivateData.serviceProcesses.domLocationProcessor.result.cellProcessID
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
+
+          actResponse = request_.context.act({
+            actorName: actorName,
             actorTaskDescription: "Delegating app client kernel query lifecycle event to the derived app client process.",
             actionRequest: {
               CellProcessor: {
@@ -249,6 +336,7 @@ var controllerAction = new holarchy.ControllerAction({
                           client: {
                             lifecycle: {
                               config: {
+                                // TODO appInitialClientRoute (currently opaque so not an error but needed) likely by app client action implementation).
                                 appBootROMData: kernelPrivateData.appBootROMData,
                                 appRuntimeServiceProcesses: {
                                   appClientKernelProcessID: cellProcessQueryResult.query.cellProcessID,
