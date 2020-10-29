@@ -7,7 +7,7 @@
 // Process Manager model; the app/service-independent parts only are specified and the rest is only
 // knowable at CellProcessor construction time via analysis of the CellModel passed to the constructor.
 module.exports = {
-  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query"), // TODO: Disabled until I have time to think about
+  actions: [require("./ControllerAction-cpm-initialize"), require("./ControllerAction-cpm-cell-plane-error"), require("./ControllerAction-cpm-process-create"), require("./ControllerAction-cpm-process-delete"), require("./ControllerAction-cpm-process-query"), // TODO: Disabled until I have time to think about
   // which facets of the Cell Process Manager's state
   // data we want to expose. And, to what ends.
   // require("./ControllerAction-cpm-query")

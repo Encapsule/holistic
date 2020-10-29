@@ -102,7 +102,7 @@ var factoryResponse = arccore.filter.create({
 
           if (actionResponse.error) {
             actionResponse = {
-              error: "Invalid action request cannot be routed to any ControllerAction plug-in delegate."
+              error: "Invalid action request cannot be routed to any registered ControllerAction plug-in."
             };
           } else {
             var actionFilter = actionResponse.result;
@@ -118,13 +118,13 @@ var factoryResponse = arccore.filter.create({
               subsystem: "opc",
               method: "act",
               phase: "body",
-              message: "... action request routed to delegate filter [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "].")
+              message: "... action request routed to [".concat(actionFilter.filterDescriptor.operationID, "::").concat(actionFilter.filterDescriptor.operationName, "].")
             });
             actionResponse = actionFilter.request(controllerActionRequest);
 
             if (actionResponse.error) {
               actionResponse = {
-                error: "Action request was routed and subsequently rejected by the selected ControllerAction plug-in with error: ".concat(actionResponse.error)
+                error: "Invalid action request rejected by selected ControllerAction plug-in with error: ".concat(actionResponse.error)
               };
             }
           }
@@ -141,6 +141,27 @@ var factoryResponse = arccore.filter.create({
 
         if (actionResponse.error) {
           errors.push(actionResponse.error);
+
+          if (opcRef._private.opcActorStack.length === 1) {
+            console.log("> Informing Cell Process Manager of external actor request error."); // Best effort here...
+
+            opcRef.act({
+              actorName: "OPC::act Error Handler",
+              actorTaskDescription: "Informing Cell Process Manager about the error that occurred processing action request from external actor.",
+              actionRequest: {
+                CellProcessor: {
+                  _private: {
+                    opcCellPlaneErrorNotification: {
+                      errorType: "action-error",
+                      opcActResponse: actionResponse
+                    }
+                  }
+                }
+              }
+            });
+          } // if last actor on the actor stack
+
+
           break;
         } // If no errors have occurred then there's by definition at least
         // one pending action on the actor stack. This is so because
@@ -193,7 +214,8 @@ var factoryResponse = arccore.filter.create({
 
           if (evaluateResponse.error) {
             errors.push("Unable to evaluate OPC state after executing controller action due to error:");
-            errors.push(evaluateResponse.error);
+            errors.push(evaluateResponse.error); // a literal failure in the evaluate algorithm is promoted to transport error
+
             break;
           }
         }
@@ -202,6 +224,28 @@ var factoryResponse = arccore.filter.create({
           actionResult: actionResponse.result,
           lastEvaluation: evaluateResponse.result
         };
+
+        if (!evaluateResponse.error && response.result.lastEvaluation && response.result.lastEvaluation.summary.counts.errors !== 0) {
+          // There are transport error(s) occurring during OPC evaluation that indicate (typically) bug(s) in registered CellModel(s).
+          console.log("> Informing Cell Process Manager about transport error(s) that occurred during post-action evaluation of the cell plane."); // Best effort here...
+
+          opcRef.act({
+            actorName: "OPC::act Error Handler",
+            actorTaskDescription: "Informing Cell Process Manager about the transport error(s) that occurred during post-action evaluation of cell plane.",
+            actionRequest: {
+              CellProcessor: {
+                _private: {
+                  opcCellPlaneErrorNotification: {
+                    errorType: "transport-error",
+                    opcActResponse: response
+                  }
+                }
+              }
+            }
+          });
+        } // if last actor on the stack and transport error(s)
+
+
         break;
       } // while (!inBreakScope)
 

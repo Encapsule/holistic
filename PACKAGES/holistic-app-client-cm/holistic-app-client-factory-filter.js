@@ -551,7 +551,14 @@ var holarchy = require("@encapsule/holarchy");
                     lifecycle: {
                       ____types: "jsObject",
                       error: {
-                        ____accept: "jsObject"
+                        ____types: "jsObject",
+                        errorType: {
+                          ____accept: "jsString",
+                          ____inValueSet: ["action-error", "transport-error"]
+                        },
+                        opcActResponse: {
+                          ____accept: "jsObject"
+                        }
                       }
                     }
                   }
@@ -559,9 +566,8 @@ var holarchy = require("@encapsule/holarchy");
               }
             },
             actionResultSpec: {
-              ____opaque: true
-              /*TODO*/
-
+              ____accept: "jsString",
+              ____defaultValue: "okay"
             },
             bodyFunction: clientFactoryRequest_.appClientKernelIntegrations.lifecycleSignalActions.errorFunction
           }]

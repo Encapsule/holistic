@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -16,6 +22,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // @encapsule/holarchy Copyright (C) 2020 Christopher D. Russell for Encapsule Project
 // CellProcessor.js
 var constructorFilter = require("./lib/filters/cp-method-constructor-filter");
+
+var actFilter = require("./lib/filters/cp-method-act-filter");
 
 var logger = require("./lib/util/holarchy-logger-filter");
 
@@ -55,11 +63,7 @@ module.exports = /*#__PURE__*/function () {
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
-    } // This method will undergo some considerable transformation in the future.
-    // It's not nearly done yet. But, done enough to use CellProcessor for many
-    // jobs...Just not yet jobs that require that we save/restore the contents
-    // of a CellProcessor and or specific subgraphs of the process digraph.
-
+    }
   }, {
     key: "toJSON",
     value: function toJSON() {
@@ -68,7 +72,9 @@ module.exports = /*#__PURE__*/function () {
   }, {
     key: "act",
     value: function act(request_) {
-      return this.isValid() ? this._private.opc.act(request_) : {
+      return this.isValid() ? actFilter.request(_objectSpread(_objectSpread({}, request_), {}, {
+        opcRef: this._private.opc
+      })) : {
         error: this.toJSON()
       };
     }

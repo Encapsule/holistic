@@ -15,9 +15,9 @@ var controllerAction = new ControllerAction({
   description: "Performs initialization of Cell Process Manager cell process (the root and parent process of all cell processes executing in a CellProcess runtime host instance).",
   actionRequestSpec: {
     ____types: "jsObject",
-    holarchy: {
+    CellProcessor: {
       ____types: "jsObject",
-      CellProcessor: {
+      _private: {
         ____types: "jsObject",
         initialize: {
           ____types: "jsObject",
@@ -30,9 +30,9 @@ var controllerAction = new ControllerAction({
   },
   // actionRequestSpec
   actionResultSpec: {
-    ____accept: "jsUndefined"
+    ____accept: "jsString",
+    ____defaultValue: "okay"
   },
-  // calling this action returns no result whatsoever
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null
@@ -42,8 +42,8 @@ var controllerAction = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      console.log("Cell Process Manager process initializing...");
-      var message = request_.actionRequest.holarchy.CellProcessor.initialize;
+      console.log("Cell Process Manager process initializing..."); // const messageBody = request_.actionRequest.CellProcessor._private.initialize;
+
       var cpmLibResponse = cpmLib.getProcessManagerData.request({
         ocdi: request_.context.ocdi
       });

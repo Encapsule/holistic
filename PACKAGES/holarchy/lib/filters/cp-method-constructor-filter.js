@@ -195,8 +195,8 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
                 }],
                 actions: {
                   enter: [{
-                    holarchy: {
-                      CellProcessor: {
+                    CellProcessor: {
+                      _private: {
                         initialize: {}
                       }
                     }
