@@ -5,8 +5,8 @@ var holarchy = require("@encapsule/holarchy");
 
 module.exports = new holarchy.ControllerAction({
   id: "JwE4LMvpRGC3Jsg1RDjJ1Q",
-  name: "Holistic App Client Hook Events",
-  description: "Hooks DOM events on behalf of the Holistic App Client Runtime APM.",
+  name: "Holistic App Client Kernel: Hook DOM Events",
+  description: "Registers DOM event handlers on behalf of the Holistic App Client Kernel process needed to track application lifespan and provide core services.",
   actionRequestSpec: {
     ____types: "jsObject",
     holistic: {
@@ -15,19 +15,12 @@ module.exports = new holarchy.ControllerAction({
         ____types: "jsObject",
         client: {
           ____types: "jsObject",
-          cm: {
+          kernel: {
             ____types: "jsObject",
-            HolisticAppRuntime: {
+            _private: {
               ____types: "jsObject",
-              actions: {
-                ____types: "jsObject",
-                _private: {
-                  ____types: "jsObject",
-                  hookEvents: {
-                    ____accept: "jsBoolean",
-                    ____inValueSet: [true]
-                  }
-                }
+              hookDOMEvents: {
+                ____accept: "jsObject"
               }
             }
           }
@@ -36,9 +29,9 @@ module.exports = new holarchy.ControllerAction({
     }
   },
   actionResultSpec: {
-    ____accept: "jsUndefined"
+    ____accept: "jsString",
+    ____defaultValue: "okay"
   },
-  // action returns no response.result
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null
@@ -50,6 +43,7 @@ module.exports = new holarchy.ControllerAction({
       inBreakScope = true; // Hook the window.onload event.
 
       window.onload = function (event_) {
+        // We are now executing in the context of a DOM event handler callback.
         var actResponse = request_.context.act({
           apmBindingPath: request_.context.apmBindingPath,
           actorName: "DOM Event window.onload",
@@ -58,13 +52,11 @@ module.exports = new holarchy.ControllerAction({
             holistic: {
               app: {
                 client: {
-                  cm: {
-                    HolisticAppRuntime: {
-                      _private: {
-                        notifyEvent: {
-                          eventName: "window.onload",
-                          eventData: event_
-                        }
+                  kernel: {
+                    _private: {
+                      notifyEvent: {
+                        eventName: "window.onload",
+                        eventData: event_
                       }
                     }
                   }
@@ -73,13 +65,20 @@ module.exports = new holarchy.ControllerAction({
             }
           }
         });
-
-        if (actResponse.error) {
-          // TODO: We need a general way to report external actor failures back
-          // to the holistic app client kernel so that it can ensure that the
-          // derived application is made aware of the issue(s).
-          console.error("External actor failed to call DOM Event window.onload handler."); // throw new Error(actResponse.error);
-        }
+        /*
+          As of v0.0.47-alexandrite we can (as required) look at actResponse.error
+          to determine if the action request failed. And, if !actionResponse.error then
+          we could look at actionResponse.actionResult.lastEvaluation.summary.counts.errors
+          to determine if post-action cell plane evaluation occurred w/out error.
+          This information is pertinent, if for example, we needed to make additional
+          external actor requests on CellProcessor in this context (that we might not
+          want to make if a previous external action request failed). However, we are
+          not concerned that _any_ failure in the above action request call went unnoticed;
+          holistic-v0.0.47 ensures delivery of a notification-via-action-request to the derived
+          holistic app client process for all transport errors regardless of when, where, and in
+          what execution context they occur.
+           And, so because we have no more actions to perform here we are now done.
+        */
       }; // end window.onload event handler callback function
 
 

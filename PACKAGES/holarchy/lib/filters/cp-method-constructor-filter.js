@@ -127,7 +127,7 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         var cpCMID = arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_CellModel")).result;
         var cpCM = new CellModel({
           id: cpCMID,
-          name: "".concat(cpName, " CellProcessManager"),
+          name: "".concat(cpName, " Cell Process Manager"),
           description: "Cell process manager root process for CellProcessor ".concat(cpName, "."),
           apm: {
             id: cpAPMID,

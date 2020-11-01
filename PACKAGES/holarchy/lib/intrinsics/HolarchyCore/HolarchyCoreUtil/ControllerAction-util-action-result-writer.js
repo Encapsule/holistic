@@ -21,13 +21,31 @@ var controllerAction = new ControllerAction({
           },
           dataPath: {
             ____accept: "jsString"
+          },
+          options: {
+            ____types: "jsObject",
+            ____defaultValue: {},
+            reportInnerError: {
+              ____label: "Report Inner Error",
+              ____description: "If false (default) then response.error returned by inner action request is not reported to the caller (we presume the caller looks at the inner action response written to dataPath).",
+              ____accept: "jsBoolean",
+              ____defaultValue: false
+            },
+            reportInnerResult: {
+              ____label: "Report Inner Result",
+              ____description: "If false (default) the response.result value of a successful inner action request is not reported to the caller (we presume the caller looks at the inner action response written to dataPath).",
+              ____accept: "jsBoolean",
+              ____defaultValue: false
+            }
           }
         }
       }
     }
   },
   actionResultSpec: {
-    ____accept: "jsObject"
+    ____opaque: true
+    /* We do not know and we do not care */
+
   },
   bodyFunction: function bodyFunction(request_) {
     var response = {
@@ -56,7 +74,8 @@ var controllerAction = new ControllerAction({
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
         break;
-      } // Dispatch the subaction...
+      } // ^--- Errors while we're setting up are always reported to the caller. These mean something is badly broken.
+      // Dispatch the subaction...
 
 
       var subactionResponse = request_.context.act({
@@ -67,15 +86,24 @@ var controllerAction = new ControllerAction({
       });
 
       if (subactionResponse.error) {
-        errors.push(subactionResponse.error);
+        if (messageBody.options.reportInnerError) {
+          // Override default behavior and report the inner action request response.error to the caller.
+          errors.push(subactionResponse.error);
+        }
       } else {
-        response.result = subactionResponse.result.actionResult;
-      } // Attempt to write the subaction response to the indicated namespace path.
+        if (messageBody.options.reportInnerActionResult) {
+          // Override default behavior and report the response.result.actionResult to the caller.
+          response.result = subactionResponse.result;
+        } else {
+          response.result = writeResponsePath;
+        }
+      } // Now, regardless of what happened and what we
 
 
-      ocdResponse = request_.context.ocdi.writeNamespace(writeResponsePath, response);
+      ocdResponse = request_.context.ocdi.writeNamespace(writeResponsePath, subactionResponse);
 
       if (ocdResponse.error) {
+        // We will always report any error that occurs when we attempt to write the inner action response.
         errors.push("Failed to write subaction response to dataPath '".concat(writeResponsePath, "'. Operation failed with error:"));
         errors.push(ocdResponse.error);
         errors.push("See response.result for the actual subaction response that we were not able to write."); // TODO?

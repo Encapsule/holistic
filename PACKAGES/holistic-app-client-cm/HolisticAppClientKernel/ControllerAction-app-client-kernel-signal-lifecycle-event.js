@@ -3,6 +3,8 @@
 // ControllerAction-app-client-kernel-signal-lifecycle-event.js
 var holarchy = require("@encapsule/holarchy");
 
+var hackLib = require("./lib");
+
 var controllerAction = new holarchy.ControllerAction({
   id: "mmLcuWywTe6lUL9OtMJisg",
   name: "Holistic App Client Kernel: Signal Lifecycle Event",
@@ -47,34 +49,20 @@ var controllerAction = new holarchy.ControllerAction({
       var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.kernel._private.signalLifecycleEvent;
       console.log("".concat(actorName, " signaling lifecycle event '").concat(messageBody.eventLabel, "'..."));
-      var ocdResponse = request_.context.ocdi.getNamespaceSpec(request_.context.apmBindingPath);
+      var hackLibResponse = hackLib.getStatus.request(request_.context);
 
-      if (ocdResponse.error) {
-        errors.push(ocdResponse.error);
+      if (hackLibResponse.error) {
+        errors.push(hackLibResponse.error);
         break;
       }
 
-      var namespaceSpec = ocdResponse.result;
-
-      if (!namespaceSpec.____appdsl || !namespaceSpec.____appdsl.apm || namespaceSpec.____appdsl.apm !== "PPL45jw5RDWSMNsB97WIWg") {
-        errors("This action may only be called on a holistic app client kernel process.");
-        break;
-      }
-
-      ocdResponse = request_.context.ocdi.readNamespace({
-        apmBindingPath: request_.context.apmBindingPath,
-        dataPath: "#._private"
-      });
-
-      if (ocdResponse.error) {
-        errors.push(ocdResponse.error);
-        break;
-      }
-
-      var kernelPrivateData = ocdResponse.result;
-      var actResponse = void 0;
+      var hackDescriptor = hackLibResponse.result;
+      var kernelCellData = hackDescriptor.cellMemory;
+      var actResponse = void 0,
+          ocdResponse = void 0;
 
       switch (messageBody.eventLabel) {
+        // ----------------------------------------------------------------
         case "init":
           actResponse = request_.context.act({
             actorName: actorName,
@@ -82,7 +70,7 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -106,7 +94,9 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         case "query":
           actResponse = request_.context.act({
@@ -115,7 +105,7 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -139,21 +129,12 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
-          var appQueryResult = actResponse.result.actionResult;
-          ocdResponse = request_.context.ocdi.writeNamespace({
-            apmBindingPath: request_.context.apmBindingPath,
-            dataPath: "#._private.appQueryResult"
-          }, appQueryResult);
-
-          if (ocdResponse.error) {
-            errors.push(ocdResponse.error);
-            break;
-          }
-
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         case "deserialize":
-          var bootROMElement = document.getElementById(kernelPrivateData.bootROMElementID);
+          var bootROMElement = document.getElementById(kernelCellData.bootROMElementID);
           var bootDataBase64 = bootROMElement.textContent;
           var bootDataJSON = new Buffer(bootDataBase64, 'base64').toString('utf8');
           var bootROMData = JSON.parse(bootDataJSON);
@@ -161,7 +142,7 @@ var controllerAction = new holarchy.ControllerAction({
 
           ocdResponse = request_.context.ocdi.writeNamespace({
             apmBindingPath: request_.context.apmBindingPath,
-            dataPath: "#._private.bootROMData"
+            dataPath: "#.bootROMData"
           }, bootROMData);
 
           if (ocdResponse.error) {
@@ -175,7 +156,7 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -201,20 +182,12 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
-          var appBootROMData = actResponse.result.actionResult;
-          ocdResponse = request_.context.ocdi.writeNamespace({
-            apmBindingPath: request_.context.apmBindingPath,
-            dataPath: "#._private.appBootROMData"
-          }, appBootROMData);
-
-          if (ocdResponse.error) {
-            errors.push(ocdResponse.error);
-            break;
-          }
-
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         case "config":
+          // Query Cell Process Manager ~
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Querying the holistic app client kernel cell process to obtain information about shared subsystem cell processes.",
@@ -234,14 +207,15 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
-          var cellProcessQueryResult = actResponse.result.actionResult;
+          var cellProcessQueryResult = actResponse.result.actionResult; // Connect the derived app client process kernel proxy back to us (the app client kernel).
+
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Connecting derived app client process proxy helper cell back to the app client kernel process.",
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       CellProcessor: {
@@ -262,7 +236,8 @@ var controllerAction = new holarchy.ControllerAction({
           if (actResponse.error) {
             errors.push(actResponse.error);
             break;
-          }
+          } // Connect the derived app client process display adapter proxy to the d2r2 display adapter app client kernel-managed service process.
+
 
           actResponse = request_.context.act({
             actorName: actorName,
@@ -270,14 +245,14 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       CellProcessor: {
                         proxy: {
                           proxyCoordinates: "#.displayProxy",
                           connect: {
-                            processCoordinates: kernelPrivateData.serviceProcesses.d2r2DisplayAdapter.result.cellProcessID
+                            processCoordinates: kernelCellData.serviceProcesses.d2r2DisplayAdapter.result.actionResult.cellProcessID
                           }
                         }
                       }
@@ -291,7 +266,8 @@ var controllerAction = new holarchy.ControllerAction({
           if (actResponse.error) {
             errors.push(actResponse.error);
             break;
-          }
+          } // Connect the derived app client process DOM location processor proxy to the DOM location processor app client kernel-managed service process.
+
 
           actResponse = request_.context.act({
             actorName: actorName,
@@ -299,14 +275,14 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       CellProcessor: {
                         proxy: {
                           proxyCoordinates: "#.locationProxy",
                           connect: {
-                            processCoordinates: kernelPrivateData.serviceProcesses.domLocationProcessor.result.cellProcessID
+                            processCoordinates: kernelCellData.serviceProcesses.domLocationProcessor.result.actionResult.cellProcessID
                           }
                         }
                       }
@@ -320,15 +296,16 @@ var controllerAction = new holarchy.ControllerAction({
           if (actResponse.error) {
             errors.push(actResponse.error);
             break;
-          }
+          } // Query the derived app client process via lifecycle action.
+
 
           actResponse = request_.context.act({
             actorName: actorName,
-            actorTaskDescription: "Delegating app client kernel query lifecycle event to the derived app client process.",
+            actorTaskDescription: "Delegating app client kernel config lifecycle event to the derived app client process.",
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -337,11 +314,11 @@ var controllerAction = new holarchy.ControllerAction({
                             lifecycle: {
                               config: {
                                 // TODO appInitialClientRoute (currently opaque so not an error but needed) likely by app client action implementation).
-                                appBootROMData: kernelPrivateData.appBootROMData,
+                                appBootROMData: kernelCellData.lifecycleResponses.deserialize.result.actionResult.appBootROMData,
                                 appRuntimeServiceProcesses: {
                                   appClientKernelProcessID: cellProcessQueryResult.query.cellProcessID,
-                                  d2r2DisplayAdapterProcessID: kernelPrivateData.serviceProcesses.d2r2DisplayAdapter.result.cellProcessID,
-                                  domLocationProcessorProcessID: kernelPrivateData.serviceProcesses.domLocationProcessor.result.cellProcessID
+                                  d2r2DisplayAdapterProcessID: kernelCellData.serviceProcesses.d2r2DisplayAdapter.result.actionResult.cellProcessID,
+                                  domLocationProcessorProcessID: kernelCellData.serviceProcesses.domLocationProcessor.result.actionResult.cellProcessID
                                 }
                               }
                             }
@@ -360,7 +337,9 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         case "start":
           actResponse = request_.context.act({
@@ -369,7 +348,7 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -393,7 +372,9 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         case "error":
           actResponse = request_.context.act({
@@ -402,7 +383,7 @@ var controllerAction = new holarchy.ControllerAction({
             actionRequest: {
               CellProcessor: {
                 cell: {
-                  cellCoordinates: kernelPrivateData.derivedAppClientProcessCoordinates,
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates,
                   delegate: {
                     actionRequest: {
                       holistic: {
@@ -426,10 +407,12 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
+          response.result = actResponse.result.actionResult;
           break;
+        // ----------------------------------------------------------------
 
         default:
-          errors.push("Unhandled eventLabel value '".concat(messageBody.eventLabel, "'."));
+          errors.push("INTERNAL ERROR: Unhandled eventLabel value '".concat(messageBody.eventLabel, "'."));
           break;
       }
 

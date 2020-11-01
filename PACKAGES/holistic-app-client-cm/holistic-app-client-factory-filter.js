@@ -295,11 +295,9 @@ var holarchy = require("@encapsule/holarchy");
                         },
                         activate: {
                           processData: {
-                            _private: {
-                              derivedAppClientProcessCoordinates: {
-                                apmID: clientFactoryRequest_.apmID,
-                                instanceName: "daemon"
-                              }
+                            derivedAppClientProcessCoordinates: {
+                              apmID: clientFactoryRequest_.apmID,
+                              instanceName: "daemon"
                             }
                           }
                         }
