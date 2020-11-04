@@ -17,7 +17,7 @@ var controllerAction = new ControllerAction({
           ____types: "jsObject",
           errorType: {
             ____accept: "jsString",
-            ____inValueSet: ["action-error", "transport-error"]
+            ____inValueSet: ["action-error", "evaluation-error"]
           },
           opcActResponse: {
             ____accept: "jsObject"
@@ -61,6 +61,41 @@ var controllerAction = new ControllerAction({
       // or may not be activated).
 
       var messageBody = request_.actionRequest.CellProcessor._private.opcCellPlaneErrorNotification;
+      var cpmCellPlaneErrorString = null;
+
+      if (messageBody.opcActResponse.error) {
+        // We received the notification because some ControllerAction returned repsonse.error.
+        cpmCellPlaneErrorString = messageBody.opcActResponse.error;
+      } else {
+        (function () {
+          // We received the notification because OPC_.evaluate caught error(s) dispatching TransitionOperator(s) and/or ControllerAction(s).
+          // Calculate an error string based on analysis of the OPC._evaluate algorithm's lastEvaluation telemetry result.
+          var lastEvaluation = messageBody.opcActResponse.result.lastEvaluation;
+          var failedEvalFrames = [];
+
+          var _loop = function _loop(evalFrameIndex_) {
+            var evalFrame = lastEvaluation.evalFrames[evalFrameIndex_];
+            evalFrame.summary.reports.errors.forEach(function (errorCellID_) {
+              failedEvalFrames.push({
+                evalNumber: lastEvaluation.evalNumber,
+                frameNumber: evalFrameIndex_,
+                errorFrame: evalFrame.bindings[errorCellID_]
+              });
+            });
+          };
+
+          for (var evalFrameIndex_ = 0; evalFrameIndex_ < lastEvaluation.evalFrames.length; evalFrameIndex_++) {
+            _loop(evalFrameIndex_);
+          }
+
+          var errorMessage = ["A total of ".concat(failedEvalFrames.length, " failed cell evaluations were found:")];
+          failedEvalFrames.forEach(function (failedEvalFrameDescriptor_) {
+            errorMessage.push(JSON.stringify(failedEvalFrameDescriptor_));
+          });
+          cpmCellPlaneErrorString = errorMessage.join(" ");
+        })();
+      }
+
       var errorNotificationActResponse = request_.context.act({
         actorName: actorName,
         actorTaskDescription: "Attempting to notifiy an active holistic app server/client kernel process about the OPC cell plane error.",
@@ -69,7 +104,14 @@ var controllerAction = new ControllerAction({
             app: {
               kernel: {
                 _private: {
-                  opcCellPlaneErrorNotification: messageBody
+                  cpmCellPlaneErrorNotification: {
+                    errorType: messageBody.errorType,
+                    badResponse: {
+                      error: cpmCellPlaneErrorString,
+                      result: messageBody.opcActResponse.result
+                    }
+                  } // messageBody
+
                 }
               }
             }

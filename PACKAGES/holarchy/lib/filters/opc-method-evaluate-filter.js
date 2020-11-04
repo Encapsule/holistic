@@ -166,42 +166,69 @@ var factoryResponse = arccore.filter.create({
             // We can here safely presume that the following construction-time invariants have been met:
             // - ID is a valid IRUT
             // - ID IRUT identifies a specific APM registered with this OPC instance.
-            var apmID = record.specRef.____appdsl.apm; // ****************************************************************
-            // ****************************************************************
-            // We found an APM-bound namespace in the controller data.
+            var apmID = record.specRef.____appdsl.apm; // If the cell has __apmiEvalError set in its cell memory
+            // If the cell has __apmiStep value the resolves to a terminal process step in the APM
+            // ... then do not include this cell in the evaluation frame.
 
-            var apmInstanceFrame = {
-              evalRequest: {
-                dataBinding: record,
-                initialStep: record.dataRef.__apmiStep,
-                apmRef: opcRef._private.apmMap[apmID]
-              },
-              evalResponse: {
-                status: "pending",
-                finishStep: null,
-                phases: {
-                  p1_toperator: [],
-                  p2_exit: [],
-                  p3_enter: [],
-                  p4_finalize: null
-                },
-                errors: {
-                  p0: 0,
-                  p1_toperator: 0,
-                  p2_exit: 0,
-                  p3_enter: 0,
-                  p4_finalize: 0,
-                  total: 0
+            var includeCellInEvalFrame = true;
+
+            if (record.dataRef.__apmiEvalError) {
+              // console.log(`> Excluding cell at apmBindingPath '${record.dataPath}' from cell evaluation frame due to previous evaluation error.`);
+              includeCellInEvalFrame = false;
+            } else {
+              var apmRef = opcRef._private.apmMap[apmID];
+              var apmStepDescriptor = apmRef.getStepDescriptor(record.dataRef.__apmiStep);
+
+              if (!apmStepDescriptor) {
+                // console.log(`> Excluding cell at apmBindingPath '${record.dataPath}' from cell evaluation frame because it is just data; it does not define process step rules to evaluate.`);
+                includeCellInEvalFrame = false;
+              } else {
+                if (!apmStepDescriptor.transitions || !apmStepDescriptor.transitions.length) {
+                  // console.log(`> Excluding cell at apmBindingPath '${record.dataPath}' from cell evaluation frame because it has reached a terminal (i.e. no-way-out) step.`);
+                  includeCellInEvalFrame = false;
                 }
               }
-            }; // Generate an IRUT based on the CDS path to use as key in the binding map.
+            }
 
-            var key = arccore.identifier.irut.fromReference(record.dataPath).result; // Register the new binding the the evalFrame.
+            if (includeCellInEvalFrame) {
+              // ****************************************************************
+              // ****************************************************************
+              // We found an APM-bound namespace in the controller data.
+              var apmInstanceFrame = {
+                evalRequest: {
+                  dataBinding: record,
+                  initialStep: record.dataRef.__apmiStep,
+                  apmRef: opcRef._private.apmMap[apmID]
+                },
+                evalResponse: {
+                  status: "pending",
+                  finishStep: null,
+                  phases: {
+                    p1_toperator: [],
+                    p2_exit: [],
+                    p3_enter: [],
+                    p4_finalize: null
+                  },
+                  errors: {
+                    p0: 0,
+                    p1_toperator: 0,
+                    p2_exit: 0,
+                    p3_enter: 0,
+                    p4_finalize: 0,
+                    total: 0
+                  }
+                }
+              }; // Generate an IRUT based on the CDS path to use as key in the binding map.
+              // TODO: This looks obviously a bit too expensive for this already heavy-but-essential frame prologue operation.
 
-            evalFrame.bindings[key] = apmInstanceFrame;
-            result.summary.counts.bindings++;
-            evalFrame.summary.counts.bindings++; // ****************************************************************
-            // ****************************************************************
+              var key = arccore.identifier.irut.fromReference(record.dataPath).result; // Register the new binding the the evalFrame.
+
+              evalFrame.bindings[key] = apmInstanceFrame;
+              result.summary.counts.bindings++;
+              evalFrame.summary.counts.bindings++; // ****************************************************************
+              // ****************************************************************
+            } // if include cell in eval frame
+
           } // end if apm binding on current namespace?
           // Is the current namespace an array or object used as a map?
 
@@ -338,9 +365,10 @@ var factoryResponse = arccore.filter.create({
           var _apmInstanceFrame = evalFrame.bindings[ocdPathIRUT_];
           _apmInstanceFrame.evalResponse.status = "analyzing";
           var apmBindingPath = _apmInstanceFrame.evalRequest.dataBinding.dataPath;
-          var apmRef = _apmInstanceFrame.evalRequest.apmRef;
+          var _apmRef = _apmInstanceFrame.evalRequest.apmRef;
           var initialStep = _apmInstanceFrame.evalRequest.initialStep;
-          var stepDescriptor = apmRef.getStepDescriptor(initialStep);
+
+          var stepDescriptor = _apmRef.getStepDescriptor(initialStep);
 
           var ocdResponse = opcRef._private.ocdi.readNamespace("".concat(apmBindingPath, ".__apmiStep"));
 
@@ -359,7 +387,7 @@ var factoryResponse = arccore.filter.create({
               subsystem: "opc",
               method: "evaluate",
               phase: "body",
-              message: "[".concat(apmRef.getID(), "::").concat(apmRef.getName(), "] was in initial step '").concat(initialStep, "'. But, now we find that it was put to death earlier in the evaluation frame. Back to dust...")
+              message: "[".concat(_apmRef.getID(), "::").concat(_apmRef.getName(), "] was in initial step '").concat(initialStep, "'. But, now we find that it was put to death earlier in the evaluation frame. Back to dust...")
             });
             _apmInstanceFrame.evalResponse.status = "cell-deleted";
             _apmInstanceFrame.evalResponse.finishStep = "death";
@@ -465,6 +493,14 @@ var factoryResponse = arccore.filter.create({
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
+
+              var ocdWriteResponse = opcRef._private.ocdi.writeNamespace("".concat(apmBindingPath, ".__apmiEvalError"), _transitionResponse.error);
+
+              if (ocdWriteResponse.error) {
+                // Should never fail.
+                throw new Error("Internal error attempting to write __apmiEvalError on cell due to OPC._evaluate transport error >:/");
+              }
+
               break; // abort evaluation of transition rules for this APM instance...
             }
 
@@ -500,7 +536,8 @@ var factoryResponse = arccore.filter.create({
           // Get the stepDescriptor for the next process step that declares the actions to take on step entry.
 
 
-          var nextStepDescriptor = apmRef.getStepDescriptor(nextStep);
+          var nextStepDescriptor = _apmRef.getStepDescriptor(nextStep);
+
           logger.request({
             opc: {
               id: opcRef._private.id,
@@ -521,8 +558,8 @@ var factoryResponse = arccore.filter.create({
           for (var exitActionIndex = 0; exitActionIndex < stepDescriptor.actions.exit.length; exitActionIndex++) {
             var actionRequest = stepDescriptor.actions.exit[exitActionIndex];
             var actionResponse = opcRef.act({
-              actorName: "".concat(apmRef.getID(), "::").concat(ocdPathIRUT_),
-              actorTaskDescription: "EXIT ACTION #".concat(exitActionIndex, ": APM [").concat(apmRef.getID(), "::").concat(apmRef.getName(), "] step \"").concat(initialStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
+              actorName: "".concat(_apmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "EXIT ACTION #".concat(exitActionIndex, ": APM [").concat(_apmRef.getID(), "::").concat(_apmRef.getName(), "] step \"").concat(initialStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: actionRequest,
               apmBindingPath: apmBindingPath
             });
@@ -559,6 +596,14 @@ var factoryResponse = arccore.filter.create({
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
+
+              var _ocdWriteResponse = opcRef._private.ocdi.writeNamespace("".concat(apmBindingPath, ".__apmiEvalError"), actionResponse.error);
+
+              if (_ocdWriteResponse.error) {
+                // Should never fail.
+                throw new Error("Internal error attempting to write __apmiEvalError on cell due to OPC._evaluate transport error >:/");
+              }
+
               break;
             }
           } // for exitActionIndex
@@ -583,8 +628,8 @@ var factoryResponse = arccore.filter.create({
             var _actionRequest = nextStepDescriptor.actions.enter[enterActionIndex];
 
             var _actionResponse = opcRef.act({
-              actorName: "".concat(apmRef.getID(), "::").concat(ocdPathIRUT_),
-              actorTaskDescription: "ENTER ACTION #".concat(enterActionIndex, ": APM [").concat(apmRef.getID(), "::").concat(apmRef.getName(), "] step \"").concat(nextStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
+              actorName: "".concat(_apmRef.getID(), "::").concat(ocdPathIRUT_),
+              actorTaskDescription: "ENTER ACTION #".concat(enterActionIndex, ": APM [").concat(_apmRef.getID(), "::").concat(_apmRef.getName(), "] step \"").concat(nextStep, "\" on cell [").concat(ocdPathIRUT_, "]..."),
               actionRequest: _actionRequest,
               apmBindingPath: apmBindingPath
             });
@@ -621,6 +666,15 @@ var factoryResponse = arccore.filter.create({
               evalFrame.summary.counts.errors++;
               evalFrame.summary.reports.errors.push(ocdPathIRUT_);
               result.summary.counts.errors++;
+
+              var _ocdWriteResponse2 = opcRef._private.ocdi.writeNamespace("".concat(apmBindingPath, ".__apmiEvalError"), _actionResponse.error);
+
+              if (_ocdWriteResponse2.error) {
+                // Should never fail.
+                throw new Error("Internal error attempting to write __apmiEvalError on cell due to OPC._evaluate transport error >:/");
+              }
+
+              break;
             }
           } // for enterActionIndex
           // If we encountered any error during the evaluation of the cell's enter actions, skip further eval of the cell and continue to the next cell in the frame.

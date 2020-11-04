@@ -236,7 +236,7 @@ var factoryResponse = arccore.filter.create({
               CellProcessor: {
                 _private: {
                   opcCellPlaneErrorNotification: {
-                    errorType: "transport-error",
+                    errorType: "evaluation-error",
                     opcActResponse: response
                   }
                 }

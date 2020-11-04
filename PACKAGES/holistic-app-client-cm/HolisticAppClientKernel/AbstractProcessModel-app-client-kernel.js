@@ -74,13 +74,56 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "kernel-start-services"
+        nextStep: "kernel-boot-start"
       }]
     },
-    "kernel-start-services": {
-      description: "Initializing the holistic app client kernel process...",
+    "kernel-boot-start": {
+      description: "Holistic app client kernel process services startup.",
       actions: {
-        enter: [{
+        exit: [// These are dispatched while the cell is in process step "kernel-start-services" iff transition === true
+        {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      command: "initialize"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      command: "show"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel process is booting..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
           holistic: {
             app: {
               client: {
@@ -156,48 +199,6 @@ module.exports = {
       },
       transitions: [{
         transitionIf: {
-          or: [// TODO: update this signature; it's an intrinsic part of @encapsule/holarchy so should live in CellProcessor request space.
-          {
-            holarchy: {
-              cm: {
-                operators: {
-                  ocd: {
-                    isNamespaceTruthy: {
-                      path: "#.serviceProcesses.domLocationProcessor.error"
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            holarchy: {
-              cm: {
-                operators: {
-                  ocd: {
-                    isNamespaceTruthy: {
-                      path: "#.serviceProcesses.d2r2DisplayAdapter.error"
-                    }
-                  }
-                }
-              }
-            }
-          }, {
-            holarchy: {
-              cm: {
-                operators: {
-                  ocd: {
-                    isNamespaceTruthy: {
-                      path: "#.serviceProcesses.clientViewProcessor.error"
-                    }
-                  }
-                }
-              }
-            }
-          }]
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
-        transitionIf: {
           always: true
         },
         nextStep: "kernel-signal-lifecycle-init"
@@ -206,7 +207,7 @@ module.exports = {
     "kernel-signal-lifecycle-init": {
       description: "Informing the derived holistic app client process that it is time initialize any private external subsystems that it requires and manages external to this CellProcessor instance.",
       actions: {
-        enter: [{
+        exit: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -229,24 +230,23 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.lifecycleResponses.init.error"
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel has initialized the derived app client process."
+                    }
                   }
                 }
               }
             }
           }
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
+        }]
+      },
+      transitions: [{
         transitionIf: {
           always: true
         },
@@ -255,6 +255,23 @@ module.exports = {
     },
     "kernel-wait-subprocesses": {
       description: "Waiting for holistic app client kernel subprocesses to come online...",
+      actions: {
+        exit: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel is waiting on subprocess services to become ready..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
       transitions: [{
         transitionIf: {
           and: [{
@@ -310,7 +327,7 @@ module.exports = {
     "kernel-signal-lifecycle-query": {
       description: "Querying the derived holistic app client process for its runtime requirements and capabilities.",
       actions: {
-        enter: [{
+        exit: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -333,25 +350,23 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [// TODO: update this signature; it's an intrinsic part of @encapsule/holarchy so should live in CellProcessor request space.
-      {
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.lifecycleResponses.query.error"
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel has queried the derived app client process."
+                    }
                   }
                 }
               }
             }
           }
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
+        }]
+      },
+      transitions: [{
         transitionIf: {
           always: true
         },
@@ -360,6 +375,23 @@ module.exports = {
     },
     "kernel-wait-browser-tab-resources-loaded": {
       description: "Waiting for the browser to finish load/parse of the current HTML5 document so that we can safely presume all the resources that it references are accessible.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel is waiting for the browser tab to load..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
       transitions: [// TODO: update this signature; it's an intrinsic part of @encapsule/holarchy so should live in CellProcessor request space.
       {
         transitionIf: {
@@ -375,23 +407,13 @@ module.exports = {
             }
           }
         },
-        nextStep: "kernel-browser-tab-resources-ready"
-      }]
-    },
-    "kernel-browser-tab-resources-ready": {
-      description: "The hosting browser tab for this CellProcessor instance has finished loading all the resources referenced in the HTML5 document received from the holistic app server process.",
-      // TODO placeholder for any work that needs to be done after the the document has loaded and before we call the derived app client process to deserialize the bootROM data that the holistic app server wrote into the synthesized HTML5 document that's now laoded in the browser tab.
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
         nextStep: "kernel-signal-lifecycle-deserialize"
       }]
     },
     "kernel-signal-lifecycle-deserialize": {
       description: "Informing the derived holistic app client process that it is time to deserialize derived-application-specific init data written into the now loaded and ready HTML5 document by the holistic app server.",
       actions: {
-        enter: [{
+        exit: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -414,33 +436,22 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.lifecycleResponses.deserialize.error"
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel has received deserialized application data from the derived app client process."
+                    }
                   }
                 }
               }
             }
           }
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
-        transitionIf: {
-          always: true
-        },
-        nextStep: "kernel-configure-runtime-environment"
-      }]
-    },
-    "kernel-configure-runtime-environment": {
-      description: "Preparing the holistic app client runtime environment...",
-      // TODO placeholder for any work that needs to be done after the derived app client has performed deserialization.
+        }]
+      },
       transitions: [{
         transitionIf: {
           always: true
@@ -451,7 +462,7 @@ module.exports = {
     "kernel-signal-lifecycle-config": {
       description: "Informing the derived holistic app client process that it is time to perform its final configuration steps before the client application is started.",
       actions: {
-        enter: [{
+        exit: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -474,33 +485,22 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.lifecycleResponses.config.error"
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel has configured the derived app client process."
+                    }
                   }
                 }
               }
             }
           }
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
-        transitionIf: {
-          always: true
-        },
-        nextStep: "kernel-final-prelaunch"
-      }]
-    },
-    "kernel-final-prelaunch": {
-      description: "Performing final runtime environment adjustments before starting the derived client app process.",
-      // TODO placeholder for any work that needs to be done after the derived app client has configured itself.
+        }]
+      },
       transitions: [{
         transitionIf: {
           always: true
@@ -511,7 +511,7 @@ module.exports = {
     "kernel-signal-lifecycle-start": {
       description: "Informing the derived holistic app client process that it is time to start the show!",
       actions: {
-        enter: [{
+        exit: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -534,35 +534,83 @@ module.exports = {
               }
             }
           }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.lifecycleResponses.start.error"
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel has started the derived app client process."
+                    }
                   }
                 }
               }
             }
           }
-        },
-        nextStep: "kernel-boot-fail"
-      }, {
+        }]
+      },
+      transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "kernel-started"
+        nextStep: "kernel-service-ready"
       }]
     },
-    "kernel-started": {
-      description: "The holistic app client kernel process is initialized. And, the derived client app is now running."
+    "kernel-service-ready": {
+      description: "The holistic app client kernel process will now stop evaluating in the cell plane and will continue as an active cell servicing runtime requests from the derived app client service process (and its delegates).",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "Holistic app client kernel boot completed without error!"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      command: "hide"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      }
     },
     "kernel-boot-fail": {
-      description: "The kernel boot has failed."
+      description: "The kernel boot has failed.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "The app client service failed to start due to error."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        } // { holistic: { app: { client: { kernel: { _private: { rootDisplayCommand: { command: "hide" } } } } } } },
+        ]
+      }
     }
   } // steps
 
