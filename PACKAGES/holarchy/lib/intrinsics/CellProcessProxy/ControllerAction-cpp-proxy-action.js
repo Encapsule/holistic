@@ -55,7 +55,7 @@ var action = new ControllerAction({
     }
 
     if (errors.length) {
-      response.error = error.join(" ");
+      response.error = errors.join(" ");
     }
 
     return response;
