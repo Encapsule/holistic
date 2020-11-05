@@ -3,8 +3,8 @@
 var holarchy = require("@encapsule/holarchy");
 
 var kernelConsoleStyles = {
-  outerContainerDiv: ["position: fixed", "top: 0px", "left: 0px", "width: 100%", "height: 100%", "opacity: 0", "overflow: hidden", "padding: 1em", "font-family: Play", "font-size: 12pt", "color: black", "z-index: -1"].join("; "),
-  logMessageContainerDiv: ["margin-left: 0.5em", "margin-right: 0.5em", "padding-left: 0.5em", "padding-top: 0.25em", "padding-bottom: 0.25em", "font-family: 'Share Tech Mono'", "font-size: larger", "font-weight: bold", "color: #990000"].join("; ")
+  outerContainerDiv: ["position: absolute", "top: 0px", "bottom: -0px", "left: 0px", "right: -0px", "opacity: 0", "overflow: hidden", "padding: 1em", "font-family: Play", "font-size: 12pt", "color: #0099FF", "z-index: -1"].join("; "),
+  logMessageContainerDiv: ["margin-left: 0.5em", "margin-right: 0.5em", "margin-top: 0.25em", "margin-bottom: 0.25em", "padding: 0.25em", "padding-left: 0.5em", "font-family: 'Share Tech Mono'", "font-weight: semibold", "color: #0066CC", "border-left: 0.5em solid rgba(0,0,0,0.025)", "border-radius: 0.33em", "background-color: rgba(0,0,0,0.0125)"].join("; ")
 };
 var documentTitle = null;
 var controllerAction = new holarchy.ControllerAction({
@@ -68,7 +68,7 @@ var controllerAction = new holarchy.ControllerAction({
           documentTitle = document.title;
           document.title = "Booting...";
           rootDisplayDOMElement.setAttribute("style", kernelConsoleStyles.outerContainerDiv);
-          var innerHTML = "\n<h2>App Client Kernel Console</h2>\n<p><strong>@encapsule/holistic-app-client-cm v".concat(holarchy.__meta.version, "-").concat(holarchy.__meta.codename, " buildID ").concat(holarchy.__meta.build, "</strong><br/><br/></p>\n");
+          var innerHTML = "\n<h2>Holistic App Client Kernel Boot</h2>\n<h3>@encapsule/holistic-app-client-cm v".concat(holarchy.__meta.version, "-").concat(holarchy.__meta.codename, " buildID ").concat(holarchy.__meta.build, "</h3>\n<p>One moment please...</p>\n");
           rootDisplayDOMElement.innerHTML = innerHTML;
           break;
 
@@ -76,17 +76,19 @@ var controllerAction = new holarchy.ControllerAction({
           rootDisplayDOMElement.animate([{
             opacity: 1
           }], {
-            duration: 750,
+            duration: 250,
             fill: "forwards"
           });
           break;
 
         case "hide":
+          var style = rootDisplayDOMElement.getAttribute("style");
+          rootDisplayDOMElement.setAttribute("style", "".concat(style, " background-color: #66CCFF; opacity: 0.75"));
           rootDisplayDOMElement.animate([{
             opacity: 0
           }], {
-            delay: 3500,
-            duration: 1000,
+            delay: 1000,
+            duration: 500,
             fill: "forwards"
           });
           document.title = documentTitle;

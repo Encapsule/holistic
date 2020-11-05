@@ -567,7 +567,21 @@ module.exports = {
                 kernel: {
                   _private: {
                     rootDisplayCommand: {
-                      message: "Holistic app client kernel boot completed without error!"
+                      message: "App client kernel process has reached ready step."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client service is now active and running."
                     }
                   }
                 }
