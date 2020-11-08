@@ -29,197 +29,130 @@ var React = require("react");
 var arccore = require("@encapsule/arccore");
 
 module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters_) {
-  var keyIndex = 500;
-
-  function makeKey() {
-    return "ComponentRouter" + keyIndex++;
-  }
-
-  var dataViewBindingDiscriminator = dataViewBindingDiscriminator_;
-  var dataViewBindingFilters = dataViewBindingFilters_;
-  var filterNameList = [];
-  var filterNameMap = {};
-  var filterIDMap = {};
-  dataViewBindingFilters.forEach(function (dataViewBindingFilter_) {
-    var filterName = dataViewBindingFilter_.filterDescriptor.operationID + '::' + dataViewBindingFilter_.filterDescriptor.operationName;
-    filterNameList.push(filterName);
-    filterNameMap[filterName] = dataViewBindingFilter_;
-    filterIDMap[dataViewBindingFilter_.filterDescriptor.operationID] = dataViewBindingFilter_;
-  });
-  filterNameList.sort(function (a, b) {
-    var aName = a.split('::')[1];
-    var bName = b.split('::')[1];
-    var disposition = aName > bName ? 1 : aName === bName ? 0 : -1;
-    return disposition;
-  });
-
   var ComponentRouter = /*#__PURE__*/function (_React$Component) {
     _inherits(ComponentRouter, _React$Component);
 
     var _super = _createSuper(ComponentRouter);
 
     function ComponentRouter(props_) {
-      var _this;
-
       _classCallCheck(this, ComponentRouter);
 
-      _this = _super.call(this, props_);
-      _this.state = {};
-      _this.onToggleInspectViewBindingFilter = _this.onToggleInspectViewBindingFilter.bind(_assertThisInitialized(_this));
-      _this.onMouseOverBindingFilter = _this.onMouseOverBindingFilter.bind(_assertThisInitialized(_this));
-      _this.onMouseOutBindingFinder = _this.onMouseOutBindingFilter.bind(_assertThisInitialized(_this));
-      return _this;
+      return _super.call(this, props_);
     } // constructor
 
 
     _createClass(ComponentRouter, [{
-      key: "onToggleInspectViewBindingFilter",
-      value: function onToggleInspectViewBindingFilter(filterName_) {
-        var state = this.state;
-        if (!state[filterName_]) state[filterName_] = {};
-        if (state[filterName_].inspect) delete state[filterName_].inspect;else state[filterName_].inspect = filterNameMap[filterName_];
-        this.setState(state);
-      }
-    }, {
-      key: "onMouseOverBindingFilter",
-      value: function onMouseOverBindingFilter(filterName_) {
-        var state = this.state;
-        state.mouseOver = filterName_;
-        this.setState(state);
-      }
-    }, {
-      key: "onMouseOutBindingFilter",
-      value: function onMouseOutBindingFilter(filterName_) {
-        var state = this.state;
-        delete state.mouseOver;
-        this.setState(state);
-      }
-    }, {
       key: "render",
       value: function render() {
         try {
           var self = this;
-          keyIndex = 0;
-          var error = null;
-          var routingDataContext = {
-            reactContext: this.props,
-            renderData: this.props.renderData
-          }; //////////////////////////////////////////////////////////////////////////
-          // SELECT: Match the namespace:type-derived signature of routingDataContext.renderData to 1:N registered React component data binding filters.
+          var errors = [];
+          var inBreakScope = false;
 
-          var discriminatorResponse = dataViewBindingDiscriminator.request(routingDataContext);
+          while (!inBreakScope) {
+            inBreakScope = true;
+            var routingDataContext = {
+              reactContext: this.props,
+              renderData: this.props.renderData
+            }; //////////////////////////////////////////////////////////////////////////
+            // SELECT: Match the namespace:type-derived signature of routingDataContext.renderData to 1:N registered React component data binding filters.
 
-          if (!discriminatorResponse.error) {
-            var targetFilterID = discriminatorResponse.result;
-            var targetViewBindingFilter = filterIDMap[targetFilterID];
-            /*
-            console.log([
-                "..... <ComponentRouter/> dispatching to [",
-                targetViewBindingFilter.filterDescriptor.operationID,
-                "::",
-                targetViewBindingFilter.filterDescriptor.operationName,
-                "]"
-            ].join(''));
-            */
-            //////////////////////////////////////////////////////////////////////////
+            var discriminatorResponse = dataViewBindingDiscriminator_.request(routingDataContext);
+
+            if (discriminatorResponse.error) {
+              errors.push("Failed to find a suitable d2r2 component based on type signature analysis of this.props.renderData. Check your d2r2 component registrations and d2r2 renderData request signature.");
+              break;
+            }
+
+            var targetViewBindingFilter = discriminatorResponse.result; //////////////////////////////////////////////////////////////////////////
             // DISPATCH: Call the React component data binding filter to generate an instance of its encapsulated React component that is bound to this input data.
 
             var targetFilterResponse = targetViewBindingFilter.request(routingDataContext);
-            if (!targetFilterResponse.error) // Data-bound React component produced by calling the selected React component data binding filter.
-              return targetFilterResponse.result;else // ARCcore.discriminator rejects requests that it can not plausibly match to 1:N registered filters
-              // while simultaneously eliminating the other N-1 filters. But, it does this by performing as few
-              // operations as possible. This means that the selected filter is selected because all the others
-              // will definitely reject this request. And, as it turns out it doesn't much like this request.
-              error = targetFilterResponse.error;
-          } else {
-            error = discriminatorResponse.error;
-          } //////////////////////////////////////////////////////////////////////////
+
+            if (targetFilterResponse.error) {
+              errors.push("The selected d2r2 component failed during delegation:");
+              errors.push(targetFilterResponse.error);
+              break;
+            }
+
+            return targetFilterResponse.result;
+            break;
+          } // end while
+
+
+          var errorMessage = errors.join(" "); //////////////////////////////////////////////////////////////////////////
           // ERROR: The input data does not have an acceptable namespace:type format.
 
+          console.error("!!!!! <ComponentRouter/> ERROR: " + errorMessage); // Pre-render a JSON-format copy of the specific `this.props.renderData` we cannot identify. Note that we only print out this.props.renderData because typically this all that matters to developers.
 
-          console.error("!!!!! <ComponentRouter/> ERROR: " + error);
-          var theme = this.props.document.metadata.site.theme; // Pre-render a JSON-format copy of the specific `this.props.renderData` we cannot identify.
-
-          var renderDataJSON = this.props.renderData === undefined ? /*#__PURE__*/React.createElement("span", {
-            key: makeKey()
-          }, "undefined") : /*#__PURE__*/React.createElement("span", {
-            key: makeKey()
-          }, "'", JSON.stringify(this.props.renderData, undefined, 4), "'");
-          var supportedFilterListItems = [];
-          filterNameList.forEach(function (filterName_) {
-            var filterName = filterName_;
-            var listItemContent = [];
-
-            var clickHandler = function clickHandler() {
-              self.onToggleInspectViewBindingFilter(filterName);
-            };
-
-            var onMouseOverHandler = function onMouseOverHandler() {
-              self.onMouseOverBindingFilter(filterName);
-            };
-
-            var onMouseOutHandler = function onMouseOutHandler() {
-              self.onMouseOutBindingFilter(filterName);
-            };
-
-            var filterNameStyles = {};
-
-            if (self.state.mouseOver === filterName) {
-              filterNameStyles = arccore.util.clone(theme.ComponentRouterError.filterListItemMouseOver);
-            } else {
-              if (self.state[filterName_] && self.state[filterName_].inspect) {
-                filterNameStyles = arccore.util.clone(theme.ComponentRouterError.filterListItemInspect);
-              } else {
-                filterNameStyles = arccore.util.clone(theme.ComponentRouterError.filterListItem);
-              }
-            }
-
-            if (!self.state[filterName_] || !self.state[filterName_].inspect) {
-              filterNameStyles.cursor = 'zoom-in';
-              listItemContent.push( /*#__PURE__*/React.createElement("span", {
-                key: makeKey(),
-                style: filterNameStyles,
-                onClick: clickHandler,
-                onMouseOver: onMouseOverHandler,
-                onMouseOut: onMouseOutHandler
-              }, "[", filterName_, "]"));
-            } else {
-              filterNameStyles.cursor = 'zoom-out';
-              listItemContent.push( /*#__PURE__*/React.createElement("span", {
-                key: makeKey()
-              }, /*#__PURE__*/React.createElement("span", {
-                style: filterNameStyles,
-                onClick: clickHandler,
-                onMouseOver: onMouseOverHandler,
-                onMouseOut: onMouseOutHandler
-              }, "[", filterName_, "]"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("pre", {
-                style: theme.classPRE,
-                onMouseOver: onMouseOutHandler,
-                onMouseOut: onMouseOutHandler
-              }, JSON.stringify(filterNameMap[filterName_], undefined, 4)), /*#__PURE__*/React.createElement("br", null)));
-            }
-
-            supportedFilterListItems.push( /*#__PURE__*/React.createElement("li", {
-              key: makeKey()
-            }, listItemContent));
-          });
+          var renderDataJSON = this.props.renderData === undefined ? "this.props.renderData === undefined" : "this.props.renderData === \"".concat(JSON.stringify({
+            renderData: this.props.renderData
+          }, undefined, 4), "\"");
           return /*#__PURE__*/React.createElement("div", {
-            style: theme.ComponentRouterError.container
-          }, /*#__PURE__*/React.createElement("h1", null, "<ComponentRouter/> Error"), /*#__PURE__*/React.createElement("p", null, "<ComponentRouter/> cannot render the value of ", /*#__PURE__*/React.createElement("code", null, "this.props.renderData"), " it received because its", ' ', /*#__PURE__*/React.createElement("strong", null, "namespace::type"), "-derived data signature does not meet the input filter specification criteria of any of the React", ' ', "component data binding filters registered by this application."), /*#__PURE__*/React.createElement("h2", null, "Unrecognized this.props.renderData (JSON):"), /*#__PURE__*/React.createElement("pre", {
-            style: theme.classPRE
-          }, "this.props.renderData === ", renderDataJSON), /*#__PURE__*/React.createElement("h2", null, "Underlying ARCcore.discriminator Error"), /*#__PURE__*/React.createElement("pre", {
-            style: theme.classPRE
-          }, error), /*#__PURE__*/React.createElement("h2", null, "Registered React Components:"), /*#__PURE__*/React.createElement("p", null, "To correct this problem, please ensure that the value passed to <ComponentRouter/> via its ", /*#__PURE__*/React.createElement("code", null, "renderData"), " property has", ' ', "a ", /*#__PURE__*/React.createElement("strong", null, "namespace::type"), "-derived signature accepted by one of the following data-bound React components:"), /*#__PURE__*/React.createElement("ol", {
-            style: theme.ComponentRouterError.filterList
-          }, supportedFilterListItems));
+            style: {
+              backgroundColor: "red",
+              fontFamily: "Play",
+              padding: "1em",
+              overflow: "auto"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontSize: "largest",
+              fontWeight: "bold"
+            }
+          }, "<ComponentRouter/> Error"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", null, "<ComponentRouter/> cannot render ", /*#__PURE__*/React.createElement("code", null, "this.props.renderData"), " due to delegation errror.", /*#__PURE__*/React.createElement("br", null)), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", {
+            style: {
+              marginTop: "1em",
+              marginBottom: "1em"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "monospace",
+              whiteSpace: "pre",
+              padding: "1em",
+              backgroundColor: "rgba(255,255,255,0.4)",
+              overflow: "auto"
+            }
+          }, renderDataJSON)), /*#__PURE__*/React.createElement("div", {
+            style: {
+              marginTop: "1em",
+              marginBottom: "1em"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "monospace",
+              whiteSpace: "pre",
+              padding: "1em",
+              backgroundColor: "rgba(255,255,255,0.4)",
+              overflow: "auto"
+            }
+          }, "response.error === \"".concat(errorMessage, "\""))));
         } catch (exception_) {
-          var _theme = this.props.document.metadata.site.theme; // .ComponentRouterError.container;
-
           return /*#__PURE__*/React.createElement("div", {
-            style: _theme.ComponentRouterError.container
-          }, /*#__PURE__*/React.createElement("h1", null, "<ComponentRouter/> INTERNAL ERROR"), /*#__PURE__*/React.createElement("p", null, "Unfortunately, there has been an internal error inside the <ComponentRouter> error handling logic that is preventing us from correctly displaying the our standard error and diagnostic view."), /*#__PURE__*/React.createElement("pre", {
-            style: _theme.classPRE
-          }, exception_.stack));
+            style: {
+              backgroundColor: "#FFCC00",
+              fontFamily: "Play",
+              padding: "1em",
+              overflow: "auto"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontSize: "largest",
+              fontWeight: "bold"
+            }
+          }, "<ComponentRouter/> INTERNAL ERROR"), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", null, "Unfortunately, there has been an internal error inside the <ComponentRouter> error handling logic that is preventing us from correctly displaying the our standard error and diagnostic view."), /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("div", {
+            style: {
+              marginTop: "1em",
+              marginBottom: "1em"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "monospace",
+              whiteSpace: "pre",
+              padding: "1em",
+              backgroundColor: "rgba(255,255,255,0.4)"
+            }
+          }, exception_.stack)));
         } // end catch
 
       } // end method render

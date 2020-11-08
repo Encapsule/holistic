@@ -5,7 +5,7 @@ var arccore = require('@encapsule/arccore');
 
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var knownStateColors = {
   uninitialized: 'rgba(0,0,0,0.3)',

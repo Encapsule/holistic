@@ -26,7 +26,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var factoryResponse = reactComponentBindingFilterFactory.create({
   id: "Zp6gd5TLRWm-a-2kb3qu2w",

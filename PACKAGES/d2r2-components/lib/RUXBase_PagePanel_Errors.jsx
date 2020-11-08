@@ -6,7 +6,7 @@ function _extends() { _extends = Object.assign || function (target) { for (var i
 //
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var factoryResponse = reactComponentBindingFilterFactory.create({
   id: "oHH8k_WYQrKE4eoeaT_C5g",

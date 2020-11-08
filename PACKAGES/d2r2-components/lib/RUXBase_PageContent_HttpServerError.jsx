@@ -28,7 +28,7 @@ var arccore = require("@encapsule/arccore");
 
 var React = require("react");
 
-var reactComponentBindingFilterFactory = require("../binding-factory");
+var reactComponentBindingFilterFactory = require("./binding-factory");
 
 var holismHttpResponseErrorResultSpec = require("@encapsule/holism/lib/iospecs/http-response-error-result-spec");
 
@@ -63,9 +63,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
     _createClass(HolismHttpServerErrorPageContent, [{
       key: "render",
       value: function render() {
-        var ComponentRouter = this.props.appStateContext.ComponentRouter;
-        var metadata = this.props.document.metadata;
-        var theme = metadata.site.theme;
+        var ComponentRouter = this.props.renderContext.ComponentRouter;
         var renderData = this.props.renderData["HolismHttpServerErrorPageContent"];
         var keyIndex = 0;
 
@@ -79,16 +77,10 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
           default:
             content.push( /*#__PURE__*/React.createElement("h1", {
               key: makeKey()
-            }, metadata.site.name, " Error ", renderData.http.code, ': ', renderData.http.message));
+            }, "App Server HTTP Error ", renderData.http.code, ': ', renderData.http.message));
             content.push( /*#__PURE__*/React.createElement("div", {
               key: makeKey()
-            }, /*#__PURE__*/React.createElement("p", null, /*#__PURE__*/React.createElement("span", {
-              style: {
-                fontSize: "larger"
-              }
-            }, "The ", metadata.site.name, " application server cannot process your request.")), /*#__PURE__*/React.createElement("p", {
-              style: theme.base.PageContent_HttpServerError.errorMessage
-            }, renderData.error_message)));
+            }, renderData.error_message));
             content.push( /*#__PURE__*/React.createElement("pre", {
               key: makeKey()
             }, JSON.stringify(renderData, undefined, 4)));
@@ -108,16 +100,11 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
             }, "Login"), " ] [ ", /*#__PURE__*/React.createElement("a", {
               href: "/logout",
               title: "Logout..."
-            }, "Logout"), " ] [ ", /*#__PURE__*/React.createElement("a", {
-              href: "/user",
-              title: "User settings..."
-            }, "User"), " ]"));
+            }, "Logout"), " ]"));
             break;
         }
 
-        return /*#__PURE__*/React.createElement("div", {
-          style: theme.base.PageContent_HttpServerError.container
-        }, content);
+        return /*#__PURE__*/React.createElement("div", null, content);
       }
     }]);
 

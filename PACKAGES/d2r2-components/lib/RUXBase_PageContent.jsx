@@ -2,7 +2,7 @@
 
 // sources/common/view/elements/page/RUX_PageContent.jsx
 //
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var React = require('react');
 

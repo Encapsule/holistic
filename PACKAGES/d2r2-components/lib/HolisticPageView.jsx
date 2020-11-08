@@ -28,7 +28,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var factoryResponse = reactComponentBindingFilterFactory.create({
   id: "hCuVI2B6TbumErHrzPQjfQ",
@@ -117,12 +117,9 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
       key: "render",
       value: function render() {
         var self = this;
-        var ComponentRouter = this.props.appStateContext.ComponentRouter;
-        var metadata = this.props.document.metadata;
-        var theme = metadata.site.theme;
+        var ComponentRouter = this.props.renderContext.ComponentRouter;
         var renderData = this.props.renderData;
         var renderMessage = renderData.HolisticPageView;
-        var renderStyles = renderData.styles;
         var index = 0;
 
         function makeKey() {
@@ -154,10 +151,7 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
             renderData: contentRenderData_
           })));
         });
-        return /*#__PURE__*/React.createElement("div", {
-          id: "idHolisticPageView",
-          style: theme.HolisticPageView.container
-        }, content, /*#__PURE__*/React.createElement("br", null));
+        return /*#__PURE__*/React.createElement("div", null, content);
       }
     }]);
 

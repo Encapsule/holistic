@@ -4,7 +4,7 @@
 //
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var factoryResponse = reactComponentBindingFilterFactory.create({
   id: "EqXm-855SGCqc-lQ5NccLQ",

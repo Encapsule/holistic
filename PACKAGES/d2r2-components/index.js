@@ -3,11 +3,6 @@
 // index.js
 var packageMeta = require("./package");
 
-var components = require("./elements");
-
-var legacyStyles = require("./theme"); // TODO: Retire this mess in favor of some form of theme standardization.
-
-
 module.exports = {
   __meta: {
     author: packageMeta.author,
@@ -17,6 +12,5 @@ module.exports = {
     build: packageMeta.buildID,
     source: packageMeta.buildSource
   },
-  components: components,
-  styles: legacyStyles
+  components: require("./lib")
 };

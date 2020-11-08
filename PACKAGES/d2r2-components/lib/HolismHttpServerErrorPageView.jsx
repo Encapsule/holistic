@@ -28,7 +28,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
 //
 var React = require("react");
 
-var reactComponentBindingFilterFactory = require("../binding-factory");
+var reactComponentBindingFilterFactory = require("./binding-factory");
 
 var holismHttpResponseErrorResultSpec = require("@encapsule/holism/lib/iospecs/http-response-error-result-spec");
 
@@ -54,17 +54,29 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
     _createClass(HolismHttpServerErrorPageView, [{
       key: "render",
       value: function render() {
-        var ComponentRouter = this.props.appStateContext.ComponentRouter;
-        var pageContentEP = {
-          HolisticPageView: {
-            pageContentEP: [{
-              HolismHttpServerErrorPageContent: this.props.renderData['ESCW71rwTz24meWiZpJb4A']
-            }]
-          }
-        };
+        var ComponentRouter = this.props.renderContext.ComponentRouter;
         return /*#__PURE__*/React.createElement(ComponentRouter, _extends({}, this.props, {
-          renderData: pageContentEP
+          renderData: {
+            HolisticPageView: {
+              pageContentEP: [{
+                HolismHttpServerErrorPageContent: this.props.renderData["ESCW71rwTz24meWiZpJb4A"]
+              }]
+            }
+          }
         }));
+        /*
+        const ComponentRouter = this.props.renderContext.ComponentRouter;
+        const pageContentEP = {
+            HolisticPageView: {
+                pageContentEP: [
+                    {
+                        HolismHttpServerErrorPageContent: this.props.renderData["ESCW71rwTz24meWiZpJb4A"]
+                    }
+                ]
+            }
+        };
+        return(<ComponentRouter {...this.props} renderData={pageContentEP} />);
+        */
       }
     }]);
 

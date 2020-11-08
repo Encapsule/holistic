@@ -3,8 +3,8 @@
 var holarchy = require("@encapsule/holarchy");
 
 var kernelConsoleStyles = {
-  outerContainerDiv: ["position: absolute", "top: 0px", "bottom: -0px", "left: 0px", "right: -0px", "opacity: 0", "overflow: hidden", "padding: 1em", "font-family: Play", "font-size: 12pt", "color: #0099FF", "z-index: -1"].join("; "),
-  logMessageContainerDiv: ["margin-left: 0.5em", "margin-right: 0.5em", "margin-top: 0.25em", "margin-bottom: 0.25em", "padding: 0.25em", "padding-left: 0.5em", "font-family: 'Share Tech Mono'", "font-weight: semibold", "color: #0066CC", "border-left: 0.5em solid rgba(0,0,0,0.025)", "border-radius: 0.33em", "background-color: rgba(0,0,0,0.0125)"].join("; ")
+  outerContainerDiv: ["position: absolute", "bottom: -0px", "left: 0px", "right: -0px", "opacity: 0", "overflow: hidden", "padding: 1em", "padding-bottom: 2em", "font-family: Play", "font-size: 12pt", "color: #0099FF", "z-index: -1", "border-top: 1px solid #66CCFF"].join("; "),
+  logMessageContainerDiv: ["margin-left: 0.5em", "margin-right: 0.5em", "margin-top: 0.25em", "margin-bottom: 0.25em", "padding: 0.25em", "padding-left: 0.5em", "font-family: 'Share Tech Mono'", "font-weight: bold", "color: #0066CC", "border-left: 0.5em solid rgba(0,0,0,0.025)", "border-radius: 0.33em", "background-color: rgba(0,0,0,0.0125)"].join("; ")
 };
 var documentTitle = null;
 var controllerAction = new holarchy.ControllerAction({
@@ -74,21 +74,24 @@ var controllerAction = new holarchy.ControllerAction({
 
         case "show":
           rootDisplayDOMElement.animate([{
+            opacity: 0
+          }, {
             opacity: 1
           }], {
+            easing: "ease-in",
             duration: 250,
             fill: "forwards"
           });
           break;
 
         case "hide":
-          var style = rootDisplayDOMElement.getAttribute("style");
-          rootDisplayDOMElement.setAttribute("style", "".concat(style, " background-color: #66CCFF; opacity: 0.75"));
           rootDisplayDOMElement.animate([{
+            opacity: 1
+          }, {
             opacity: 0
           }], {
-            delay: 1000,
-            duration: 500,
+            easing: "ease-out",
+            duration: 1000,
             fill: "forwards"
           });
           document.title = documentTitle;

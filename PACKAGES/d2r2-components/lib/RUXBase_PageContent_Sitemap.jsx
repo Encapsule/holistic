@@ -14,7 +14,7 @@ var arccore = require('@encapsule/arccore');
 
 var React = require('react');
 
-var reactComponentBindingFilterFactory = require('../binding-factory');
+var reactComponentBindingFilterFactory = require('./binding-factory');
 
 var color = require('color'); // TODO OCT 2019 --- The primary value of keeping this around right now seems to be that it's
 // a reasonable example of accessing the app metadata store.
