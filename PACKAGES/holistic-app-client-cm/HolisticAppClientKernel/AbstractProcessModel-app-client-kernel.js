@@ -30,7 +30,8 @@ module.exports = {
         ____accept: "jsString"
       },
       instanceName: {
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "singleton"
       }
     },
     serviceProcesses: {
@@ -55,6 +56,12 @@ module.exports = {
       ____accept: "jsBoolean",
       ____defaultValue: false
     },
+    windowLoadTimeMs: {
+      ____label: "Window Load Time Milliseconds",
+      ____description: "A count of milliseconds reported by the browser in the window.onload event. This is the time from initial URL request to requested HTML5 document + all its referenced resources loaded and available to the app client.",
+      ____accept: "jsNumber",
+      ____defaultValue: -1
+    },
     bootROMData: {
       ____accept: ["jsUndefined", "jsObject"]
     },
@@ -69,7 +76,7 @@ module.exports = {
   },
   steps: {
     uninitialized: {
-      description: "Default starting process step. Start the Holistic App Client Kernel daemon cell processes on process step exit.",
+      description: "Default starting process step.",
       transitions: [{
         transitionIf: {
           always: true
@@ -135,66 +142,6 @@ module.exports = {
               }
             }
           }
-        }, {
-          CellProcessor: {
-            util: {
-              writeActionResponseToPath: {
-                dataPath: "#.serviceProcesses.domLocationProcessor",
-                actionRequest: {
-                  CellProcessor: {
-                    process: {
-                      activate: {},
-                      processCoordinates: {
-                        apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
-                        /* "Holistic App Client Kernel: DOM Location Processor" */
-
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          CellProcessor: {
-            util: {
-              writeActionResponseToPath: {
-                dataPath: "#.serviceProcesses.d2r2DisplayAdapter",
-                actionRequest: {
-                  CellProcessor: {
-                    process: {
-                      activate: {},
-                      processCoordinates: {
-                        apmID: "IxoJ83u0TXmG7PLUYBvsyg"
-                        /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
-
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          CellProcessor: {
-            util: {
-              writeActionResponseToPath: {
-                dataPath: "#.serviceProcesses.clientViewProcessor",
-                actionRequest: {
-                  CellProcessor: {
-                    process: {
-                      activate: {},
-                      processCoordinates: {
-                        apmID: "Hsu-43zBRgqHItCPWPiBng"
-                        /* "Holistic App Client Kernel: Client View Processor" */
-
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
         }]
       },
       transitions: [{
@@ -250,77 +197,6 @@ module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "kernel-wait-subprocesses"
-      }]
-    },
-    "kernel-wait-subprocesses": {
-      description: "Waiting for holistic app client kernel subprocesses to come online...",
-      actions: {
-        exit: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel is waiting on subprocess services to become ready..."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          and: [{
-            CellProcessor: {
-              cell: {
-                query: {
-                  inStep: {
-                    apmStep: "wait"
-                  }
-                },
-                cellCoordinates: {
-                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
-                  /* "Holistic App Client Kernel: DOM Location Processor" */
-
-                }
-              }
-            }
-          }, {
-            CellProcessor: {
-              cell: {
-                query: {
-                  inStep: {
-                    apmStep: "initialized"
-                  }
-                },
-                cellCoordinates: {
-                  apmID: "IxoJ83u0TXmG7PLUYBvsyg"
-                  /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
-
-                }
-              }
-            }
-          }, {
-            CellProcessor: {
-              cell: {
-                query: {
-                  inStep: {
-                    apmStep: "wait_app_config"
-                  }
-                },
-                cellCoordinates: {
-                  apmID: "Hsu-43zBRgqHItCPWPiBng"
-                  /* "Holistic App Client Kernel: Client View Processor" */
-
-                }
-              }
-            }
-          }]
-        },
         nextStep: "kernel-signal-lifecycle-query"
       }]
     },
@@ -370,6 +246,102 @@ module.exports = {
         transitionIf: {
           always: true
         },
+        nextStep: "kernel-activate-subprocesses"
+      }]
+    },
+    "kernel-activate-subprocesses": {
+      description: "Activating cell subprocesses required by the derived app client service.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel is activating subprocesses..."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }, {
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    stepWorker: {
+                      action: "activate-subprocesses"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "kernel-wait-subprocesses"
+      }]
+    },
+    "kernel-wait-subprocesses": {
+      description: "Waiting for holistic app client kernel subprocesses to come online...",
+      actions: {
+        exit: [{
+          holistic: {
+            app: {
+              client: {
+                kernel: {
+                  _private: {
+                    rootDisplayCommand: {
+                      message: "App client kernel subprocesses have been activated."
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          and: [{
+            CellProcessor: {
+              cell: {
+                query: {
+                  inStep: {
+                    apmStep: "display-adapter-wait-initial-layout"
+                  }
+                },
+                cellCoordinates: {
+                  apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                  /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
+
+                }
+              }
+            }
+          }, {
+            CellProcessor: {
+              cell: {
+                query: {
+                  inStep: {
+                    apmStep: "wait"
+                  }
+                },
+                cellCoordinates: {
+                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                  /* "Holistic App Client Kernel: DOM Location Processor" */
+
+                }
+              }
+            }
+          }]
+        },
         nextStep: "kernel-wait-browser-tab-resources-loaded"
       }]
     },
@@ -413,7 +385,7 @@ module.exports = {
     "kernel-signal-lifecycle-deserialize": {
       description: "Informing the derived holistic app client process that it is time to deserialize derived-application-specific init data written into the now loaded and ready HTML5 document by the holistic app server.",
       actions: {
-        exit: [{
+        enter: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -462,7 +434,7 @@ module.exports = {
     "kernel-signal-lifecycle-config": {
       description: "Informing the derived holistic app client process that it is time to perform its final configuration steps before the client application is started.",
       actions: {
-        exit: [{
+        enter: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {
@@ -511,7 +483,7 @@ module.exports = {
     "kernel-signal-lifecycle-start": {
       description: "Informing the derived holistic app client process that it is time to start the show!",
       actions: {
-        exit: [{
+        enter: [{
           CellProcessor: {
             util: {
               writeActionResponseToPath: {

@@ -2,39 +2,38 @@
 
 /*
 
-  Holistic App Client Kernel: d2r2/React Client Display Adaptor
+  Holistic App Client Kernel: d2r2/React Client Display Adapter
 
-  d2r2/React Client Display Adaptor process provides generic routing of @encapsule/d2r2 request object that represents
+  d2r2/React Client Display Adapter process provides generic routing of @encapsule/d2r2 request object that represents
   an application/service command to change entirely, or partially update the layout of the HTML5 page view currently
   visible to the user.
 
   This process is always created as an owned singleton process by the Holistic App Client Kernel process.
 
-  Derived client application CellModels do not ever interact w/the d2r2/React Client Display Adaptor process directly.
-  Rather, d2r2/React Client Display Adaptor acts at the behest of the Holistic App Client Kernel process exclusively:
+  Derived client application CellModels do not ever interact w/the d2r2/React Client Display Adapter process directly.
+  Rather, d2r2/React Client Display Adapter acts at the behest of the Holistic App Client Kernel process exclusively:
 
   - Application-specified DOMElement (typically a reference to a <DIV/>) to be used to render display layout updates via React
   - Application-specified d2r2 Component set (an array of d2r2 Component wrapper filters) used to specialize the d2r2 <ComponentRouter/> instance.
   - The cell process ID of an application-defined AppClientDisplayDriver cell process
-    - d2r2/React display adaptor process will open a CellProxy to the derived client application's designated "display driver process".
-    - Once display adaptor has connected its proxy to the the derived application's display driver process, it monitors the display driver process for
+    - d2r2/React display adapter process will open a CellProxy to the derived client application's designated "display driver process".
+    - Once display adapter has connected its proxy to the the derived application's display driver process, it monitors the display driver process for
       change and then reads (PULL) the display driver's updated (because it's changed) d2r2 request when (a) the last display update made by the display
-      adaptor has completed AND (b) the derived application's display driver process indicates that a new / updated d2r2 display layout request
+      adapter has completed AND (b) the derived application's display driver process indicates that a new / updated d2r2 display layout request
       is available for processing.
 */
 var holarchy = require("@encapsule/holarchy");
 
 var apm = new holarchy.AbstractProcessModel({
   id: "IxoJ83u0TXmG7PLUYBvsyg",
-  name: "Holistic Client App Kernel: d2r2/React Client Display Adaptor",
+  name: "Holistic Client App Kernel: d2r2/React Client Display Adapter",
   description: "Manages the details of initializing and dynamically updating the client application view (DOM display surface) via @encapsule/d2r2 and Facebook React.",
   ocdDataSpec: {
-    ____label: "Holistic App Client Kernel: d2r2/React Client Display Adaptor Memory",
-    ____description: "Shared memory definition for the d2r2/React Client Display Adaptor OPM.",
+    ____label: "Holistic App Client Kernel: d2r2/React Client Display Adapter Memory",
+    ____description: "Shared memory definition for the d2r2/React Client Display Adapter OPM.",
     ____types: "jsObject",
     construction: {
       ____types: "jsObject",
-      ____defaultValue: {},
       toJSON: {
         ____types: "jsFunction",
         ____defaultValue: function ____defaultValue() {
@@ -47,30 +46,27 @@ var apm = new holarchy.AbstractProcessModel({
         ____types: ["jsNull", "jsString"],
         ____defaultValue: null
       },
-      // Set by CellProcessor CPM on owned process initialization.
-      DOMElement: {
-        // TODO: Not serializable
-        ____label: "d2r2 Target DOM Element",
-        ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adaptor (obtained with document.getElementById).",
-        ____opaque: true,
-        // this is typically a "[object HTMLDivElement]" type not natively supported by filter.
-        ____defaultValue: null
+      // Set by CellProcessor CPM on owned process initialization. IS IT STILL?
+      idTargetDOMElement: {
+        ____label: "d2r2 Display Adapter Target DOM Element Identifier",
+        ____description: "A identifier string to be used to locate a DIV in the HTML5 document that the d2r2/React display adapter process should use for rendering.",
+        ____accept: "jsString",
+        ____defaultValue: "idAppClientUserInterfaceDisplay"
       },
       d2r2Components: {
-        ____types: ["jsNull", "jsArray"],
-        ____defaultValue: null,
-        d2r2Component: {
+        ____label: "d2r2/React Components Array",
+        ____description: "An array of d2r2/React component binding filters the the derived app client process needs registered in the d2r2 request space.",
+        ____types: "jsArray",
+        d2r2ComponentWrapperFilter: {
           ____accept: "jsObject"
         }
-      }
-    },
-    driverProxy: {
-      ____types: "jsObject",
-      ____defaultValue: {},
-      ____appdsl: {
-        apm: "CPPU-UPgS8eWiMap3Ixovg"
-        /*CellProxy*/
-
+      },
+      serverRenderData: {
+        ____label: "d2r2 Server Render Data",
+        ____description: "A copy of the d2r2 renderData value used by the holistic app server proces to render the current static content of the DOM element specified by idTargetDOMElement.",
+        ____accept: ["jsUndefined", // This value is optional as it is not available when the display adapter process is activated by the app client kernel.
+        "jsObject" // An opaque-to-us value written by the app client kernel process when the HTML5 document's bootROM containing this information is deserialized.
+        ]
       }
     },
     "private": {
@@ -98,7 +94,7 @@ var apm = new holarchy.AbstractProcessModel({
         DOMElement: {
           // TODO: Not serializable
           ____label: "d2r2 Target DOM Element",
-          ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adaptor (obtained with document.getElementById).",
+          ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adapter (obtained with document.getElementById).",
           ____opaque: true,
           // this is typically a "[object HTMLDivElement]" type not natively supported by filter.
           ____defaultValue: null
@@ -118,20 +114,33 @@ var apm = new holarchy.AbstractProcessModel({
         transitionIf: {
           always: true
         },
-        nextStep: "initializing"
+        nextStep: "display-adapter-wait-initial-layout"
       }]
     },
-    initializing: {
-      description: "d2r2/React Client Display Adaptor process is initializing...",
+    "display-adpater-initializing": {
+      description: "Display adapter process is initializing."
+    },
+    "display-adapter-wait-initial-layout": {
+      description: "d2r2/React Client Display Adapter is waiting for the app client kernel to set the display's initial layout.",
       transitions: [{
         transitionIf: {
-          always: true
+          holarchy: {
+            cm: {
+              operators: {
+                ocd: {
+                  isNamespaceTruthy: {
+                    path: "#.construction.serverRenderData"
+                  }
+                }
+              }
+            }
+          }
         },
-        nextStep: "initialized"
+        nextStep: "display-adapter-activate-react-process"
       }]
     },
-    initialized: {
-      description: "d2r2/React Client Display Adaptor is initialized (temporary placeholder)."
+    "display-adapter-activate-react-process": {
+      description: "d2r2/React Client Display Adapter is finding the target DOMElement and preparing for initial client-side programmatic DOM render operation."
     } // ----------------------------------------------------------------
 
     /*
@@ -181,7 +190,7 @@ var apm = new holarchy.AbstractProcessModel({
         actions: {
             enter: [
                 { holarchy: { cm: { actions: { ocd: { setBooleanFlag: { path: "#.private.renderPending" } } } } } },
-                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdaptor: { operation: "hydrate" } } } } } } }
+                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdapter: { operation: "hydrate" } } } } } } }
             ]
         },
         transitions: [ { transitionIf: { always: true }, nextStep: "rendering" } ]
@@ -191,7 +200,7 @@ var apm = new holarchy.AbstractProcessModel({
         actions: {
             enter: [
                 { holarchy: { cm: { actions: { ocd: { setBooleanFlag: { path: "#.private.renderPending" } } } } } },
-                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdaptor: { operation: "render" } } } } } } }
+                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdapter: { operation: "render" } } } } } } }
             ]
         },
         transitions: [ { transitionIf: { always: true }, nextStep: "rendering" } ]

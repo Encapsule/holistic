@@ -78,8 +78,7 @@ var controllerAction = new holarchy.ControllerAction({
           }, {
             opacity: 1
           }], {
-            easing: "ease-in",
-            duration: 250,
+            duration: 150,
             fill: "forwards"
           });
           break;
@@ -90,8 +89,8 @@ var controllerAction = new holarchy.ControllerAction({
           }, {
             opacity: 0
           }], {
-            easing: "ease-out",
-            duration: 1000,
+            delay: 3500,
+            duration: 350,
             fill: "forwards"
           });
           document.title = documentTitle;

@@ -78,6 +78,16 @@ module.exports = /*#__PURE__*/function () {
         error: this.toJSON()
       };
     }
+  }, {
+    key: "memory",
+    get: function get() {
+      return !this.isValid() ? this.toJSON() : this.toJSON().opc.toJSON().ocdi.toJSON();
+    }
+  }, {
+    key: "processes",
+    get: function get() {
+      return !this.isValid() ? this.toJSON() : this.toJSON().opc.toJSON().ocdi.toJSON()["x7pM9bwcReupSRh0fcYTgw_CellProcessor"].ownedCellProcesses.digraph.toJSON();
+    }
   }]);
 
   return CellProcessor;

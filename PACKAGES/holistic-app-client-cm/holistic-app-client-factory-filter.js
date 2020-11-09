@@ -290,14 +290,12 @@ var holarchy = require("@encapsule/holarchy");
                         processCoordinates: {
                           apmID: "PPL45jw5RDWSMNsB97WIWg"
                           /* Holistic App Client Kernel */
-                          ,
-                          instanceName: "daemon"
+
                         },
                         activate: {
                           processData: {
                             derivedAppClientProcessCoordinates: {
-                              apmID: clientFactoryRequest_.apmID,
-                              instanceName: "daemon"
+                              apmID: clientFactoryRequest_.apmID
                             }
                           }
                         }
@@ -319,9 +317,8 @@ var holarchy = require("@encapsule/holarchy");
                     CellProcessor: {
                       process: {
                         processCoordinates: {
-                          apmID: clientFactoryRequest_.apmID,
-                          // X App Client (synthesized)
-                          instanceName: "daemon"
+                          apmID: clientFactoryRequest_.apmID // X App Client (synthesized)
+
                         },
                         activate: {
                           processData: {

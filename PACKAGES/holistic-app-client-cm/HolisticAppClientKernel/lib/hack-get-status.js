@@ -48,8 +48,7 @@ var holarchy = require("@encapsule/holarchy");
               CellProcessor: {
                 cell: {
                   cellCoordinates: {
-                    apmID: "PPL45jw5RDWSMNsB97WIWg",
-                    instanceName: "daemon"
+                    apmID: "PPL45jw5RDWSMNsB97WIWg"
                   },
                   query: {}
                 }
