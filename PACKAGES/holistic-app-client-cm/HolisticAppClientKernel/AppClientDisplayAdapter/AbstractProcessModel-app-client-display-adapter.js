@@ -78,10 +78,6 @@ var apm = new holarchy.AbstractProcessModel({
       ____accept: "jsNumber",
       ____defaultValue: -1 // Default value -1 indicates that no client-side render has occurred; the contents of the target DIV was pre-rendered by the app server process.
 
-    },
-    displayUpdating: {
-      ____accept: "jsBoolean",
-      ____defaultValue: false
     }
   },
   // ocdDataSpec
@@ -145,11 +141,11 @@ var apm = new holarchy.AbstractProcessModel({
             }
           }
         },
-        nextStep: "display-adapter-activate-react-process"
+        nextStep: "display-adapter-service-ready"
       }]
     },
-    "display-adapter-activate-react-process": {
-      description: "d2r2/React Client Display Adapter is finding the target DOMElement and preparing for initial client-side programmatic DOM render operation."
+    "display-adapter-service-ready": {
+      description: "d2r2/React Client Display Adapter has been initialized, configured, and ready to accept layout update requests."
     } // ----------------------------------------------------------------
 
     /*

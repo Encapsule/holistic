@@ -9,6 +9,6 @@ module.exports = new holarchy.CellModel({
   name: "Holistic App Client Kernel: d2r2/React Client Display Adaptor",
   description: "Manages the DOM display via @encapsule/d2r2 and React.",
   apm: require("./AbstractProcessModel-app-client-display-adapter"),
-  actions: [require("./ControllerAction-app-client-display-step-worker"), require("./ControllerAction-app-client-display-activate")],
+  actions: [require("./ControllerAction-app-client-display-step-worker"), require("./ControllerAction-app-client-display-activate"), require("./ControllerAction-app-client-display-update")],
   subcells: []
 });
