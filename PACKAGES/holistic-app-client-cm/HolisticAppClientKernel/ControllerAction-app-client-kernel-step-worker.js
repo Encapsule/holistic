@@ -8,7 +8,7 @@ var hackLib = require("./lib");
 var controllerAction = new holarchy.ControllerAction({
   id: "4zsKHGrWRPm9fFa-RxsBuw",
   name: "Holistic App Client Kernel: Process Step Worker",
-  description: "Performs actions on behalf of the Holistic App Client Kernel APM.",
+  description: "Performs actions on behalf of the Holistic App Client Kernel process.",
   actionRequestSpec: {
     ____types: "jsObject",
     holistic: {
@@ -25,7 +25,7 @@ var controllerAction = new holarchy.ControllerAction({
                 ____types: "jsObject",
                 action: {
                   ____accept: "jsString",
-                  ____inValueSet: ["noop", "activate-subprocesses"],
+                  ____inValueSet: ["noop", "activate-subprocesses", "activate-display-adapter"],
                   ____defaultValue: "noop"
                 }
               }
@@ -50,7 +50,7 @@ var controllerAction = new holarchy.ControllerAction({
       inBreakScope = true;
       var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.kernel._private.stepWorker;
-      console.log("".concat(actorName, " processing \"").concat(messageBody.action, "\" request from app client kernel APM."));
+      console.log("".concat(actorName, " processing \"").concat(messageBody.action, "\" request on behalf of app client kernel process."));
       var hackLibResponse = hackLib.getStatus.request(request_.context);
 
       if (hackLibResponse.error) {
@@ -139,6 +139,38 @@ var controllerAction = new holarchy.ControllerAction({
           } // TODO: Let's leave this out for now until the basic stuff is working end-to-end and requirements are less abstract.
           // { CellProcessor: { util: { writeActionResponseToPath: { dataPath: "#.serviceProcesses.clientViewProcessor", actionRequest: { CellProcessor: { process: { activate: {}, processCoordinates: { apmID: "Hsu-43zBRgqHItCPWPiBng" /* "Holistic App Client Kernel: Client View Processor" */ } } } } } } } },
 
+
+          break;
+
+        case "activate-display-adapter":
+          actResponse = request_.context.act({
+            actorName: actorName,
+            actorTaskDescription: "Sending initial layout request data to the app client display adapter to activate the display adapter process.",
+            actionRequest: {
+              holistic: {
+                app: {
+                  client: {
+                    display: {
+                      _private: {
+                        activate: {
+                          displayLayoutRequest: {
+                            renderData: kernelCellData.bootROMData.document.data
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
 
           break;
 

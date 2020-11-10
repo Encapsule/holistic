@@ -32,21 +32,16 @@ var apm = new holarchy.AbstractProcessModel({
     ____label: "Holistic App Client Kernel: d2r2/React Client Display Adapter Memory",
     ____description: "Shared memory definition for the d2r2/React Client Display Adapter OPM.",
     ____types: "jsObject",
+    toJSON: {
+      ____types: "jsFunction",
+      ____defaultValue: function ____defaultValue() {
+        return {
+          tempState: true
+        };
+      }
+    },
     construction: {
       ____types: "jsObject",
-      toJSON: {
-        ____types: "jsFunction",
-        ____defaultValue: function ____defaultValue() {
-          return {
-            tempState: true
-          };
-        }
-      },
-      instanceName: {
-        ____types: ["jsNull", "jsString"],
-        ____defaultValue: null
-      },
-      // Set by CellProcessor CPM on owned process initialization. IS IT STILL?
       idTargetDOMElement: {
         ____label: "d2r2 Display Adapter Target DOM Element Identifier",
         ____description: "A identifier string to be used to locate a DIV in the HTML5 document that the d2r2/React display adapter process should use for rendering.",
@@ -57,53 +52,36 @@ var apm = new holarchy.AbstractProcessModel({
         ____label: "d2r2/React Components Array",
         ____description: "An array of d2r2/React component binding filters the the derived app client process needs registered in the d2r2 request space.",
         ____types: "jsArray",
-        d2r2ComponentWrapperFilter: {
+        ____defaultValue: [],
+        d2r2Component: {
           ____accept: "jsObject"
         }
-      },
-      serverRenderData: {
-        ____label: "d2r2 Server Render Data",
-        ____description: "A copy of the d2r2 renderData value used by the holistic app server proces to render the current static content of the DOM element specified by idTargetDOMElement.",
-        ____accept: ["jsUndefined", // This value is optional as it is not available when the display adapter process is activated by the app client kernel.
-        "jsObject" // An opaque-to-us value written by the app client kernel process when the HTML5 document's bootROM containing this information is deserialized.
-        ]
       }
     },
-    "private": {
-      ____types: "jsObject",
-      ____defaultValue: {},
-      renderCount: {
-        ____accept: "jsNumber",
-        ____defaultValue: -1
+    config: {
+      ____types: ["jsUndefined", // Initially undefined upon process activation.
+      "jsObject" // Set by step worker in display-adapter-initialize process step enter action.
+      ],
+      targetDOMElement: {
+        ____label: "d2r2 Target DOM Element",
+        ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adapter (obtained with document.getElementById).",
+        ____opaque: true // This is an "[object HTMLDivElement]" type not natively supported by filter.
+
       },
-      busyRendering: {
-        ____accept: "jsBoolean",
-        ____defaultValue: false
-      },
-      runtimeTempState: {
-        ____types: "jsObject",
-        ____defaultValue: {},
-        toJSON: {
-          ____types: "jsFunction",
-          ____defaultValue: function ____defaultValue() {
-            return {
-              tempState: true
-            };
-          }
-        },
-        DOMElement: {
-          // TODO: Not serializable
-          ____label: "d2r2 Target DOM Element",
-          ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adapter (obtained with document.getElementById).",
-          ____opaque: true,
-          // this is typically a "[object HTMLDivElement]" type not natively supported by filter.
-          ____defaultValue: null
-        },
-        ComponentRouterInstance: {
-          ____accept: ["jsNull", "jsObject"],
-          ____defaultValue: null
-        }
+      ComponentRouter: {
+        ____label: "d2r2 <ComponentRouter/> React Component",
+        ____opaque: true // This is a d2r2 <ComponentRouter/> React class used to dynamically update the display layout.
+
       }
+    },
+    displayUpdateCount: {
+      ____accept: "jsNumber",
+      ____defaultValue: -1 // Default value -1 indicates that no client-side render has occurred; the contents of the target DIV was pre-rendered by the app server process.
+
+    },
+    displayUpdating: {
+      ____accept: "jsBoolean",
+      ____defaultValue: false
     }
   },
   // ocdDataSpec
@@ -114,11 +92,34 @@ var apm = new holarchy.AbstractProcessModel({
         transitionIf: {
           always: true
         },
-        nextStep: "display-adapter-wait-initial-layout"
+        nextStep: "display-adapter-initialize"
       }]
     },
-    "display-adpater-initializing": {
-      description: "Display adapter process is initializing."
+    "display-adapter-initialize": {
+      description: "Display adapter process is initializing.",
+      actions: {
+        enter: [{
+          holistic: {
+            app: {
+              client: {
+                display: {
+                  _private: {
+                    stepWorker: {
+                      action: "initialize-display-adapter"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "display-adapter-wait-initial-layout"
+      }]
     },
     "display-adapter-wait-initial-layout": {
       description: "d2r2/React Client Display Adapter is waiting for the app client kernel to set the display's initial layout.",
@@ -128,8 +129,16 @@ var apm = new holarchy.AbstractProcessModel({
             cm: {
               operators: {
                 ocd: {
-                  isNamespaceTruthy: {
-                    path: "#.construction.serverRenderData"
+                  compare: {
+                    values: {
+                      a: {
+                        value: 0
+                      },
+                      b: {
+                        path: "#.displayUpdateCount"
+                      },
+                      operator: "==="
+                    }
                   }
                 }
               }

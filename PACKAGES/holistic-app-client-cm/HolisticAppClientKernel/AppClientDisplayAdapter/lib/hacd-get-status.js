@@ -5,9 +5,9 @@ var arccore = require("@encapsule/arccore");
 (function () {
   var cachedKernelProcessQuery = null;
   var factoryResponse = arccore.filter.create({
-    operationID: "zDB8iqU9SzGPBYGxlWroXg",
-    operationName: "hackLib: Get Status",
-    operationDescription: "Retrieves the status and current cell memory for Holistic App Client Kernel process.",
+    operationID: "ebrOFXLaS3mFAUYFDj14sw",
+    operationName: "hacdLib: Get Status",
+    operationDescription: "Retrieves the status and current cell memory for Holistic App Client Display Adapter process.",
     inputFilterSpec: {
       ____types: "jsObject",
       act: {
@@ -18,12 +18,12 @@ var arccore = require("@encapsule/arccore");
       }
     },
     outputFilterSpec: {
-      ____label: "Holistic App Client Kernel Process Stats & Memory",
+      ____label: "Holistic App Client Display Adapter Process Memory & Status",
       ____types: "jsObject",
       cellMemory: {
         ____accept: "jsObject"
       },
-      kernelProcess: {
+      displayAdapterProcess: {
         ____accept: "jsObject"
       }
     },
@@ -38,15 +38,15 @@ var arccore = require("@encapsule/arccore");
         inBreakScope = true;
 
         if (!cachedKernelProcessQuery) {
-          // We need to determine the cellProcessPath of the holistic app client kernel process.
+          // We need to determine the cellProcessPath of the holistic app client display adapter process.
           var actResponse = request_.act({
-            actorName: "Holistic App Client Kernel: Get Status",
+            actorName: "Holistic App Client Display Adapter: Get Status",
             actorTaskDescription: "Querying the CellProcessor to determine if and where in the cell plane the Holistic App Client Kernel process is activated.",
             actionRequest: {
               CellProcessor: {
                 cell: {
                   cellCoordinates: {
-                    apmID: "PPL45jw5RDWSMNsB97WIWg"
+                    apmID: "IxoJ83u0TXmG7PLUYBvsyg"
                   },
                   query: {}
                 }
@@ -72,7 +72,7 @@ var arccore = require("@encapsule/arccore");
 
         response.result = {
           cellMemory: ocdResponse.result,
-          kernelProcess: cachedKernelProcessQuery
+          displayAdapterProcess: cachedKernelProcessQuery
         };
         break;
       }
