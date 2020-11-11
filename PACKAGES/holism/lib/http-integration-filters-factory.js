@@ -166,8 +166,7 @@ var factoryResponse = arccore.filter.create({
             const getUserIdentityMetadataFilterMoniker = "User Identity Accessor";
             const getUserIdentityMetadataFilterName = request_.name + "::" + getUserIdentityMetadataFilterMoniker;
             const getUserIdentityMetadataFilterDescription = "Retrieves unaunthenicated user identity from incoming HTTP request.";
-            const getUserIdentityMetadataFilterID =
-                  arccore.identifier.irut.fromReference(request_.filter_id_seed + getUserIdentityMetadataFilterMoniker).result;
+            const getUserIdentityMetadataFilterID = arccore.identifier.irut.fromReference(request_.filter_id_seed + getUserIdentityMetadataFilterMoniker).result;
 
             innerFactoryResponse = arccore.filter.create({
                 operationID: getUserIdentityMetadataFilterID,
@@ -195,10 +194,8 @@ var factoryResponse = arccore.filter.create({
             // ----------------------------------------------------------------------
             const getUserSessionMetadataFilterMoniker = "User Session Accessor";
             const getUserSessionMetadataFilterName = request_.name + "::" + getUserSessionMetadataFilterMoniker;
-            const getUserSessionMetadataFilterDescription =
-                  "Authenicates a user/session identification assertion and returns the user's current session data.";
-            const getUserSessionMetadataFilterID = arccore.identifier.irut.fromReference(
-                request_.filter_id_seed + getUserSessionMetadataFilterMoniker).result;
+            const getUserSessionMetadataFilterDescription = "Authenicates a user/session identification assertion and returns the user's current session data.";
+            const getUserSessionMetadataFilterID = arccore.identifier.irut.fromReference(request_.filter_id_seed + getUserSessionMetadataFilterMoniker).result;
 
             innerFactoryResponse = arccore.filter.create({
                 operationID: getUserSessionMetadataFilterID,
@@ -286,8 +283,8 @@ var factoryResponse = arccore.filter.create({
                 operationName: htmlRenderFilterName,
                 operationDescription: htmlRenderFilterDescription,
                 inputFilterSpec: {
-                    ____label: "HTML Render Request",
-                    ____description: "Data passed into the HTML render filter to be transformed to a UTF8-encoded HTML string.",
+                    ____label: "Holistic App Server Render Client App Request",
+                    ____description: "Data passed into the HTML render filter to be transformed to a UTF8-encoded HTML5 document string to be returned via HTTP response body to the requesting user agent (typically a user's web browser).",
                     ____types: "jsObject",
                     document: {
                         ____label: "Document Data",
@@ -322,7 +319,59 @@ var factoryResponse = arccore.filter.create({
                             session: request_.integrations.metadata.session.get_session.response.client_spec
                         }
                     },
-                    appStateContext: httpIntegrationFiltersFactoryRequestSpec.appStateContext
+                    appStateContext: httpIntegrationFiltersFactoryRequestSpec.appStateContext,
+
+                    // NEW GIST
+                    alexandrite: {
+                        ____label: "@encapsule/holistic v0.0.47 App Client Synthesize Request",
+                        ____description: "A descriptor object that defines parameters for synthesizing a derived holistic app client process and serializing it to an HTML5 document that is returned to a user agent process via HTTP 1.1 response.",
+                        ____types: [ "jsUndefined", "jsObject" ],
+
+                        httpRequest: {
+                            ____label: "HTTP Request Data",
+                            ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
+                            ____types: "jsObject",
+                            parsedURL: {
+                                ____label: "HTTP URL Parse Descriptor",
+                                ____description: "A copy of the URL requested by the user agent parsed into a descriptor object.",
+                                ____accept: "jsObject"
+                            }, // parsedURL
+                            headers: {
+                                ____label: "HTTP Request Headers",
+                                ____description: "An array of HTTP request headers received by the app server process from the user agent.",
+                                ____types: "jsObject",
+                                ____asMap: true,
+                                headerKey: { ____accept: "jsString" }
+                            } // headers
+                        }, // httpRequest
+
+                        httpResponse: {
+                            ____label: "HTTP Response Data",
+                            ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
+                            ____types: "jsObject",
+                            disposition: {
+                                ____label: "HTTP Response Disposition",
+                                ____description: "In order to determine its rendering policy for the derived app client process, the derived app server's HTML5 document rendering integration filter implementation must know the disposition of the holism service filter that actually processed the HTTP request.",
+                                ____types: "jsObject",
+                                code: {
+                                    ____label: "HTTP Response Code",
+                                    ____accept: "jsNumber"
+                                },
+                                message: {
+                                    ____label: "HTTP Response Message",
+                                    ____accept: "jsString"
+                                }
+                            } // disposition
+
+                        }, // httpResponse
+
+                        appServerContext: {
+                            ____label: "App Server Context Data",
+                            ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used as options, and content for sythesizing the derived app client process and serializing it to an HTML5 document.",
+                            ____types: "jsObject"
+                        }
+
+                    } // alexandrite (@encapsule/holistic v0.0.47-alexandrite)
                 },
                 outputFilterSpec: {
                     ____label: "UTF8 HTML String",

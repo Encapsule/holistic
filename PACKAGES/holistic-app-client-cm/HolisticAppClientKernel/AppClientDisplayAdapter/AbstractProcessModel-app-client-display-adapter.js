@@ -10,17 +10,6 @@
 
   This process is always created as an owned singleton process by the Holistic App Client Kernel process.
 
-  Derived client application CellModels do not ever interact w/the d2r2/React Client Display Adapter process directly.
-  Rather, d2r2/React Client Display Adapter acts at the behest of the Holistic App Client Kernel process exclusively:
-
-  - Application-specified DOMElement (typically a reference to a <DIV/>) to be used to render display layout updates via React
-  - Application-specified d2r2 Component set (an array of d2r2 Component wrapper filters) used to specialize the d2r2 <ComponentRouter/> instance.
-  - The cell process ID of an application-defined AppClientDisplayDriver cell process
-    - d2r2/React display adapter process will open a CellProxy to the derived client application's designated "display driver process".
-    - Once display adapter has connected its proxy to the the derived application's display driver process, it monitors the display driver process for
-      change and then reads (PULL) the display driver's updated (because it's changed) d2r2 request when (a) the last display update made by the display
-      adapter has completed AND (b) the derived application's display driver process indicates that a new / updated d2r2 display layout request
-      is available for processing.
 */
 var holarchy = require("@encapsule/holarchy");
 
@@ -146,80 +135,7 @@ var apm = new holarchy.AbstractProcessModel({
     },
     "display-adapter-service-ready": {
       description: "d2r2/React Client Display Adapter has been initialized, configured, and ready to accept layout update requests."
-    } // ----------------------------------------------------------------
-
-    /*
-      uninitialized: {
-        description: "Default APM process step.",
-        transitions: [
-            {
-                transitionIf: { holarchy: { cm: { operators: { cell: { atStep: { path: "#.//.//.//.//", step: "boot1_start_kernel" } } } } } },
-                nextStep: "initialize"
-            }
-        ]
-    },
-     // Just a placeholder for now (for consistency).
-    initialize: {
-        description: "Initialize",
-        transitions: [
-            { transitionIf: { always: true }, nextStep: "wait_invariants" }
-        ]
-    },
-     wait_invariants: {
-        description: "Waiting for d2r2 ComponentRouter instance (how to render), and DOM element (where to render) invariants to be specified.",
-        transitions: [
-            {
-                transitionIf: {
-                    and: [
-                        { holarchy: { cm: { operators: { ocd: { isNamespaceTruthy: { path: "#.inputs.ComponentRouter" } } } } } },
-                        { holarchy: { cm: { operators: { ocd: { isNamespaceTruthy: { path: "#.inputs.DOMElement" } } } } } }
-                    ]
-                },
-                nextStep: "wait_inputs"
-            }
-        ]
-    },
-     wait_inputs: {
-        description: "Invariants have been satisfied. Waiting for initial d2d2 ComponentRouter render data context to be specified.",
-        transitions: [ { transitionIf: { holarchy: { cm: { operators: { ocd: { isNamespaceTruthy: { path: "#.inputs.clock.value" } } } } } }, nextStep: "initialized" } ]
-    },
-     initialized: {
-        description: "Preparing for initial render operation. Determining if we rehyrdate server-rendered view. Or, replace it.",
-        transitions: [
-            { transitionIf: { holarchy: { cm: { operators: { ocd: { isNamespaceTruthy: { path: "#.inputs.clock.value.options.rehydrate" } } } } } }, nextStep: "rehydrate" },
-            { transitionIf: { always: true }, nextStep: "render" }
-        ]
-    },
-     rehydrate: {
-        description: "Rehydrating the specified d2r2 ComponentRouter render data context to reconstruct server-rendered d2r2 ComponentRouter render data context in the client application.",
-        actions: {
-            enter: [
-                { holarchy: { cm: { actions: { ocd: { setBooleanFlag: { path: "#.private.renderPending" } } } } } },
-                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdapter: { operation: "hydrate" } } } } } } }
-            ]
-        },
-        transitions: [ { transitionIf: { always: true }, nextStep: "rendering" } ]
-    },
-     render: {
-        description: "Rendering the specified d2r2 ComponentRouter render data context to refresh layout and client-side React component mountings.",
-        actions: {
-            enter: [
-                { holarchy: { cm: { actions: { ocd: { setBooleanFlag: { path: "#.private.renderPending" } } } } } },
-                { holistic: { app: { client: { cm: { actions: { d2r2ReactClientDisplayAdapter: { operation: "render" } } } } } } }
-            ]
-        },
-        transitions: [ { transitionIf: { always: true }, nextStep: "rendering" } ]
-    },
-     rendering: {
-        description: "Rendering the specified d2r2 ComponentRouter render data context. Please wait for the operation to complete.",
-        transitions: [ { transitionIf: { not: { holarchy: { cm: { operators: { ocd: { isNamespaceTruthy: { path: "#.private.renderPending" } } } } } } }, nextStep: "ready" } ]
-    },
-     ready: {
-        description: "Waiting for next clock signal to re-render client application view.",
-        transitions: [ { transitionIf: { holarchy: { cm: { operators: { opmi: { atStep: { path: "#.inputs.clock", step: "updated" } } } } } },  nextStep: "render" } ]
     }
-    */
-
   } // steps
 
 });

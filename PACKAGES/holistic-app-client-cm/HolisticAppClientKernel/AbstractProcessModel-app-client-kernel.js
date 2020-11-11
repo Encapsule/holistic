@@ -94,48 +94,6 @@ module.exports = {
               client: {
                 kernel: {
                   _private: {
-                    rootDisplayCommand: {
-                      command: "initialize"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      command: "show"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel process is booting..."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
                     hookDOMEvents: {}
                   }
                 }
@@ -177,20 +135,6 @@ module.exports = {
               }
             }
           }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel has initialized the derived app client process."
-                    }
-                  }
-                }
-              }
-            }
-          }
         }]
       },
       transitions: [{
@@ -226,20 +170,6 @@ module.exports = {
               }
             }
           }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel has queried the derived app client process."
-                    }
-                  }
-                }
-              }
-            }
-          }
         }]
       },
       transitions: [{
@@ -253,20 +183,6 @@ module.exports = {
       description: "Activating cell subprocesses required by the derived app client service.",
       actions: {
         enter: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel is activating subprocesses..."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
           holistic: {
             app: {
               client: {
@@ -291,23 +207,6 @@ module.exports = {
     },
     "kernel-wait-subprocesses": {
       description: "Waiting for holistic app client kernel subprocesses to come online...",
-      actions: {
-        exit: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel subprocesses have been activated."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
-      },
       transitions: [{
         transitionIf: {
           and: [{
@@ -347,23 +246,6 @@ module.exports = {
     },
     "kernel-wait-browser-tab-resources-loaded": {
       description: "Waiting for the browser to finish load/parse of the current HTML5 document so that we can safely presume all the resources that it references are accessible.",
-      actions: {
-        enter: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel is waiting for the browser tab to load..."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
-      },
       transitions: [// TODO: update this signature; it's an intrinsic part of @encapsule/holarchy so should live in CellProcessor request space.
       {
         transitionIf: {
@@ -422,20 +304,6 @@ module.exports = {
               }
             }
           }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel has received deserialized application data from the derived app client process."
-                    }
-                  }
-                }
-              }
-            }
-          }
         }]
       },
       transitions: [{
@@ -465,20 +333,6 @@ module.exports = {
                           }
                         }
                       }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel has configured the derived app client process."
                     }
                   }
                 }
@@ -520,20 +374,6 @@ module.exports = {
               }
             }
           }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel has started the derived app client process."
-                    }
-                  }
-                }
-              }
-            }
-          }
         }]
       },
       transitions: [{
@@ -544,73 +384,7 @@ module.exports = {
       }]
     },
     "kernel-service-ready": {
-      description: "The holistic app client kernel process will now stop evaluating in the cell plane and will continue as an active cell servicing runtime requests from the derived app client service process (and its delegates).",
-      actions: {
-        enter: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client kernel process has reached ready step."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "App client service is now active and running."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }, {
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      command: "hide"
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
-      }
-    },
-    "kernel-boot-fail": {
-      description: "The kernel boot has failed.",
-      actions: {
-        enter: [{
-          holistic: {
-            app: {
-              client: {
-                kernel: {
-                  _private: {
-                    rootDisplayCommand: {
-                      message: "The app client service failed to start due to error."
-                    }
-                  }
-                }
-              }
-            }
-          }
-        } // { holistic: { app: { client: { kernel: { _private: { rootDisplayCommand: { command: "hide" } } } } } } },
-        ]
-      }
+      description: "The holistic app client kernel process will now stop evaluating in the cell plane and will continue as an active cell servicing runtime requests from the derived app client service process (and its delegates)."
     }
   } // steps
 
