@@ -2,7 +2,7 @@
 
 ## [-vrBoPbbRYqzTbV3YdYdug::HTTP Server Integration Filters Factory]
 
-**Constructs a collection of filter objects that wrap developer-defined accessor and action functions required by a HTTP server and service filters.**
+**Constructs a collection of filter objects that wrap developer-defined integration filters that are required by @encapsule/holism HTTP server instance and its registered service filter plug-ins.**
 
 ### Operation
 
@@ -22,13 +22,14 @@ This filter normalizes the value of `input` passed to its `request` method using
 
 ```JavaScript
 {
-    "____label": "HTTP Server Integrations Request",
+    "____label": "HTTP Server Integrations Factory Request",
     "____description": "Information used to construct HTTP server integration filters.",
     "____types": "jsObject",
     "filter_id_seed": {
         "____label": "Filter Identifier Seed",
         "____description": "A 22-character IRUT identifier as a seed when creating integration filter ID's.",
-        "____accept": "jsString"
+        "____accept": "jsString",
+        "____defaultValue": "YsPXb5gIT1OLNnNdTn-Hvg"
     },
     "name": {
         "____label": "Integration Filters Name",
@@ -44,26 +45,6 @@ This filter normalizes the value of `input` passed to its `request` method using
         "____label": "Integration Filters Version",
         "____description": "A semantic version string associated with this set of application data and function contracts.",
         "____accept": "jsString"
-    },
-    "platform": {
-        "____label": "Application Platform Manifest",
-        "____description": "A list of application subsystem dependencies used primary for internal diagnostic reports, error messags...",
-        "____types": "jsObject",
-        "document": {
-            "____label": "Document Rendering Subsystem",
-            "____description": "Information about this application's primary HTML content rendering subsystem.",
-            "____types": "jsObject",
-            "name": {
-                "____label": "HTML Render Name",
-                "____description": "The name of the subsystem or technology that this application uses to render HTML content.",
-                "____accept": "jsString"
-            },
-            "version": {
-                "____label": "HTML Render Version",
-                "____description": "The semantic version string of the subsystem/technology/package used by this application to render HTML content.",
-                "____accept": "jsString"
-            }
-        }
     },
     "integrations": {
         "____label": "Application Integrations",
@@ -249,7 +230,8 @@ If no error then the value assigned to `response.result` is normalized per the f
     "filter_id_seed": {
         "____label": "Filter Identifier Seed",
         "____description": "A 22-character IRUT identifier as a seed when creating integration filter ID's.",
-        "____accept": "jsString"
+        "____accept": "jsString",
+        "____defaultValue": "YsPXb5gIT1OLNnNdTn-Hvg"
     },
     "name": {
         "____label": "Integration Filters Name",
@@ -265,26 +247,6 @@ If no error then the value assigned to `response.result` is normalized per the f
         "____label": "Integration Filters Version",
         "____description": "A semantic version string associated with this set of application data and function contracts.",
         "____accept": "jsString"
-    },
-    "platform": {
-        "____label": "Application Platform Manifest",
-        "____description": "A list of application subsystem dependencies used primary for internal diagnostic reports, error messags...",
-        "____types": "jsObject",
-        "document": {
-            "____label": "Document Rendering Subsystem",
-            "____description": "Information about this application's primary HTML content rendering subsystem.",
-            "____types": "jsObject",
-            "name": {
-                "____label": "HTML Render Name",
-                "____description": "The name of the subsystem or technology that this application uses to render HTML content.",
-                "____accept": "jsString"
-            },
-            "version": {
-                "____label": "HTML Render Version",
-                "____description": "The semantic version string of the subsystem/technology/package used by this application to render HTML content.",
-                "____accept": "jsString"
-            }
-        }
     },
     "appStateContext": {
         "____label": "Application State Context",
@@ -408,9 +370,9 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `-vrBoPbbRYqzTbV3YdYdug` | `U-i4SX9frRv_A57-mNnY8A` |
-| input contract | `KdLaGKcI8t3e3rIyKQrXoQ` | `uUrVQNszhzsfC8JTGEIDDA` |
-| output contract | `-r8Zz6z4xkcwEMNQyOmxSg` | `AhdqVPrLjMnxzT-xtdyOiQ` |
+| operation | `-vrBoPbbRYqzTbV3YdYdug` | `U4E-sn8usA3_-Bx3mNI6yQ` |
+| input contract | `KdLaGKcI8t3e3rIyKQrXoQ` | `Xo543uR8Oy8fAk48ukKBBg` |
+| output contract | `-r8Zz6z4xkcwEMNQyOmxSg` | `GKaIXiFaDgb6dwBYecOCJA` |
 
 ### Configuration
 Filter classification:  **normalized operation**
@@ -425,5 +387,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Wed Nov 11 2020 09:31:28 GMT-0800 (Pacific Standard Time)
+Document updated Fri Nov 13 2020 15:25:43 GMT-0800 (Pacific Standard Time)
 

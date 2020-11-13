@@ -1,10 +1,7 @@
 // http-server-agent-info-factory.js
 
 const process = require("process");
-
-const packageMeta = require("../package.json");
 const arccore = require("@encapsule/arccore");
-
 const httpServerAgentResultSpec = require("./iospecs/http-server-agent-result-spec");
 
 var factoryResponse = arccore.filter.create({
@@ -35,40 +32,16 @@ var factoryResponse = arccore.filter.create({
                 inputFilterSpec: { ____types: "jsUndefined" },
                 outputFilterSpec: httpServerAgentResultSpec,
                 bodyFunction: function() { // no in-parameters
-                    var now = new Date();
                     var response = {
                         error: null,
                         result: {
-                            app: {
-                                name: serverContext.name,
-                                version: serverContext.version,
-                                build: serverContext.build
-                            },
-                            integrations: {
-                                name: serverContext.integrations.name,
-                                version: serverContext.integrations.version,
-                            },
-                            server: {
-                                name: packageMeta.name,
-                                version: packageMeta.version,
-                            },
-                            platform: {
-                                data: {
-                                    name: arccore.__meta.author + "/" + arccore.__meta.name,
-                                    version: arccore.__meta.version,
-                                    codename: arccore.__meta.codename,
-                                    buildID: arccore.__meta.buildID
-                                },
-                                document: {
-                                    name: serverContext.integrations.platform.document.name,
-                                    version: serverContext.integrations.platform.document.version,
-                                },
-                                runtime: process.versions
-                            },
+                            build: serverContext.holisticAppBuildManifest,
                             instance: {
                                 id: serverContext.instanceID,
-                                ts: now.toISOString(),
-                                fy: now.getFullYear()
+                                environment: serverContext.appServerRuntimeEnvironment,
+                                startTime: Math.round(serverContext.stats.started.getTime() / 1000),
+                                currentTime: Math.round((new Date()).getTime() / 1000),
+                                host: process.versions
                             }
                         }
                     };

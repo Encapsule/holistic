@@ -1,53 +1,33 @@
 // http-integration-filters-factory-request-spec.js
 
 module.exports = {
-    ____label: "HTTP Server Integrations Request",
+    ____label: "HTTP Server Integrations Factory Request",
     ____description: "Information used to construct HTTP server integration filters.",
     ____types: "jsObject",
+
     filter_id_seed: {
         ____label: "Filter Identifier Seed",
         ____description: "A 22-character IRUT identifier as a seed when creating integration filter ID's.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "YsPXb5gIT1OLNnNdTn-Hvg" // the seed value does not generally matter if you're using a single @encapsule/holism server instance
     },
+
     name: {
         ____label: "Integration Filters Name",
         ____description: "A short name or moniker used to refer to refer to this set of application data and function contracts.",
         ____accept: "jsString"
     },
+
     description: {
         ____label: "Integration Filters Description",
         ____description: "A description of this set of application data and function contracts.",
         ____accept: "jsString"
     },
+
     version: {
         ____label: "Integration Filters Version",
         ____description: "A semantic version string associated with this set of application data and function contracts.",
         ____accept: "jsString"
-    },
-
-    // TODO: Remove this from the integrations filter factory request filter specification. It's of no particular concern of
-    // the HTTP server infrastructure what technology the HTML `render` integration methods below leverage. This should be
-    // tracked and reported elsewhere (e.g. ComponentRouter).
-
-    platform: {
-        ____label: "Application Platform Manifest",
-        ____description: "A list of application subsystem dependencies used primary for internal diagnostic reports, error messags...",
-        ____types: "jsObject",
-        document: {
-            ____label: "Document Rendering Subsystem",
-            ____description: "Information about this application's primary HTML content rendering subsystem.",
-            ____types: "jsObject",
-            name: {
-                ____label: "HTML Render Name",
-                ____description: "The name of the subsystem or technology that this application uses to render HTML content.",
-                ____accept: "jsString"
-            },
-            version: {
-                ____label: "HTML Render Version",
-                ____description: "The semantic version string of the subsystem/technology/package used by this application to render HTML content.",
-                ____accept: "jsString"
-            }
-        }
     },
 
     integrations: {
@@ -64,7 +44,7 @@ module.exports = {
             redirect: {
                 ____label: "HTTP Request Redirect Preprocessor",
                 ____description: "Optional function callback that allows an application to affect HTTP redirection based on the output of the HTTP request preprocessor.",
-                ____accept: [ "jsNull" /*NOOP*/, "jsFunction" /*App-redirector*/ ],
+                ____accept: [ "jsNull" /*NOOP*/, "jsFunction" /*App-redirector - primary use case is redirection (e.g. http:// to https:// */ ],
                 ____defaultValue: null
             } // redirect
 

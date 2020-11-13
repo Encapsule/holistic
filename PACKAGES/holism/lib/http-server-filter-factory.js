@@ -60,14 +60,8 @@ var factoryResponse = arccore.filter.create({
         var response = { error: null, result: null };
         var errors = [];
 
-        // TODO: This needs some thought and then some refactoring
         var serverContext = request_;
-        serverContext.generator = {};
-        serverContext.generator[arccore.__meta.name] = arccore.__meta.version;
-        serverContext.generator[packageMeta.name] = packageMeta.version;
         serverContext.instanceID = arccore.identifier.irut.fromEther(); // every new @encapsule/holism server instance gets an IRUT for use in tracking deployments
-
-
         serverContext.stats = {
             created: new Date(),
             started: null,
@@ -174,31 +168,34 @@ var factoryResponse = arccore.filter.create({
                         console.log("----------------------------------------------------------------------");
 
                         var html = [
-                            "<html>",
+                            "<!DOCTYPE html>", 
+                            "<html lang=\"en\">",
                             "<head>",
+                            "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />",
+                            "<meta charset=\"utf-8\" />",
                             "<title>" + packageMeta.name + " v" + packageMeta.version + " :: Error 500</title>",
                             "<style type='text/css'>",
                             "body { font-family: Courier; background-color: #F00; padding: 1em; }",
-                            "#idTitle1 { font-family: Arial; font-size: 20pt; font-weight: bold; color: #FC0; padding-bottom: 0.1em; }",
-                            "#idTitle2 { font-family: Arial; font-size: 24pt; font-weight: bold; color: #FC0; padding-bottom: 0.35em; border-bottom: 3px solid #FC0; }",
-                            "#idFooter { text-align: right; color: #FC0; font-family: Courier; font-weight: bold; padding-top: 1em; border-top: 3px solid #FC0; }",
+                            "#idTitle1 { font-family: Arial; font-size: 32pt; font-weight: bold; color: #FC0; padding-bottom: 0.1em; }",
+                            "#idContent { font-famil: Fixed; font-size: 14pt; font-weight: bold; border-top: 2px solid #FC0; border-bottom: 2px solid #FC0; margin-top: 0.5em; margin-bottom: 0.5em; padding-top: 1em; padding-bottom: 1em; }",
+                            "#idFooter { text-align: right; color: #FC0; font-family: Courier; font-weight: bold; padding-top: 0.5em; }",
                             "</style>",
                             "</head>",
                             "<body>",
-                            "<div id='idTitle1'>" + packageMeta.name + " v" + packageMeta.version + " \"" + packageMeta.codename + "\"</div>",
-                            "<div id='idTitle2'>HTTP Error 500 - Unhandled Application Server Error</div>",
-                            "<p><strong>An unhandled error occurred in the " + serverContext.name + " application:</strong></p>",
+                            "<div id='idContent'>",
+                            "<div id='idTitle1'>HTTP Error 500 - Unexpected Holistic App Server Process Error</div>",
+                            "<p><strong>We regret to inform you of an unexpected error that occurred in the " + serverContext.name + " application:</strong></p>",
                             "<p>" + whatHappened_ + "</p>",
+                            "</div>",
                             "<div id='idFooter'>",
-                            packageMeta.name,
-                            " v",
+                            "<strong>@encapsule/holistic v",
                             packageMeta.version,
-                            " \"",
+                            "-",
                             packageMeta.codename,
-                            "\"",
-                            " &bull; BuildID: ",
+                            " ",
                             packageMeta.buildID,
-                            " &bull; InstanceID: ",
+                            "<br>",
+                            "@encapsule/holism HTTP 1.1 server instance ",
                             serverContext.instanceID,
                             "</div>",
                             "</body>",

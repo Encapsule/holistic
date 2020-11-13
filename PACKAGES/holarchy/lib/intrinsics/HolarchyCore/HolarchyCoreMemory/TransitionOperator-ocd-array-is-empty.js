@@ -40,9 +40,9 @@ module.exports = new TransitionOperator({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var message = request_.operatorRequest.holarchy.cm.operators.ocd.isArrayEmpty;
+      var messageBody = request_.operatorRequest.holarchy.cm.operators.ocd.arrayIsEmpty;
       var rpResponse = ObservableControllerData.dataPathResolve({
-        dataPath: message.path,
+        dataPath: messageBody.path,
         apmBindingPath: request_.context.apmBindingPath
       });
 

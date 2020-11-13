@@ -86,7 +86,38 @@ var factoryResponse = arccore.filter.create({
                             session: request_.request_descriptor.session
                         }
                     },
-                    appStateContext: appStateContext
+                    appStateContext: appStateContext,
+
+                    // v0.0.47-alexandrite
+                    alexandrite: {
+                        appServiceRoute: request_.request_descriptor.route_method_name,
+                        appServiceContext: {
+                            httpContext: {
+                                httpRequest: {
+                                    parsedURL: request_.request_descriptor.url_parse,
+                                    headers: request_.request_descriptor.headers
+                                },
+                                httpResponse: {
+                                    disposition: request_.response_descriptor.http
+                                }
+                            }, // httpContext
+                            metadataContext: {
+                                common: {
+                                    org: orgMetadata,
+                                    site: siteMetadata,
+                                    page: pageMetadata
+                                },
+                                server: {
+                                    agent: agentInfo,
+                                    environment: "fake"
+                                }
+                            }
+                        },
+                        appServiceRequest: {
+                            loginSessionData: request_.request_descriptor.session,
+                            renderData: request_.response_descriptor.data
+                        }
+                    }
                 });
                 if (integrationResponse.error) {
                     errors.unshift(integrationResponse.error);

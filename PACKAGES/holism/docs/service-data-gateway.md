@@ -113,7 +113,8 @@ This filter normalizes the value of `input` passed to its `request` method using
         "filter_id_seed": {
             "____label": "Filter Identifier Seed",
             "____description": "A 22-character IRUT identifier as a seed when creating integration filter ID's.",
-            "____accept": "jsString"
+            "____accept": "jsString",
+            "____defaultValue": "YsPXb5gIT1OLNnNdTn-Hvg"
         },
         "name": {
             "____label": "Integration Filters Name",
@@ -129,26 +130,6 @@ This filter normalizes the value of `input` passed to its `request` method using
             "____label": "Integration Filters Version",
             "____description": "A semantic version string associated with this set of application data and function contracts.",
             "____accept": "jsString"
-        },
-        "platform": {
-            "____label": "Application Platform Manifest",
-            "____description": "A list of application subsystem dependencies used primary for internal diagnostic reports, error messags...",
-            "____types": "jsObject",
-            "document": {
-                "____label": "Document Rendering Subsystem",
-                "____description": "Information about this application's primary HTML content rendering subsystem.",
-                "____types": "jsObject",
-                "name": {
-                    "____label": "HTML Render Name",
-                    "____description": "The name of the subsystem or technology that this application uses to render HTML content.",
-                    "____accept": "jsString"
-                },
-                "version": {
-                    "____label": "HTML Render Version",
-                    "____description": "The semantic version string of the subsystem/technology/package used by this application to render HTML content.",
-                    "____accept": "jsString"
-                }
-            }
         },
         "appStateContext": {
             "____label": "Application State Context",
@@ -324,8 +305,8 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `5GJ8LaKGShCXySL1OvA2Qw` | `Rud7E8-ORVfr_u3tYWbPtA` |
-| input contract | `FFGnHbDvSSFjtdW7E7-mMQ` | `zAyAI97oqurxjjfTAPPzuw` |
+| operation | `5GJ8LaKGShCXySL1OvA2Qw` | `Ri-uE8823lfrBeHtYVPltA` |
+| input contract | `FFGnHbDvSSFjtdW7E7-mMQ` | `S_V1lHRfHekmHFTihNmkYA` |
 | output contract | `drWr1XXLPGUnGjTEb5tXdQ` | `dHR0dNnZ2dlUVFRUyMjIyA` |
 
 ### Configuration
@@ -341,5 +322,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Wed Nov 11 2020 09:31:28 GMT-0800 (Pacific Standard Time)
+Document updated Fri Nov 13 2020 15:25:43 GMT-0800 (Pacific Standard Time)
 
