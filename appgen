@@ -25,7 +25,6 @@ const handlebars = arctoolslib.handlebars; // ... handlebars template engine is 
 const holisticMetadata = require("./PACKAGES/holistic");
 const holisticPlatformRuntimePackageNames = require("./PACKAGES/holistic-rtl-packages");
 
-
 const holisticPlatformManifest = require("./PROJECT/GENERATOR/holistic-platform-manifest");
 const holisticAppManifestFilter = require('./PROJECT/GENERATOR/LIB/holistic-app-manifest-filter');
 const packageMapFilter = require('./PROJECT/GENERATOR/LIB/package-map-filter');
@@ -83,18 +82,24 @@ var program = arctoolslib.commander; // command line argument parser framework b
 
 program.version(holisticMetadata.version).
     option("--appRepoDir <appRepoDir>", "(required) path to root directory of the application's locally-cloned git repository.").
-    option("--forcePlatformDowngrade", "(optional) explicitly synchronize an application using a dated version of @encapsule/holistic.").
+    option("--forcePlatformDowngrade", "(optional) explicitly synchronize an application using an older version of @encapsule/holistic.").
     option("--info", "Print information about this tool.").
     parse(process.argv);
 
-console.log("----------------------------------------------------------------");
-console.log(`O       o O       o O       o    holistic-app-gen.js - SaaS/PaaS software development and runtime platform generation utility.`);
-console.log(`| O   o | | O   o | | O   o |    Holistic App Platform tools and lib sources are Copyright (C) ${holisticMetadata.copyright.year} ${holisticMetadata.copyright.holder}`);
-console.log(`| | O | | | | O | | | | O | |    Files created by this program are MIT-licensed assets managed and controlled by project owners.`);
-console.log(`| o   O | | o   O | | o   O |    ${holisticMetadata.author}/${holisticMetadata.name} v${holisticMetadata.version} ${holisticMetadata.codename} created ${holisticMetadata.buildDateISO}`);
-console.log(`o       O o       O o       O    commit: ${holisticMetadata.buildSource} build: ${holisticMetadata.buildID}`);
-console.log("----------------------------------------------------------------");
-
+console.log("");
+console.log(`O       o O       o O       o`);
+console.log(`| O   o | | O   o | | O   o |`);
+console.log(`| | O | | | | O | | | | O | |`);
+console.log(`| o   O | | o   O | | o   O |`);
+console.log(`o       O o       O o       O`);
+console.log("");
+console.log(`@${holisticMetadata.author}/${holisticMetadata.name}/appgen.js v${holisticMetadata.version}-${holisticMetadata.codename} buildID "${holisticMetadata.buildID}" published ${holisticMetadata.buildDateISO}`);
+console.log(`This distribution package was built from platform sources at git commit hash "${holisticMetadata.buildSource}".`);
+console.log(`Powered by @${arccore.__meta.author}/${arccore.__meta.name} v${arccore.__meta.version}-${arccore.__meta.codename} buildID "${arccore.__meta.buildID}" published ${(new Date(arccore.__meta.buildTime * 1000)).toISOString()}.`);
+console.log(`Copyright (C) ${holisticMetadata.copyright.year} ${holisticMetadata.copyright.holder} for ${arccore.__meta.author} Project`);
+console.log("");
+console.log(`> Type appgen --info to learn more about about the appgen command line tool.`);
+console.log("");
 
 if (program.info) {
     console.log("This script is a code generation tool used to initialize and update");
@@ -114,7 +119,6 @@ if (program.info) {
     console.log("runtime infrastructure and integrations, and application-layer plug-in");
     console.log("extensions, configuration metadata, and static assets.\n");
 
-    console.log("Encpasule/holistic platform metadata = '" + JSON.stringify(holisticMetadata, undefined, 2) + "'\n");
     process.exit(0);
 
 } // end if program.info
@@ -146,7 +150,7 @@ const resourceFilePaths = {
         packageModulesDir: path.join(appRepoDir, "node_modules"),
         packageReadme: path.join(appRepoDir, "README.md"),
         packageLicense: path.join(appRepoDir, "LICENSE"),
-	packageMakefile: path.join(appRepoDir, "Makefile"), // template generated
+	    packageMakefile: path.join(appRepoDir, "Makefile"), // template generated
         packageGitIgnore: path.join(appRepoDir, ".gitignore"), // template generated
         packageBabelRc: path.join(appRepoDir, ".babelrc"), // template generated
         packageEslintRc: path.join(appRepoDir, ".eslintrc.js"), // template generated
@@ -156,7 +160,7 @@ const resourceFilePaths = {
         packageBuildToolGenerateRuntimePackageManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
 
         platformSourcesDir: path.join(appRepoDir, "HOLISTIC"),
-	platformPackagesDir: path.join(appRepoDir, "HOLISTIC/PACKAGES"),
+	    platformPackagesDir: path.join(appRepoDir, "HOLISTIC/PACKAGES"),
 
         projectDir: path.join(appRepoDir, "PROJECT"),
         projectBuildDir: path.join(appRepoDir, "PROJECT/BUILD"),

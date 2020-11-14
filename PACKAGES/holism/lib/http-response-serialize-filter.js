@@ -27,9 +27,16 @@ var factoryResponse = arccore.filter.create({
             const initialState = responseDataType + "::" + contentEncoding + "::" + contentType;
 
             switch (initialState) {
+
+            case "[object Null]::utf8::application/json":
+            case "[object Boolean]::utf8::application/json":
+            case "[object Number]::utf8::application/json":
+            case "[object String]::utf8::application/json":
             case "[object Object]::utf8::application/json":
+            case "[object Array]::utf8::application/json":
                 responseDescriptor.data = JSON.stringify(responseDescriptor.data);
                 break;
+
             case "[object Object]::utf8::text/html":
                 var integrationFilters = request_.integrations.filters;
                 var appStateContext = request_.integrations.appStateContext;

@@ -69,63 +69,105 @@ This filter normalizes the value of `input` passed to its `request` method using
             },
             "buildDateISO": {
                 "____accept": "jsString"
-            },
-            "buildYear": {
-                "____accept": "jsNumber"
             }
         },
         "platform": {
             "____types": "jsObject",
-            "name": {
-                "____accept": "jsString"
-            },
-            "description": {
-                "____accept": "jsString"
-            },
-            "version": {
-                "____accept": "jsString"
-            },
-            "codename": {
-                "____accept": "jsString"
-            },
-            "author": {
-                "____accept": "jsString"
-            },
-            "copyright": {
+            "app": {
                 "____types": "jsObject",
-                "holder": {
+                "name": {
                     "____accept": "jsString"
                 },
-                "year": {
+                "description": {
+                    "____accept": "jsString"
+                },
+                "version": {
+                    "____accept": "jsString"
+                },
+                "codename": {
+                    "____accept": "jsString"
+                },
+                "author": {
+                    "____accept": "jsString"
+                },
+                "copyright": {
+                    "____types": "jsObject",
+                    "holder": {
+                        "____accept": "jsString"
+                    },
+                    "year": {
+                        "____accept": "jsNumber"
+                    }
+                },
+                "license": {
+                    "____accept": "jsString"
+                },
+                "buildID": {
+                    "____accept": "jsString"
+                },
+                "buildSource": {
+                    "____accept": "jsString"
+                },
+                "buildTime": {
                     "____accept": "jsNumber"
+                },
+                "buildDateISO": {
+                    "____accept": "jsString"
                 }
             },
-            "license": {
-                "____accept": "jsString"
+            "data": {
+                "____types": "jsObject",
+                "name": {
+                    "____accept": "jsString"
+                },
+                "description": {
+                    "____accept": "jsString"
+                },
+                "version": {
+                    "____accept": "jsString"
+                },
+                "codename": {
+                    "____accept": "jsString"
+                },
+                "author": {
+                    "____accept": "jsString"
+                },
+                "copyright": {
+                    "____types": "jsObject",
+                    "holder": {
+                        "____accept": "jsString"
+                    },
+                    "year": {
+                        "____accept": "jsNumber"
+                    }
+                },
+                "license": {
+                    "____accept": "jsString"
+                },
+                "buildID": {
+                    "____accept": "jsString"
+                },
+                "buildSource": {
+                    "____accept": "jsString"
+                },
+                "buildTime": {
+                    "____accept": "jsNumber"
+                },
+                "buildDateISO": {
+                    "____accept": "jsString"
+                }
             },
-            "buildID": {
-                "____accept": "jsString"
-            },
-            "buildSource": {
-                "____accept": "jsString"
-            },
-            "buildTime": {
-                "____accept": "jsNumber"
-            },
-            "buildDateISO": {
-                "____accept": "jsString"
-            }
-        },
-        "display": {
-            "____types": "jsObject",
-            "name": {
-                "____accept": "jsString"
-            },
-            "description": {
-                "____accept": "jsString"
-            },
-            "version": {
-                "____accept": "jsString"
+            "display": {
+                "____types": "jsObject",
+                "name": {
+                    "____accept": "jsString"
+                },
+                "description": {
+                    "____accept": "jsString"
+                },
+                "version": {
+                    "____accept": "jsString"
+                }
             }
         }
     },
@@ -560,8 +602,8 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cfeTBDTJG8KenbIT3yBhlQ` |
-| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `k6cOsAg7VYRMTndiXCXOWw` |
+| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cfXMBDQKIMKe_PYT3-w8lQ` |
+| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `R3ZBjh6hoCV4qb-mzHfPdA` |
 | output contract | `E-MD52v_-9inRlNG1BsAZw` | `DuBPhn0s0PijrJBkos9aTw` |
 
 ### Configuration
@@ -577,5 +619,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Fri Nov 13 2020 15:25:42 GMT-0800 (Pacific Standard Time)
+Document updated Sat Nov 14 2020 09:19:56 GMT-0800 (Pacific Standard Time)
 

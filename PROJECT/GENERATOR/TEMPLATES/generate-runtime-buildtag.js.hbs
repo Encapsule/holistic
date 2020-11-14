@@ -5,6 +5,7 @@
 //
 
 const arccore = require("@encapsule/arccore");
+const arccorePackageMeta = require("@encapsule/arccore/package");
 
 const childProcess = require("child_process");
 const fs = require("fs");
@@ -47,6 +48,13 @@ const buildYear = buildDate.getFullYear();
 
 const React = require("react"); // Let's also include some metadata about React version
 
+const arccoreBuildDate = new Date(arccore.__meta.buildTime * 1000);
+const arccoreBuildISO = arccoreBuildDate.toISOString();
+const arccoreBuildYear = arccoreBuildDate.getFullYear();
+const arccoreCopyrightHolder = arccore.__meta.contributors[0].name;
+const arccoreDescription = arccorePackageMeta.description;
+const arccoreLicense = arccorePackageMeta.license;
+
 console.log(JSON.stringify({
     app: {
         name: applicationPackageManifest.name,
@@ -54,22 +62,33 @@ console.log(JSON.stringify({
         version: applicationPackageManifest.version,
         codename: applicationPackageManifest.codename,
         author: applicationPackageManifest.author,
-        copyright: {
-            holder: applicationPackageManifest.author,
-            year: buildYear
-        },
+        copyright: { holder: applicationPackageManifest.author, year: buildYear },
         license: applicationPackageManifest.license,
-        buildID: arccore.identifier.irut.fromEther(),
+        buildID: arccore.identifier.irut.fromEther(), // Every single build gets a unique buildID IRUT.
         buildSource: commitHash,
         buildTime: buildTime,
-        buildDateISO: buildDateISO,
-        buildYear: buildYear
+        buildDateISO: buildDateISO
     },
-    platform: { ...holisticPlatformManifest, contributors: undefined },
-    display: {
-        name: "react",
-        description: "Used via @encapsule/d2r2 RMDR layout engine for HTML5 document pre-rendering in holistic app server processes. And, dynamic display generation in derived holistic app client processes running the a browser tab.",
-        version: React.version
+    platform: {
+        app: { ...holisticPlatformManifest, contributors: undefined },
+        data: {
+            name: arccore.__meta.name,
+            description: arccoreDescription,
+            version: arccore.__meta.version,
+            codename: arccore.__meta.codename,
+            author: arccore.__meta.author,
+            copyright: { holder: arccoreCopyrightHolder, year: arccoreBuildYear},
+            license: arccoreLicense,
+            buildID: arccore.__meta.buildID,
+            buildSource: arccore.__meta.ARC_master,
+            buildTime: arccore.__meta.buildTime,
+            buildDateISO: arccoreBuildISO
+        },
+        display: {
+            name: "react",
+            description: "Used via @encapsule/d2r2 RMDR layout engine for HTML5 document pre-rendering in holistic app server processes. And, dynamic display generation in derived holistic app client processes running the a browser tab.",
+            version: React.version
+        }
     }
 
 }, undefined, 2));
