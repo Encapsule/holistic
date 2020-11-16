@@ -403,5 +403,5 @@ Filter classification:  **input processor**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Sat Nov 14 2020 09:19:57 GMT-0800 (Pacific Standard Time)
+Document updated Mon Nov 16 2020 15:14:17 GMT-0800 (Pacific Standard Time)
 

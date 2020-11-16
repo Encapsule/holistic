@@ -114,7 +114,7 @@ module.exports = new TransitionOperator({
             or: []
           };
           queryBody.apmStep.forEach(function (stepName_) {
-            subOperatorRequest.or.push({
+            suboperatorRequest.or.push({
               CellProcessor: {
                 cell: {
                   cellCoordinates: descendantCellProcessDescriptor_.apmBindingPath,
