@@ -83,47 +83,33 @@ var factoryResponse = arccore.filter.create({
 
                 // Render the HTML document via the registered integration filter.
                 integrationResponse = integrationFilters.html_render.request({
-                    document: {
-                        data: request_.response_descriptor.data,
-                        metadata: {
-                            agent: agentInfo,
-                            org: orgMetadata,
-                            site: siteMetadata,
-                            page: pageMetadata,
-                            session: request_.request_descriptor.session
+                    appStateContext: appStateContext,
+                    appServiceRoute: request_.request_descriptor.route_method_name,
+                    appServiceContext: {
+                        httpContext: {
+                            httpRequest: {
+                                parsedURL: request_.request_descriptor.url_parse,
+                                headers: request_.request_descriptor.headers
+                            },
+                            httpResponse: {
+                                disposition: request_.response_descriptor.http
+                            }
+                        }, // httpContext
+                        metadataContext: {
+                            common: {
+                                org: orgMetadata,
+                                site: siteMetadata,
+                                page: pageMetadata
+                            },
+                            server: {
+                                agent: agentInfo,
+                                environment: agentInfo.instance.environment
+                            }
                         }
                     },
-                    appStateContext: appStateContext,
-
-                    // v0.0.47-alexandrite
-                    alexandrite: {
-                        appServiceRoute: request_.request_descriptor.route_method_name,
-                        appServiceContext: {
-                            httpContext: {
-                                httpRequest: {
-                                    parsedURL: request_.request_descriptor.url_parse,
-                                    headers: request_.request_descriptor.headers
-                                },
-                                httpResponse: {
-                                    disposition: request_.response_descriptor.http
-                                }
-                            }, // httpContext
-                            metadataContext: {
-                                common: {
-                                    org: orgMetadata,
-                                    site: siteMetadata,
-                                    page: pageMetadata
-                                },
-                                server: {
-                                    agent: agentInfo,
-                                    environment: "fake"
-                                }
-                            }
-                        },
-                        appServiceRequest: {
-                            loginSessionData: request_.request_descriptor.session,
-                            renderData: request_.response_descriptor.data
-                        }
+                    appServiceRequest: {
+                        loginSessionData: request_.request_descriptor.session,
+                        renderData: request_.response_descriptor.data
                     }
                 });
                 if (integrationResponse.error) {

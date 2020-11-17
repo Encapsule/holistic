@@ -282,176 +282,138 @@ var factoryResponse = arccore.filter.create({
                 operationName: htmlRenderFilterName,
                 operationDescription: htmlRenderFilterDescription,
                 inputFilterSpec: {
-                    ____label: "Holistic App Server Render Client App Request",
-                    ____description: "Data passed into the HTML render filter to be transformed to a UTF8-encoded HTML5 document string to be returned via HTTP response body to the requesting user agent (typically a user's web browser).",
+                    ____label: "Holistic App Client Synthesis Request",
+                    ____description: "A descriptor object that defines parameters for synthesizing a derived holistic app client process and serializing it to an HTML5 document that is returned to a user agent process via HTTP 1.1 response.",
                     ____types: "jsObject",
-                    document: {
-                        ____label: "Document Data",
-                        ____description: "Document data and metadata to be rendered as an HTML document string.",
-                        ____types: "jsObject",
-                        content: {
-                            ____label: "Document Content Render Options",
-                            ____description: "Information used to customize the rendering of `document.data`.",
-                            ____types: "jsObject",
-                            ____defaultValue: {},
-                            uri: {
-                                ____label: "Content Render View URI",
-                                ____description: "The URI of the view render function to be used to render `document.data`. Or, null (default) " +
-                                    "to indicate that the base page URI, `document.metadata.page.uri`, should be used.",
-                                ____accept: [ "jsNull", "jsString" ],
-                                ____defaultValue: null
-                            } // uri
-                        }, // content
-                        data: {
-                            ____label: "Document Content Data",
-                            ____description: "In-memory data to render as the main body content of the generated HTML document string.",
-                            ____opaque: true // possible formats is set of HTTP server error response + all service filter results
-                        },
-                        metadata: {
-                            ____label: "Document Metadata",
-                            ____description: "Document Metadata",
-                            ____types: "jsObject",
-                            agent: httpServerAgentResultSpec,
-                            org: request_.integrations.metadata.org.get.outputFilterSpec,
-                            site: request_.integrations.metadata.site.get.outputFilterSpec,
-                            page: request_.integrations.metadata.page.get.outputFilterSpec,
-                            session: request_.integrations.metadata.session.get_session.response.client_spec
-                        }
-                    },
+
                     appStateContext: httpIntegrationFiltersFactoryRequestSpec.appStateContext,
 
-                    // NEW GIST
-                    alexandrite: {
-                        ____label: "@encapsule/holistic v0.0.47 App Client Synthesize Request",
-                        ____description: "A descriptor object that defines parameters for synthesizing a derived holistic app client process and serializing it to an HTML5 document that is returned to a user agent process via HTTP 1.1 response.",
-                        ____types: [ "jsUndefined", "jsObject" ],
+                    appServiceRoute: {
+                        ____label: "App Server Service Route",
+                        ____description: "A copy of the @encapsule/holism-format route method name used to select the @encapsule/holism service filter plug-in that generated this request.",
+                        ____accept: "jsString"
+                    },
 
-                        appServiceRoute: {
-                            ____label: "App Server Service Route",
-                            ____description: "A copy of the @encapsule/holism-format route method name used to select the @encapsule/holism service filter plug-in that generated this request.",
-                            ____accept: "jsString"
-                        },
+                    appServiceContext: {
+                        ____label: "App Server Service Context",
+                        ____types: "jsObject",
 
-                        appServiceContext: {
-                            ____label: "App Server Service Context",
+                        httpContext: {
+                            ____label: "App Service HTTP Context",
+                            ____description: "Information about the HTTP request that is currently being processed by the derived app server proces that has initiated this App Client Synthesize request.",
                             ____types: "jsObject",
 
-                            httpContext: {
-                                ____label: "App Service HTTP Context",
-                                ____description: "Information about the HTTP request that is currently being processed by the derived app server proces that has initiated this App Client Synthesize request.",
+                            httpRequest: {
+                                ____label: "HTTP Request Data",
+                                ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
                                 ____types: "jsObject",
-
-                                httpRequest: {
-                                    ____label: "HTTP Request Data",
-                                    ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
+                                parsedURL: {
+                                    ____label: "HTTP URL Parse Descriptor",
+                                    ____description: "A copy of the URL requested by the user agent parsed into a descriptor object.",
+                                    ____accept: "jsObject"
+                                }, // parsedURL
+                                headers: {
+                                    ____label: "HTTP Request Headers",
+                                    ____description: "An array of HTTP request headers received by the app server process from the user agent.",
                                     ____types: "jsObject",
-                                    parsedURL: {
-                                        ____label: "HTTP URL Parse Descriptor",
-                                        ____description: "A copy of the URL requested by the user agent parsed into a descriptor object.",
-                                        ____accept: "jsObject"
-                                    }, // parsedURL
-                                    headers: {
-                                        ____label: "HTTP Request Headers",
-                                        ____description: "An array of HTTP request headers received by the app server process from the user agent.",
-                                        ____types: "jsObject",
-                                        ____asMap: true,
-                                        headerKey: { ____accept: "jsString" }
-                                    } // headers
-                                }, // httpRequest
+                                    ____asMap: true,
+                                    headerKey: { ____accept: "jsString" }
+                                } // headers
+                            }, // httpRequest
 
-                                httpResponse: {
-                                    ____label: "HTTP Response Data",
-                                    ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
-                                    ____types: "jsObject",
-                                    disposition: {
-                                        ____label: "HTTP Response Disposition",
-                                        ____description: "Inform the derived app server's HTML5 document render integration filter what HTTP status will be returned to the user agent in response to the HTTP request.",
-                                        ____types: "jsObject",
-                                        code: {
-                                            ____label: "HTTP Response Code",
-                                            ____accept: "jsNumber",
-                                            ____defaultValue: 200
-                                        },
-                                        message: {
-                                            ____label: "HTTP Response Message",
-                                            ____accept: "jsString",
-                                            ____defaultValue: "Okay"
-                                        }
-                                    } // disposition
-
-                                }, // httpResponse
-
-                            }, // httpRequestContext
-
-                            metadataContext: {
-                                ____label: "Derived App Service Metadata Context",
-                                ____description: "Prefetched copies of derived app service's metadata entries that were passed to the @encapsule/holism service filter that is initiating this App Client Synthesize request.",
+                            httpResponse: {
+                                ____label: "HTTP Response Data",
+                                ____description: "Information pertinent to the derived app server's HTML5 document rendering integration filter implementation that is used to determine derived-app-specific rendering strategy.",
                                 ____types: "jsObject",
-
-                                common: {
-                                    ____label: "Derived App Metadata (Server/Client-Agnostic)",
+                                disposition: {
+                                    ____label: "HTTP Response Disposition",
+                                    ____description: "Inform the derived app server's HTML5 document render integration filter what HTTP status will be returned to the user agent in response to the HTTP request.",
                                     ____types: "jsObject",
-
-                                    org: {
-                                        ____label: "Organization Metadata",
-                                        ____description: "A copy of the organization metadata defined by the derived app service's author. Note that by convention we assume the author is also the app publisher and copyright holder.",
-                                        ____accept: "jsObject" // Spec is controlled by app metadata. And, data passed here has already been filtered.
+                                    code: {
+                                        ____label: "HTTP Response Code",
+                                        ____accept: "jsNumber",
+                                        ____defaultValue: 200
                                     },
-
-                                    site: { // aka application
-                                        ____label: "Site (App Service) Metadata",
-                                        ____description: "A copy of the site (aka app) metadata defined by the derived app service's author for this specific derived app service. Note that we presume an org may have more than a single derived app service.",
-                                        ____accept: "jsObject" // Spec is controller by app metadata. And, data passed here has already been filtered.
-                                    },
-
-                                    page: { // is obtained by querying app metadata page index by URL base path
-                                        ____label: "Page Metadata",
-                                        ____description: "A copy of the page metadata defined for the requested HTML5 document's URL base path in the app metadata store by the derived app service author.",
-                                        ____accept: "jsObject" // Spec is controller by app metadata. And, data passed here has already been filtered.
-                                    },
-
-                                }, // common
-
-                                server: {
-                                    ____label: "Derived App Service Metadata (Server-Specific)",
-                                    ____description: "A copy of the derived app server's runtime version, instance, and operating environment identifiers.",
-                                    ____types: "jsObject",
-                                    agent: {
-                                        ____label: "Server Agent Metadata",
-                                        ____description: "Identifies the specific version and instance of the app server process that is orchestrating this transaction.",
-                                        ____accept: "jsObject" // TODO lock this down
-                                    },
-                                    environment: {
-                                        ____label: "Server Agent Environment",
-                                        ____description: "Identifies the derived app server process deployment environment.",
-                                        ____accept: "jsString" // TODO restrict via inValueSet
+                                    message: {
+                                        ____label: "HTTP Response Message",
+                                        ____accept: "jsString",
+                                        ____defaultValue: "Okay"
                                     }
+                                } // disposition
 
-                                }, // server
+                            }, // httpResponse
 
-                            }, // metadataContext
+                        }, // httpRequestContext
 
-                        }, // appServiceContext
-
-                        appServiceRequest: {
-                            ____label: "App Service Request",
-                            ____description: "The actual dynamic content data synthesized by the requesting derived app server process that the derived app server's HTML5 document rendering integration filter should render as the initial user-visible content of the HTML5 document.",
+                        metadataContext: {
+                            ____label: "Derived App Service Metadata Context",
+                            ____description: "Prefetched copies of derived app service's metadata entries that were passed to the @encapsule/holism service filter that is initiating this App Client Synthesize request.",
                             ____types: "jsObject",
-                            loginSessionData: {
-                                ____label: "Login Session Data",
-                                ____description: "If the derived app server process is processing a request from an authenticated user, then a copy of the login session descriptor. Otherwise, null for anonymous, non-authenicated, user.",
-                                ____accept: [ "jsNull", "jsObject" ],
-                                ____defaultValue: null
-                            },
-                            renderData: {
-                                ____label: "d2r2/React Render Request",
-                                ____description: "An @encapsule/d2r2 <ComponentRouter/> renderData request descriptor object synthesized by the calling derived app server process (via a @encapsule/holism service filter that handles requests for this GET:/URL route).",
-                                ____accept: "jsObject" // By definition we do not know or care about the format of this d2r2 renderData request at this level of abstraction.
-                            }
 
-                        } // appServiceRequest
+                            common: {
+                                ____label: "Derived App Metadata (Server/Client-Agnostic)",
+                                ____types: "jsObject",
 
-                    } // alexandrite (@encapsule/holistic v0.0.47-alexandrite)
+                                org: {
+                                    ____label: "Organization Metadata",
+                                    ____description: "A copy of the organization metadata defined by the derived app service's author. Note that by convention we assume the author is also the app publisher and copyright holder.",
+                                    ____accept: "jsObject" // Spec is controlled by app metadata. And, data passed here has already been filtered.
+                                },
+
+                                site: { // aka application
+                                    ____label: "Site (App Service) Metadata",
+                                    ____description: "A copy of the site (aka app) metadata defined by the derived app service's author for this specific derived app service. Note that we presume an org may have more than a single derived app service.",
+                                    ____accept: "jsObject" // Spec is controller by app metadata. And, data passed here has already been filtered.
+                                },
+
+                                page: { // is obtained by querying app metadata page index by URL base path
+                                    ____label: "Page Metadata",
+                                    ____description: "A copy of the page metadata defined for the requested HTML5 document's URL base path in the app metadata store by the derived app service author.",
+                                    ____accept: "jsObject" // Spec is controller by app metadata. And, data passed here has already been filtered.
+                                },
+
+                            }, // common
+
+                            server: {
+                                ____label: "Derived App Service Metadata (Server-Specific)",
+                                ____description: "A copy of the derived app server's runtime version, instance, and operating environment identifiers.",
+                                ____types: "jsObject",
+                                agent: {
+                                    ...httpServerAgentResultSpec,
+                                    ____label: "Server Agent Metadata",
+                                    ____description: "Identifies the specific version and instance of the app server process that is orchestrating this transaction.",
+                                },
+                                environment: {
+                                    ____label: "Server Agent Environment",
+                                    ____description: "Identifies the derived app server process deployment environment.",
+                                    ____accept: "jsString",
+                                    ____inValueSet: [ "development", "test", "staging", "production" ]
+                                }
+
+                            }, // server
+
+                        }, // metadataContext
+
+                    }, // appServiceContext
+
+                    appServiceRequest: {
+                        ____label: "App Service Request",
+                        ____description: "The actual dynamic content data synthesized by the requesting derived app server process that the derived app server's HTML5 document rendering integration filter should render as the initial user-visible content of the HTML5 document.",
+                        ____types: "jsObject",
+                        loginSessionData: {
+                            ____label: "Login Session Data",
+                            ____description: "If the derived app server process is processing a request from an authenticated user, then a copy of the login session descriptor. Otherwise, null for anonymous, non-authenicated, user.",
+                            ____accept: [ "jsNull", "jsObject" ],
+                            ____defaultValue: null
+                        },
+                        renderData: {
+                            ____label: "d2r2/React Render Request",
+                            ____description: "An @encapsule/d2r2 <ComponentRouter/> renderData request descriptor object synthesized by the calling derived app server process (via a @encapsule/holism service filter that handles requests for this GET:/URL route).",
+                            ____accept: "jsObject" // By definition we do not know or care about the format of this d2r2 renderData request at this level of abstraction.
+                        }
+
+                    } // appServiceRequest
+
                 },
                 outputFilterSpec: {
                     ____label: "UTF8 HTML String",

@@ -73,12 +73,13 @@ var factoryResponse = arccore.filter.create({
         console.log("****************************************************************");
         console.log("****************************************************************");
         console.log("****************************************************************");
-        console.log(`>>>>> NEW @encapsule/holism v${packageMeta.version} ${packageMeta.codename} app server instance '${serverContext.instanceID}' created at ${serverContext.stats.created.toString()}`);
+        console.log(`>>>>> CREATE new @encapsule/holism v${packageMeta.version} ${packageMeta.codename} HTTP 1.1 server instance:`);
+        console.log(`>>>>> Configuring ${serverContext.holisticAppBuildManifest.app.name} v{serverContext.holisticAppBuildManifest.app.version}-${serverContext.holisticAppBuildManifest.app.codename} buildID "${serverContext.holisticAppBuildManifest.app.buildID}".`);
+        console.log(`>>>>> Instance ID "${serverContext.instanceID}" for ${request_.appServerRuntimeEnvironment} environment created at ${serverContext.stats.created.toString()}.`);
 
         var inBreakScope = false;
         while (!inBreakScope) {
             inBreakScope = true;
-            console.log("***** HTTP server: " + serverContext.name + " - " + serverContext.description + " ****");
             console.log("\nProcessing server configuration:");
             var innerResponse = httpServerConfigProcessor.request(request_);
             if (innerResponse.error) {
@@ -167,37 +168,39 @@ var factoryResponse = arccore.filter.create({
                         console.log(whatHappened_);
                         console.log("----------------------------------------------------------------------");
 
+                        const appMetadata = serverContext.holisticAppBuildManifest.app;
+
                         var html = [
-                            "<!DOCTYPE html>", 
+                            "<!DOCTYPE html>",
                             "<html lang=\"en\">",
                             "<head>",
                             "<meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />",
                             "<meta charset=\"utf-8\" />",
-                            "<title>" + packageMeta.name + " v" + packageMeta.version + " :: Error 500</title>",
+                            `<title>${appMetadata.name} - Error 500</title>`,
                             "<style type='text/css'>",
-                            "body { font-family: Courier; background-color: #F00; padding: 1em; }",
+                            "body { margin: 0em; padding: 1em; background-color: red }",
                             "#idTitle1 { font-family: Arial; font-size: 32pt; font-weight: bold; color: #FC0; padding-bottom: 0.1em; }",
-                            "#idContent { font-famil: Fixed; font-size: 14pt; font-weight: bold; border-top: 2px solid #FC0; border-bottom: 2px solid #FC0; margin-top: 0.5em; margin-bottom: 0.5em; padding-top: 1em; padding-bottom: 1em; }",
+                            "#idAppVersion { font-family: Arial; font-size: 24pt; padding-top: 0.5em; padding-bottom: 0.5em; }",
+                            "#idErrorHeader { font-family: Arial; font-size: 14pt; font-weight: bold; padding-bottom: 1em; }",
+                            "#idError { font-family: monospace; font-size: 14pt; font-weight: normal; border: 2px solid #FC0; border-radius: 0.5em; margin-top: 0.5em; margin-bottom: 0.5em; padding: 1em; }",
                             "#idFooter { text-align: right; color: #FC0; font-family: Courier; font-weight: bold; padding-top: 0.5em; }",
                             "</style>",
                             "</head>",
                             "<body>",
                             "<div id='idContent'>",
-                            "<div id='idTitle1'>HTTP Error 500 - Unexpected Holistic App Server Process Error</div>",
-                            "<p><strong>We regret to inform you of an unexpected error that occurred in the " + serverContext.name + " application:</strong></p>",
-                            "<p>" + whatHappened_ + "</p>",
+                            `<div id='idTitle1'>${appMetadata.name} App Server HTTP 500 Error</div>`,
+                            `<div id='idAppVersion'>${appMetadata.name} v${appMetadata.version}-${appMetadata.codename} build "${appMetadata.buildID}"</div>`,
+                            "<div id='idErrorHeader'>An unexpected error was reported by the app server runtime process that is preventing normal and expected processing of your request.</div>",
+                            `<div id='idError'>${whatHappened_}</div>`,
                             "</div>",
                             "<div id='idFooter'>",
                             "<strong>@encapsule/holistic v",
                             packageMeta.version,
                             "-",
                             packageMeta.codename,
-                            " ",
+                            " \"",
                             packageMeta.buildID,
-                            "<br>",
-                            "@encapsule/holism HTTP 1.1 server instance ",
-                            serverContext.instanceID,
-                            "</div>",
+                            "\"</div>",
                             "</body>",
                             "</html>"
                         ].join("");
@@ -695,14 +698,14 @@ var factoryResponse = arccore.filter.create({
                 http_server_context: serverContext,
                 http_server: httpServer,
                 listen: function(port_) {
-                    var serverName = routingModel.getGraphName();
                     serverContext.stats.started = new Date();
                     httpServer.listen(port_, function() {
                         console.log("****************************************************************");
                         console.log("****************************************************************");
                         console.log("****************************************************************");
-                        console.log(`>>>>> STARTING @encapsule/holism v${packageMeta.version} ${packageMeta.codename} app server instance '${serverContext.instanceID}' started at ${serverContext.stats.started.toString()}`);
-                        console.log(`>>>>> ${serverName} HTTP server listing on localhost:${port_}...`);
+                        console.log(`>>>>> START @encapsule/holism v${packageMeta.version} ${packageMeta.codename} HTTP 1.1 server instance at ${serverContext.stats.started.toString()}:`);
+                        console.log(`>>>>> Launching ${serverContext.holisticAppBuildManifest.app.name} v${serverContext.holisticAppBuildManifest.app.version}-${serverContext.holisticAppBuildManifest.app.codename} buildID "${serverContext.holisticAppBuildManifest.app.buildID}"`);
+                        console.log(`>>>>> Instance ID "${serverContext.instanceID}" (${request_.appServerRuntimeEnvironment} environment) listening for incoming HTTP requests at URL localhost:${port_}...`);
                     });
                 }
             };
