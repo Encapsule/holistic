@@ -6,7 +6,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// TransitionOperator-cpm-operator-request-on.js
+// TransitionOperator-cpm-operator-request-delegate.js
 var TransitionOperator = require("../../../TransitionOperator");
 
 var ObservableControllerData = require("../../../lib/ObservableControllerData");
@@ -15,7 +15,7 @@ var cpmLib = require("./lib");
 
 var transitionOperator = new TransitionOperator({
   id: "DxL0zD_ERu-0kNGX2FvoGg",
-  name: "Cell Process Manager: Operator Request On Cell (opOn)",
+  name: "Cell Process Manager: Operator Request Delegate To Cell",
   description: "Generically re-routes the TransitionOperator request specified by operatorRequest to the active cell indicated by apmBindingPath + path, or path (iff path is fully-qualified).",
   operatorRequestSpec: {
     ____types: "jsObject",

@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // ControllerAction-app-client-kernel-step-worker.js
 var holarchy = require("@encapsule/holarchy");
 
@@ -70,6 +76,43 @@ var controllerAction = new holarchy.ControllerAction({
         case "activate-subprocesses":
           actResponse = request_.context.act({
             actorName: actorName,
+            actorTaskDescription: "Activating derived AppMetadata process on behalf of the app client process.",
+            actionRequest: {
+              CellProcessor: {
+                util: {
+                  writeActionResponseToPath: {
+                    dataPath: "#.serviceProcesses.appMetadata",
+                    actionRequest: {
+                      CellProcessor: {
+                        process: {
+                          processCoordinates: {
+                            apmID: "srjZAO8JQ2StYj07u_rgGg"
+                            /* "Holistic App Common Kernel: App Metadata Process" */
+
+                          },
+                          activate: {
+                            processData: {
+                              construction: _objectSpread({}, kernelCellData.lifecycleResponses.query.result.actionResult.appMetadata)
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            },
+            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
+
+          actResponse = request_.context.act({
+            actorName: actorName,
             actorTaskDescription: "Activating DOMLocationProcessor process on behalf of the app client kernel process.",
             actionRequest: {
               CellProcessor: {
@@ -92,7 +135,8 @@ var controllerAction = new holarchy.ControllerAction({
                 }
               }
             },
-            apmBindingPath: request_.context.apmBindingPath
+            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+
           });
 
           if (actResponse.error) {
@@ -130,7 +174,8 @@ var controllerAction = new holarchy.ControllerAction({
                 }
               }
             },
-            apmBindingPath: request_.context.apmBindingPath
+            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+
           });
 
           if (actResponse.error) {

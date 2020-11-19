@@ -11,7 +11,9 @@ module.exports = {
   // which facets of the Cell Process Manager's state
   // data we want to expose. And, to what ends.
   // require("./ControllerAction-cpm-query")
-  require("./ControllerAction-cpm-action-request-on")],
-  operators: [require("./TransitionOperator-cpm-operator-request-on"), require("./TransitionOperator-apm-at-step"), require("./TransitionOperator-cpm-ancestor-processes-active"), require("./TransitionOperator-cpm-ancestor-processes-all-in-step"), require("./TransitionOperator-cpm-ancestor-processes-any-in-step"), require("./TransitionOperator-cpm-child-processes-active"), require("./TransitionOperator-cpm-child-processes-all-in-step"), require("./TransitionOperator-cpm-child-processes-any-in-step"), require("./TransitionOperator-cpm-descendant-processes-active"), require("./TransitionOperator-cpm-descendant-processes-all-in-step"), require("./TransitionOperator-cpm-descendant-processes-any-in-step"), require("./TransitionOperator-cpm-parent-process-active"), require("./TransitionOperator-cpm-parent-process-in-step")],
+  require("./ControllerAction-cpm-action-request-delegate")],
+  operators: [// Very basic low-level
+  require("./TransitionOperator-apm-at-step"), require("./TransitionOperator-cpm-operator-request-delegate"), // Monitor the state of ancestor and desdendant owned procecess/
+  require("./TransitionOperator-cpm-ancestor-processes-active"), require("./TransitionOperator-cpm-ancestor-processes-all-in-step"), require("./TransitionOperator-cpm-ancestor-processes-any-in-step"), require("./TransitionOperator-cpm-child-processes-active"), require("./TransitionOperator-cpm-child-processes-all-in-step"), require("./TransitionOperator-cpm-child-processes-any-in-step"), require("./TransitionOperator-cpm-descendant-processes-active"), require("./TransitionOperator-cpm-descendant-processes-all-in-step"), require("./TransitionOperator-cpm-descendant-processes-any-in-step"), require("./TransitionOperator-cpm-parent-process-active"), require("./TransitionOperator-cpm-parent-process-in-step")],
   subcells: [require("../CellProcessProxy")]
 };

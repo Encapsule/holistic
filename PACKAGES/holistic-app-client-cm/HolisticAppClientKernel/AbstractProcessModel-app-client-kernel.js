@@ -39,7 +39,8 @@ module.exports = {
       ____defaultValue: {},
       domLocationProcessor: optionalFilterResponseSpec,
       d2r2DisplayAdapter: optionalFilterResponseSpec,
-      clientViewProcessor: optionalFilterResponseSpec
+      clientViewProcessor: optionalFilterResponseSpec,
+      appMetadata: optionalFilterResponseSpec
     },
     lifecycleResponses: {
       ____types: "jsObject",
