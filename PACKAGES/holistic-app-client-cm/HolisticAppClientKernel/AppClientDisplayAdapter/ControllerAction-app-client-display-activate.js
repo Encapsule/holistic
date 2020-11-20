@@ -74,8 +74,7 @@ var controllerAction = new holarchy.ControllerAction({
 
       var thisProps = {
         renderContext: {
-          renderEnvironment: "server",
-          // because renderData is a copy of renderData used by the app server process to render the static HTML5 that is currently inside our target DOM element.
+          serverRender: true,
           ComponentRouter: displayAdapterCellData.config.ComponentRouter,
           act: request_.context.act,
           apmBindingPath: request_.context.apmBindingPath // This will be the holistic app client kernel - not a view process.
@@ -89,7 +88,7 @@ var controllerAction = new holarchy.ControllerAction({
       var d2r2Component = React.createElement(displayAdapterCellData.config.ComponentRouter, thisProps);
       ReactDOM.hydrate(d2r2Component, displayAdapterCellData.config.targetDOMElement); // Re-render flipping the renderEnvironment flag to "client". Typically, this is used by the rendering d2r2 Component to trigger some sort of loading/spinner transition.
 
-      thisProps.renderContext.renderEnvironment = "client";
+      delete thisProps.renderContext.serverRender;
       d2r2Component = React.createElement(displayAdapterCellData.config.ComponentRouter, thisProps);
       ReactDOM.render(d2r2Component, displayAdapterCellData.config.targetDOMElement);
       displayAdapterCellData.displayUpdateCount += 1;

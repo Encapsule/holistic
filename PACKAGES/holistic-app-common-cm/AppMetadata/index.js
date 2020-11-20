@@ -7,7 +7,7 @@ var cellModel = new holarchy.CellModel({
   name: "Holistic App Common Kernel: App Metadata Model",
   description: "Provides consistent access/query API on derived-application-specific static metadata for all cells in a holistic application.",
   apm: require("./AbstractProcessModel-app-metadata"),
-  actions: [require("./ControllerAction-app-metadata-init")]
+  actions: [require("./ControllerAction-app-metadata-init"), require("./ControllerAction-app-metadata-query")]
 });
 
 if (!cellModel.isValid()) {

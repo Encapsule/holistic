@@ -5,7 +5,7 @@ const arccore = require("@encapsule/arccore");
 var factoryResponse = arccore.filter.create({
 
     operationID: "6lpBEdAkTwaLjFbLR45yCA",
-    operationName: "Holistic App Metadata Digraph Factory Factory.",
+    operationName: "Holistic App Metadata Digraph Builder Factory.",
     operationDescription: "This filter synthesizes and returns a new filter that the derived holistic app uses to contruct a normalized holistic app metadata digraph that the platform understands how to query w/out knowledge of the specific details of the specialized data constraints imposed below.",
 
     inputFilterSpec: {
@@ -69,12 +69,6 @@ var factoryResponse = arccore.filter.create({
                             ____description: "Topological sort timestamp and derived weight information. Used to automate UX menu layout.",
                             ____accept: "jsObject",
                             ____defaultValue: {},
-                        },
-                        uri: {
-                            ____label: "Page Request Page URI",
-                            ____description: "The actual URI requested which may differ from the metadata returned when there is no metadata defined for the requested URI.",
-                            ____accept: [ "jsNull", "jsString" ],
-                            ____defaultValue: null
                         }
                     }
                 },
@@ -87,13 +81,13 @@ var factoryResponse = arccore.filter.create({
                 errors.push(innerResponse.error);
                 break;
             }
-            // const pagePropWriter = innerResponse.result;
+            const pagePropWriter = innerResponse.result;
 
             innerResponse = arccore.filter.create({
                 operationID: "LAVpp6JMRg-RZaDhZogmWw",
                 operationName: "Hashroute Metadata Definition Property Writer",
                 operationDescription: "Validates/normalizes a hashroute metadata descriptor and updates the vertex in the app metadata digraph.",
-                intputFilterSpec: {
+                inputFilterSpec: {
                     ____types: "jsObject",
                     digraph: { ____accept: "jsObject" },
                     vertex: { ____accept: "jsString" },
@@ -115,12 +109,6 @@ var factoryResponse = arccore.filter.create({
                             ____description: "Topological sort timestamp and derived weight information. Used to automate UX menu layout.",
                             ____accept: "jsObject",
                             ____defaultValue: {},
-                        },
-                        uri: {
-                            ____label: "Page Request Page URI",
-                            ____description: "The actual URI requested which may differ from the metadata returned when there is no metadata defined for the requested URI.",
-                            ____accept: [ "jsNull", "jsString" ],
-                            ____defaultValue: null
                         }
                     }
                 },
@@ -133,14 +121,14 @@ var factoryResponse = arccore.filter.create({
                 errors.push(innerResponse.error);
                 break;
             }
-            // const hashroutePropWriter = innerResponse.result;
+            const hashroutePropWriter = innerResponse.result;
 
             innerResponse = arccore.filter.create({
                 operationID: factoryRequest.id,
                 operationName: factoryRequest.name,
                 operationDescription: factoryRequest.description,
                 inputFilterSpec: {
-                    ____label: "Holistic App Metadata Declaration",
+                    ____label: "Holistic App Metadata Digraph Builder Request",
                     ____description: "Application metadata declaration object from the developer of the derived holistic application.",
                     ____types: "jsObject",
                     org: factoryRequest.constraints.metadata.org,
@@ -169,18 +157,21 @@ var factoryResponse = arccore.filter.create({
                     ____accept: "jsObject"
                 },
 
-                bodyFunction: function(viewDeclaration_) {
+                bodyFunction: function(digraphBuilderRequest_) {
                     var response = { error: null, result: null };
                     var errors = [];
                     var inBreakScope = false;
                     while (!inBreakScope) {
                         inBreakScope = true;
-                        var pageViewURIs = Object.keys(viewDeclaration_.pages);
+
+                        let propWriterResponse;
+
+                        let pageViewURIs = Object.keys(digraphBuilderRequest_.pages);
                         if (!pageViewURIs.length) {
                             errors.unshift("You must define at least the root page view, '/', in your page view map declaration.");
                             break;
                         }
-                        var graphResponse = arccore.graph.directed.create({
+                        let graphResponse = arccore.graph.directed.create({
                             name: factoryRequest.name + "::Application Metadata Store Digraph",
                             description: "In-memory DirectedGraph store containing this application's static metadata declarations.",
                         });
@@ -189,11 +180,13 @@ var factoryResponse = arccore.filter.create({
                             break;
                         }
 
-                        var appMetadataDigraph = graphResponse.result;
-                        appMetadataDigraph.addVertex({ u: "__org", p: viewDeclaration_.org });
-                        appMetadataDigraph.addVertex({ u: "__app", p: viewDeclaration_.app });
+                        let appMetadataDigraph = graphResponse.result;
+                        appMetadataDigraph.addVertex({ u: "__org", p: digraphBuilderRequest_.org });
+                        appMetadataDigraph.addVertex({ u: "__app", p: digraphBuilderRequest_.app });
                         appMetadataDigraph.addVertex({ u: "__pages" });
                         appMetadataDigraph.addVertex({ u: "__hashroutes" });
+
+                        // Add page vertices to the digraph.
 
                         for (var pageViewURI of pageViewURIs) {
                             if (pageViewURI.charAt(0) !== "/") {
@@ -213,17 +206,56 @@ var factoryResponse = arccore.filter.create({
                                 appMetadataDigraph.addEdge({ e: { u: pageViewURILast, v: pageViewURICurrent }});
                                 pageViewURILast = pageViewURICurrent;
                             });
-                            var pageProperties = arccore.util.clone(viewDeclaration_.pages[pageViewURI]);
-                            appMetadataDigraph.setVertexProperty({ u: pageViewURI, p: pageProperties });
-
+                            var pageProperties = arccore.util.clone(digraphBuilderRequest_.pages[pageViewURI]);
+                            propWriterResponse = pagePropWriter.request({ digraph: appMetadataDigraph, vertex: pageViewURI, propertyData: pageProperties });
+                            if (propWriterResponse.error) {
+                                errors.push(propWriterResponse.error);
+                                break;
+                            }
                         } // end for
                         if (errors.length) {
                             break;
                         }
 
+                        // Add hashroute vertices to the digraph.
+
+                        pageViewURIs = Object.keys(digraphBuilderRequest_.hashroutes);
+
+                        for (let pageViewURI of pageViewURIs) {
+                            if (pageViewURI.charAt(0) !== "#") {
+                                errors.unshift(`Invalid hashroute metadata declaration for URI '${pageViewURI}' specified. Hashroute URI's must begin with a frontslash '#' character.`);
+                                break;
+                            }
+                            let rs1 = pageViewURI.split("/");
+                            let rs2 = [];
+                            let pageViewURILast = "__hashroutes";
+                            // console.log(rs1.length + " '" + JSON.stringify(rs1) + "'");
+                            rs1.forEach(function(namespace_) {
+                                rs2.push(namespace_);
+                                let pageViewURICurrent = rs2.join("/");
+                                // console.log("pageViewURILast '" + pageViewURILast + "' pageViewURICurrent: '" + pageViewURICurrent);
+                                appMetadataDigraph.addEdge({ e: { u: pageViewURILast, v: pageViewURICurrent }});
+                                pageViewURILast = pageViewURICurrent;
+                            });
+                            let hashrouteProperties = arccore.util.clone(digraphBuilderRequest_.hashroutes[pageViewURI]);
+                            propWriterResponse = hashroutePropWriter.request({ digraph: appMetadataDigraph, vertex: pageViewURI, propertyData: hashrouteProperties });
+                            if (propWriterResponse.error) {
+                                errors.push(propWriterResponse.error);
+                                break;
+                            }
+                        } // end for
+                        if (errors.length) {
+                            break;
+                        }
+
+                        // TODO: This is something I built for generating menus in @encapsule/polytely (a test app based on @encapsule/holism from 2014-15).
+                        // There's a bunch of interesting use case for UX. But, it's not explained here or anywhere really. I've left out the similar
+                        // generation of topological sort and menu metadata for hashroutes until it's clearer if and how we use this metadata to generate
+                        // any sort of menus/navigation and/or styling aids in the UX.
+
                         // Topologically sort the pages graph.
-                        var sortCount = 0;
-                        //var traversalResponse =
+                        let sortCount = 0;
+                        //let traversalResponse =
                         arccore.graph.directed.depthFirstTraverse({
                             digraph: appMetadataDigraph,
                             options: {
@@ -232,46 +264,44 @@ var factoryResponse = arccore.filter.create({
                             visitor: {
                                 discoverVertex: function(gcb_) {
                                     // console.log("discoverVertex: " + gcb_.u);
-                                    var props = gcb_.g.getVertexProperty(gcb_.u);
+                                    let props = gcb_.g.getVertexProperty(gcb_.u);
 
                                     // Fail construction of the metadata store if any vertex is missing an attached property object.
                                     if (!props) {
-                                        errors.unshift("Missing metadata declaration for parent page view URI `" + gcb_.u + "`. " +
-                                                       "Typically this happens if you declare a child view without also declaring its parent(s).");
+                                        errors.unshift(`Missing metadata declaration for parent page view URI '${gcb_.u}'. Typically, this happens if and when you declare a child view without also declaring its parent(s). Or, delete the parent w/out also dealing with its children.`);
                                         return false;
                                     }
-
-                                    var page = 1;
-                                    var depth = 0;
-
+                                    let page = 1;
+                                    let depth = 0;
                                     if (gcb_.g.inDegree(gcb_.u)) {
-                                        var parentVertex = gcb_.g.inEdges(gcb_.u)[0].u; // [0] because topology is always a tree
-                                        var parentProps = gcb_.g.getVertexProperty(parentVertex);
+                                        let parentVertex = gcb_.g.inEdges(gcb_.u)[0].u; // [0] because topology is always a tree
+                                        let parentProps = gcb_.g.getVertexProperty(parentVertex);
                                         if (parentProps && parentProps.ts) {
                                             depth = parentProps.ts.d + 1;
                                         }
                                     }
                                     props.ts = { i: sortCount++, d: depth, p: page };
                                     // console.log("setVertexProperty(" + gcb_.u + ", '" + JSON.stringify(props) + "')");
-
-                                    gcb_.g.setVertexProperty({ u: gcb_.u, p: props });
-
+                                    propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
+                                    if (propWriterResponse.error) {
+                                        errors.push(propWriterResponse.error);
+                                        return false;
+                                    }
                                     return true;
                                 },
                                 finishVertex: function(gcb_) {
-                                    var appMetadataDigraph = gcb_.g;
-                                    var uri = gcb_.u;
+                                    let appMetadataDigraph = gcb_.g;
+                                    let uri = gcb_.u;
                                     // console.log("finishVertex: " + uri);
-                                    var props = appMetadataDigraph.getVertexProperty(uri);
+                                    let props = appMetadataDigraph.getVertexProperty(uri);
                                     props.ts.o = sortCount++;
                                     props.ts.w = (props.ts.o - props.ts.i - 1) / 2;
-
-                                    var childRanks = [];
-                                    var children = [];
-                                    var outEdges = appMetadataDigraph.outEdges(uri);
+                                    let childRanks = [];
+                                    let children = [];
+                                    let outEdges = appMetadataDigraph.outEdges(uri);
                                     outEdges.forEach(function(outEdge_) {
-                                        var childProps = appMetadataDigraph.getVertexProperty(outEdge_.v);
-                                        var childRank = (childProps.rank !== undefined)?childProps.rank:0;
+                                        let childProps = appMetadataDigraph.getVertexProperty(outEdge_.v);
+                                        let childRank = (childProps.rank !== undefined)?childProps.rank:0;
                                         if (childRanks[childRank] === undefined) {
                                             childRanks[childRank] = [];
                                         }
@@ -283,20 +313,26 @@ var factoryResponse = arccore.filter.create({
                                         });
                                     });
                                     props.children = children;
-
-                                    gcb_.g.setVertexProperty({ u: gcb_.u, p: props });
-
+                                    propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
+                                    if (propWriterResponse.error) {
+                                        errors.push(propWriterResponse.error);
+                                        return false;
+                                    }
                                     return true;
                                 },
                                 finishEdge: function(gcb_) {
-                                    var digraph = gcb_.g;
-                                    var edge = gcb_.e;
+                                    let digraph = gcb_.g;
+                                    let edge = gcb_.e;
                                     // console.log("finishEdge: " + JSON.stringify(edge));
-                                    var sourceProps = digraph.getVertexProperty(edge.u);
+                                    let sourceProps = digraph.getVertexProperty(edge.u);
                                     if (sourceProps) {
-                                        var sinkProps = digraph.getVertexProperty(edge.v);
+                                        let sinkProps = digraph.getVertexProperty(edge.v);
                                         sourceProps.ts.p = sourceProps.ts.p + sinkProps.ts.p;
-                                        digraph.setVertexProperty({ u: edge.u, p: sourceProps });
+                                        propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: edge.u, propertyData: sourceProps });
+                                        if (propWriterResponse.error) {
+                                            errors.push(propWriterResponse.error);
+                                            return false;
+                                        }
                                     }
                                     return true;
                                 }

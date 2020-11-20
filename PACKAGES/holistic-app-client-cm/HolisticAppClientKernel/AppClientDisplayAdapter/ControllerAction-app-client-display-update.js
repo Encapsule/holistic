@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // ControllerAction-app-client-display-update.js
 var holarchy = require("@encapsule/holarchy");
 
@@ -29,14 +35,26 @@ var controllerAction = new holarchy.ControllerAction({
                 ____types: "jsObject",
                 ____defaultValue: {},
                 apmBindingPath: {
-                  ____accept: ["jsUndefined", // If not specified then the this action will use its request_.context.apmBindingPath
+                  ____accept: ["jsUndefined", // If not specified then this action will use its request_.context.apmBindingPath
                   "jsString" // The apmBindingPath of the cell process that owns the display process indicated by renderData
                   ]
                 }
               },
               renderData: {
+                // DEPRECATED
                 // The routable portion of this.props bound to a <ComponentRouter/> instance
-                ____accept: "jsObject"
+                ____accept: ["jsUndefined", // Prefer to use thisProps that will be made mandatory in a short time.
+                "jsObject"]
+              },
+              thisProps: {
+                ____label: "Component Props",
+                ____description: "If specified, this is assumed to be the entirety of the actor's d2r2 render request descriptor bound to the <1:N/> resolved by <ComponentRouter/>. Note that you cannot influence the values sent via thisProps.renderContext except via overrides allowed by this request.",
+                ____accept: "jsObject",
+                ____defaultValue: {
+                  renderData: {
+                    forceDisplayError: "You didn't specify any renderData!"
+                  }
+                }
               }
             }
           }
@@ -75,15 +93,19 @@ var controllerAction = new holarchy.ControllerAction({
         break;
       }
 
-      var thisProps = {
+      var thisProps = _objectSpread(_objectSpread({}, messageBody.thisProps), {}, {
         renderContext: {
-          renderEnvironment: "client",
+          // NOTE: serverRender Boolean flag is not set here; it is only ever set during initial server-side rendering and initial client-side display activation.
           ComponentRouter: displayAdapterCellData.config.ComponentRouter,
           act: request_.context.act,
           apmBindingPath: messageBody.renderContext.apmBindingPath ? messageBody.renderContext.apmBindingPath : request_.context.apmBindingPath
-        },
-        renderData: messageBody.renderData
-      };
+        }
+      });
+
+      if (messageBody.renderData) {
+        thisProps.renderData = messageBody.renderData;
+      }
+
       var d2r2Component = React.createElement(displayAdapterCellData.config.ComponentRouter, thisProps);
       ReactDOM.render(d2r2Component, displayAdapterCellData.config.targetDOMElement);
       displayAdapterCellData.displayUpdateCount += 1;
