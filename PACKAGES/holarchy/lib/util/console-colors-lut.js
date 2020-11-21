@@ -8,23 +8,6 @@ var holarchyConsoleStylesLUT = {
       body: "border-left: 8px solid #AAFF99; padding-left: 0.5em; background-color: #EEFFDD; color: #000000;",
       epilogue: "border-left: 8px solid #AAFF99; border-bottom: 6px solid #99EE88; padding: 0.25em; padding-left: 0.5em; background-color: #CCFFCC; color: #000000; font-weight: bold; font-size: largest;"
     },
-
-    /* old
-    act: {
-        borderColor: "#99FFCC",
-        borderTopColor: "#66CC99",
-        borderBottomColor: "#66CC99",
-         prologue: "padding-left: 0.5em; background-color: #DDFFEE; color: #000000; font-weight: bold; font-size: smallest;",
-        body: "padding-left: 0.5em; background-color: #DDFFEE; color: #000000; font-size: smallest;",
-        epilogue: "padding-left: 0.5em; background-color: #DDFFEE; color: #000000; font-weight: bold; font-size: smallest;",
-     },
-     evaluate: {
-        prologue: "margin-left: 12px; border-left: 8px solid #99CCFF; border-top: 6px solid #6699CC; padding-left: 0.5em; background-color: #DDEEFF; color: #000033; font-weight: bold; font-size-smallest;",
-        body: "margin-left: 12px; border-left: 8px solid #99CCFF; padding-left: 0.5em; background-color: #CCDDFF; color: #000033; font-weight: normal; font-size: smallest;",
-        epilogue: "margin-left: 12px; border-left: 8px solid #99CCFF; border-bottom: 6px solid #6699CC; padding-left: 0.5em; background-color: #DDEEFF; color: #000033; font-weight: bold; font-size: smallest;"
-    },
-    */
-    // New
     act: {
       borderColor: "#BBEEFF",
       borderTopColor: "#AADDEE",

@@ -41,6 +41,12 @@ var factoryResponse = arccore.filter.create({
       write: {
         ____accept: "jsObject"
       }
+    },
+    dirty: {
+      ____label: "Dirty Data Flag",
+      ____description: "A Boolean flag indicating if any write(s) have occurred as a consequence of actor(s) calling mutating method(s) on this OCD class instance.",
+      ____accept: "jsBoolean",
+      ____defaultValue: true
     }
   },
   bodyFunction: function bodyFunction(request_) {

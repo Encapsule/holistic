@@ -154,6 +154,7 @@ var factoryResponse = arccore.filter.create({
 
       var writeFilter = request_.ocdReference._private.accessFilters.write[fqPath];
       response = writeFilter.request(request_.data);
+      request_.ocdReference._private.dirty = true;
       return "break";
     };
 

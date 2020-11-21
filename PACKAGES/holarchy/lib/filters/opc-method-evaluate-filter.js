@@ -95,7 +95,7 @@ var factoryResponse = arccore.filter.create({
       // between process steps. Or, until the maximum allowed frames / evaluation
       // limit is surpassed.
 
-      while (result.evalFrames.length < opcRef._private.options.evaluate.maxFrames) {
+      while (opcRef._private.ocdi._private.dirty && result.evalFrames.length < opcRef._private.options.evaluate.maxFrames) {
         evalStopwatch.mark("frame ".concat(result.evalFrames.length, " start APM instance binding"));
         var evalFrame = {
           bindings: {},
@@ -539,6 +539,7 @@ var factoryResponse = arccore.filter.create({
           var nextStepDescriptor = _apmRef.getStepDescriptor(nextStep);
 
           logger.request({
+            logLevel: "info",
             opc: {
               id: opcRef._private.id,
               iid: opcRef._private.iid,
@@ -737,14 +738,6 @@ var factoryResponse = arccore.filter.create({
         // If any of the APM instance's in the just-completed eval frame transitioned, add another eval frame.
         // Otherwise exit the outer eval loop and conclude the OPC evaluation algorithm.
 
-        /*
-        if (evalFrame.summary.counts.errors) {
-            // Bail out of the frame loop if the frame we just evaluated had errors. There should be no errors on the control plane of an OPC.
-            result.error = "ObservableProcessController evaluation aborted due to frame-scope error(s).";
-            break;
-        }
-        */
-
         if (!evalFrame.summary.counts.transitions) {
           // Exit the frame loop when the evaluation of the last frame resulted in no APMI step transitions.
           break;
@@ -757,6 +750,63 @@ var factoryResponse = arccore.filter.create({
         break;
       }
 
+      switch (result.summary.counts.frames) {
+        case 0:
+          logger.request({
+            logLevel: "info",
+            opc: {
+              id: opcRef._private.id,
+              iid: opcRef._private.iid,
+              name: opcRef._private.name,
+              evalCount: result.evalNumber,
+              frameCount: result.summary.counts.frames,
+              actorStack: opcRef._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "evaluate",
+            phase: "body",
+            message: "Prior action(s) did not alter CellProcessor memory state. No re-evaluation is necessary because nothing has changed."
+          });
+          break;
+
+        case 1:
+          logger.request({
+            logLevel: "info",
+            opc: {
+              id: opcRef._private.id,
+              iid: opcRef._private.iid,
+              name: opcRef._private.name,
+              evalCount: result.evalNumber,
+              frameCount: result.summary.counts.frames,
+              actorStack: opcRef._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "evaluate",
+            phase: "body",
+            message: "Prior action(s) altered CellProcessor memory state. But, no active cells seem currently interested."
+          });
+          break;
+
+        default:
+          logger.request({
+            logLevel: "info",
+            opc: {
+              id: opcRef._private.id,
+              iid: opcRef._private.iid,
+              name: opcRef._private.name,
+              evalCount: result.evalNumber,
+              frameCount: result.summary.counts.frames,
+              actorStack: opcRef._private.opcActorStack
+            },
+            subsystem: "opc",
+            method: "evaluate",
+            phase: "body",
+            message: "Prior action(s) altered CellProcessor memory state resulting in a cascade of ".concat(result.summary.counts.bindings, " active cell evaluations over ").concat(result.summary.counts.frames, " frames.")
+          });
+          break;
+      }
+
+      opcRef._private.ocdi._private.dirty = false;
       break;
     } // while (!inBreakScope)
 
@@ -772,7 +822,6 @@ var factoryResponse = arccore.filter.create({
 
 
     result.summary.evalStopwatch = evalStopwatch.stop();
-    result.summary.framesCount = result.evalFrames.length;
     logger.request({
       errorLevel: response.error ? "error" : "info",
       opc: {
@@ -780,13 +829,13 @@ var factoryResponse = arccore.filter.create({
         iid: opcRef._private.iid,
         name: opcRef._private.name,
         evalCount: opcRef._private.evalCount,
-        frameCount: result.summary.framesCount - 1,
+        frameCount: result.summary.counts.frames,
         actorStack: opcRef._private.opcActorStack
       },
       subsystem: "opc",
       method: "evaluate",
       phase: "epilogue",
-      message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.framesCount, " eval frame(s) in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
+      message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.counts.frames, " eval frame(s) in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
     });
     response.result = result;
     return response;
