@@ -13,8 +13,8 @@ var optionalFilterResponseSpec = {
 };
 module.exports = {
   id: "PPL45jw5RDWSMNsB97WIWg",
-  name: "Holistic Client App Kernel",
-  description: "This model manages, tracks, and controls the lifecycle of the client application.",
+  name: "Holistic App Client Kernel Process",
+  description: "This process manages, tracks, and controls the lifecycle of the derived app client process.",
   ocdDataSpec: {
     ____types: "jsObject",
     ____defaultValue: {},
@@ -66,6 +66,8 @@ module.exports = {
     bootROMData: {
       ____accept: ["jsUndefined", "jsObject"]
     },
+    // We propogate the error through the app client kernel on the way to the app and take note
+    // in our notification path of our own __apmiStep value if/when that occurs.
     bootstrapFailureStep: {
       ____accept: ["jsNull"
       /*no failure*/

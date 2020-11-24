@@ -9,7 +9,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // ControllerAction-app-client-kernel-step-worker.js
 var holarchy = require("@encapsule/holarchy");
 
-var hackLib = require("./lib");
+var hackLib = require("./lib"); // This action is never expected to be called by an external actor.
+// It is only ever expected to be dispatched in response to a process
+// step transition in the holistic app client kernel cell process.
+// In more detail, this "step worker" action is "called" by OPC._evaluate when
+// it is transitioning the app client kernel process between steps that declare
+// enter/exit actions that OPC has delegated to us across the action request bus.
+// Here in this "step worker" action we define the actual runtime semantics of these
+// APM-declared process model orchestrations (i.e. concrete runtime interactions,
+// internal/externally-visible side-effects etc.)
+
 
 var controllerAction = new holarchy.ControllerAction({
   id: "4zsKHGrWRPm9fFa-RxsBuw",
@@ -74,6 +83,7 @@ var controllerAction = new holarchy.ControllerAction({
           break;
 
         case "activate-subprocesses":
+          // THIS IS WRONG
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Activating derived AppMetadata process on behalf of the app client process.",

@@ -3,7 +3,13 @@
 // ControllerAction-app-client-kernel-signal-lifecycle-event.js
 var holarchy = require("@encapsule/holarchy");
 
-var hackLib = require("./lib");
+var hackLib = require("./lib"); // This action is never expected to be called by an external actor.
+// It is only ever expected to be dispatched in response to a process
+// step transition in the holistic app client kernel cell process.
+// In this capacity, this action is very similar to this CellModel's
+// "step worker" action in the way that functions to define the concrete
+// runtime semantics of evaluating an holistic app client kernel cell.
+
 
 var controllerAction = new holarchy.ControllerAction({
   id: "mmLcuWywTe6lUL9OtMJisg",
@@ -134,6 +140,10 @@ var controllerAction = new holarchy.ControllerAction({
         // ----------------------------------------------------------------
 
         case "deserialize":
+          // At this point in the app client lifecycle, window.document.onload event has fired and the HTML5 document produced
+          // by the holistic app server process when it synthesized the app client process (and then serialized it HTML5 over
+          // HTTP to the user's browser agent) has loaded into the DOM. So, we can use DOM API's to retrieve the "bootROM"
+          // data that the app server process spliced into the HTML5 document for us.
           var bootROMElement = document.getElementById(kernelCellData.bootROMElementID);
           var bootDataBase64 = bootROMElement.textContent;
           var bootDataJSON = new Buffer(bootDataBase64, 'base64').toString('utf8');
@@ -148,11 +158,18 @@ var controllerAction = new holarchy.ControllerAction({
           if (ocdResponse.error) {
             errors.push(ocdResponse.error);
             break;
-          }
+          } // v0.0.48-kyanite note:
+          // We do not yet have @encapsule/holistic-app-server-cm RTL so must rely on the correctness of a derived holistic application's
+          // app server process wrt synthesizing and serializing the HTML5 app client process we're currently in the act of deserializing
+          // and re-activating in the browser tab. There are an unacceptably large number of ways that developers can currently violate
+          // conventions and presumptions made by @encapsule/holistic-app-common-cm and @encapsule/holistic-app-client-cm CellModels.
+          // So, we need to be very defensive at this stage of the app client process boot in order to try to ensure that all the flagrant
+          // cases get caught and reported as error(s).
+
 
           actResponse = request_.context.act({
             actorName: actorName,
-            actorTaskDescription: "Delegating app client kernel query lifecycle event to the derived app client process.",
+            actorTaskDescription: "Delegating app client kernel deserialize lifecycle event to the derived app client process.",
             actionRequest: {
               CellProcessor: {
                 cell: {

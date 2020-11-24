@@ -23,9 +23,9 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 // CellProcessor.js
 var constructorFilter = require("./lib/filters/cp-method-constructor-filter");
 
-var actFilter = require("./lib/filters/cp-method-act-filter");
+var actFilter = require("./lib/filters/cp-method-act-filter"); // TODO: use this or remove this (likely the later soon)
+// const logger = require("./lib/util/holarchy-logger-filter");
 
-var logger = require("./lib/util/holarchy-logger-filter");
 
 module.exports = /*#__PURE__*/function () {
   function CellProcessor(request_) {

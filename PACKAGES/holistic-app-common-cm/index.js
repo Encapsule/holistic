@@ -5,6 +5,8 @@ var packageMeta = require("./package.json");
 
 var holarchy = require("@encapsule/holarchy");
 
+var HolisticAppCommonService = require("./HolisticAppCommonService");
+
 module.exports = {
   __meta: {
     author: packageMeta.author,
@@ -14,10 +16,10 @@ module.exports = {
     build: packageMeta.buildID,
     source: packageMeta.buildSource
   },
-  cml: new holarchy.CellModel({
-    id: "74npOB-3S8GEgHwdtWwHrg",
-    name: "Holistic App Common Kernel",
-    description: "Provides core kernel cell process models shared by the holistic app server and holistic app client application cell models.",
-    subcells: [require("./AppMetadata"), require("./ViewThemeProcessor")]
-  })
+  // v0.0.48-kyanite
+  HolisticAppCommonService: HolisticAppCommonService,
+  // New ES6 class
+  appCommonKernelCellModelFactory: require("./holistic-app-common-cellmodel-factory-filter"),
+  // CellModel Library (cml)
+  cml: require("./HolisticAppCommonKernel")
 };
