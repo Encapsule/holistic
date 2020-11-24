@@ -118,8 +118,58 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "dom-location-wait-hashchange-event"
+        nextStep: "dom-location-wait-kernel-ready"
       }]
+    },
+    "dom-location-wait-kernel-ready": {
+      description: "Waiting on the kernel to reach its active state. After that point, we start actively communicating directly with the derived app client process.",
+      transitions: [{
+        transitionIf: {
+          CellProcessor: {
+            cell: {
+              query: {
+                inStep: {
+                  apmStep: "kernel-service-ready"
+                }
+              },
+              cellCoordinates: {
+                apmID: "PPL45jw5RDWSMNsB97WIWg"
+                /* "Holistic App Client Kernel Process" */
+
+              }
+            }
+          }
+        },
+        nextStep: "dom-location-signal-initial-hashroute"
+      }]
+    },
+    "dom-location-signal-initial-hashroute": {
+      description: "Inform the app client process of the initial hashroute assignment inherited from the HTTP request URL. Note, that it is up to the app client process to decide what to do with this information specifically wrt to active cells etc.",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "dom-location-wait-hashchange-event"
+      }],
+      actions: {
+        exit: [{
+          holistic: {
+            app: {
+              client: {
+                cm: {
+                  actions: {
+                    DOMLocationProcessor: {
+                      notifyEvent: {
+                        hashchange: true
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }]
+      }
     },
     "dom-location-wait-hashchange-event": {
       description: "Waiting for DOM hashchange event.",

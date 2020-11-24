@@ -81,6 +81,8 @@ var controllerAction = new holarchy.ControllerAction({
       switch (messageBody.action) {
         case "noop":
           break;
+        // ****************************************************************
+        // ****************************************************************
 
         case "activate-subprocesses":
           // THIS IS WRONG
@@ -200,6 +202,8 @@ var controllerAction = new holarchy.ControllerAction({
 
 
           break;
+        // ****************************************************************
+        // ****************************************************************
 
         case "activate-display-adapter":
           actResponse = request_.context.act({
@@ -232,6 +236,8 @@ var controllerAction = new holarchy.ControllerAction({
           }
 
           break;
+        // ****************************************************************
+        // ****************************************************************
 
         default:
           errors.push("Internal error: unhandled action value \"".concat(messageBody.action, "\"."));

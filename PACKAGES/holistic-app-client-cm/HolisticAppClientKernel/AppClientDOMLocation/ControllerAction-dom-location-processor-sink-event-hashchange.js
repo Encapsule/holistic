@@ -117,7 +117,9 @@ module.exports = new holarchy.ControllerAction({
                       app: {
                         client: {
                           lifecycle: {
-                            hashroute: routerEventDescriptor
+                            hashroute: {
+                              routerEventDescriptor: routerEventDescriptor
+                            }
                           }
                         }
                       }
