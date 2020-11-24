@@ -232,11 +232,11 @@ module.exports = {
               cell: {
                 query: {
                   inStep: {
-                    apmStep: "wait"
+                    apmStep: "dom-location-wait-hashchange-event"
                   }
                 },
                 cellCoordinates: {
-                  apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                  apmID: "OWLoNENjQHOKMTCEeXkq2g"
                   /* "Holistic App Client Kernel: DOM Location Processor" */
 
                 }

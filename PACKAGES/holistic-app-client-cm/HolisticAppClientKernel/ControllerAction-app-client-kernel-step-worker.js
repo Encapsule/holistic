@@ -132,9 +132,13 @@ var controllerAction = new holarchy.ControllerAction({
                     actionRequest: {
                       CellProcessor: {
                         process: {
-                          activate: {},
+                          activate: {
+                            processData: {
+                              derivedAppClientProcessCoordinates: kernelCellData.derivedAppClientProcessCoordinates
+                            }
+                          },
                           processCoordinates: {
-                            apmID: "-1Ptaq_zTUa8Gfv_3ODtDg"
+                            apmID: "OWLoNENjQHOKMTCEeXkq2g"
                             /* "Holistic App Client Kernel: DOM Location Processor" */
 
                           }
