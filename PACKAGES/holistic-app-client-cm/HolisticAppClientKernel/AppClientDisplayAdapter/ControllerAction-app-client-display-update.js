@@ -77,7 +77,7 @@ var controllerAction = new holarchy.ControllerAction({
       inBreakScope = true;
       var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.display.update;
-      console.log("".concat(actorName, " attempting add/remove active display processes via <ComponentRouter/>-guided ReactDOM.render."));
+      console.log("".concat(actorName, " attempting add/remove active display processes via Data-Driven ReactDOM.render (@encapsule/d2r2)."));
       var hacdLibResponse = hacdLib.getStatus.request(request_.context);
 
       if (hacdLibResponse.error) {
@@ -119,7 +119,7 @@ var controllerAction = new holarchy.ControllerAction({
         break;
       }
 
-      console.log("> d2r2/React display adapter render #".concat(displayAdapterCellData.displayUpdateCount, " completed."));
+      console.log("> d2r2/React display process update #".concat(displayAdapterCellData.displayUpdateCount, " completed."));
       break;
     }
 

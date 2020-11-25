@@ -56,7 +56,7 @@ var controllerAction = new holarchy.ControllerAction({
       inBreakScope = true;
       var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.display._private.activate;
-      console.log("".concat(actorName, " attempting to activate the display process via ReactDOM.hydrate."));
+      console.log("".concat(actorName, " attempting to re-activate the suspended display process via Data-Driven ReactDOM.hydrate (@encapsule/d2r2)."));
       var hacdLibResponse = hacdLib.getStatus.request(request_.context);
 
       if (hacdLibResponse.error) {
@@ -86,11 +86,13 @@ var controllerAction = new holarchy.ControllerAction({
       // their full lifecycle (whereas they are not mounted ever in the context of the app server process).
 
       var d2r2Component = React.createElement(displayAdapterCellData.config.ComponentRouter, thisProps);
-      ReactDOM.hydrate(d2r2Component, displayAdapterCellData.config.targetDOMElement); // Re-render flipping the renderEnvironment flag to "client". Typically, this is used by the rendering d2r2 Component to trigger some sort of loading/spinner transition.
+      ReactDOM.hydrate(d2r2Component, displayAdapterCellData.config.targetDOMElement);
+      console.log("> App server display process has been re-activated from deserialized bootDOM data."); // Re-render flipping the renderEnvironment flag to "client". Typically, this is used by the rendering d2r2 Component to trigger some sort of loading/spinner transition.
 
       delete thisProps.renderContext.serverRender;
       d2r2Component = React.createElement(displayAdapterCellData.config.ComponentRouter, thisProps);
       ReactDOM.render(d2r2Component, displayAdapterCellData.config.targetDOMElement);
+      console.log("> App client process has taken control of the client display adaptor. User input and DOM event processing is now live...");
       displayAdapterCellData.displayUpdateCount += 1;
       var ocdResponse = request_.context.ocdi.writeNamespace({
         apmBindingPath: displayAdapterStatus.displayAdapterProcess.apmBindingPath,
@@ -102,8 +104,7 @@ var controllerAction = new holarchy.ControllerAction({
         break;
       }
 
-      console.log("> d2r2/React display adapter render #".concat(displayAdapterCellData.displayUpdateCount, " completed."));
-      console.log("> The derived app client service display process has been activated, and the display surface is now interacive!");
+      console.log("> App client display process activation via d2r2/React update #".concat(displayAdapterCellData.displayUpdateCount, " complete."));
       break;
     }
 
