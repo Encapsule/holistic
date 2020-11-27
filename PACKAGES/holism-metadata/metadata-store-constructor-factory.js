@@ -40,10 +40,141 @@ var factoryResponse = arccore.filter.create({
         var response = { error: null, result: null };
         var errors = [];
         var inBreakScope = false;
+
+        // TODO: This is something I built for generating menus in @encapsule/polytely (a test app based on @encapsule/holism from 2014-15).
+        // There's a bunch of interesting use case for UX. But, it's not explained here or anywhere really. I've left out the similar
+        // generation of topological sort and menu metadata for hashroutes until it's clearer if and how we use this metadata to generate
+        // any sort of menus/navigation and/or styling aids in the UX.
+
+        // Returns a response
+
+
         while (!inBreakScope) {
             inBreakScope = true;
 
             let innerResponse = arccore.filter.create({
+                operationID: "7ChwWZaTTAOKuScC6sW1vg",
+                operationName: "View Metadata Topological Sort",
+                operationDescription: "Performs a topological sort to deduce vertex time marks and depth indicators useful for deducing display layout for e.g. menus.",
+                inputFilterSpec: {
+                    ____types: "jsObject",
+                    digraph: { ____accept: "jsObject" }, // arccore.graph DirectedGraph instance
+                    indexVertex: { ____accept: "jsString" }, // arccore.graph vertex name string
+                    propWriter: { ____accept: "jsObject" } // arccore.filter instance
+                },
+                bodyFunction: function(request_) {
+
+                    let response = { error: null };
+                    let errors = [];
+                    let inBreakScope = false;
+                    while (!inBreakScope) {
+                        inBreakScope = true;
+
+                        // function topologicallySortViews(digraph_, indexVertex_, propWriter_) {
+
+                        // Topologically sort the pages graph.
+
+                        let sortCount = 0;
+
+                        //let traversalResponse =
+                        arccore.graph.directed.depthFirstTraverse({
+                            digraph: request_.digraph,
+                            options: {
+                                startVector: request_.indexVertex
+                            },
+                            visitor: {
+                                discoverVertex: function(gcb_) {
+                                    // console.log("discoverVertex: " + gcb_.u);
+                                    let props = gcb_.g.getVertexProperty(gcb_.u);
+
+                                    // Fail construction of the metadata store if any vertex is missing an attached property object.
+                                    if (!props) {
+                                        errors.unshift(`Missing metadata declaration for parent page view URI '${gcb_.u}'. Typically, this happens if and when you declare a child view without also declaring its parent(s). Or, delete the parent w/out also dealing with its children.`);
+                                        return false;
+                                    }
+                                    let page = 1;
+                                    let depth = 0;
+                                    if (gcb_.g.inDegree(gcb_.u)) {
+                                        let parentVertex = gcb_.g.inEdges(gcb_.u)[0].u; // [0] because topology is always a tree
+                                        let parentProps = gcb_.g.getVertexProperty(parentVertex);
+                                        if (parentProps && parentProps.ts) {
+                                            depth = parentProps.ts.d + 1;
+                                        }
+                                    }
+                                    props.ts = { i: sortCount++, d: depth, p: page };
+                                    // console.log("setVertexProperty(" + gcb_.u + ", '" + JSON.stringify(props) + "')");
+                                    let propWriterResponse = request_.propWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
+                                    if (propWriterResponse.error) {
+                                        errors.push(propWriterResponse.error);
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                finishVertex: function(gcb_) {
+                                    let uri = gcb_.u;
+                                    // console.log("finishVertex: " + uri);
+                                    let props = gcb_.g.getVertexProperty(uri);
+                                    props.ts.o = sortCount++;
+                                    props.ts.w = (props.ts.o - props.ts.i - 1) / 2;
+                                    let childRanks = [];
+                                    let children = [];
+                                    let outEdges = gcb_.g.outEdges(uri);
+                                    outEdges.forEach(function(outEdge_) {
+                                        let childProps = gcb_.g.getVertexProperty(outEdge_.v);
+                                        let childRank = (childProps.rank !== undefined)?childProps.rank:0;
+                                        if (childRanks[childRank] === undefined) {
+                                            childRanks[childRank] = [];
+                                        }
+                                        childRanks[childRank].push(outEdge_.v);
+                                    });
+                                    childRanks.forEach(function(rankArray_) {
+                                        rankArray_.sort().forEach(function(uri_) {
+                                            children.push(uri_);
+                                        });
+                                    });
+                                    props.children = children;
+                                    let propWriterResponse = request_.propWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
+                                    if (propWriterResponse.error) {
+                                        errors.push(propWriterResponse.error);
+                                        return false;
+                                    }
+                                    return true;
+                                },
+                                finishEdge: function(gcb_) {
+                                    let edge = gcb_.e;
+                                    // console.log("finishEdge: " + JSON.stringify(edge));
+                                    let sourceProps = gcb_.g.getVertexProperty(edge.u);
+                                    if (sourceProps) {
+                                        let sinkProps = gcb_.g.getVertexProperty(edge.v);
+                                        sourceProps.ts.p = sourceProps.ts.p + sinkProps.ts.p;
+                                        let propWriterResponse = request_.propWriter.request({ digraph: gcb_.g, vertex: edge.u, propertyData: sourceProps });
+                                        if (propWriterResponse.error) {
+                                            errors.push(propWriterResponse.error);
+                                            return false;
+                                        }
+                                    }
+                                    return true;
+                                }
+                            }
+                        });
+
+                        break;
+
+                    } // while (!inBreakScope)
+                    if (errors.length) {
+                        response.error = errors.join(" ");
+                    }
+                    return response;
+                } // bodyFunction (toplogicallySortViews)
+            });
+            if (innerResponse.error) {
+                errors.push(innerResponse.error);
+                break;
+            }
+            const topologicalSort = innerResponse.result;
+
+            // v0.0.48-kyanite slated for deprecation
+            innerResponse = arccore.filter.create({
                 operationID: "_2uR2ri8Qyy4l6e-3bDbeg",
                 operationName: "Page Metadata Definition Property Writer",
                 operationDescription: "Validates/normalizes a page metadata descriptor and updates the vertex in the app metadata digraph.",
@@ -83,6 +214,7 @@ var factoryResponse = arccore.filter.create({
             }
             const pagePropWriter = innerResponse.result;
 
+            // v0.0.48-kyanite slated for deprecation
             innerResponse = arccore.filter.create({
                 operationID: "LAVpp6JMRg-RZaDhZogmWw",
                 operationName: "Hashroute Metadata Definition Property Writer",
@@ -157,10 +289,12 @@ var factoryResponse = arccore.filter.create({
                     ____accept: "jsObject"
                 },
 
+
                 bodyFunction: function(digraphBuilderRequest_) {
                     var response = { error: null, result: null };
                     var errors = [];
                     var inBreakScope = false;
+
                     while (!inBreakScope) {
                         inBreakScope = true;
 
@@ -226,13 +360,25 @@ var factoryResponse = arccore.filter.create({
                                 errors.unshift(`Invalid hashroute metadata declaration for URI '${pageViewURI}' specified. Hashroute URI's must begin with a frontslash '#' character.`);
                                 break;
                             }
-                            let rs1 = pageViewURI.split("/");
+
+                            // My read of the relevant specifications leads me to believe the string after the # is basically anything.
+                            // So, how we decide to parse the tokens is here is guided by the principle of least suprise as opposed to an RFC from W3 or something official.
+                            // # <- default starting client page view (by holistic platform convention)
+                            // #subview1 -> [ #, subview1 ]
+                            // #subview2 -> [ #, subview2 ]
+                            // #subview2/y -> [ #, subview2, y ]
+                            // #subview2/y/z -> [ #, subview2, y, z ]
+                            // etc.
+
+                            const pathTokens = (pageViewURI === "#")?[]:pageViewURI.slice(1).split("/"); // We will use / to delimit path tokens like everybody else.
+
+                            let rs1 = [ "#", ...pathTokens ]; // pageViewURI.split("/"); // initial tokenization
                             let rs2 = [];
                             let pageViewURILast = "__hashroutes";
                             // console.log(rs1.length + " '" + JSON.stringify(rs1) + "'");
                             rs1.forEach(function(namespace_) {
                                 rs2.push(namespace_);
-                                let pageViewURICurrent = rs2.join("/");
+                                let pageViewURICurrent = "#" + rs2.slice(1).join("/");
                                 // console.log("pageViewURILast '" + pageViewURILast + "' pageViewURICurrent: '" + pageViewURICurrent);
                                 appMetadataDigraph.addEdge({ e: { u: pageViewURILast, v: pageViewURICurrent }});
                                 pageViewURILast = pageViewURICurrent;
@@ -248,103 +394,20 @@ var factoryResponse = arccore.filter.create({
                             break;
                         }
 
-                        // TODO: This is something I built for generating menus in @encapsule/polytely (a test app based on @encapsule/holism from 2014-15).
-                        // There's a bunch of interesting use case for UX. But, it's not explained here or anywhere really. I've left out the similar
-                        // generation of topological sort and menu metadata for hashroutes until it's clearer if and how we use this metadata to generate
-                        // any sort of menus/navigation and/or styling aids in the UX.
+                        innerResponse = topologicalSort.request({ digraph: appMetadataDigraph, indexVertex: "/", propWriter: pagePropWriter });
+                        if (innerResponse.error) {
+                            errors.push(innerResponse.error);
+                            break;
+                        }
 
-                        // Topologically sort the pages graph.
-                        let sortCount = 0;
-                        //let traversalResponse =
-                        arccore.graph.directed.depthFirstTraverse({
-                            digraph: appMetadataDigraph,
-                            options: {
-                                startVector: "/"
-                            },
-                            visitor: {
-                                discoverVertex: function(gcb_) {
-                                    // console.log("discoverVertex: " + gcb_.u);
-                                    let props = gcb_.g.getVertexProperty(gcb_.u);
-
-                                    // Fail construction of the metadata store if any vertex is missing an attached property object.
-                                    if (!props) {
-                                        errors.unshift(`Missing metadata declaration for parent page view URI '${gcb_.u}'. Typically, this happens if and when you declare a child view without also declaring its parent(s). Or, delete the parent w/out also dealing with its children.`);
-                                        return false;
-                                    }
-                                    let page = 1;
-                                    let depth = 0;
-                                    if (gcb_.g.inDegree(gcb_.u)) {
-                                        let parentVertex = gcb_.g.inEdges(gcb_.u)[0].u; // [0] because topology is always a tree
-                                        let parentProps = gcb_.g.getVertexProperty(parentVertex);
-                                        if (parentProps && parentProps.ts) {
-                                            depth = parentProps.ts.d + 1;
-                                        }
-                                    }
-                                    props.ts = { i: sortCount++, d: depth, p: page };
-                                    // console.log("setVertexProperty(" + gcb_.u + ", '" + JSON.stringify(props) + "')");
-                                    propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
-                                    if (propWriterResponse.error) {
-                                        errors.push(propWriterResponse.error);
-                                        return false;
-                                    }
-                                    return true;
-                                },
-                                finishVertex: function(gcb_) {
-                                    let appMetadataDigraph = gcb_.g;
-                                    let uri = gcb_.u;
-                                    // console.log("finishVertex: " + uri);
-                                    let props = appMetadataDigraph.getVertexProperty(uri);
-                                    props.ts.o = sortCount++;
-                                    props.ts.w = (props.ts.o - props.ts.i - 1) / 2;
-                                    let childRanks = [];
-                                    let children = [];
-                                    let outEdges = appMetadataDigraph.outEdges(uri);
-                                    outEdges.forEach(function(outEdge_) {
-                                        let childProps = appMetadataDigraph.getVertexProperty(outEdge_.v);
-                                        let childRank = (childProps.rank !== undefined)?childProps.rank:0;
-                                        if (childRanks[childRank] === undefined) {
-                                            childRanks[childRank] = [];
-                                        }
-                                        childRanks[childRank].push(outEdge_.v);
-                                    });
-                                    childRanks.forEach(function(rankArray_) {
-                                        rankArray_.sort().forEach(function(uri_) {
-                                            children.push(uri_);
-                                        });
-                                    });
-                                    props.children = children;
-                                    propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: gcb_.u, propertyData: props });
-                                    if (propWriterResponse.error) {
-                                        errors.push(propWriterResponse.error);
-                                        return false;
-                                    }
-                                    return true;
-                                },
-                                finishEdge: function(gcb_) {
-                                    let digraph = gcb_.g;
-                                    let edge = gcb_.e;
-                                    // console.log("finishEdge: " + JSON.stringify(edge));
-                                    let sourceProps = digraph.getVertexProperty(edge.u);
-                                    if (sourceProps) {
-                                        let sinkProps = digraph.getVertexProperty(edge.v);
-                                        sourceProps.ts.p = sourceProps.ts.p + sinkProps.ts.p;
-                                        propWriterResponse = pagePropWriter.request({ digraph: gcb_.g, vertex: edge.u, propertyData: sourceProps });
-                                        if (propWriterResponse.error) {
-                                            errors.push(propWriterResponse.error);
-                                            return false;
-                                        }
-                                    }
-                                    return true;
-                                }
-                            }
-                        });
-
-                        if (errors.length) {
-                            errors.unshift("Failed to construct the app metadata store.");
+                        innerResponse = topologicalSort.request({ digraph: appMetadataDigraph, indexVertex: "#", propWriter: hashroutePropWriter });
+                        if (innerResponse.error) {
+                            errors.push(innerResponse.error);
                             break;
                         }
 
                         response.result = appMetadataDigraph;
+
                         break;
                     }
                     if (errors.length) {

@@ -70,14 +70,14 @@ console.log(JSON.stringify({
         buildDateISO: buildDateISO
     },
     platform: {
-        app: { ...holisticPlatformManifest, contributors: undefined },
+        app: { ...holisticPlatformManifest, copyright: undefined, contributors: undefined },
         data: {
             name: arccore.__meta.name,
             description: arccoreDescription,
             version: arccore.__meta.version,
             codename: arccore.__meta.codename,
             author: arccore.__meta.author,
-            copyright: { holder: arccoreCopyrightHolder, year: arccoreBuildYear},
+            // copyright: { holder: arccoreCopyrightHolder, year: arccoreBuildYear},
             license: arccoreLicense,
             buildID: arccore.__meta.buildID,
             buildSource: arccore.__meta.ARC_master,
@@ -85,9 +85,10 @@ console.log(JSON.stringify({
             buildDateISO: arccoreBuildISO
         },
         display: {
-            name: "react",
+            name: "React",
             description: "Used via @encapsule/d2r2 RMDR layout engine for HTML5 document pre-rendering in holistic app server processes. And, dynamic display generation in derived holistic app client processes running the a browser tab.",
-            version: React.version
+            version: React.version,
+            author: "Facebook"
         }
     }
 

@@ -46,15 +46,6 @@ This filter normalizes the value of `input` passed to its `request` method using
             "author": {
                 "____accept": "jsString"
             },
-            "copyright": {
-                "____types": "jsObject",
-                "holder": {
-                    "____accept": "jsString"
-                },
-                "year": {
-                    "____accept": "jsNumber"
-                }
-            },
             "license": {
                 "____accept": "jsString"
             },
@@ -69,6 +60,15 @@ This filter normalizes the value of `input` passed to its `request` method using
             },
             "buildDateISO": {
                 "____accept": "jsString"
+            },
+            "copyright": {
+                "____types": "jsObject",
+                "holder": {
+                    "____accept": "jsString"
+                },
+                "year": {
+                    "____accept": "jsNumber"
+                }
             }
         },
         "platform": {
@@ -89,15 +89,6 @@ This filter normalizes the value of `input` passed to its `request` method using
                 },
                 "author": {
                     "____accept": "jsString"
-                },
-                "copyright": {
-                    "____types": "jsObject",
-                    "holder": {
-                        "____accept": "jsString"
-                    },
-                    "year": {
-                        "____accept": "jsNumber"
-                    }
                 },
                 "license": {
                     "____accept": "jsString"
@@ -132,15 +123,6 @@ This filter normalizes the value of `input` passed to its `request` method using
                 "author": {
                     "____accept": "jsString"
                 },
-                "copyright": {
-                    "____types": "jsObject",
-                    "holder": {
-                        "____accept": "jsString"
-                    },
-                    "year": {
-                        "____accept": "jsNumber"
-                    }
-                },
                 "license": {
                     "____accept": "jsString"
                 },
@@ -166,6 +148,9 @@ This filter normalizes the value of `input` passed to its `request` method using
                     "____accept": "jsString"
                 },
                 "version": {
+                    "____accept": "jsString"
+                },
+                "author": {
                     "____accept": "jsString"
                 }
             }
@@ -602,8 +587,8 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `b46LcK7ORNu-lD_yUOsAuw` | `cfXMBDQKIMKe_PYT3-w8lQ` |
-| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `R3ZBjh6hoCV4qb-mzHfPdA` |
+| operation | `b46LcK7ORNu-lD_yUOsAuw` | `caKDBDTcIcKe4DYT36relQ` |
+| input contract | `SdwEXwAQNTkVgYmpe-NNjw` | `qR5MYg3ILmG-96hH2oVGig` |
 | output contract | `E-MD52v_-9inRlNG1BsAZw` | `DuBPhn0s0PijrJBkos9aTw` |
 
 ### Configuration
@@ -619,5 +604,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Wed Nov 25 2020 09:38:59 GMT-0800 (Pacific Standard Time)
+Document updated Fri Nov 27 2020 08:29:40 GMT-0800 (Pacific Standard Time)
 
