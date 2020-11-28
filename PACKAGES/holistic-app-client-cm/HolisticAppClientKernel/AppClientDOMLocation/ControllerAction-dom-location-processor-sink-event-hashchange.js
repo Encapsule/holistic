@@ -3,6 +3,10 @@
 // ControllerAction-dom-client-event-sink-hashchange.js
 var holarchy = require("@encapsule/holarchy");
 
+var queryString = require("query-string");
+
+var url = require("url");
+
 module.exports = new holarchy.ControllerAction({
   id: "peTmTek_SB64-ofd_PSGjg",
   name: "DOM Client Location Processor: 'hashchange'",
@@ -15,18 +19,15 @@ module.exports = new holarchy.ControllerAction({
         ____types: "jsObject",
         client: {
           ____types: "jsObject",
-          cm: {
+          domLocation: {
             ____types: "jsObject",
-            actions: {
+            _private: {
               ____types: "jsObject",
-              DOMLocationProcessor: {
+              notifyEvent: {
                 ____types: "jsObject",
-                notifyEvent: {
-                  ____types: "jsObject",
-                  hashchange: {
-                    ____accept: "jsBoolean",
-                    ____inValueSet: [true]
-                  }
+                hashchange: {
+                  ____accept: "jsBoolean",
+                  ____inValueSet: [true]
                 }
               }
             }
@@ -58,7 +59,7 @@ module.exports = new holarchy.ControllerAction({
       // if you want something to happen vs you need to write a CellModel that observes another
       // blah blah blah...
 
-      console.log("Current value of location.href is '".concat(location.href, "'"));
+      console.log("> Current value of location.href is '".concat(location.href, "'"));
       var ocdResponse = request_.context.ocdi.readNamespace({
         apmBindingPath: request_.context.apmBindingPath,
         dataPath: "#"
@@ -69,27 +70,43 @@ module.exports = new holarchy.ControllerAction({
         break;
       }
 
-      var cellMemory = ocdResponse.result;
+      var cellMemory = ocdResponse.result; // v0.0.48-kyanite - Isn't this handled correctly by ControllerActoin-dom-location-processor-initialize.js?
+      // Set a breakpoint in here; does it ever get hit. We should be able to remove this and make this logic simpler
+      // to understand.
 
       if (cellMemory.outputs.currentRoute && cellMemory.outputs.currentRoute.href === location.href) {
-        console.log("This event will be ignored. It was induced by the DOM Location Processor's init action replacing the server's non-hashroute with the default, #.");
+        console.log("> This event will be ignored. It was induced by the DOM Location Processor's init action replacing the server's non-hashroute with the default, #.");
+        console.log("HEY WE DIDN'T ACTUALLY EXPECT THIS TO HAPPEN. SET A BREAKPOINT HERE AND FIGURE THIS SHIT OUT.");
         break;
       }
 
+      var hrefParse = url.parse(location.href);
+      var hashrouteParseRaw = url.parse(hrefParse.hash.slice(1));
+      var hashrouteParse = {
+        pathname: "#".concat(hashrouteParseRaw.pathname ? hashrouteParseRaw.pathname : ""),
+        path: "#".concat(hashrouteParseRaw.path ? hashrouteParseRaw.path : ""),
+        search: hashrouteParseRaw.search,
+        query: hashrouteParseRaw.query
+      };
       var routerEventDescriptor = {
         actor: cellMemory["private"].routerEventCount === cellMemory["private"].lastOutputEventIndex ? cellMemory["private"].routerEventCount ? "user" : "server" : "app",
-        href: location.href,
-        // capture the entire href serialization from the location object
+        hashrouteString: hrefParse.hash,
+        hashrouteParse: hashrouteParse,
+        hashrouteQueryParse: queryString.parse(hashrouteParse.query),
         routerEventNumber: cellMemory["private"].routerEventCount
       };
       cellMemory["private"].locationHistory.push(routerEventDescriptor);
-      cellMemory["private"].routerEventCount++;
+      cellMemory["private"].routerEventCount++; // v0.0.48-kyanite -- Really need to untangle the little matrix of possibilities here
+      // and make sure they're all 100%. This is some sort of accomodation to discriminate
+      // between if the hashchange event occurred because the app client set the location
+      // vs the user set the location via the browser.
 
       if (cellMemory["private"].routerEventCount > cellMemory["private"].lastOutputEventIndex) {
         cellMemory["private"].lastOutputIndex++;
         cellMemory["private"].updateObservers = true;
         cellMemory.outputs.currentRoute = routerEventDescriptor;
       } // if notify observers
+      // v0.0.48-kyanite -- So, here we update the cell's OCD memory based on the logic above.
 
 
       ocdResponse = request_.context.ocdi.writeNamespace({
@@ -136,77 +153,9 @@ module.exports = new holarchy.ControllerAction({
           errors.push(actResponse.error);
           break;
         }
+      } else {
+        console.log("HEY --- This is ControllerAction-dom-location-sink-event-hashchange wondering if it's actually appropriate to drop this hashchange event on the floor and not call the derived app client hashroute lifecycle action?");
       }
-      /*
-       // Resolve the full path the DOM Location Processor outputs namespace.
-      let rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-          apmBindingPath: request_.context.apmBindingPath,
-          dataPath: "#.outputs"
-      });
-      if (rpResponse.error) {
-          errors.push(rpResponse.error);
-          break;
-      }
-      const pathOutputs = rpResponse.result;
-       let ocdResponse = request_.context.ocdi.readNamespace(pathOutputs);
-      if (ocdResponse.error) { errors.push(ocdResponse.error); break; }
-      const outputs = ocdResponse.result;
-       if (outputs.currentRoute && (outputs.currentRoute.href === location.href)) {
-          console.log("This event will be ignored. It was induced by the DOM Location Processor's init action replacing the server's non-hashroute with the default, #.");
-          break;
-      }
-       // Resolve the full path the DOM Location Processor private namespace.
-      rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-          apmBindingPath: request_.context.apmBindingPath,
-          dataPath: "#.private"
-      });
-      if (rpResponse.error) {
-          errors.push(rpResponse.error);
-          break;
-      }
-      const pathPrivate = rpResponse.result;
-       // Read the DOM Location Processor's private OCD namespace.
-      ocdResponse = request_.context.ocdi.readNamespace(pathPrivate);
-      if (ocdResponse.error) {
-          errors.push(ocdResponse.error);
-          break;
-      }
-      const privateNamespace = ocdResponse.result;
-       const routerEventDescriptor = {
-          actor: ((privateNamespace.routerEventCount === privateNamespace.lastOutputEventIndex)?(privateNamespace.routerEventCount?"user":"server"):"app"),
-          href: location.href, // capture the entire href serialization from the location object
-          routerEventNumber: privateNamespace.routerEventCount
-      };
-       privateNamespace.locationHistory.push(routerEventDescriptor);
-       privateNamespace.routerEventCount++; // total hashchange events
-       if (privateNamespace.routerEventCount > privateNamespace.lastOutputEventIndex) {
-           // Always re-written in the epilogue.
-          privateNamespace.lastOutputEventIndex++;
-          privateNamespace.updateObservers = true;
-           // Resolve the full path the DOM Location Processor outputs.currentRoute namespace.
-          let rpResponse = holarchy.ObservableControllerData.dataPathResolve({
-              apmBindingPath: request_.context.apmBindingPath,
-              dataPath: "#.outputs.currentRoute"
-          });
-          if (rpResponse.error) {
-              errors.push(rpResponse.error);
-              break;
-          }
-          const pathCurrentRoute = rpResponse.result;
-           // Write the current route descriptor to the output.
-          let ocdResponse = request_.context.ocdi.writeNamespace(pathCurrentRoute, routerEventDescriptor);
-          if (ocdResponse.error) {
-              errors.push(ocdResponse.error);
-              break;
-          }
-      }
-       ocdResponse = request_.context.ocdi.writeNamespace(pathPrivate, privateNamespace);
-      if (ocdResponse.error) {
-          errors.push(ocdResponse.error);
-          break;
-      }
-       */
-
 
       break;
     }

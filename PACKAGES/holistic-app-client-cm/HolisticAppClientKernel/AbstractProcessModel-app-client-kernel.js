@@ -232,7 +232,7 @@ module.exports = {
               cell: {
                 query: {
                   inStep: {
-                    apmStep: "dom-location-wait-kernel-ready"
+                    apmStep: "dom-location-processor-wait-kernel-ready"
                   }
                 },
                 cellCoordinates: {

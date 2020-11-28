@@ -16,10 +16,39 @@ var routerEventDescriptorSpec = {
     "app" // Application actor set the current href value by calling a DOM Location Processor controller action.
     ]
   },
-  href: {
+  hashrouteString: {
     ____accept: "jsString"
-    /* copy of location.href */
-
+  },
+  // This is the string beginning with the # character as we specified in the user request. Or, was added by the app client kernel during boot.
+  hashrouteParse: {
+    ____types: "jsObject",
+    pathname: {
+      ____label: "Secondary Resource Request Pathname",
+      ____description: "Use this string as the primary key to query app metadata for hashroute descriptor.",
+      ____accept: "jsString"
+    },
+    path: {
+      ____label: "Secondary Resource Request Path",
+      ____description: "Same as above except that it includes any URL-encoded query params. In for debugging only but not really useful vs hashrouteQueryParse.",
+      ____accept: "jsString"
+    },
+    search: {
+      ____label: "Secondary Resource Reqeust Search Params String",
+      ____accept: ["jsString", "jsNull"]
+    },
+    query: {
+      ____label: "Secondary Resource Request Query Params String",
+      ____accept: ["jsString", "jsNull"]
+    }
+  },
+  hashrouteQueryParse: {
+    ____types: "jsObject",
+    ____asMap: true,
+    paramName: {
+      ____accept: ["jsString", "jsNull"
+      /*e.g. #x?foo --> foo: null */
+      ]
+    }
   },
   routerEventNumber: {
     ____accept: "jsNumber"
@@ -33,7 +62,8 @@ var apmClientHashRouteLocationProcessor = module.exports = {
     ____label: "DOM Location Processor Cell",
     ____types: "jsObject",
     ____defaultValue: {},
-    // v0.0.48-kyanite
+    // v0.0.48-kyanite - app client kernel needs to tell us where the derived app client cell process is located in the cellplane
+    // so that DOM Location Processor cell process can communicate with it via actions.
     derivedAppClientProcessCoordinates: {
       ____label: "Derived App Client Runtime Process Coordinates",
       ____description: "The cell process coordinates to be used to launch the derived app client cell process.",
@@ -61,6 +91,10 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         ____accept: "jsNumber",
         ____defaultValue: 0
       },
+      // v0.0.48-kyanite
+      // TODO: We are currently maintaining an unbounded array of routerEventDescriptors.
+      // So, we need to study this a bit and understand if we need the history at all.
+      // If yes, how many entries max. Do we actions to allow the app to query and reset this info?
       locationHistory: {
         ____label: "Location History Array",
         ____description: "Array written by the sink hashchange event action for every observed change in location.",
@@ -91,37 +125,34 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "dom-location-initialize"
+        nextStep: "dom-location-processor-initialize"
       }]
     },
-    "dom-location-initialize": {
+    "dom-location-processor-initialize": {
       description: "Registering hashchange DOM event callback.",
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "dom-location-processor-wait-kernel-ready"
+      }],
       actions: {
         exit: [{
           holistic: {
             app: {
               client: {
-                cm: {
-                  actions: {
-                    DOMLocationProcessor: {
-                      initialize: true
-                    }
+                domLocation: {
+                  _private: {
+                    initialize: true
                   }
                 }
               }
             }
           }
-        }] // exit : [ { holistic: { app: { client: { cm: { actions: { DOMLocationProcessor: { notifyEvent: { hashchange: true } } } } } } } } ]
-
-      },
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
-        nextStep: "dom-location-wait-kernel-ready"
-      }]
+        }]
+      }
     },
-    "dom-location-wait-kernel-ready": {
+    "dom-location-processor-wait-kernel-ready": {
       description: "Waiting on the kernel to reach its active state. After that point, we start actively communicating directly with the derived app client process.",
       transitions: [{
         transitionIf: {
@@ -140,28 +171,26 @@ var apmClientHashRouteLocationProcessor = module.exports = {
             }
           }
         },
-        nextStep: "dom-location-signal-initial-hashroute"
+        nextStep: "dom-location-processor-signal-initial-hashroute"
       }]
     },
-    "dom-location-signal-initial-hashroute": {
+    "dom-location-processor-signal-initial-hashroute": {
       description: "Inform the app client process of the initial hashroute assignment inherited from the HTTP request URL. Note, that it is up to the app client process to decide what to do with this information specifically wrt to active cells etc.",
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "dom-location-wait-hashchange-event"
+        nextStep: "dom-location-processor-active"
       }],
       actions: {
         exit: [{
           holistic: {
             app: {
               client: {
-                cm: {
-                  actions: {
-                    DOMLocationProcessor: {
-                      notifyEvent: {
-                        hashchange: true
-                      }
+                domLocation: {
+                  _private: {
+                    notifyEvent: {
+                      hashchange: true
                     }
                   }
                 }
@@ -171,49 +200,26 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         }]
       }
     },
-    "dom-location-wait-hashchange-event": {
-      description: "Waiting for DOM hashchange event.",
-      transitions: [{
-        transitionIf: {
-          holarchy: {
-            cm: {
-              operators: {
-                ocd: {
-                  isBooleanFlagSet: {
-                    path: "#.private.updateObservers"
-                  }
-                }
-              }
-            }
-          }
-        },
-        nextStep: "dom-location-signal-update"
-      }]
-    },
-    "dom-location-signal-update": {
-      description: "The observable browser location has been updated. Information about the current location, and who set it is available in this model's output namespace.",
-      // v0.0.48-kyanite this is changing...
-      actions: {
-        exit: [{
-          holarchy: {
-            cm: {
-              actions: {
-                ocd: {
-                  clearBooleanFlag: {
-                    path: "#.private.updateObservers"
-                  }
-                }
-              }
-            }
-          }
-        }]
-      },
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
-        nextStep: "dom-location-wait-hashchange-event"
-      }]
+    "dom-location-processor-active": {
+      description: "The DOM Location Processor is active and waiting from action requests from the app. And, hashchange events caused by user interaction w/the browser."
     }
+    /*
+    "dom-location-wait-hashchange-event": {
+        description: "Waiting for DOM hashchange event.",
+        transitions: [
+            {
+                transitionIf: { holarchy: { cm: { operators: { ocd: { isBooleanFlagSet: { path: "#.private.updateObservers" } } } } } },
+                nextStep: "dom-location-signal-update"
+            }
+        ]
+    },
+     "dom-location-signal-update": {
+        description: "The observable browser location has been updated. Information about the current location, and who set it is available in this model's output namespace.",
+        // v0.0.48-kyanite this is changing...
+        actions: { exit: [ { holarchy: { cm: { actions: { ocd: { clearBooleanFlag: { path: "#.private.updateObservers" } } } } } } ] },
+        transitions: [ { transitionIf: { always: true }, nextStep: "dom-location-wait-hashchange-event" } ]
+    }
+    */
+
   }
 };

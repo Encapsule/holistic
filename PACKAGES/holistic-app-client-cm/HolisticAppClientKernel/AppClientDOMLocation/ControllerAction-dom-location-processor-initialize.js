@@ -15,16 +15,13 @@ module.exports = new holarchy.ControllerAction({
         ____types: "jsObject",
         client: {
           ____types: "jsObject",
-          cm: {
+          domLocation: {
             ____types: "jsObject",
-            actions: {
+            _private: {
               ____types: "jsObject",
-              DOMLocationProcessor: {
-                ____types: "jsObject",
-                initialize: {
-                  ____accept: "jsBoolean",
-                  ____inValueSet: [true]
-                }
+              initialize: {
+                ____accept: "jsBoolean",
+                ____inValueSet: [true]
               }
             }
           }
@@ -71,12 +68,10 @@ module.exports = new holarchy.ControllerAction({
               holistic: {
                 app: {
                   client: {
-                    cm: {
-                      actions: {
-                        DOMLocationProcessor: {
-                          notifyEvent: {
-                            hashchange: true
-                          }
+                    domLocation: {
+                      _private: {
+                        notifyEvent: {
+                          hashchange: true
                         }
                       }
                     }
@@ -86,17 +81,23 @@ module.exports = new holarchy.ControllerAction({
             }
           }, false);
         } else {
-          console.log("> DOMLocationProcessor is dropping the first hashchange event because we caused it by replacing the DOM location during initialization.");
+          console.log("> DOMLocationProcessor is dropping the first hashchange event because we caused it to occur by calling DOM location.replace append # to the currently displayed browser location.");
           ignoreEvent = false; // this is one-shot flag that's set true iff addHash
         }
       });
-      /*
-       // https://stackoverflow.com/questions/821011/prevent-a-webpage-from-navigating-away-using-javascript
-      window.addEventListener("beforeunload", (event_) => {
-          event_.preventDefault();
-          event_.returnValue = "";
-      }, false);
-       */
+      /* ----------------------------------------------------------------
+         v0.0.48-kyanite
+         SAVE THIS - this is the actual spanner in the works that blocks the user from navigating away or
+         to another domain or closing the browser tab. But, it's very tricky to use it correctly; there
+         needs to be a whole app-level protocol based on some sort of model of the user's browser tab
+         session that toggles this mechanism on/off as appropriate. We will bring this back into the
+         mix shortly....
+          // https://stackoverflow.com/questions/821011/prevent-a-webpage-from-navigating-away-using-javascript
+         window.addEventListener("beforeunload", (event_) => {
+         event_.preventDefault();
+         event_.returnValue = "";
+         }, false);
+          ---------------------------------------------------------------- */
 
       return "break";
     };
