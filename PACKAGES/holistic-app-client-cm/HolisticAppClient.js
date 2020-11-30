@@ -6,11 +6,12 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-var constructorFilter = require("./lib/filters/HolisticAppServerService-method-constructor-filter");
+// HolisticAppClient.js
+var constructorFilter = require("./lib/filters/HolisticAppClientService-method-constructor-filter");
 
-var HolisticAppServerService = /*#__PURE__*/function () {
-  function HolisticAppServerService(request_) {
-    _classCallCheck(this, HolisticAppServerService);
+var HolisticAppClient = /*#__PURE__*/function () {
+  function HolisticAppClient(request_) {
+    _classCallCheck(this, HolisticAppClient);
 
     var errors = [];
     var inBreakScope = false;
@@ -34,12 +35,12 @@ var HolisticAppServerService = /*#__PURE__*/function () {
     }
 
     if (errors.length) {
-      errors.unshift("HolisticAppServerService::constructor failed yielding a zombie instance.");
+      errors.unshift("HolisticAppClientService::constructor failed yielding a zombie instance.");
       this._private.constructorError = errors.join(" ");
     }
   }
 
-  _createClass(HolisticAppServerService, [{
+  _createClass(HolisticAppClient, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -51,7 +52,7 @@ var HolisticAppServerService = /*#__PURE__*/function () {
     }
   }]);
 
-  return HolisticAppServerService;
+  return HolisticAppClient;
 }();
 
-module.exports = HolisticAppServerService;
+module.exports = HolisticAppClient;

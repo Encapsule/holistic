@@ -14,7 +14,7 @@ var holarchy = require("@encapsule/holarchy"); // We use an anonymous function w
     operationID: "ZKu2zOu_SFCvA8q0VMrQWw",
     operationName: "Holistic App Common CellModel Factory",
     operationDescription: "A filter that manufactures a CellModel that encapsulates common platform behaviors shared by both the derived app server and derived app client services.",
-    inputFilterSpec: require("./lib/iospecs/holistic-app-common-cellmodel-factory-input-spec"),
+    inputFilterSpec: require("./lib/filters/iospecs/holistic-app-common-cellmodel-factory-input-spec"),
     outputFilterSpec: {
       ____label: "Holistic App Common CellModel",
       ____accept: "jsObject"

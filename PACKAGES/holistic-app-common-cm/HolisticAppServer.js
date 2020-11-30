@@ -1,6 +1,6 @@
 const constructorFilter = require("./lib/filters/HolisticAppServerService-method-constructor-filter");
 
-class HolisticAppServerService {
+class HolisticAppServer {
 
     constructor(request_) {
         let errors = [];
@@ -30,5 +30,5 @@ class HolisticAppServerService {
 
 }
 
-module.exports = HolisticAppServerService;
+module.exports = HolisticAppServer;
 

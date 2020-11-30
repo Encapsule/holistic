@@ -3,8 +3,6 @@
 // @encapsule/holistic-app-server-cm/index.js
 var packageMeta = require("./package.json");
 
-var HolisticAppServerService = require("./HolisticAppServerService");
-
 module.exports = {
   __meta: {
     author: packageMeta.author,
@@ -15,6 +13,6 @@ module.exports = {
     source: packageMeta.buildSource
   },
   // v0.0.48-kyanite
-  HolisticAppServerService: HolisticAppServerService // New ES6 class
+  HolisticAppServer: require("./HolisticAppServer") // New ES6 class
 
 };

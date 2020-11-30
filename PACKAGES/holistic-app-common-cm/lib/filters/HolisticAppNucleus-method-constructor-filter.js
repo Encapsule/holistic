@@ -5,15 +5,10 @@ var arccore = require("@encapsule/arccore");
 
 var factoryResponse = arccore.filter.create({
   operationID: "P9-aWxR5Ts6AhYSQ7Ymgbg",
-  operationName: "HolisticAppCommonService::constructor Filter",
-  operationDescription: "Validates/normalizes a HolisticAppCommonService::constructor function request descriptor object. And, returns the new instance's private state data.",
-  inputFilterSpec: {
-    ____opaque: true
-  },
-  outputFilterSpec: {
-    ____accept: "jsObject" // TODO
-
-  },
+  operationName: "HolisticAppNucleus::constructor Filter",
+  operationDescription: "Validates/normalizes a HolisticAppNucleus::constructor function request object and returns the new instance's private state data.",
+  inputFilterSpec: require("./iospecs/HolisticAppNucleus-method-constructor-filter-input-spec"),
+  outputFilterSpec: require("./iospecs/HolisticAppNucleus-method-constructor-filter-output-spec"),
   bodyFunction: function bodyFunction(request_) {
     return {
       error: null,

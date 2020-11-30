@@ -6,12 +6,20 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// HolisticAppClientService.js
-var constructorFilter = require("./lib/filters/HolisticAppClientService-method-constructor-filter");
+// HolisticAppNucleus.js
+var constructorFilter = require("./lib/filters/HolisticAppNucleus-method-constructor-filter"); // This is a developer-facing API packaged as an ES6 class. The vast majority of the work is done by
+// the constructor filter that is responsible for validating, normalizing, and processing the developer-
+// specified constructor function inputs into what we call the "holistic cell nucleus".
+//
+// The "nucleus" is actually an immutable runtime database of usual-suspect artifacts (i.e. data,
+// filter specs, filters, actions, operators, apm's, and cell models) that is required by both
+// HolisticAppServer and HolisticAppClient ES6 class constructor functions.
+//
 
-var HolisticAppClientService = /*#__PURE__*/function () {
-  function HolisticAppClientService(request_) {
-    _classCallCheck(this, HolisticAppClientService);
+
+var HolisticAppNucleus = /*#__PURE__*/function () {
+  function HolisticAppNucleus(request_) {
+    _classCallCheck(this, HolisticAppNucleus);
 
     var errors = [];
     var inBreakScope = false;
@@ -35,12 +43,12 @@ var HolisticAppClientService = /*#__PURE__*/function () {
     }
 
     if (errors.length) {
-      errors.unshift("HolisticAppClientService::constructor failed yielding a zombie instance.");
+      errors.unshift("HolisticAppCommonService::constructor failed yielding a zombie instance.");
       this._private.constructorError = errors.join(" ");
     }
   }
 
-  _createClass(HolisticAppClientService, [{
+  _createClass(HolisticAppNucleus, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -52,7 +60,7 @@ var HolisticAppClientService = /*#__PURE__*/function () {
     }
   }]);
 
-  return HolisticAppClientService;
+  return HolisticAppNucleus;
 }();
 
-module.exports = HolisticAppClientService;
+module.exports = HolisticAppNucleus;

@@ -5,8 +5,6 @@ var packageMeta = require("./package.json");
 
 var holarchy = require("@encapsule/holarchy");
 
-var HolisticAppClientService = require("./HolisticAppClientService");
-
 module.exports = {
   __meta: {
     author: packageMeta.author,
@@ -17,7 +15,7 @@ module.exports = {
     source: packageMeta.buildSource
   },
   // v0.0.48-kyanite
-  HolisticAppClientService: HolisticAppClientService,
+  HolisticAppClient: require("./HolisticAppClient"),
   // New ES6 class
   appClientCellModelFactory: require("./holistic-app-client-cellmodel-factory-filter"),
   cml: require("./HolisticAppClientKernel")

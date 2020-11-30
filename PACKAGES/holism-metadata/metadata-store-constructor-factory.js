@@ -2,11 +2,17 @@
 
 const arccore = require("@encapsule/arccore");
 
+// v0.0.48-kyanite
+// This is fine because it is fully-specialized on ____accept filter specs. i.e. it has no specific
+// knowledge of how these filter specs are composed meaning we can leave it as it is and worry about
+// that in the layer that actually calls this factory filter.
+
+
 var factoryResponse = arccore.filter.create({
 
     operationID: "6lpBEdAkTwaLjFbLR45yCA",
     operationName: "Holistic App Metadata Digraph Builder Factory.",
-    operationDescription: "This filter synthesizes and returns a new filter that the derived holistic app uses to contruct a normalized holistic app metadata digraph that the platform understands how to query w/out knowledge of the specific details of the specialized data constraints imposed below.",
+    operationDescription: "This filter synthesizes and returns a new filter that the derived holistic app uses to contruct a normalized holistic app metadata digraph instance.",
 
     inputFilterSpec: {
         ____label: "Factory Request",

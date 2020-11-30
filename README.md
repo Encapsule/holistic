@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.48 "kyanite" build ID "Zf7uAjx7SOK0xyyi2WJnGw"
-Sources: Encapsule/holistic-master#292c27d5586876aa8d3a494954f36dabc7073d79
-Created: 2020-11-28T21:13:21.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.48 "kyanite" build ID "VsKoacMWSKa7Gsalz2EMyQ"
+Sources: Encapsule/holistic-master#b959e26e1a86ca0b1cadac5abb8f027f17cafee1
+Created: 2020-11-30T17:53:40.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
