@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // ControllerAction-dom-client-event-sink-hashchange.js
 var holarchy = require("@encapsule/holarchy");
 
@@ -60,10 +66,7 @@ module.exports = new holarchy.ControllerAction({
       // blah blah blah...
 
       console.log("> Current value of location.href is '".concat(location.href, "'"));
-      var ocdResponse = request_.context.ocdi.readNamespace({
-        apmBindingPath: request_.context.apmBindingPath,
-        dataPath: "#"
-      });
+      var ocdResponse = request_.context.ocdi.readNamespace(request_.context.apmBindingPath);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
@@ -109,10 +112,7 @@ module.exports = new holarchy.ControllerAction({
       // v0.0.48-kyanite -- So, here we update the cell's OCD memory based on the logic above.
 
 
-      ocdResponse = request_.context.ocdi.writeNamespace({
-        apmBindingPath: request_.context.apmBindingPath,
-        dataPath: "#"
-      }, cellMemory);
+      ocdResponse = request_.context.ocdi.writeNamespace(request_.context.apmBindingPath, cellMemory);
 
       if (ocdResponse.error) {
         errors.push(ocdResponse.error);
@@ -134,9 +134,7 @@ module.exports = new holarchy.ControllerAction({
                       app: {
                         client: {
                           lifecycle: {
-                            hashroute: {
-                              routerEventDescriptor: routerEventDescriptor
-                            }
+                            hashroute: _objectSpread({}, routerEventDescriptor)
                           }
                         }
                       }

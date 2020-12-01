@@ -591,9 +591,57 @@ var holisticAppCommon = require("@encapsule/holistic-app-common-cm");
                       lifecycle: {
                         ____types: "jsObject",
                         hashroute: {
-                          ____accept: "jsObject" // TODO: This is information that will be sourced from the DOMLocationProcessor singleton cell process.
-                          // Need to add it to the filter spec so that developers can understand what they're being sent.
+                          ____label: "DOM Location Router Event Descriptor",
+                          ____description: "A descriptor object containing information about the hashroute change event created by the DOMLocationProcessor.",
+                          ____types: "jsObject",
+                          actor: {
+                            ____label: "Event Source Actor",
+                            ____description: "A string enumeration value indicating the actor that caused the hashroute change event to occur.",
+                            ____accept: "jsString",
+                            ____inValueSet: [// TODO: There is a small set of potential actors that may trigger a hashroute change event.
+                            // It's useful probably to report them accurately. Currently, it's half-baked and of little
+                            // more use than the counter value.
+                            "user", // the hashroute change event was triggered by user interaction with the browser.
+                            "server", // the hashroute change event was triggered by app client kernel (this is an old label with a bad name).
+                            "app" // ? Not sure
+                            ]
+                          },
+                          hashrouteString: {
+                            ____label: "Hashroute String",
+                            ____description: "The unparsed hashroute string extracted from the current location.href value. Note that there are no official parsing rules for hashroute strings. We impose some predictable guiderails.",
+                            ____accept: "jsString"
+                          },
+                          hashrouteParse: {
+                            ____label: "Hashroute Parse Descriptor",
+                            ____description: "The hashroute string parsed into a descriptor that includes unparsed search and query subproperties.",
+                            ____types: "jsObject",
+                            pathname: {
+                              ____label: "Hashroute Pathname",
+                              ____description: "The hashroute pathname should be used as the a stable primary key for querying app metadata; it does not include any URL-encoded query parameter information.",
+                              ____accept: "jsString"
+                            },
+                            path: {
+                              ____label: "Hashroute Path",
+                              ____description: "The hashroute path is is similar to the pathname except that it contains the URL-encoded query parameter(s) if they're present in hashrouteString.",
+                              ____accept: "jsString"
+                            },
+                            search: {
+                              ____label: "Unparsed Search Parameters",
+                              ____accept: ["jsNull", "jsString"]
+                            },
+                            query: {
+                              ____label: "Unparsed Query Parameters",
+                              ____accept: ["jsNull", "jsString"]
+                            }
+                          },
+                          hashrouteQueryParse: {
+                            ____label: "Hashroute Query Parse Descriptor",
+                            ____accept: "jsObject" // TODO
 
+                          },
+                          routerEventNumber: {
+                            ____accept: "jsNumber"
+                          }
                         }
                       }
                     }
