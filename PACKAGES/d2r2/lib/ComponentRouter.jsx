@@ -108,7 +108,6 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
           }, /*#__PURE__*/React.createElement("div", {
             style: {
               fontFamily: "monospace",
-              whiteSpace: "pre",
               padding: "1em",
               backgroundColor: "rgba(255,255,255,0.4)",
               overflow: "auto"
@@ -121,7 +120,6 @@ module.exports = function (dataViewBindingDiscriminator_, dataViewBindingFilters
           }, /*#__PURE__*/React.createElement("div", {
             style: {
               fontFamily: "monospace",
-              whiteSpace: "pre",
               padding: "1em",
               backgroundColor: "rgba(255,255,255,0.4)",
               overflow: "auto"
