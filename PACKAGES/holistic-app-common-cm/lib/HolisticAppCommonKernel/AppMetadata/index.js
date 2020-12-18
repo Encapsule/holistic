@@ -127,7 +127,7 @@ var holarchy = require("@encapsule/holarchy");
                     break;
 
                   case "digraph":
-                    response.result = metadataAccessors.getAppMetadataDigrph();
+                    response.result = metadataAccessors.getAppMetadataDigraph();
                     break;
 
                   default:
