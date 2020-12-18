@@ -1,8 +1,8 @@
 {
     "name": "holistic",
-    "description": "A Node.js/HTML5 domain and process modeling system for building SaaS and PaaS dynamically from JSON data + remixable plug-ins written in JavaScript.",
-    "version": "0.0.48",
-    "codename": "kyanite",
+    "description": "A domain and process modeling system for building Node.js/HTML5 SaaS and PaaS products dynamically from JSON data + remixable plug-ins written in JavaScript.",
+    "version": "0.0.49",
+    "codename": "spectrolite",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "51qyVHJSRkCP9S8VYssQTQ",
-    "buildSource": "2da15554e1c83c3081884f24fca5b91190fcef16",
-    "buildTime": 1607264701,
-    "buildDateISO": "2020-12-06T14:25:01.000Z"
+    "buildID": "Ipk3ibwPRriI9WKZn1_hIA",
+    "buildSource": "a4a7bf94e4afd87f8e5464784f98830b65f70c4e",
+    "buildTime": 1608313697,
+    "buildDateISO": "2020-12-18T17:48:17.000Z"
 }

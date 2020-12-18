@@ -2,6 +2,8 @@
 //
 
 module.exports = {
+    ____label: "@encapsule/holism HTTP 1.1 Request Processor",
+    ____description: "Implements a strongly-typed-at-runtime extensible HTTP 1.1 request processing and REST API transaction framework based on Node.js HTTP stream, @encapsule/arccore.filter, and runtime metaprogramming tricks.",
     ____types: "jsObject",
     http_server_context: {
         ____label: "HTTP Server Filter Context",

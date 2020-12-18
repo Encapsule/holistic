@@ -1,5 +1,6 @@
 "use strict";
 
+// v0.0.49-spectrolite
 // vector-set-d2r2-react-processor.js
 var holarchy = require("@encapsule/holarchy");
 

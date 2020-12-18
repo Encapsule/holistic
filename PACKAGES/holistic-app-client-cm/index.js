@@ -17,6 +17,11 @@ module.exports = {
   // v0.0.48-kyanite
   HolisticAppClient: require("./HolisticAppClient"),
   // New ES6 class
-  appClientCellModelFactory: require("./holistic-app-client-cellmodel-factory-filter"),
-  cml: require("./HolisticAppClientKernel")
+  HolisticTabService: require("./HolisticAppClient"),
+  // AN ALIAS - I plan to rename the class and the RTL package as well.
+  // App-level service logic may (e.g.) call this function upon receipt of 'error' lifecycle action request from the tab service kernel.
+  displayTabServiceException: require("./lib/holistic-tab-service-exception-display") // DEPRECATED
+  // appClientCellModelFactory: require("./holistic-app-client-cellmodel-factory-filter"),
+  // cml: require("./HolisticAppClientKernel")
+
 };

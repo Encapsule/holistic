@@ -1,0 +1,2876 @@
+{
+  "error": null,
+  "result": {
+    "XkT3fzhYT0izLU_P2WF54Q": {
+      "summary": {
+        "requests": 1,
+        "runnerStats": {
+          "dispatched": [
+            "xkUHMJeDSGqhyug4g6YtHQ"
+          ],
+          "rejected": [],
+          "errors": []
+        },
+        "runnerEval": {
+          "neutral": [],
+          "pass": {
+            "expected": [],
+            "actual": []
+          },
+          "fail": {
+            "expected": [],
+            "actual": []
+          }
+        }
+      },
+      "harnessEvalDescriptors": [
+        {
+          "dosRgxmiR66ongCbJB78ow": {
+            "bvj2u51Uw5_SD1TRZNpwXA": {
+              "xkUHMJeDSGqhyug4g6YtHQ": {
+                "harnessRequest": {
+                  "id": "xkUHMJeDSGqhyug4g6YtHQ",
+                  "name": "Instantiate ThemeProcessor Cell Process #1",
+                  "description": "Just a very basic test of just ThemeProcess all by itself.",
+                  "vectorRequest": {
+                    "holistic": {
+                      "holarchy": {
+                        "ObservableProcessController": {
+                          "constructorRequest": {
+                            "id": "xkUHMJeDSGqhyug4g6YtHQ",
+                            "name": "Instantiate ThemeProcessor Cell Process #1",
+                            "description": "Just a very basic test of a ThemeProcessor cell process all by itself.",
+                            "ocdTemplateSpec": {
+                              "____types": "jsObject",
+                              "themeProcessor": {
+                                "____types": "jsObject",
+                                "____defaultValue": {},
+                                "____appdsl": {
+                                  "apm": "zzvzLbm2RTyQN1lWFcjpVA"
+                                }
+                              }
+                            },
+                            "abstractProcessModelSets": [
+                              [
+                                {
+                                  "id": "z_mTe02hSWmaM1iRO1pBeA",
+                                  "vdid": "9jOpGkKIURycWGDA5Nnxsg",
+                                  "name": "Abstract Frame Latch",
+                                  "description": "Frame latch provides a way to create a value and attach a model that transitions between waiting and updated process steps whenever the value is written. This allows consumers of the value (other OPM typically) to monitor frame latch process to know when the value is updated so that they can read the new value and do whatever they need to with it.",
+                                  "process": {
+                                    "name": "[z_mTe02hSWmaM1iRO1pBeA::Abstract Frame Latch] APM Digraph",
+                                    "description": "Frame latch provides a way to create a value and attach a model that transitions between waiting and updated process steps whenever the value is written. This allows consumers of the value (other OPM typically) to monitor frame latch process to know when the value is updated so that they can read the new value and do whatever they need to with it.",
+                                    "vlist": [
+                                      {
+                                        "u": "uninitialized",
+                                        "p": {
+                                          "description": "Default starting process step.",
+                                          "actions": {
+                                            "enter": [],
+                                            "exit": [
+                                              {
+                                                "holarchy": {
+                                                  "cm": {
+                                                    "actions": {
+                                                      "ocd": {
+                                                        "setBooleanFlag": {
+                                                          "path": "#.clock"
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "u": "updated",
+                                        "p": {
+                                          "description": "The value managed by the frame latch has been written.",
+                                          "actions": {
+                                            "enter": [],
+                                            "exit": [
+                                              {
+                                                "holarchy": {
+                                                  "cm": {
+                                                    "actions": {
+                                                      "ocd": {
+                                                        "clearBooleanFlag": {
+                                                          "path": "#.clock"
+                                                        }
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            ]
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "u": "waiting",
+                                        "p": {
+                                          "description": "Frame latch value has not changed since last signalled update.",
+                                          "actions": {
+                                            "enter": [],
+                                            "exit": []
+                                          }
+                                        }
+                                      }
+                                    ],
+                                    "elist": [
+                                      {
+                                        "e": {
+                                          "u": "uninitialized",
+                                          "v": "updated"
+                                        },
+                                        "p": {
+                                          "priority": 0,
+                                          "operator": {
+                                            "always": true
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "e": {
+                                          "u": "updated",
+                                          "v": "waiting"
+                                        },
+                                        "p": {
+                                          "priority": 0,
+                                          "operator": {
+                                            "always": true
+                                          }
+                                        }
+                                      },
+                                      {
+                                        "e": {
+                                          "u": "waiting",
+                                          "v": "updated"
+                                        },
+                                        "p": {
+                                          "priority": 0,
+                                          "operator": {
+                                            "holarchy": {
+                                              "cm": {
+                                                "operators": {
+                                                  "ocd": {
+                                                    "isBooleanFlagSet": {
+                                                      "path": "#.clock"
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                  "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                  "name": "Theme Processor Model",
+                                  "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                  "process": {
+                                    "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                    "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                    "vlist": [],
+                                    "elist": []
+                                  }
+                                }
+                              ]
+                            ],
+                            "transitionOperatorSets": [
+                              [
+                                {
+                                  "id": "YgABX95wR86GCYrYaDLISA",
+                                  "vdid": "5Wiq9QRF5UgklCeaWl6BWQ",
+                                  "name": "AND Transition Expression Operator",
+                                  "description": "Returns Boolean true iff all suboperations return true."
+                                },
+                                {
+                                  "id": "e89cwnP4Qd6MocAhzdOJgw",
+                                  "vdid": "Kusn29BqLDgEihAN7rnt-w",
+                                  "name": "Always returns Boolean true unconditionally.",
+                                  "description": "Always returns true."
+                                },
+                                {
+                                  "id": "9tNY7o5GTUGH_xda2GhP-w",
+                                  "vdid": "zmPeG6lSvXidCjr_XyENrQ",
+                                  "name": "Cell Process In Step Operator",
+                                  "description": "Returns Boolean true iff the indicated APM instance is in the indicated process step."
+                                },
+                                {
+                                  "id": "TLSHkl73SO-utuzM7dyN2g",
+                                  "vdid": "MLN5p6fYf0FFTMRIix5okQ",
+                                  "name": "NOT Transition Expression Operator",
+                                  "description": "Returns Boolean true iff the suboperator returns false (i.e. it logically complements or inverts whatever operator it's applied to)."
+                                },
+                                {
+                                  "id": "oaF3-dXwQkusjD3I2o9-8g",
+                                  "vdid": "rR6j6vgEL4edaMFT9p0Kug",
+                                  "name": "OCD Array Length Equal to Value",
+                                  "description": "Returns Boolean true iff the length of the array stored at OCD path equals the specified numerical value (direct or indirect)."
+                                },
+                                {
+                                  "id": "UeLs9PcASwuC7KR190eYhA",
+                                  "vdid": "AvEsDNEdHzM-EAtRzKGrbg",
+                                  "name": "OCD Boolean Flag Is Set",
+                                  "description": "Returns Boolean true iff the indicated Boolean flag namespace is true."
+                                },
+                                {
+                                  "id": "2w7n6KxdR8mdIliePJesLQ",
+                                  "vdid": "tljozSCr53fX-AmzURPyEg",
+                                  "name": "OCD Compare Values",
+                                  "description": "Returns Boolean true iff operand A and B values compare using the indicated comparison operator."
+                                },
+                                {
+                                  "id": "ggsavKiARsq7rjwn-lxdfA",
+                                  "vdid": "zo88N4oEjk34PxGoXmyTUA",
+                                  "name": "OCD Namespace Is Greater Than Value",
+                                  "description": "Returns Boolean true iff the indicated OCD namespace is greater than the indicated value. Limited to number and string value comparisons only."
+                                },
+                                {
+                                  "id": "k7THIKKDQMKOac1Rxh9tEQ",
+                                  "vdid": "uinvGdItUIySJ4gEw7c2uQ",
+                                  "name": "OCD Namespace Is Identical To Value",
+                                  "description": "Returns Boolean true iff the indicated OCD namespace is identical (i.e. strictly equal (===)) to the indicated value. Limited to number and string value comparisons only."
+                                },
+                                {
+                                  "id": "XxX_a1sQS1OlJbWAYfx6tQ",
+                                  "vdid": "6DCD8gfsCpkJ1sJ50kP1xg",
+                                  "name": "OCD Namespace Is Less Than Value",
+                                  "description": "Returns Boolean true iff the indicated OCD namespace is less than the indicated value. Limited to number and string value comparisons only."
+                                },
+                                {
+                                  "id": "kD1PcgqYQlm7fJatNG2ZsA",
+                                  "vdid": "cNihhVrtDPl_5j7cSfcRug",
+                                  "name": "OCD Namespace Is Truthy",
+                                  "description": "Returns Boolean true iff the indicated OCD namespace is truthy."
+                                },
+                                {
+                                  "id": "0JIva4IFSm6Xm7i38g8uUA",
+                                  "vdid": "HyCocPERRAAEOSzTOspyaw",
+                                  "name": "OR Transition Expression Operator",
+                                  "description": "Returns Boolean true iff any suboperations return true."
+                                }
+                              ]
+                            ],
+                            "controllerActionSets": [
+                              [
+                                {
+                                  "id": "UK08qja3QiaHFGhl99fbmg",
+                                  "vdid": "G-z_Rf1eU5gb1Ie4yYYJKg",
+                                  "name": "Configure Theme Processor",
+                                  "description": "Writes theme configuration data to Theme Processor input namespace."
+                                },
+                                {
+                                  "id": "iyvk_9vhRn2qvrjOes5v7Q",
+                                  "vdid": "Mm1h1iJOaeH77h6HYA9wxg",
+                                  "name": "Frame Latch: Write",
+                                  "description": "Writes the value made observable by frame latch APM instance."
+                                },
+                                {
+                                  "id": "DNAoE5L3R-mY6jLAF2S95A",
+                                  "vdid": "wEdiiwOhWCBVJKi8E838yg",
+                                  "name": "Holistic App Client Runtime Subprocess Action",
+                                  "description": "Creates a cellular subprocess."
+                                },
+                                {
+                                  "id": "_yxWfFLnTqqN-UxRdd7W5w",
+                                  "vdid": "3DsbArVA3LNYWuE7ucmIpQ",
+                                  "name": "OCD Boolean Flag Clear",
+                                  "description": "Set the Boolean-type OCD namespace specified by path to value false."
+                                },
+                                {
+                                  "id": "5rFEDGLYRSiZCeChMnkCHQ",
+                                  "vdid": "fVjcSINW5Ps8rS2jRnBhLQ",
+                                  "name": "OCD Boolean Flag Set",
+                                  "description": "Set the Boolean-type OCD namespace specified by path to value true."
+                                },
+                                {
+                                  "id": "Ve_kEFkGSMSgOqUWu9Yo_w",
+                                  "vdid": "DPKyvFjaLnWwv-4AP4IYQw",
+                                  "name": "OCD Read Namespace Indirect",
+                                  "description": "Reads and returns the value of OCD namespace via path indirection."
+                                },
+                                {
+                                  "id": "e2kGs2nLRwW7RtFDPi8REg",
+                                  "vdid": "gSP_WFly--Z2K0hc8PrTZg",
+                                  "name": "Read Theme Palette",
+                                  "description": "Reads (and updates if necessary) the current theme output."
+                                },
+                                {
+                                  "id": "pvw8o8ehTwGyU5Wm5930bQ",
+                                  "vdid": "uvxWrbDR0L6wCRZ8Q8EUhA",
+                                  "name": "Update Theme Palette",
+                                  "description": "Generates a theme descriptor object containing CSS values to be applied programmatically by the application's view subsystem and writes the result to the declared namespace in the OCD."
+                                }
+                              ]
+                            ]
+                          },
+                          "actRequests": [
+                            {
+                              "actorName": "External Test Actor #1",
+                              "actorTaskDescription": "Change buttonNormal color.",
+                              "actionRequest": {
+                                "vp5": {
+                                  "view": {
+                                    "styles": {
+                                      "themeProcessor": {
+                                        "config": {
+                                          "colors": {
+                                            "buttonNormal": "red"
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "apmBindingPath": "~.themeProcessor"
+                            },
+                            {
+                              "actorName": "External Test Actor #2",
+                              "actorTaskDescription": "Try to make the ThemeProcessor update its outputs.",
+                              "actionRequest": {
+                                "vp5": {
+                                  "view": {
+                                    "styles": {
+                                      "themeProcessor": {
+                                        "get": {}
+                                      }
+                                    }
+                                  }
+                                }
+                              },
+                              "apmBindingPath": "~.themeProcessor"
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                },
+                "harnessResponse": {
+                  "error": null,
+                  "result": {
+                    "harnessOptions": {
+                      "idempotent": true,
+                      "gitDiffHunkSize": 0
+                    },
+                    "harnessDispatch": {
+                      "54MiSgQdSiukMX4fIZJimg": {
+                        "xkUHMJeDSGqhyug4g6YtHQ": {
+                          "opcToJSON": {
+                            "id": "xkUHMJeDSGqhyug4g6YtHQ",
+                            "name": "Instantiate ThemeProcessor Cell Process #1",
+                            "description": "Just a very basic test of a ThemeProcessor cell process all by itself.",
+                            "options": {
+                              "evaluate": {
+                                "maxFrames": 16,
+                                "firstEvaluation": "constructor"
+                              }
+                            },
+                            "apmMap": {
+                              "z_mTe02hSWmaM1iRO1pBeA": {
+                                "id": "z_mTe02hSWmaM1iRO1pBeA",
+                                "vdid": "9jOpGkKIURycWGDA5Nnxsg",
+                                "name": "Abstract Frame Latch",
+                                "description": "Frame latch provides a way to create a value and attach a model that transitions between waiting and updated process steps whenever the value is written. This allows consumers of the value (other OPM typically) to monitor frame latch process to know when the value is updated so that they can read the new value and do whatever they need to with it.",
+                                "process": {
+                                  "name": "[z_mTe02hSWmaM1iRO1pBeA::Abstract Frame Latch] APM Digraph",
+                                  "description": "Frame latch provides a way to create a value and attach a model that transitions between waiting and updated process steps whenever the value is written. This allows consumers of the value (other OPM typically) to monitor frame latch process to know when the value is updated so that they can read the new value and do whatever they need to with it.",
+                                  "vlist": [
+                                    {
+                                      "u": "uninitialized",
+                                      "p": {
+                                        "description": "Default starting process step.",
+                                        "actions": {
+                                          "enter": [],
+                                          "exit": [
+                                            {
+                                              "holarchy": {
+                                                "cm": {
+                                                  "actions": {
+                                                    "ocd": {
+                                                      "setBooleanFlag": {
+                                                        "path": "#.clock"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "u": "updated",
+                                      "p": {
+                                        "description": "The value managed by the frame latch has been written.",
+                                        "actions": {
+                                          "enter": [],
+                                          "exit": [
+                                            {
+                                              "holarchy": {
+                                                "cm": {
+                                                  "actions": {
+                                                    "ocd": {
+                                                      "clearBooleanFlag": {
+                                                        "path": "#.clock"
+                                                      }
+                                                    }
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "u": "waiting",
+                                      "p": {
+                                        "description": "Frame latch value has not changed since last signalled update.",
+                                        "actions": {
+                                          "enter": [],
+                                          "exit": []
+                                        }
+                                      }
+                                    }
+                                  ],
+                                  "elist": [
+                                    {
+                                      "e": {
+                                        "u": "uninitialized",
+                                        "v": "updated"
+                                      },
+                                      "p": {
+                                        "priority": 0,
+                                        "operator": {
+                                          "always": true
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "e": {
+                                        "u": "updated",
+                                        "v": "waiting"
+                                      },
+                                      "p": {
+                                        "priority": 0,
+                                        "operator": {
+                                          "always": true
+                                        }
+                                      }
+                                    },
+                                    {
+                                      "e": {
+                                        "u": "waiting",
+                                        "v": "updated"
+                                      },
+                                      "p": {
+                                        "priority": 0,
+                                        "operator": {
+                                          "holarchy": {
+                                            "cm": {
+                                              "operators": {
+                                                "ocd": {
+                                                  "isBooleanFlagSet": {
+                                                    "path": "#.clock"
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  ]
+                                }
+                              },
+                              "zzvzLbm2RTyQN1lWFcjpVA": {
+                                "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                "name": "Theme Processor Model",
+                                "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                "process": {
+                                  "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                  "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                  "vlist": [],
+                                  "elist": []
+                                }
+                              }
+                            },
+                            "opmiSpecPaths": [
+                              {
+                                "specPath": "~.themeProcessor",
+                                "opmiRef": {
+                                  "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                  "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                  "name": "Theme Processor Model",
+                                  "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                  "process": {
+                                    "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                    "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                    "vlist": [],
+                                    "elist": []
+                                  }
+                                }
+                              }
+                            ],
+                            "ocdTemplateSpec": {
+                              "____types": "jsObject",
+                              "themeProcessor": {
+                                "____types": "jsObject",
+                                "____defaultValue": {},
+                                "____appdsl": {
+                                  "apm": "zzvzLbm2RTyQN1lWFcjpVA"
+                                }
+                              }
+                            },
+                            "ocdRuntimeSpec": {
+                              "____label": "OPC [xkUHMJeDSGqhyug4g6YtHQ::Instantiate ThemeProcessor Cell Process #1] Observable Controller Data Store",
+                              "____description": "OPC [xkUHMJeDSGqhyug4g6YtHQ::Instantiate ThemeProcessor Cell Process #1] system process runtime state data managed by OPC instance.",
+                              "____types": "jsObject",
+                              "____defaultValue": {},
+                              "themeProcessor": {
+                                "____types": "jsObject",
+                                "____defaultValue": {},
+                                "____appdsl": {
+                                  "apm": "zzvzLbm2RTyQN1lWFcjpVA"
+                                },
+                                "inputs": {
+                                  "____types": "jsObject",
+                                  "____defaultValue": {},
+                                  "revision": {
+                                    "____accept": "jsNumber",
+                                    "____defaultValue": -1
+                                  },
+                                  "themeInputs": {
+                                    "____label": "Theme Options Descriptor",
+                                    "____description": "Theme options are optional values used to deduce the theme palette values applied programmatically to React components at runtime.",
+                                    "____types": "jsObject",
+                                    "____defaultValue": {},
+                                    "colors": {
+                                      "____types": "jsObject",
+                                      "____defaultValue": {},
+                                      "background": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "white"
+                                      },
+                                      "toolbar": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "#282830"
+                                      },
+                                      "buttonNormal": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "#B4E051"
+                                      },
+                                      "buttonAlternate": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "#282830"
+                                      },
+                                      "fonts": {
+                                        "____types": "jsObject",
+                                        "____defaultValue": {},
+                                        "normal": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "black"
+                                        },
+                                        "header": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "black"
+                                        },
+                                        "buttonNormal": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "white"
+                                        },
+                                        "buttonAlternate": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "white"
+                                        }
+                                      },
+                                      "status": {
+                                        "____types": "jsObject",
+                                        "____defaultValue": {},
+                                        "ok": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "#8CD211"
+                                        },
+                                        "warning": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "#FFCC00"
+                                        },
+                                        "danger": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "#D82550"
+                                        },
+                                        "complete": {
+                                          "____accept": "jsString",
+                                          "____defaultValue": "#339933"
+                                        }
+                                      }
+                                    },
+                                    "fonts": {
+                                      "____types": "jsObject",
+                                      "____defaultValue": {},
+                                      "normal": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "'Nunito', sans-serif"
+                                      },
+                                      "alternate": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "'Roboto', sans-serif"
+                                      },
+                                      "header": {
+                                        "____accept": "jsString",
+                                        "____defaultValue": "'Montserrat', sans-serif"
+                                      }
+                                    },
+                                    "mode": {
+                                      "____accept": "jsString",
+                                      "____description": "Applies a dark theme with alternate color relationships.",
+                                      "____defaultValue": "day",
+                                      "____inValueSet": [
+                                        "day",
+                                        "night"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "_private": {
+                                  "____types": "jsObject",
+                                  "____defaultValue": {},
+                                  "updating": {
+                                    "____accept": "jsBoolean",
+                                    "____defaultValue": false
+                                  }
+                                },
+                                "outputs": {
+                                  "____types": "jsObject",
+                                  "____defaultValue": {},
+                                  "revision": {
+                                    "____accept": "jsNumber",
+                                    "____defaultValue": -1
+                                  },
+                                  "themeOutputs": {
+                                    "____label": "Theme Palette Descriptor",
+                                    "____description": "A collection of low-level styles, colors, fonts, spacing, etc... applied by name by theme-aware React components.",
+                                    "____types": [
+                                      "jsObject",
+                                      "jsUndefined"
+                                    ],
+                                    "colors": {
+                                      "____types": "jsObject",
+                                      "button": {
+                                        "____types": "jsObject",
+                                        "normal": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "alternate": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "danger": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "transparent": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString",
+                                            "____inValueSet": [
+                                              "transparent"
+                                            ]
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "disabled": {
+                                          "____types": "jsObject",
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "inactive": {
+                                          "____types": "jsObject",
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "fonts": {
+                                      "____types": "jsObject",
+                                      "normal": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "alternate": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "header": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      }
+                                    },
+                                    "mode": {
+                                      "____accept": "jsString",
+                                      "____inValueSet": [
+                                        "day",
+                                        "night"
+                                      ]
+                                    }
+                                  }
+                                },
+                                "__apmiStep": {
+                                  "____accept": "jsString",
+                                  "____defaultValue": "uninitialized"
+                                }
+                              }
+                            },
+                            "ocdi": {
+                              "themeProcessor": {
+                                "inputs": {
+                                  "revision": -1,
+                                  "themeInputs": {
+                                    "colors": {
+                                      "background": "white",
+                                      "toolbar": "#282830",
+                                      "buttonNormal": "#B4E051",
+                                      "buttonAlternate": "#282830",
+                                      "fonts": {
+                                        "normal": "black",
+                                        "header": "black",
+                                        "buttonNormal": "white",
+                                        "buttonAlternate": "white"
+                                      },
+                                      "status": {
+                                        "ok": "#8CD211",
+                                        "warning": "#FFCC00",
+                                        "danger": "#D82550",
+                                        "complete": "#339933"
+                                      }
+                                    },
+                                    "fonts": {
+                                      "normal": "'Nunito', sans-serif",
+                                      "alternate": "'Roboto', sans-serif",
+                                      "header": "'Montserrat', sans-serif"
+                                    },
+                                    "mode": "day"
+                                  }
+                                },
+                                "_private": {
+                                  "updating": false
+                                },
+                                "outputs": {
+                                  "revision": -1
+                                },
+                                "__apmiStep": "uninitialized"
+                              }
+                            },
+                            "transitionDispatcher": {
+                              "filterDescriptor": {
+                                "operationID": "CMvz9x30nfjuykt8A93fQA",
+                                "operationName": "Discriminator Filter",
+                                "operationDescription": "Retrieves a reference to the subfilter that should be used to process this request.",
+                                "inputTypeVIID": "rAnCjiiPqJOIUCy0gsVhQw",
+                                "inputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                "outputTypeVIID": "s-TrKZuNdOqWlJnPbeR13w",
+                                "outputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                "operationVDID": "8m70E8lpNVeOdI7tp3YUtA"
+                              },
+                              "supportedFilters": [
+                                "[0JIva4IFSm6Xm7i38g8uUA::OR Transition Expression Operator]",
+                                "[2w7n6KxdR8mdIliePJesLQ::OCD Compare Values]",
+                                "[9tNY7o5GTUGH_xda2GhP-w::Cell Process In Step Operator]",
+                                "[TLSHkl73SO-utuzM7dyN2g::NOT Transition Expression Operator]",
+                                "[UeLs9PcASwuC7KR190eYhA::OCD Boolean Flag Is Set]",
+                                "[XxX_a1sQS1OlJbWAYfx6tQ::OCD Namespace Is Less Than Value]",
+                                "[YgABX95wR86GCYrYaDLISA::AND Transition Expression Operator]",
+                                "[e89cwnP4Qd6MocAhzdOJgw::Always returns Boolean true unconditionally.]",
+                                "[ggsavKiARsq7rjwn-lxdfA::OCD Namespace Is Greater Than Value]",
+                                "[k7THIKKDQMKOac1Rxh9tEQ::OCD Namespace Is Identical To Value]",
+                                "[kD1PcgqYQlm7fJatNG2ZsA::OCD Namespace Is Truthy]",
+                                "[oaF3-dXwQkusjD3I2o9-8g::OCD Array Length Equal to Value]"
+                              ],
+                              "options": {
+                                "action": "getFilter"
+                              }
+                            },
+                            "transitionDispatcherFilterMap": {
+                              "YgABX95wR86GCYrYaDLISA": {
+                                "filterDescriptor": {
+                                  "operationID": "YgABX95wR86GCYrYaDLISA",
+                                  "operationName": "AND Transition Expression Operator",
+                                  "operationDescription": "Returns Boolean true iff all suboperations return true.",
+                                  "inputFilterSpec": {
+                                    "____label": "AND Transition Expression Operator Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "and": {
+                                        "____types": "jsArray",
+                                        "operandOperatorVariant": {
+                                          "____accept": "jsObject"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "Th67oiutPj5XPCPBQs2sNg",
+                                  "inputTypeVDID": "MQFe-Q8rBS3yhTg_XEijfQ",
+                                  "outputTypeVIID": "4qvesBGXikOFKTURfESw5A",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "9pp-RLYcWZMBzcScqI9ncg"
+                                }
+                              },
+                              "e89cwnP4Qd6MocAhzdOJgw": {
+                                "filterDescriptor": {
+                                  "operationID": "e89cwnP4Qd6MocAhzdOJgw",
+                                  "operationName": "Always returns Boolean true unconditionally.",
+                                  "operationDescription": "Always returns true.",
+                                  "inputFilterSpec": {
+                                    "____label": "Always returns Boolean true unconditionally. Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "always": {
+                                        "____accept": "jsBoolean",
+                                        "____inValueSet": [
+                                          true
+                                        ]
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "mlUI4xt2DYMMjmvmPlUqzQ",
+                                  "inputTypeVDID": "0EB7_Y3i7dHCIqSTVQf8bQ",
+                                  "outputTypeVIID": "gGOXfWmLkCUR1ey8s8jjGA",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "7hv8ROZTdZP8DZ-c1OtJcg"
+                                }
+                              },
+                              "9tNY7o5GTUGH_xda2GhP-w": {
+                                "filterDescriptor": {
+                                  "operationID": "9tNY7o5GTUGH_xda2GhP-w",
+                                  "operationName": "Cell Process In Step Operator",
+                                  "operationDescription": "Returns Boolean true iff the indicated APM instance is in the indicated process step.",
+                                  "inputFilterSpec": {
+                                    "____label": "Cell Process In Step Operator Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "cell": {
+                                              "____types": "jsObject",
+                                              "atStep": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                },
+                                                "step": {
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "knid7eOPhDEUkIr1WhyHiw",
+                                  "inputTypeVDID": "q9TocAv3KDWF1D8TwFOj0A",
+                                  "outputTypeVIID": "VWoiQV-oR4XaKTrRp-c6vA",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "wlRcRFbU4pO6f_ictPVicg"
+                                }
+                              },
+                              "TLSHkl73SO-utuzM7dyN2g": {
+                                "filterDescriptor": {
+                                  "operationID": "TLSHkl73SO-utuzM7dyN2g",
+                                  "operationName": "NOT Transition Expression Operator",
+                                  "operationDescription": "Returns Boolean true iff the suboperator returns false (i.e. it logically complements or inverts whatever operator it's applied to).",
+                                  "inputFilterSpec": {
+                                    "____label": "NOT Transition Expression Operator Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "not": {
+                                        "____accept": "jsObject"
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "VqL0404urku_v3ZjcOkZTg",
+                                  "inputTypeVDID": "KhdBS4FFA46JYJ246QpDXQ",
+                                  "outputTypeVIID": "V-JP28o44DYdLwju7U90ag",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "MXgNRHS4xJPIEuycBGZEcg"
+                                }
+                              },
+                              "oaF3-dXwQkusjD3I2o9-8g": {
+                                "filterDescriptor": {
+                                  "operationID": "oaF3-dXwQkusjD3I2o9-8g",
+                                  "operationName": "OCD Array Length Equal to Value",
+                                  "operationDescription": "Returns Boolean true iff the length of the array stored at OCD path equals the specified numerical value (direct or indirect).",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Array Length Equal to Value Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "array": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                },
+                                                "length": {
+                                                  "____types": "jsObject",
+                                                  "equalToValue": {
+                                                    "____accept": [
+                                                      "jsNumber",
+                                                      "jsString"
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "1w1jkkL88zPbGh1huUa66A",
+                                  "inputTypeVDID": "mlQwgyCDl-ST91MGpgC1VQ",
+                                  "outputTypeVIID": "ll5aBQHmBVx07i4pBJMThw",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "yhC0RNrN1ZMX5F-ckUIncg"
+                                }
+                              },
+                              "UeLs9PcASwuC7KR190eYhA": {
+                                "filterDescriptor": {
+                                  "operationID": "UeLs9PcASwuC7KR190eYhA",
+                                  "operationName": "OCD Boolean Flag Is Set",
+                                  "operationDescription": "Returns Boolean true iff the indicated Boolean flag namespace is true.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Boolean Flag Is Set Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "isBooleanFlagSet": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "l0QuhcthqVCst39xt0A_SA",
+                                  "inputTypeVDID": "XaY0xWS0bd69voTSU_w3aA",
+                                  "outputTypeVIID": "IV0lvKVpYiaD4deX05nL1g",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "6eZxRIQnF5PpgaiccabWcg"
+                                }
+                              },
+                              "2w7n6KxdR8mdIliePJesLQ": {
+                                "filterDescriptor": {
+                                  "operationID": "2w7n6KxdR8mdIliePJesLQ",
+                                  "operationName": "OCD Compare Values",
+                                  "operationDescription": "Returns Boolean true iff operand A and B values compare using the indicated comparison operator.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Compare Values Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "compare": {
+                                                "____types": "jsObject",
+                                                "values": {
+                                                  "____types": "jsObject",
+                                                  "a": {
+                                                    "____label": "Operand A",
+                                                    "____description": "Operand A for identical operator comparison. Specifiy either value (direct) XOR path (indirect).",
+                                                    "____types": "jsObject",
+                                                    "value": {
+                                                      "____accept": [
+                                                        "jsUndefined",
+                                                        "jsNull",
+                                                        "jsString",
+                                                        "jsNumber",
+                                                        "jsBoolean"
+                                                      ]
+                                                    },
+                                                    "path": {
+                                                      "____accept": [
+                                                        "jsUndefined",
+                                                        "jsString"
+                                                      ]
+                                                    }
+                                                  },
+                                                  "b": {
+                                                    "____label": "Operand B",
+                                                    "____description": "Operand B for identical operator comparison. Specifiy either value (direct) XOR path (indirect).",
+                                                    "____types": "jsObject",
+                                                    "value": {
+                                                      "____accept": [
+                                                        "jsUndefined",
+                                                        "jsNull",
+                                                        "jsString",
+                                                        "jsNumber",
+                                                        "jsBoolean"
+                                                      ]
+                                                    },
+                                                    "path": {
+                                                      "____accept": [
+                                                        "jsUndefined",
+                                                        "jsString"
+                                                      ]
+                                                    }
+                                                  },
+                                                  "operator": {
+                                                    "____label": "Comparison Operator",
+                                                    "____description": "A string enum indicating the comparison operator to use.",
+                                                    "____accept": "jsString",
+                                                    "____inValueSet": [
+                                                      "===",
+                                                      "==",
+                                                      "<",
+                                                      "<=",
+                                                      ">",
+                                                      ">="
+                                                    ]
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "Vd7i-lH1mj84kJrcpYoR9g",
+                                  "inputTypeVDID": "uXfDAJlX200_coTaw1pLtg",
+                                  "outputTypeVIID": "kxjuRwQKX01DJDkjruKvXg",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "l5iBRNf6zpMr3-CcKjAWcg"
+                                }
+                              },
+                              "ggsavKiARsq7rjwn-lxdfA": {
+                                "filterDescriptor": {
+                                  "operationID": "ggsavKiARsq7rjwn-lxdfA",
+                                  "operationName": "OCD Namespace Is Greater Than Value",
+                                  "operationDescription": "Returns Boolean true iff the indicated OCD namespace is greater than the indicated value. Limited to number and string value comparisons only.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Namespace Is Greater Than Value Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "isNamespaceGreaterThanValue": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                },
+                                                "value": {
+                                                  "____accept": [
+                                                    "jsString",
+                                                    "jsNumber"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "CF-H4WojwJ7B1YyWvKlnMQ",
+                                  "inputTypeVDID": "LRU9vcBpToNeHesuiIxokw",
+                                  "outputTypeVIID": "vevJRLqsD_7D5r52vqsYNg",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "soEGROP6ipOrHwqcgR0Icg"
+                                }
+                              },
+                              "k7THIKKDQMKOac1Rxh9tEQ": {
+                                "filterDescriptor": {
+                                  "operationID": "k7THIKKDQMKOac1Rxh9tEQ",
+                                  "operationName": "OCD Namespace Is Identical To Value",
+                                  "operationDescription": "Returns Boolean true iff the indicated OCD namespace is identical (i.e. strictly equal (===)) to the indicated value. Limited to number and string value comparisons only.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Namespace Is Identical To Value Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "isNamespaceIdenticalToValue": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                },
+                                                "value": {
+                                                  "____accept": [
+                                                    "jsString",
+                                                    "jsNumber"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "2lapAiv6Y2wX3rSyYd_aXA",
+                                  "inputTypeVDID": "9RU9alRpThHQHeu-ZIxoLg",
+                                  "outputTypeVIID": "a4e-UB9BqYvz755bPVZ4AA",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "aCc3RHCjwpMQ7XKc0o4mcg"
+                                }
+                              },
+                              "XxX_a1sQS1OlJbWAYfx6tQ": {
+                                "filterDescriptor": {
+                                  "operationID": "XxX_a1sQS1OlJbWAYfx6tQ",
+                                  "operationName": "OCD Namespace Is Less Than Value",
+                                  "operationDescription": "Returns Boolean true iff the indicated OCD namespace is less than the indicated value. Limited to number and string value comparisons only.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Namespace Is Less Than Value Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "isNamespaceLessThanValue": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                },
+                                                "value": {
+                                                  "____accept": [
+                                                    "jsString",
+                                                    "jsNumber"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "SdjtRCNawPzfg3fuyxpeog",
+                                  "inputTypeVDID": "ZuD2TKtYUqU87dkAt67RVA",
+                                  "outputTypeVIID": "C3a0V2HEKW7fH5xudFSe2Q",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "l9RzRDh_y5NJEa-c2o72cg"
+                                }
+                              },
+                              "kD1PcgqYQlm7fJatNG2ZsA": {
+                                "filterDescriptor": {
+                                  "operationID": "kD1PcgqYQlm7fJatNG2ZsA",
+                                  "operationName": "OCD Namespace Is Truthy",
+                                  "operationDescription": "Returns Boolean true iff the indicated OCD namespace is truthy.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Namespace Is Truthy Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "operators": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "isNamespaceTruthy": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "SPYSm6CWX2bR_YovYBc5vA",
+                                  "inputTypeVDID": "IqY0aMK0bZrZvoSd7_w3IQ",
+                                  "outputTypeVIID": "XJAeGf11HNVoWr_Aw6IxpQ",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "vqWEROJwL5P3HeKc3FBvcg"
+                                }
+                              },
+                              "0JIva4IFSm6Xm7i38g8uUA": {
+                                "filterDescriptor": {
+                                  "operationID": "0JIva4IFSm6Xm7i38g8uUA",
+                                  "operationName": "OR Transition Expression Operator",
+                                  "operationDescription": "Returns Boolean true iff any suboperations return true.",
+                                  "inputFilterSpec": {
+                                    "____label": "OR Transition Expression Operator Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "transitionDispatcher": {
+                                        "____label": "OPC Transition Dispatcher",
+                                        "____description": "A reference to an OPC instance's transition operator dispatcher instance.",
+                                        "____accept": "jsObject"
+                                      }
+                                    },
+                                    "operatorRequest": {
+                                      "____types": "jsObject",
+                                      "or": {
+                                        "____types": "jsArray",
+                                        "operandOperatorVariant": {
+                                          "____accept": "jsObject"
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsBoolean"
+                                  },
+                                  "inputTypeVIID": "BIKphTRxk84K8Rl5zYJ-FQ",
+                                  "inputTypeVDID": "0Xe392MJsGr0KO6YF3c80A",
+                                  "outputTypeVIID": "703oxzDhgbWqvMb1deWsLg",
+                                  "outputTypeVDID": "UD3UqnNuxwSJpW-kQ0DxUA",
+                                  "operationVDID": "4ImARIUqM5NmuBqcOBs-cg"
+                                }
+                              }
+                            },
+                            "actionDispatcher": {
+                              "filterDescriptor": {
+                                "operationID": "TE_skKZaw9wwfVc7D9YFzQ",
+                                "operationName": "Discriminator Filter",
+                                "operationDescription": "Retrieves a reference to the subfilter that should be used to process this request.",
+                                "inputTypeVIID": "buqstwUmW3e8b2gvDm-5Ew",
+                                "inputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                "outputTypeVIID": "-R9fQNIZNPUIi6pirYcTrw",
+                                "outputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                "operationVDID": "Ejb0E9FANVcqeI7tngkUtA"
+                              },
+                              "supportedFilters": [
+                                "[5rFEDGLYRSiZCeChMnkCHQ::OCD Boolean Flag Set]",
+                                "[DNAoE5L3R-mY6jLAF2S95A::Holistic App Client Runtime Subprocess Action]",
+                                "[KX0V_aQ3RzG01tzBS24MGw::OPC Intrinsic NOOP Action]",
+                                "[S1GqYjTtSQazSxkIL9vtpA::OPC Intrinsic Status Action]",
+                                "[UK08qja3QiaHFGhl99fbmg::Configure Theme Processor]",
+                                "[Ve_kEFkGSMSgOqUWu9Yo_w::OCD Read Namespace Indirect]",
+                                "[_yxWfFLnTqqN-UxRdd7W5w::OCD Boolean Flag Clear]",
+                                "[e2kGs2nLRwW7RtFDPi8REg::Read Theme Palette]",
+                                "[iyvk_9vhRn2qvrjOes5v7Q::Frame Latch: Write]",
+                                "[pvw8o8ehTwGyU5Wm5930bQ::Update Theme Palette]"
+                              ],
+                              "options": {
+                                "action": "getFilter"
+                              }
+                            },
+                            "actionDispatcherFilterMap": {
+                              "UK08qja3QiaHFGhl99fbmg": {
+                                "filterDescriptor": {
+                                  "operationID": "UK08qja3QiaHFGhl99fbmg",
+                                  "operationName": "Configure Theme Processor",
+                                  "operationDescription": "Writes theme configuration data to Theme Processor input namespace.",
+                                  "inputFilterSpec": {
+                                    "____label": "Configure Theme Processor Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "vp5": {
+                                        "____types": "jsObject",
+                                        "view": {
+                                          "____types": "jsObject",
+                                          "styles": {
+                                            "____types": "jsObject",
+                                            "themeProcessor": {
+                                              "____types": "jsObject",
+                                              "config": {
+                                                "____label": "Theme Options Descriptor",
+                                                "____description": "Theme options are optional values used to deduce the theme palette values applied programmatically to React components at runtime.",
+                                                "____types": "jsObject",
+                                                "colors": {
+                                                  "____types": [
+                                                    "jsObject",
+                                                    "jsUndefined"
+                                                  ],
+                                                  "background": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "white"
+                                                  },
+                                                  "toolbar": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "#282830"
+                                                  },
+                                                  "buttonNormal": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "#B4E051"
+                                                  },
+                                                  "buttonAlternate": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "#282830"
+                                                  },
+                                                  "fonts": {
+                                                    "____types": "jsObject",
+                                                    "____defaultValue": {},
+                                                    "normal": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "black"
+                                                    },
+                                                    "header": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "black"
+                                                    },
+                                                    "buttonNormal": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "white"
+                                                    },
+                                                    "buttonAlternate": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "white"
+                                                    }
+                                                  },
+                                                  "status": {
+                                                    "____types": "jsObject",
+                                                    "____defaultValue": {},
+                                                    "ok": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "#8CD211"
+                                                    },
+                                                    "warning": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "#FFCC00"
+                                                    },
+                                                    "danger": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "#D82550"
+                                                    },
+                                                    "complete": {
+                                                      "____accept": "jsString",
+                                                      "____defaultValue": "#339933"
+                                                    }
+                                                  }
+                                                },
+                                                "fonts": {
+                                                  "____types": [
+                                                    "jsObject",
+                                                    "jsUndefined"
+                                                  ],
+                                                  "normal": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "'Nunito', sans-serif"
+                                                  },
+                                                  "alternate": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "'Roboto', sans-serif"
+                                                  },
+                                                  "header": {
+                                                    "____accept": "jsString",
+                                                    "____defaultValue": "'Montserrat', sans-serif"
+                                                  }
+                                                },
+                                                "mode": {
+                                                  "____accept": [
+                                                    "jsString",
+                                                    "jsUndefined"
+                                                  ],
+                                                  "____description": "Applies a dark theme with alternate color relationships.",
+                                                  "____inValueSet": [
+                                                    "day",
+                                                    "night"
+                                                  ]
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsObject"
+                                  },
+                                  "inputTypeVIID": "9Mxhj13AUlRo-sW1O5RV7A",
+                                  "inputTypeVDID": "DzxLENISrP9kVaHlh9JVlw",
+                                  "outputTypeVIID": "yekvCBSz60e-kwmifLyMWA",
+                                  "outputTypeVDID": "Pn9jkiuUyFDMIvHds8fQ2A",
+                                  "operationVDID": "BIMnTwQwqBrCneWISWH-WA"
+                                }
+                              },
+                              "iyvk_9vhRn2qvrjOes5v7Q": {
+                                "filterDescriptor": {
+                                  "operationID": "iyvk_9vhRn2qvrjOes5v7Q",
+                                  "operationName": "Frame Latch: Write",
+                                  "operationDescription": "Writes the value made observable by frame latch APM instance.",
+                                  "inputFilterSpec": {
+                                    "____label": "Frame Latch: Write Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "actions": {
+                                            "____types": "jsObject",
+                                            "frameLatch": {
+                                              "____types": "jsObject",
+                                              "write": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____label": "Frame Latch Bound Namespace Path",
+                                                  "____accept": "jsString"
+                                                },
+                                                "value": {
+                                                  "____label": "Write Value",
+                                                  "____opaque": true
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____label": "Write Frame Latch Result",
+                                    "____description": "This is generically a reference to the value written to the frame latch indicated by 'path'.",
+                                    "____opaque": true
+                                  },
+                                  "inputTypeVIID": "dOV6tM17rLvrsqbIM4LzCg",
+                                  "inputTypeVDID": "ReMEnCXFT3yFkJ3JX6oz3g",
+                                  "outputTypeVIID": "LPeeiMV42LNeAhthe2myDQ",
+                                  "outputTypeVDID": "8-d-OpyoAkX4G5bt5_5T_Q",
+                                  "operationVDID": "E7NA-ISmB6dh6uB3b1wMSw"
+                                }
+                              },
+                              "DNAoE5L3R-mY6jLAF2S95A": {
+                                "filterDescriptor": {
+                                  "operationID": "DNAoE5L3R-mY6jLAF2S95A",
+                                  "operationName": "Holistic App Client Runtime Subprocess Action",
+                                  "operationDescription": "Creates a cellular subprocess.",
+                                  "inputFilterSpec": {
+                                    "____label": "Holistic App Client Runtime Subprocess Action Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "actions": {
+                                            "____types": "jsObject",
+                                            "cell": {
+                                              "____types": "jsObject",
+                                              "process": {
+                                                "____types": "jsObject",
+                                                "create": {
+                                                  "____types": "jsObject",
+                                                  "apmBindingPath": {
+                                                    "____accept": "jsString"
+                                                  },
+                                                  "ocdInitData": {
+                                                    "____accept": "jsObject",
+                                                    "____defaultValue": {}
+                                                  }
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____types": "jsObject",
+                                    "apmBindingPath": {
+                                      "____accept": "jsString"
+                                    },
+                                    "processID": {
+                                      "____accept": "jsString"
+                                    }
+                                  },
+                                  "inputTypeVIID": "0cct1u09r0aOFKgpIMxVQg",
+                                  "inputTypeVDID": "wignRGwP30We8f90DNa5Nw",
+                                  "outputTypeVIID": "T_Gb_5QUX2zxjS-xY9wvCQ",
+                                  "outputTypeVDID": "x1YL5_hRGHfO54xljPnY3g",
+                                  "operationVDID": "1HnEbWLPE1ARGRnlL6LLYw"
+                                }
+                              },
+                              "_yxWfFLnTqqN-UxRdd7W5w": {
+                                "filterDescriptor": {
+                                  "operationID": "_yxWfFLnTqqN-UxRdd7W5w",
+                                  "operationName": "OCD Boolean Flag Clear",
+                                  "operationDescription": "Set the Boolean-type OCD namespace specified by path to value false.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Boolean Flag Clear Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "actions": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "clearBooleanFlag": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsUndefined"
+                                  },
+                                  "inputTypeVIID": "Q26xScNwSEHmeE4xjO_vtg",
+                                  "inputTypeVDID": "9JJ6pBweTCwI2oO98eA5jA",
+                                  "outputTypeVIID": "_Jrf_S2nEWwsSx89q6ealg",
+                                  "outputTypeVDID": "xHanI1kT9ivLTVhizlh1ng",
+                                  "operationVDID": "22s0kmR4PDHNH1MwaETpSA"
+                                }
+                              },
+                              "5rFEDGLYRSiZCeChMnkCHQ": {
+                                "filterDescriptor": {
+                                  "operationID": "5rFEDGLYRSiZCeChMnkCHQ",
+                                  "operationName": "OCD Boolean Flag Set",
+                                  "operationDescription": "Set the Boolean-type OCD namespace specified by path to value true.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Boolean Flag Set Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "actions": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "setBooleanFlag": {
+                                                "____types": "jsObject",
+                                                "path": {
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____accept": "jsUndefined"
+                                  },
+                                  "inputTypeVIID": "YJSR1JZOriuhfXfKbnMV4Q",
+                                  "inputTypeVDID": "0SvJjLbCiM4zgfkcsCtG9w",
+                                  "outputTypeVIID": "kyxCxyo_W507HuHlFVvwIQ",
+                                  "outputTypeVDID": "xHanI1kT9ivLTVhizlh1ng",
+                                  "operationVDID": "bCv1ksN_4DF7HKQweU68SA"
+                                }
+                              },
+                              "Ve_kEFkGSMSgOqUWu9Yo_w": {
+                                "filterDescriptor": {
+                                  "operationID": "Ve_kEFkGSMSgOqUWu9Yo_w",
+                                  "operationName": "OCD Read Namespace Indirect",
+                                  "operationDescription": "Reads and returns the value of OCD namespace via path indirection.",
+                                  "inputFilterSpec": {
+                                    "____label": "OCD Read Namespace Indirect Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "cm": {
+                                          "____types": "jsObject",
+                                          "actions": {
+                                            "____types": "jsObject",
+                                            "ocd": {
+                                              "____types": "jsObject",
+                                              "readNamespaceIndirect": {
+                                                "____types": "jsObject",
+                                                "path2": {
+                                                  "____label": "Target Path Namespace Path",
+                                                  "____description": "The OCD path of the string namespace containing the OCD path of the target namespace to read.",
+                                                  "____accept": "jsString"
+                                                }
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____opaque": true
+                                  },
+                                  "inputTypeVIID": "r0nWow8E0BIohA7UDujmMw",
+                                  "inputTypeVDID": "IOgWXFaAcQ5ZA6pPH8_2xg",
+                                  "outputTypeVIID": "QKKFgPFZL00DATFNfFLfiQ",
+                                  "outputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                  "operationVDID": "0IU7E_qFb1e52MDt_6IqtA"
+                                }
+                              },
+                              "e2kGs2nLRwW7RtFDPi8REg": {
+                                "filterDescriptor": {
+                                  "operationID": "e2kGs2nLRwW7RtFDPi8REg",
+                                  "operationName": "Read Theme Palette",
+                                  "operationDescription": "Reads (and updates if necessary) the current theme output.",
+                                  "inputFilterSpec": {
+                                    "____label": "Read Theme Palette Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "vp5": {
+                                        "____types": "jsObject",
+                                        "view": {
+                                          "____types": "jsObject",
+                                          "styles": {
+                                            "____types": "jsObject",
+                                            "themeProcessor": {
+                                              "____types": "jsObject",
+                                              "get": {
+                                                "____accept": "jsObject"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____label": "Theme Palette Descriptor",
+                                    "____description": "A collection of low-level styles, colors, fonts, spacing, etc... applied by name by theme-aware React components.",
+                                    "____types": [
+                                      "jsObject",
+                                      "jsUndefined"
+                                    ],
+                                    "colors": {
+                                      "____types": "jsObject",
+                                      "button": {
+                                        "____types": "jsObject",
+                                        "normal": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "alternate": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "danger": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "transparent": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString",
+                                            "____inValueSet": [
+                                              "transparent"
+                                            ]
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "disabled": {
+                                          "____types": "jsObject",
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "inactive": {
+                                          "____types": "jsObject",
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "fonts": {
+                                      "____types": "jsObject",
+                                      "normal": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "alternate": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "header": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      }
+                                    },
+                                    "mode": {
+                                      "____accept": "jsString",
+                                      "____inValueSet": [
+                                        "day",
+                                        "night"
+                                      ]
+                                    }
+                                  },
+                                  "inputTypeVIID": "-dMXVzUiE31uyZR0Sg0caA",
+                                  "inputTypeVDID": "lRdNM4Gs7htJDEh7bhjovw",
+                                  "outputTypeVIID": "1qrp0kGx2TpR5DJTKXTjCQ",
+                                  "outputTypeVDID": "xVF9BM9cBqj5uNismMP0Vw",
+                                  "operationVDID": "YUSYNe8af2tE-YA0jZblJg"
+                                }
+                              },
+                              "pvw8o8ehTwGyU5Wm5930bQ": {
+                                "filterDescriptor": {
+                                  "operationID": "pvw8o8ehTwGyU5Wm5930bQ",
+                                  "operationName": "Update Theme Palette",
+                                  "operationDescription": "Generates a theme descriptor object containing CSS values to be applied programmatically by the application's view subsystem and writes the result to the declared namespace in the OCD.",
+                                  "inputFilterSpec": {
+                                    "____label": "Update Theme Palette Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "vp5": {
+                                        "____types": "jsObject",
+                                        "view": {
+                                          "____types": "jsObject",
+                                          "styles": {
+                                            "____types": "jsObject",
+                                            "themeProcessor": {
+                                              "____types": "jsObject",
+                                              "update": {
+                                                "____accept": "jsObject"
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____label": "Theme Palette Descriptor",
+                                    "____description": "A collection of low-level styles, colors, fonts, spacing, etc... applied by name by theme-aware React components.",
+                                    "____types": [
+                                      "jsObject",
+                                      "jsUndefined"
+                                    ],
+                                    "colors": {
+                                      "____types": "jsObject",
+                                      "button": {
+                                        "____types": "jsObject",
+                                        "normal": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "alternate": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "danger": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "transparent": {
+                                          "____types": "jsObject",
+                                          "backgroundColor": {
+                                            "____accept": "jsString",
+                                            "____inValueSet": [
+                                              "transparent"
+                                            ]
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "disabled": {
+                                          "____types": "jsObject",
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        },
+                                        "inactive": {
+                                          "____types": "jsObject",
+                                          "pointerEvents": {
+                                            "____accept": "jsString"
+                                          },
+                                          "opacity": {
+                                            "____accept": [
+                                              "jsString",
+                                              "jsUndefined"
+                                            ]
+                                          },
+                                          "backgroundColor": {
+                                            "____accept": "jsString"
+                                          },
+                                          "color": {
+                                            "____accept": "jsString"
+                                          }
+                                        }
+                                      }
+                                    },
+                                    "fonts": {
+                                      "____types": "jsObject",
+                                      "normal": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "alternate": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      },
+                                      "header": {
+                                        "____types": "jsObject",
+                                        "fontFamily": {
+                                          "____accept": "jsString"
+                                        }
+                                      }
+                                    },
+                                    "mode": {
+                                      "____accept": "jsString",
+                                      "____inValueSet": [
+                                        "day",
+                                        "night"
+                                      ]
+                                    }
+                                  },
+                                  "inputTypeVIID": "Ox7IlFSpSqKdeqCCytbCbA",
+                                  "inputTypeVDID": "UsB59nNve9VfbxMe87dLXA",
+                                  "outputTypeVIID": "t_aOjCuSkjJTgiIZyKImXA",
+                                  "outputTypeVDID": "xVF9BM9cBqj5uNismMP0Vw",
+                                  "operationVDID": "Q2ndNbcAq2uFpis0Q-QpJg"
+                                }
+                              },
+                              "KX0V_aQ3RzG01tzBS24MGw": {
+                                "filterDescriptor": {
+                                  "operationID": "KX0V_aQ3RzG01tzBS24MGw",
+                                  "operationName": "OPC Intrinsic NOOP Action",
+                                  "operationDescription": "OPC-intrinsic performs no operation (noop). When invoked via OPC.act, the effect is to perform no read/write operations on OPC-instanced shared memory. And, then perform an evaluation.",
+                                  "inputFilterSpec": {
+                                    "____label": "OPC Intrinsic NOOP Action Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "opc": {
+                                          "____types": "jsObject",
+                                          "noop": {
+                                            "____accept": "jsBoolean",
+                                            "____inValueSet": [
+                                              true
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____opaque": true
+                                  },
+                                  "inputTypeVIID": "txJFSr26_WFausq9BG5NZg",
+                                  "inputTypeVDID": "BiObVoNbI4_uMMaTBVkFXQ",
+                                  "outputTypeVIID": "kuQ7tcKRU28cS2Qj0GX17A",
+                                  "outputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                  "operationVDID": "x0rQE0TkE1dfHMftLnWXtA"
+                                }
+                              },
+                              "S1GqYjTtSQazSxkIL9vtpA": {
+                                "filterDescriptor": {
+                                  "operationID": "S1GqYjTtSQazSxkIL9vtpA",
+                                  "operationName": "OPC Intrinsic Status Action",
+                                  "operationDescription": "OPC-intrinsic performs a retrieval of transitive OPC instance status.",
+                                  "inputFilterSpec": {
+                                    "____label": "OPC Intrinsic Status Action Request",
+                                    "____types": "jsObject",
+                                    "context": {
+                                      "____label": "OPC Context Descriptor",
+                                      "____description": "An object containing references to OPC instance-managed runtime API's available to transition operator filters.",
+                                      "____types": "jsObject",
+                                      "apmBindingPath": {
+                                        "____label": "APM Binding Path",
+                                        "____description": "Fully-qualified dot-delimited path to the current APM instance's associated data in the OCD instance.",
+                                        "____accept": "jsString"
+                                      },
+                                      "ocdi": {
+                                        "____label": "OCD Store Instance",
+                                        "____description": "A reference to the OCD store instance managed by OPC.",
+                                        "____accept": "jsObject"
+                                      },
+                                      "act": {
+                                        "____label": "OPC.act Method",
+                                        "____description": "A reference to ObservableProcessController.act method.",
+                                        "____accept": "jsFunction"
+                                      }
+                                    },
+                                    "actionRequest": {
+                                      "____types": "jsObject",
+                                      "holarchy": {
+                                        "____types": "jsObject",
+                                        "opc": {
+                                          "____types": "jsObject",
+                                          "status": {
+                                            "____accept": "jsBoolean",
+                                            "____inValueSet": [
+                                              true
+                                            ]
+                                          }
+                                        }
+                                      }
+                                    }
+                                  },
+                                  "outputFilterSpec": {
+                                    "____opaque": true
+                                  },
+                                  "inputTypeVIID": "vncGN9bjl9Mmy3r-EUnmKg",
+                                  "inputTypeVDID": "es2e3G-BC0wtoR59QSPlgg",
+                                  "outputTypeVIID": "A0mnQJBJD4gdX6rrM6Txtw",
+                                  "outputTypeVDID": "dHR0dNnZ2dlUVFRUyMjIyA",
+                                  "operationVDID": "LolDE0qGUVe0PlPtvVfktA"
+                                }
+                              }
+                            },
+                            "opcActorStack": [],
+                            "evalCount": 1,
+                            "lastEvalResponse": {
+                              "error": null,
+                              "result": {
+                                "evalNumber": 0,
+                                "summary": {
+                                  "counts": {
+                                    "bindings": 1,
+                                    "frames": 1,
+                                    "errors": 0,
+                                    "transitions": 0
+                                  }
+                                },
+                                "evalFrames": [
+                                  {
+                                    "summary": {
+                                      "counts": {
+                                        "bindings": 1,
+                                        "transitions": 0,
+                                        "errors": 0
+                                      },
+                                      "reports": {
+                                        "transitions": [],
+                                        "errors": []
+                                      }
+                                    },
+                                    "bindings": {
+                                      "5ubm5kVFRUUzMzMzIiIiIg": {
+                                        "evalRequest": {
+                                          "dataBinding": {
+                                            "dataPath": "~.themeProcessor",
+                                            "specPath": "~.themeProcessor"
+                                          },
+                                          "initialStep": "uninitialized",
+                                          "apmRef": {
+                                            "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                            "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                            "name": "Theme Processor Model",
+                                            "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                            "process": {
+                                              "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                              "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                              "vlist": [],
+                                              "elist": []
+                                            }
+                                          }
+                                        },
+                                        "evalResponse": {
+                                          "status": "noop",
+                                          "finishStep": "uninitialized",
+                                          "phases": {
+                                            "p1_toperator": [],
+                                            "p2_exit": [],
+                                            "p3_enter": [],
+                                            "p4_finalize": null
+                                          },
+                                          "errors": {
+                                            "p1_toperator": 0,
+                                            "p2_exit": 0,
+                                            "p3_enter": 0,
+                                            "p4_finalize": 0,
+                                            "total": 0
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                ]
+                              }
+                            },
+                            "constructionWarnings": []
+                          },
+                          "actionEvaluations": [
+                            {
+                              "actRequest": {
+                                "actorName": "External Test Actor #1",
+                                "actorTaskDescription": "Change buttonNormal color.",
+                                "actionRequest": {
+                                  "vp5": {
+                                    "view": {
+                                      "styles": {
+                                        "themeProcessor": {
+                                          "config": {
+                                            "colors": {
+                                              "buttonNormal": "red"
+                                            }
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "apmBindingPath": "~.themeProcessor"
+                              },
+                              "actResponse": {
+                                "error": null,
+                                "result": {
+                                  "actionResult": {},
+                                  "lastEvaluation": {
+                                    "evalNumber": 1,
+                                    "summary": {
+                                      "counts": {
+                                        "bindings": 1,
+                                        "frames": 1,
+                                        "errors": 0,
+                                        "transitions": 0
+                                      }
+                                    },
+                                    "evalFrames": [
+                                      {
+                                        "summary": {
+                                          "counts": {
+                                            "bindings": 1,
+                                            "transitions": 0,
+                                            "errors": 0
+                                          },
+                                          "reports": {
+                                            "transitions": [],
+                                            "errors": []
+                                          }
+                                        },
+                                        "bindings": {
+                                          "5ubm5kVFRUUzMzMzIiIiIg": {
+                                            "evalRequest": {
+                                              "dataBinding": {
+                                                "dataPath": "~.themeProcessor",
+                                                "specPath": "~.themeProcessor"
+                                              },
+                                              "initialStep": "uninitialized",
+                                              "apmRef": {
+                                                "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                                "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                                "name": "Theme Processor Model",
+                                                "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                                "process": {
+                                                  "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                                  "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                                  "vlist": [],
+                                                  "elist": []
+                                                }
+                                              }
+                                            },
+                                            "evalResponse": {
+                                              "status": "noop",
+                                              "finishStep": "uninitialized",
+                                              "phases": {
+                                                "p1_toperator": [],
+                                                "p2_exit": [],
+                                                "p3_enter": [],
+                                                "p4_finalize": null
+                                              },
+                                              "errors": {
+                                                "p1_toperator": 0,
+                                                "p2_exit": 0,
+                                                "p3_enter": 0,
+                                                "p4_finalize": 0,
+                                                "total": 0
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            },
+                            {
+                              "actRequest": {
+                                "actorName": "External Test Actor #2",
+                                "actorTaskDescription": "Try to make the ThemeProcessor update its outputs.",
+                                "actionRequest": {
+                                  "vp5": {
+                                    "view": {
+                                      "styles": {
+                                        "themeProcessor": {
+                                          "get": {}
+                                        }
+                                      }
+                                    }
+                                  }
+                                },
+                                "apmBindingPath": "~.themeProcessor"
+                              },
+                              "actResponse": {
+                                "error": null,
+                                "result": {
+                                  "actionResult": {
+                                    "colors": {
+                                      "button": {
+                                        "normal": {
+                                          "backgroundColor": "red",
+                                          "color": "white"
+                                        },
+                                        "alternate": {
+                                          "backgroundColor": "#282830",
+                                          "color": "white"
+                                        },
+                                        "danger": {
+                                          "backgroundColor": "#D82550",
+                                          "color": "white"
+                                        },
+                                        "transparent": {
+                                          "backgroundColor": "transparent",
+                                          "color": "black"
+                                        },
+                                        "disabled": {
+                                          "opacity": "0.6",
+                                          "pointerEvents": "none",
+                                          "backgroundColor": "#5C5C5C",
+                                          "color": "white"
+                                        },
+                                        "inactive": {
+                                          "pointerEvents": "none",
+                                          "backgroundColor": "#4D4D4D",
+                                          "color": "white"
+                                        }
+                                      }
+                                    },
+                                    "fonts": {
+                                      "normal": {
+                                        "fontFamily": "'Nunito', sans-serif"
+                                      },
+                                      "alternate": {
+                                        "fontFamily": "'Roboto', sans-serif"
+                                      },
+                                      "header": {
+                                        "fontFamily": "'Montserrat', sans-serif"
+                                      }
+                                    },
+                                    "mode": "day"
+                                  },
+                                  "lastEvaluation": {
+                                    "evalNumber": 2,
+                                    "summary": {
+                                      "counts": {
+                                        "bindings": 1,
+                                        "frames": 1,
+                                        "errors": 0,
+                                        "transitions": 0
+                                      }
+                                    },
+                                    "evalFrames": [
+                                      {
+                                        "summary": {
+                                          "counts": {
+                                            "bindings": 1,
+                                            "transitions": 0,
+                                            "errors": 0
+                                          },
+                                          "reports": {
+                                            "transitions": [],
+                                            "errors": []
+                                          }
+                                        },
+                                        "bindings": {
+                                          "5ubm5kVFRUUzMzMzIiIiIg": {
+                                            "evalRequest": {
+                                              "dataBinding": {
+                                                "dataPath": "~.themeProcessor",
+                                                "specPath": "~.themeProcessor"
+                                              },
+                                              "initialStep": "uninitialized",
+                                              "apmRef": {
+                                                "id": "zzvzLbm2RTyQN1lWFcjpVA",
+                                                "vdid": "LpABgiM-Z2N6RMGOXC9LUg",
+                                                "name": "Theme Processor Model",
+                                                "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                                "process": {
+                                                  "name": "[zzvzLbm2RTyQN1lWFcjpVA::Theme Processor Model] APM Digraph",
+                                                  "description": "Encapsulates the details of generating and updating current programmatic style settings consumed by client application view and display processes.",
+                                                  "vlist": [],
+                                                  "elist": []
+                                                }
+                                              }
+                                            },
+                                            "evalResponse": {
+                                              "status": "noop",
+                                              "finishStep": "uninitialized",
+                                              "phases": {
+                                                "p1_toperator": [],
+                                                "p2_exit": [],
+                                                "p3_enter": [],
+                                                "p4_finalize": null
+                                              },
+                                              "errors": {
+                                                "p1_toperator": 0,
+                                                "p2_exit": 0,
+                                                "p3_enter": 0,
+                                                "p4_finalize": 0,
+                                                "total": 0
+                                              }
+                                            }
+                                          }
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              }
+                            }
+                          ]
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }
+        }
+      ]
+    }
+  }
+}

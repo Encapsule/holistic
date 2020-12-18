@@ -29,28 +29,13 @@ var apm = new holarchy.AbstractProcessModel({
         };
       }
     },
-    construction: {
-      ____types: "jsObject",
-      idTargetDOMElement: {
-        ____label: "d2r2 Display Adapter Target DOM Element Identifier",
-        ____description: "A identifier string to be used to locate a DIV in the HTML5 document that the d2r2/React display adapter process should use for rendering.",
-        ____accept: "jsString",
-        ____defaultValue: "idAppClientUserInterfaceDisplay"
-      },
-      d2r2Components: {
-        ____label: "d2r2/React Components Array",
-        ____description: "An array of d2r2/React component binding filters the the derived app client process needs registered in the d2r2 request space.",
-        ____types: "jsArray",
-        ____defaultValue: [],
-        d2r2Component: {
-          ____accept: "jsObject"
-        }
-      }
-    },
     config: {
       ____types: ["jsUndefined", // Initially undefined upon process activation.
-      "jsObject" // Set by step worker in display-adapter-initialize process step enter action.
+      "jsObject" // Set holistic.app.client.display._private.loadConfig action
       ],
+      targetDOMElementID: {
+        ____accept: "jsString"
+      },
       targetDOMElement: {
         ____label: "d2r2 Target DOM Element",
         ____description: "A reference to the DOM element to be be managed by the d2r2/React Client Display Adapter (obtained with document.getElementById).",
@@ -77,21 +62,19 @@ var apm = new holarchy.AbstractProcessModel({
         transitionIf: {
           always: true
         },
-        nextStep: "display-adapter-initialize"
+        nextStep: "display-adapter-load-config"
       }]
     },
-    "display-adapter-initialize": {
-      description: "Display adapter process is initializing.",
+    "display-adapter-load-config": {
+      description: "d2r2/React display adapter cell is loading construction config into its cell memory.",
       actions: {
-        enter: [{
+        exit: [{
           holistic: {
             app: {
               client: {
                 display: {
                   _private: {
-                    stepWorker: {
-                      action: "initialize-display-adapter"
-                    }
+                    loadConfig: {}
                   }
                 }
               }
@@ -134,7 +117,7 @@ var apm = new holarchy.AbstractProcessModel({
       }]
     },
     "display-adapter-service-ready": {
-      description: "d2r2/React Client Display Adapter has been initialized, configured, and ready to accept layout update requests."
+      description: "d2r2/React Client Display Adapter has been initialized, configured, and ready to accept layout update requests from the tab service's app process runtime."
     }
   } // steps
 

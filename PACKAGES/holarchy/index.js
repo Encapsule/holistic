@@ -7,8 +7,14 @@
   | o   O | | o   O | | o   O |
   o       O o       O o       O
 */
-// @encapsule/holarchy - the keystone of holistic app platform
-// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
+// @encapsule/holarchy
+// Copyright (C) 2000-2020 Christopher D. Russell
+// Published for free and public use under MIT License by Encapsule Project, Seattle WA USA
+// @encapsule/holistic platform disitution package is available for public download here:
+// git@github.com:Encapsule/holistic.git https://github.com/Encapsule/holistic
+// Default distribution repo branch is #release-stable. Stable vNext test release is on #release-test.
+// Follow Encapsule Project on Twitter & GitHub for news and release updates @Encapsule.
+//
 var packageMeta = require("./package.json");
 
 var CellModel = require("./CellModel");

@@ -7,6 +7,9 @@ const arccore = require("@encapsule/arccore");
 // knowledge of how these filter specs are composed meaning we can leave it as it is and worry about
 // that in the layer that actually calls this factory filter.
 
+// v0.0.49-spectrolite
+// Okay - the above comment makes sense. This the layer above is going to be the HolonServiceCore::constructor filter (or one of its delegates)
+
 
 var factoryResponse = arccore.filter.create({
 
@@ -21,15 +24,23 @@ var factoryResponse = arccore.filter.create({
         id: { ____types: "jsString" },
         name: { ____types: "jsString" },
         description: { ____types: "jsString" },
-        constraints: {
+        metadataInputSpec: {
+            ____label: "Derived App Service Metadata Input Spec",
+            ____description: "This filter specification is synthesized by HolisticAppCommon::constructor filter. It is used to specify the format of the values that the developer must pass to the digraph builder filter produced by this factory.",
             ____types: "jsObject",
-            metadata: {
-                ____types: "jsObject",
-                org: { ____accept: "jsObject" },
-                app: { ____accept: "jsObject" },
-                page: { ____accept: "jsObject" },
-                hashroute: { ____accept: "jsObject" }
-            }
+            org: { ____accept: "jsObject" },
+            app: { ____accept: "jsObject" },
+            pages: { ____accept: "jsObject" },
+            hashroutes: { ____accept: "jsObject" }
+        },
+        metadataOutputSpec: {
+            ____label: "Derived App Service Metadata Output Spec",
+            ____description: "This filter specification is synthesized by HolisticAppCommon::constructor filter. It is used to specify the format of metadata digraph query result values.",
+            ____types: "jsObject",
+            org: { ____accept: "jsObject" },
+            app: { ____accept: "jsObject" },
+            pages: { ____accept: "jsObject" },
+            hashroutes: { ____accept: "jsObject" }
         }
     },
 
@@ -86,6 +97,7 @@ var factoryResponse = arccore.filter.create({
                         arccore.graph.directed.depthFirstTraverse({
                             digraph: request_.digraph,
                             options: {
+                                // TODO: This should be a sorted traversal w/custom comparator on rank then name I think.
                                 startVector: request_.indexVertex
                             },
                             visitor: {
@@ -179,7 +191,7 @@ var factoryResponse = arccore.filter.create({
             }
             const topologicalSort = innerResponse.result;
 
-            // v0.0.48-kyanite slated for deprecation
+            // v0.0.49-spectrolite modified and kept mainly for earlier reporting of bad input values.
             innerResponse = arccore.filter.create({
                 operationID: "_2uR2ri8Qyy4l6e-3bDbeg",
                 operationName: "Page Metadata Definition Property Writer",
@@ -189,7 +201,7 @@ var factoryResponse = arccore.filter.create({
                     digraph: { ____accept: "jsObject" },
                     vertex: { ____accept: "jsString" },
                     propertyData: {
-                        ...factoryRequest_.constraints.metadata.page,
+                        ...factoryRequest_.metadataInputSpec.pages.pageURI,
                         children: {
                             ____label: "Children View URIs",
                             ____description: "An orderred array of this page's subpage URI's.",
@@ -204,11 +216,17 @@ var factoryResponse = arccore.filter.create({
                         ts: {
                             ____label: "Menu Magic",
                             ____description: "Topological sort timestamp and derived weight information. Used to automate UX menu layout.",
-                            ____accept: "jsObject",
+                            ____types: "jsObject",
                             ____defaultValue: {},
+                            d: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            i: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            o: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            p: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            w: { ____accept: "jsNumber", ____defaultValue: 0 }
                         }
                     }
                 },
+                outputFilterSpec: factoryRequest_.metadataOutputSpec.pages.pageURI,
                 bodyFunction: function(request_) {
                     request_.digraph.setVertexProperty({ u: request_.vertex, p: request_.propertyData });
                     return { error: null, result: request_.propertyData };
@@ -220,7 +238,7 @@ var factoryResponse = arccore.filter.create({
             }
             const pagePropWriter = innerResponse.result;
 
-            // v0.0.48-kyanite slated for deprecation
+            // v0.0.49-spectrolite modified and kept mainly for earlier reporting of bad input values.
             innerResponse = arccore.filter.create({
                 operationID: "LAVpp6JMRg-RZaDhZogmWw",
                 operationName: "Hashroute Metadata Definition Property Writer",
@@ -230,7 +248,7 @@ var factoryResponse = arccore.filter.create({
                     digraph: { ____accept: "jsObject" },
                     vertex: { ____accept: "jsString" },
                     propertyData: {
-                        ...factoryRequest.constraints.metadata.hashroute,
+                        ...factoryRequest.metadataInputSpec.hashroutes.hashroutePathname,
                         children: {
                             ____label: "Children View URIs",
                             ____description: "An orderred array of this page's subpage URI's.",
@@ -245,11 +263,17 @@ var factoryResponse = arccore.filter.create({
                         ts: {
                             ____label: "Menu Magic",
                             ____description: "Topological sort timestamp and derived weight information. Used to automate UX menu layout.",
-                            ____accept: "jsObject",
+                            ____types: "jsObject",
                             ____defaultValue: {},
+                            d: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            i: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            o: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            p: { ____accept: "jsNumber", ____defaultValue: 0 },
+                            w: { ____accept: "jsNumber", ____defaultValue: 0 }
                         }
                     }
                 },
+                outputFilterSpec: factoryRequest_.metadataOutputSpec.hashroutes.hashroutePathname,
                 bodyFunction: function(request_) {
                     request_.digraph.setVertexProperty({ u: request_.vertex, p: request_.propertyData });
                     return { error: null, result: request_.propertyData };
@@ -266,35 +290,16 @@ var factoryResponse = arccore.filter.create({
                 operationName: factoryRequest.name,
                 operationDescription: factoryRequest.description,
                 inputFilterSpec: {
+                    ...factoryRequest_.metadataInputSpec,
                     ____label: "Holistic App Metadata Digraph Builder Request",
                     ____description: "Application metadata declaration object from the developer of the derived holistic application.",
-                    ____types: "jsObject",
-                    org: factoryRequest.constraints.metadata.org,
-                    app: factoryRequest.constraints.metadata.app,
-                    pages: {
-                        ____label: "Page View Metadata Descriptor Map",
-                        ____description: "A map of page view URI strings to page view descriptor objects. Note that all page view URI's must start with a leading frontslash '/' character.",
-                        ____types: "jsObject",
-                        ____asMap: true,
-                        ____defaultValue: {},
-                        pageURI: factoryRequest.constraints.metadata.page
-                    },
-                    hashroutes: {
-                        ____label: "Hashroute View Metadata Descriptor Map",
-                        ____description: "A map of hashroute view URI strings to hashroute view descriptor objects. Note that all hashroute view URI's must start with a leading hash '#' character.",
-                        ____types: "jsObject",
-                        ____asMap: true,
-                        ____defaultValue: {},
-                        hashrouteURI: factoryRequest.constraints.metadata.hashroute
-                    }
+                    ____types: "jsObject"
                 },
-
                 outputFilterSpec: {
                     ____label: "Holistic App Metadata Definition Digraph Model",
                     ____description: "An Encapsule/arccore.graph directed graph object that model the derived holistic application's organizational, site (aka application), page, and hashroute metadata as a small in-memory database.",
                     ____accept: "jsObject"
                 },
-
 
                 bodyFunction: function(digraphBuilderRequest_) {
                     var response = { error: null, result: null };

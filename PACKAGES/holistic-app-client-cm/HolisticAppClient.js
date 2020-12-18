@@ -7,7 +7,7 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
 // HolisticAppClient.js
-var constructorFilter = require("./lib/filters/HolisticAppClientService-method-constructor-filter");
+var constructorFilter = require("./lib/filters/HolisticAppClient-method-constructor-filter");
 
 var HolisticAppClient = /*#__PURE__*/function () {
   function HolisticAppClient(request_) {
@@ -23,6 +23,7 @@ var HolisticAppClient = /*#__PURE__*/function () {
       };
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
+      this.boot = this.boot.bind(this);
       var filterResponse = constructorFilter.request(request_);
 
       if (filterResponse.error) {
@@ -49,6 +50,27 @@ var HolisticAppClient = /*#__PURE__*/function () {
     key: "toJSON",
     value: function toJSON() {
       return this.isValid() ? this._private : this._private.constructorError;
+    }
+  }, {
+    key: "boot",
+    value: function boot() {
+      if (!this.isValid()) {
+        return this.toJSON();
+      }
+
+      return this._private.serviceRuntime.act({
+        actorName: "Browser Tab Host",
+        actorTaskDescription: "Browser is attempting to boot the tab service.",
+        actionRequest: {
+          holistic: {
+            app: {
+              client: {
+                boot: {}
+              }
+            }
+          }
+        }
+      });
     }
   }]);
 

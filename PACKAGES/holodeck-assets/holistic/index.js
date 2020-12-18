@@ -24,9 +24,8 @@ var holarchyPackageHarnesses = require("../holarchy/harnesses");
 
 var holarchyPackageVectorSets = require("./holarchy-package-tests/vector-sets");
 
-var holarchyCMPackageVectorSets = require("./holarchy-cm-package-tests/vector-sets");
+var holarchyCMPackageVectorSets = require("./holarchy-cm-package-tests/vector-sets"); // const holisticAppClientCMVectorSets = require("./holistic-app-client-cm-package-tests/vector-sets"); // TODO: v0.0.49-spectrolite disabled for now
 
-var holisticAppClientCMVectorSets = require("./holistic-app-client-cm-package-tests/vector-sets");
 
 var holisticAppServerCMVectorSets = require("./holistic-app-server-cm-package-tests/vector-sets");
 
@@ -81,7 +80,7 @@ var factoryResponse = arccore.filter.create({
         logsRootDir: request_.logsDirectory,
         testHarnessFilters: [].concat(_toConsumableArray(holodeckPackageHarnesses), _toConsumableArray(holarchyPackageHarnesses)),
         testRunnerOptions: request_.testRunnerOptions,
-        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchyCMPackageVectorSets), _toConsumableArray(holisticAppClientCMVectorSets), _toConsumableArray(holisticAppServerCMVectorSets), _toConsumableArray(holisticAppCommonCMVectorSets))
+        testRequestSets: [].concat(_toConsumableArray(holodeckPackageVectorSets), _toConsumableArray(holarchyPackageVectorSets), _toConsumableArray(holarchyCMPackageVectorSets), _toConsumableArray(holisticAppServerCMVectorSets), _toConsumableArray(holisticAppCommonCMVectorSets))
       });
 
       if (runnerResponse.error) {
