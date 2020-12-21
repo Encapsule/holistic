@@ -1,6 +1,7 @@
 "use strict";
 
-var holarchyCM = require("@encapsule/holarchy-cm");
+var _require = require("@encapsule/holarchy"),
+    HolarchyCore = _require.HolarchyCore;
 
 var fixtureOpmExamples = require("./fixture-opm-evaluate-p2-exit-actions");
 
@@ -29,7 +30,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result],
             controllerActionSets: []
@@ -61,7 +62,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result],
             controllerActionSets: [fixtureActExamples]
@@ -93,7 +94,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result],
             controllerActionSets: [fixtureActExamples]
@@ -125,7 +126,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result],
             controllerActionSets: [fixtureActExamples]

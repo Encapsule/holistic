@@ -3,8 +3,6 @@
 // cellmodel-cpm-test-operator-parentProcessActive.js
 var holarchy = require("@encapsule/holarchy");
 
-var holarchyCML = require("@encapsule/holarchy-cm").cml;
-
 var cellModel = new holarchy.CellModel({
   id: "mLTbOO97TtixSbKl8VB7gQ",
   name: "CPM Parent Process Active Operator Test Model",

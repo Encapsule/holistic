@@ -3,8 +3,6 @@
 // cellmodel-cpm-test-operator-descendantProcessesActive.js
 var holarchy = require("@encapsule/holarchy");
 
-var holarchyCML = require("@encapsule/holarchy-cm").cml;
-
 var cellModel = new holarchy.CellModel({
   id: "L0L3o-vqTOOli8Lio96e8w",
   name: "CPM Descendant Processes Active Operator Test Model",
@@ -44,7 +42,7 @@ var cellModel = new holarchy.CellModel({
     }
   },
   // apm
-  subcells: [require("../cellmodel-dummy-A"), holarchyCML]
+  subcells: [require("../cellmodel-dummy-A")]
 });
 
 if (!cellModel.isValid()) {

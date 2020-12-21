@@ -3,8 +3,6 @@
 // cellmodel-cpm-test-operator-ancestorProcessesAllInStep/index.js
 var holarchy = require("@encapsule/holarchy");
 
-var holarchyCML = require("@encapsule/holarchy-cm").cml;
-
 var cellModel = new holarchy.CellModel({
   id: "wjUvGFxOQu6H3lZeII0cbA",
   name: "CPM Ancestor Processes All In Step Operator Test Model",

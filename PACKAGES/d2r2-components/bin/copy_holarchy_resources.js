@@ -14,7 +14,7 @@ var path = require("path");
 
 var packageMeta = require("../package.json");
 
-var packageResourcesDirPath = path.resolve(path.join(__dirname, "../resources"));
+var packageResourcesDirPath = path.resolve(path.join(__dirname, "../ASSETS"));
 
 function syncExec(request_) {
   // request_ = { command: string, cwd: string,  }

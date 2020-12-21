@@ -20,7 +20,7 @@ const mkdirp = require("mkdirp"); // as in UNIX mkdir -p
 const semver = require("semver");
 const arctoolslib = require("@encapsule/arctools"); // Encapsule/arctools package
 const arccore = arctoolslib.arccore; // ... Encapsule/arccore is bundled with Encapsule/arctools
-const handlebars = arctoolslib.handlebars; // ... handlebars template engine is bundled with Encapsule/arctools
+const handlebars = arctoolslib.handlebars; // ... handlebars template engine is bundled with Encapsule/arctools // TODO: WE DO NOT NEED THIS ANYMORE - But, I have no time right now to go back into @encapsule/arctools (code that was written in 2012/2013 mostly).
 
 const holisticMetadata = require("./PACKAGES/holistic");
 const holisticPlatformRuntimePackageNames = require("./PACKAGES/holistic-rtl-packages");

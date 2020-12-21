@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.49 "spectrolite" build ID "Xw111swOQFS59GuSrCljMw"
-Sources: Encapsule/holistic-master#604176e09b330151504da1adff687797c8a0c488
-Created: 2020-12-18T22:42:45.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.49 "spectrolite" build ID "1Pi_D1CCQ9-UG7CyR2cS9w"
+Sources: Encapsule/holistic-master#c7b0ceb998c2d1613d6573bcbc48a17796377e04
+Created: 2020-12-21T18:00:06.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -50,11 +50,11 @@ Holistic app platform is becoming quite stable. But, lacks examples (required) a
 
     - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
 
-    - &#x25F0; [@encapsule/holistic-app-client-cm](PACKAGES/holistic-app-client-cm/README.md "Jump to holistic-app-client-cm RTL package README...")
+    - &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 
-    - &#x25F0; [@encapsule/holistic-app-common-cm](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
+    - &#x25F0; [@encapsule/holistic-nodejs-service](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
 
-    - &#x25F0; [@encapsule/holistic-app-server-cm](PACKAGES/holistic-app-server-cm/README.md "Jump to holistic-app-server-cm RTL package README...")
+    - &#x25F0; [@encapsule/holistic-service-core](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
 
     - &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 
@@ -339,23 +339,23 @@ This package contains re-usable service filter plug-ins for use with the @encaps
 
 > [README &#9656;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
 
-### &#x25F0; [@encapsule/holistic-app-client-cm](PACKAGES/holistic-app-client-cm/README.md "Jump to holistic-app-client-cm RTL package README...")
+### &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 
 Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.
 
-> [README &#9656;](PACKAGES/holistic-app-client-cm/README.md "Jump to holistic-app-client-cm RTL package README...")
+> [README &#9656;](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 
-### &#x25F0; [@encapsule/holistic-app-common-cm](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
-
-Exports the HolisticAppCommon CellModel library for use in derived HolisticAppServer and HolisticAppClient CellModels.
-
-> [README &#9656;](PACKAGES/holistic-app-common-cm/README.md "Jump to holistic-app-common-cm RTL package README...")
-
-### &#x25F0; [@encapsule/holistic-app-server-cm](PACKAGES/holistic-app-server-cm/README.md "Jump to holistic-app-server-cm RTL package README...")
+### &#x25F0; [@encapsule/holistic-nodejs-service](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
 
 Exports the HolisticAppServer CellModel for use in derived @encapsule/holistic applications/services.
 
-> [README &#9656;](PACKAGES/holistic-app-server-cm/README.md "Jump to holistic-app-server-cm RTL package README...")
+> [README &#9656;](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
+
+### &#x25F0; [@encapsule/holistic-service-core](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
+
+Exports the HolisticAppCommon CellModel library for use in derived HolisticAppServer and HolisticAppClient CellModels.
+
+> [README &#9656;](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
 
 ### &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 

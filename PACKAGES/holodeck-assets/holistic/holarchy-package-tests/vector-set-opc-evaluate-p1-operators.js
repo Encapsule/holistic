@@ -1,6 +1,7 @@
 "use strict";
 
-var holarchyCM = require("@encapsule/holarchy-cm");
+var _require = require("@encapsule/holarchy"),
+    HolarchyCore = _require.HolarchyCore;
 
 var fixtureOpmExamples = require("./fixture-opm-evaluate-p1-transition-operators");
 
@@ -57,7 +58,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result]
           }
@@ -88,7 +89,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result, fixtureTopExamples]
           }
@@ -119,7 +120,7 @@ module.exports = [{
               }
             },
             abstractProcessModelSets: [fixtureOpmExamples],
-            transitionOperatorSets: [holarchyCM.cml.getCMConfig({
+            transitionOperatorSets: [HolarchyCore.getCMConfig({
               type: "TOP"
             }).result, fixtureTopExamples]
           }

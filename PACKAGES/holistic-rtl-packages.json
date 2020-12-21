@@ -6,9 +6,9 @@
     "@encapsule/holism",
     "@encapsule/holism-metadata",
     "@encapsule/holism-services",
-    "@encapsule/holistic-app-client-cm",
-    "@encapsule/holistic-app-common-cm",
-    "@encapsule/holistic-app-server-cm",
+    "@encapsule/holistic-html5-service",
+    "@encapsule/holistic-nodejs-service",
+    "@encapsule/holistic-service-core",
     "@encapsule/holodeck",
     "@encapsule/holodeck-assets",
     "@encapsule/hrequest"
