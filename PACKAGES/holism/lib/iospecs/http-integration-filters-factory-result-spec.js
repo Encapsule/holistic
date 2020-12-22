@@ -77,5 +77,7 @@ spec.filters = {
     }
 }; // filters
 
+spec.htmlRenderOptions = httpIntegrationFiltersFactoryRequestSpec.integrations.render.html.renderOptions;
+
 module.exports = spec;
 

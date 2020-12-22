@@ -1,5 +1,7 @@
 // http-integration-filters-factory-request-spec.js
 
+const httpServerRenderHTML5OptionsSpec = require("./http-server-render-html5-options-spec");
+
 module.exports = {
     ____label: "HTTP Server Integrations Factory Request",
     ____description: "Information used to construct HTTP server integration filters.",
@@ -186,7 +188,12 @@ module.exports = {
                     ____label: "HTML Render Function",
                     ____description: "Developer-defined callback function responsible for rendering HTML documents.",
                     ____accept: "jsFunction"
+                },
+
+                renderOptions: {
+                    ...httpServerRenderHTML5OptionsSpec
                 }
+
 
             } // html
 

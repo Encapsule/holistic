@@ -80,9 +80,28 @@ function renderHtmlDocument(request_) {
       // ================================================================
       // Synthesize the actual HTML5 document to be returned to the client via HTTP.
 
-      var htmlDocument = "<!DOCTYPE html>\n<html lang=\"en\">\n  <!-- @viewpath/".concat(appAgentMetadata.name, " v").concat(appAgentMetadata.version, "-").concat(appAgentMetadata.codename, " buildID \"").concat(appAgentMetadata.buildID, "\" [").concat(request_.appServiceContext.metadataContext.server.environment, "] -->\n  <!-- Copyright (C) ").concat(appAgentMetadata.copyright.year, " ").concat(appAgentMetadata.copyright.holder, " -->\n  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>").concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/spinners.css\">\n    <link rel='stylesheet' href=\"/css/viewpath5-").concat(appAgentMetadata.buildID, ".css\">\n    <link href=\"https://fonts.googleapis.com/css?family=Play|Montserrat:300,400,600,700|Share+Tech+Mono|Nunito:300,400,600,700|Roboto:300,400,600,700\" rel=\"stylesheet\">\n    <link rel=\"apple-touch-icon\", sizes='57x57' href=\"/apple-icon-57x57.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"60x60\", href=\"/apple-icon-60x60.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"72x72\", href=\"/apple-icon-72x72.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"76x76\", href=\"/apple-icon-76x76.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"114x114\", href=\"/apple-icon-114x114.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"120x120\", href=\"/apple-icon-120x120.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"144x144\", href=\"/apple-icon-144x144.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"152x152\", href=\"/apple-icon-152x152.png\">\n    <link rel=\"apple-touch-icon\", sizes=\"180x180\", href=\"/apple-icon-180x180.png\">\n    <link rel=\"icon\", type=\"image/png\", sizes=\"192x192\", href=\"/android-chrome-192x192.png\">\n    <link rel=\"icon\", type=\"image/png\", sizes=\"32x32\", href=\"/favicon-32x32.png\">\n    <link rel=\"icon\", type=\"image/png\", sizes=\"32x32\", href=\"/favicon-48x48.png\">\n    <link rel=\"icon\", type=\"image/png\", sizes=\"96x96\", href=\"/favicon-96x96.png\">\n    <link rel=\"icon\", type=\"image/png\", sizes=\"16x16\", href=\"/favicon-16x16.png\">\n    <link rel=\"shortcut icon\", type=\"image/svg+xml\", href=\"/images/favicon.svg\">\n    <link rel=\"mask-icon\" href=\"/images/favicon.svg\" color=\"#ffffff\">\n    <link rel=\"manifest\", href=\"/manifest.json\">\n    <meta name=\"msapplication-TileColor\", content=\"#ffffff\" />\n    <meta name=\"msapplication-TileImage\", content=\"/images/ms-icon-144x144.png\" />\n  </head>\n  <body>\n    <div id=\"idTabServiceDisplayProcess\">").concat(htmlContent, "</div>\n    <script type=\"text/javascript\" src=\"/javascript/client-app-bundle-").concat(appAgentMetadata.buildID, ".js\"></script>\n    <script id=\"idClientBootROM\" type=\"text/plain\">").concat(bootROM, "</script>\n  </body>\n</html>\n"); // Send the string back to @encapsule/holism.
+      var htmlDocumentLines = [];
+      htmlDocumentLines.push("<!DOCTYPE html>\n  <html lang=\"en\">\n  <!-- @viewpath/".concat(appAgentMetadata.name, " v").concat(appAgentMetadata.version, "-").concat(appAgentMetadata.codename, " buildID \"").concat(appAgentMetadata.buildID, "\" [").concat(request_.appServiceContext.metadataContext.server.environment, "] Copyright (C) ").concat(appAgentMetadata.copyright.year, " ").concat(appAgentMetadata.copyright.holder, " -->\n"));
 
-      response.result = htmlDocument;
+      if (request_.appServiceRequest.renderOptions.documentPrologueComments) {
+        htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentPrologueComments);
+      }
+
+      htmlDocumentLines.push("  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>".concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/viewpath5-").concat(appAgentMetadata.buildID, ".css\">\n    <link href=\"https://fonts.googleapis.com/css?family=Play|Montserrat:300,400,600,700|Share+Tech+Mono|Nunito:300,400,600,700|Roboto:300,400,600,700\" rel=\"stylesheet\">\n    <link rel='stylesheet' href=\"/css/spinners.css\">\n"));
+
+      if (request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta) {
+        htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta);
+      }
+
+      htmlDocumentLines.push("  </head>\n  <body>\n    <div id=\"idTabServiceDisplayProcess\">".concat(htmlContent, "</div>\n    <script type=\"text/javascript\" src=\"/javascript/client-app-bundle-").concat(appAgentMetadata.buildID, ".js\"></script>\n    <script id=\"idClientBootROM\" type=\"text/plain\">").concat(bootROM, "</script>\n  </body>\n"));
+
+      if (request_.appServiceRequest.renderOptions.documentEpilogueComments) {
+        htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentEpilogueComments);
+      }
+
+      htmlDocumentLines.push("  <!-- Powered by ".concat(appAgentMetadata.platform.name, ". GET:/agent for version details. -->\n</html>\n")); // Send the string back to @encapsule/holism.
+
+      response.result = htmlDocumentLines.join("");
     } catch (exception_) {
       errors.push("Unexpected exception while attempting to synthesize HTML5 document: ".concat(exception_.stack));
     }

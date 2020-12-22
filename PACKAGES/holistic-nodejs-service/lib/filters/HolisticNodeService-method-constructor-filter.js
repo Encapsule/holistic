@@ -18,9 +18,9 @@ var d2r2 = require("@encapsule/d2r2");
 var _require = require("@encapsule/holistic-service-core"),
     HolisticServiceCore = _require.HolisticServiceCore;
 
-var inputFilterSpec = require("./iospecs/HolisticAppServer-method-constructor-filter-input-spec");
+var inputFilterSpec = require("./iospecs/HolisticNodeService-method-constructor-filter-input-spec");
 
-var outputFilterSpec = require("./iospecs/HolisticAppServer-method-constructor-filter-output-spec");
+var outputFilterSpec = require("./iospecs/HolisticNodeService-method-constructor-filter-output-spec");
 
 var renderHtmlFunction = require("../holism-http-server/integrations/render-html");
 
@@ -32,8 +32,8 @@ var holisticAppModels = {
 };
 var factoryResponse = arccore.filter.create({
   operationID: "365COUTSRWCt2PLogVt51g",
-  operationName: "HolisticAppServer::constructor Filter",
-  operationDescription: "Validates/normalizes a HolisticAppServer::constructor function request descriptor object. And, returns the new instance's private state data.",
+  operationName: "HolisticNodeService::constructor Filter",
+  operationDescription: "Validates/normalizes a HolisticNodeService::constructor function request descriptor object. And, returns the new instance's private state data.",
   inputFilterSpec: inputFilterSpec,
   outputFilterSpec: outputFilterSpec,
   bodyFunction: function bodyFunction(request_) {
@@ -260,7 +260,8 @@ var factoryResponse = arccore.filter.create({
           },
           render: {
             html: {
-              bodyFunction: renderHtmlFunction
+              bodyFunction: renderHtmlFunction,
+              renderOptions: request_.appModels.httpRequestProcessor.holismConfig.lifecycle.renderHTML5Options
             }
           }
         }

@@ -264,6 +264,43 @@ This filter normalizes the value of `input` passed to its `request` method using
                     "____accept": "jsFunction"
                 }
             }
+        },
+        "htmlRenderOptions": {
+            "____label": "HTML5 Document Synth Options",
+            "____description": "Options and overrides to apply to the @encapsule/holistic-nodejs-service's HTML5 document rendering subsystem.",
+            "____types": "jsObject",
+            "____defaultValue": {},
+            "documentPrologueComments": {
+                "____label": "Document Prologue Comments",
+                "____description": "Optional app-specific HTML5 comment string to insert at the top of every HTML5 document produced by the Node.js service.",
+                "____accept": [
+                    "jsNull",
+                    "jsString"
+                ],
+                "____defaultValue": null
+            },
+            "documentHeadSectionLinksMeta": {
+                "____label": "Document Header Meta and Link Extensions",
+                "____description": "Optional app-specific HTML5 HEAD section content. This is not carefully merged so be careful not to override any of the tags HolisticNodeService specifies (and are required to be in specific format(s) by HolisticHTML5Service).",
+                "____types": [
+                    "jsNull",
+                    "jsString",
+                    "jsArray"
+                ],
+                "____defaultValue": null,
+                "oneLine": {
+                    "____accept": "jsString"
+                }
+            },
+            "documentEpilogueComments": {
+                "____label": "Document Epilogue Comments",
+                "____description": "Optional app-specific comment string to insert at the bottom of every HTML5 document produced by the Node.js service.",
+                "____accept": [
+                    "jsNull",
+                    "jsString"
+                ],
+                "____defaultValue": null
+            }
         }
     }
 }
@@ -305,8 +342,8 @@ If no error then the value assigned to `response.result` is normalized per the f
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `5GJ8LaKGShCXySL1OvA2Qw` | `Ri-uE8823lfrBeHtYVPltA` |
-| input contract | `FFGnHbDvSSFjtdW7E7-mMQ` | `S_V1lHRfHekmHFTihNmkYA` |
+| operation | `5GJ8LaKGShCXySL1OvA2Qw` | `RlygE89kelfrY63tYaVVtA` |
+| input contract | `FFGnHbDvSSFjtdW7E7-mMQ` | `V-5kBE-2nOL9TD7GCCvugQ` |
 | output contract | `drWr1XXLPGUnGjTEb5tXdQ` | `dHR0dNnZ2dlUVFRUyMjIyA` |
 
 ### Configuration
@@ -322,5 +359,5 @@ Filter classification:  **normalized operation**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Mon Dec 21 2020 10:00:07 GMT-0800 (Pacific Standard Time)
+Document updated Tue Dec 22 2020 13:56:34 GMT-0800 (Pacific Standard Time)
 

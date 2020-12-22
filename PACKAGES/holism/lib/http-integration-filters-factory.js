@@ -3,6 +3,7 @@
 const arccore = require("@encapsule/arccore");
 const httpIntegrationFiltersFactoryRequestSpec = require("./iospecs/http-integration-filters-factory-request-spec");
 const httpIntegrationFiltersFactoryResultSpec = require("./iospecs/http-integration-filters-factory-result-spec");
+const httpServerRenderHTML5OptionsSpec = require("./iospecs/http-server-render-html5-options-spec");
 
 const httpServerAgentResultSpec = require("./iospecs/http-server-agent-result-spec");
 const httpRequestDescriptorSpec = require("./iospecs/http-service-filter-request-descriptor-spec");
@@ -410,7 +411,9 @@ var factoryResponse = arccore.filter.create({
                             ____label: "d2r2/React Render Request",
                             ____description: "An @encapsule/d2r2 <ComponentRouter/> renderData request descriptor object synthesized by the calling derived app server process (via a @encapsule/holism service filter that handles requests for this GET:/URL route).",
                             ____accept: "jsObject" // By definition we do not know or care about the format of this d2r2 renderData request at this level of abstraction.
-                        }
+                        },
+
+                        renderOptions: { ...httpServerRenderHTML5OptionsSpec }
 
                     } // appServiceRequest
 
@@ -449,6 +452,7 @@ var factoryResponse = arccore.filter.create({
                     normalize_user_session_result: normalizeUserSessionResultFilter,
                     normalize_user_session_error: normalizeUserSessionErrorFilter
                 },
+                htmlRenderOptions: request_.integrations.render.html.renderOptions,
                 appStateContext: request_.appStateContext
             };
             break;

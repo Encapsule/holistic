@@ -13,6 +13,6 @@ module.exports = {
     source: packageMeta.buildSource
   },
   // v0.0.49-spectrolite
-  HolisticNodeService: require("./HolisticAppServer") // New ES6 class
+  HolisticNodeService: require("./HolisticNodeService") // New ES6 class
 
 };

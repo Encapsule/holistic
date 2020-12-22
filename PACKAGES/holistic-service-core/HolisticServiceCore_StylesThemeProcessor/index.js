@@ -8,7 +8,7 @@ var cellModel = new holarchy.CellModel({
   description: "The ViewThemeProcessor cell model provides a simple service for generating a Holistic App Theme JSON document used to dynamically style display elements via React.",
   apm: require("./AbstractProcessModel-ThemeProcessor"),
   actions: [require("./ControllerAction-read-theme"), require("./ControllerAction-write-theme-settings")],
-  subcells: [require("@encapsule/holarchy-cm").cml]
+  subcells: []
 });
 
 if (!cellModel.isValid()) {

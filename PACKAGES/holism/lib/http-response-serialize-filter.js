@@ -37,6 +37,7 @@ var factoryResponse = arccore.filter.create({
                 responseDescriptor.data = JSON.stringify(responseDescriptor.data);
                 break;
 
+                // RENDER HTML5 DOCUMENT
             case "[object Object]::utf8::text/html":
                 var integrationFilters = request_.integrations.filters;
                 var appStateContext = request_.integrations.appStateContext;
@@ -109,7 +110,8 @@ var factoryResponse = arccore.filter.create({
                     },
                     appServiceRequest: {
                         loginSessionData: request_.request_descriptor.session,
-                        renderData: request_.response_descriptor.data
+                        renderData: request_.response_descriptor.data,
+                        renderOptions: request_.integrations.htmlRenderOptions
                     }
                 });
                 if (integrationResponse.error) {

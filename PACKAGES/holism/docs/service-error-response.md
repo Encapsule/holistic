@@ -259,6 +259,43 @@ This filter normalizes the value of `input` passed to its `request` method using
                     "____accept": "jsFunction"
                 }
             }
+        },
+        "htmlRenderOptions": {
+            "____label": "HTML5 Document Synth Options",
+            "____description": "Options and overrides to apply to the @encapsule/holistic-nodejs-service's HTML5 document rendering subsystem.",
+            "____types": "jsObject",
+            "____defaultValue": {},
+            "documentPrologueComments": {
+                "____label": "Document Prologue Comments",
+                "____description": "Optional app-specific HTML5 comment string to insert at the top of every HTML5 document produced by the Node.js service.",
+                "____accept": [
+                    "jsNull",
+                    "jsString"
+                ],
+                "____defaultValue": null
+            },
+            "documentHeadSectionLinksMeta": {
+                "____label": "Document Header Meta and Link Extensions",
+                "____description": "Optional app-specific HTML5 HEAD section content. This is not carefully merged so be careful not to override any of the tags HolisticNodeService specifies (and are required to be in specific format(s) by HolisticHTML5Service).",
+                "____types": [
+                    "jsNull",
+                    "jsString",
+                    "jsArray"
+                ],
+                "____defaultValue": null,
+                "oneLine": {
+                    "____accept": "jsString"
+                }
+            },
+            "documentEpilogueComments": {
+                "____label": "Document Epilogue Comments",
+                "____description": "Optional app-specific comment string to insert at the bottom of every HTML5 document produced by the Node.js service.",
+                "____accept": [
+                    "jsNull",
+                    "jsString"
+                ],
+                "____defaultValue": null
+            }
         }
     },
     "error_descriptor": {
@@ -386,8 +423,8 @@ If no error then any value type including [object Undefined] may be assigned to 
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `XoyKovKcQ-i-Pwy5PSrn1Q` | `bQ1wE7dJI1cWNgztIQzhtA` |
-| input contract | `vj6tQBAdHQrK_H5Em3nhgw` | `TaFURPeL6Bqs8d2thYmaGQ` |
+| operation | `XoyKovKcQ-i-Pwy5PSrn1Q` | `bQL0E7fLO1cWsgztIX4AtA` |
+| input contract | `vj6tQBAdHQrK_H5Em3nhgw` | `i5OESIo3omt4W4u5f-Bshw` |
 | output contract | `1LI8w603xnaTfXNizPRo1A` | `dHR0dNnZ2dlUVFRUyMjIyA` |
 
 ### Configuration
@@ -403,5 +440,5 @@ Filter classification:  **input processor**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Mon Dec 21 2020 10:00:07 GMT-0800 (Pacific Standard Time)
+Document updated Tue Dec 22 2020 13:56:34 GMT-0800 (Pacific Standard Time)
 

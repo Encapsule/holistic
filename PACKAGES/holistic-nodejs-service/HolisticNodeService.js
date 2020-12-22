@@ -6,18 +6,18 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-// HolisticAppServer.js
+// HolisticNodeService.js
 var path = require("path");
 
 var process = require("process");
 
 console.log("> \"".concat(path.resolve(__filename), "\" module loading..."));
 
-var constructorFilter = require("./lib/filters/HolisticAppServer-method-constructor-filter");
+var constructorFilter = require("./lib/filters/HolisticNodeService-method-constructor-filter");
 
-var HolisticAppServer = /*#__PURE__*/function () {
-  function HolisticAppServer(request_) {
-    _classCallCheck(this, HolisticAppServer);
+var HolisticNodeService = /*#__PURE__*/function () {
+  function HolisticNodeService(request_) {
+    _classCallCheck(this, HolisticNodeService);
 
     var errors = [];
     var inBreakScope = false;
@@ -47,7 +47,7 @@ var HolisticAppServer = /*#__PURE__*/function () {
     }
   }
 
-  _createClass(HolisticAppServer, [{
+  _createClass(HolisticNodeService, [{
     key: "isValid",
     value: function isValid() {
       return !this._private.constructorError;
@@ -70,7 +70,7 @@ var HolisticAppServer = /*#__PURE__*/function () {
     }
   }]);
 
-  return HolisticAppServer;
+  return HolisticNodeService;
 }();
 
-module.exports = HolisticAppServer;
+module.exports = HolisticNodeService;

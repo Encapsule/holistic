@@ -9,7 +9,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // app-server-service-method-constructor-output-spec.js
 // We cherry pick a few namespaces from the input spec and splice them into the output spec
 // for cases where the constructor filter retains a copy of the input request in this._private.
-var inputFilterSpec = require("./HolisticAppServer-method-constructor-filter-input-spec"); // Similarly, we cherry pick a few namespaces from filters descriptors exported by the @encapsule/holism RTL.
+var inputFilterSpec = require("./HolisticNodeService-method-constructor-filter-input-spec"); // Similarly, we cherry pick a few namespaces from filters descriptors exported by the @encapsule/holism RTL.
 
 
 var holism = require("@encapsule/holism");
