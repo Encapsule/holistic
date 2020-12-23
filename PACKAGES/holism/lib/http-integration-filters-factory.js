@@ -109,7 +109,9 @@ var factoryResponse = arccore.filter.create({
                     ____description: "Data passed by an HTTP server filter to obtain data about the website being served by this webserver.",
                     ____types: "jsObject",
                     appStateContext: httpIntegrationFiltersFactoryRequestSpec.appStateContext,
-                    session: request_.integrations.metadata.session.get_session.response.client_spec
+                    // v0.0.49-spectrolite --- this has been lurking here forever.
+                    // It's nonsense - we don't need to consider session to resolve static app metadata (what used to be called "site" by holism)
+                    // session: request_.integrations.metadata.session.get_session.response.client_spec
                 },
                 outputFilterSpec: request_.integrations.metadata.site.get.outputFilterSpec,
                 bodyFunction: request_.integrations.metadata.site.get.bodyFunction

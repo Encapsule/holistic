@@ -40,9 +40,9 @@ module.exports = {
           ____description: "An assertion of a user's identity presented back to @encapsule/holism during HTTP request processing that contains a deserialized copy of the whatever information the app uses to represent such an assertion, e.g. a cookie.",
           ____accept: "jsObject",
           ____defaultValue: {
-            ____label: "Default Non-Schematized (UNSAFE) User Identity Assertion Value",
-            ____accept: "jsObject",
-            ____defaultValue: {}
+            ____label: "Default Non-Schematized (UNSAFE - i.e. not validated/verified) User Identity Assertion Value",
+            ____accept: ["jsNull", "jsObject"],
+            ____defaultValue: null
           }
         },
         userLoginSessionReplicaDataSpec: {
@@ -51,8 +51,10 @@ module.exports = {
           ____accept: "jsObject",
           ____defaultValue: {
             ____label: "Default Non-Schematized (UNSAFE) User Login Session Value",
-            ____accept: "jsObject",
-            ____defaultValue: {}
+            ____accept: ["jsNull", "jsObject"],
+            ____defaultValue: null
+            /* no user session - user is not authenticated */
+
           }
         }
       }
@@ -94,7 +96,7 @@ module.exports = {
             ____description: "Callback functions dispatched by HolisticAppServer constructor function to obtain configuration information from your derived app.",
             ____types: "jsObject",
             ____defaultValue: {},
-            // Where a resource is defined to be a URL-mapped file cached on the Node.js heap.
+            // Where a resource is defined to be a URL-mapped file cached on the OS process heap by our Node.js host.
             getMemoryFileRegistrationMap: {
               ____label: "Memory-Cached File Registration Map Accessor Function",
               ____description: "A synchronous callback function that is dispatched to obtain your app server's @encapsule/holism memory-cached registration map.",
@@ -117,15 +119,18 @@ module.exports = {
           ____defaultValue: {},
           redirectPreprocessor: {
             ____accept: ["jsNull", "jsFunction"],
-            ____defaultValue: null
+            ____defaultValue: null // NO REDIRECT HANDLING ON HTTP REQUEST (only suitable for localhost testing really).
+
           },
           getUserIdentityAssertion: {
             ____accept: ["jsNull", "jsFunction"],
-            ____defaultValue: null
+            ____defaultValue: null // NO SUPPORT FOR USER IDENTITY ASSERTION COOKIE (Node service instance does not support authentication)
+
           },
           getUserLoginSession: {
             ____accept: ["jsNull", "jsFunction"],
-            ____defaultValue: null
+            ____defaultValue: null // NO SUPPORT FOR APP-SPECIFIC ASYNC FETCH OF USER LOGIN SESSION DATA (Node service instance does not support authentication)
+
           },
           renderHTML5Options: {
             ____label: "HTML5 Document Serializer Options",
@@ -140,12 +145,8 @@ module.exports = {
             documentHeadSectionLinksMeta: {
               ____label: "Document Header Meta and Link Extensions",
               ____description: "Optional app-specific HTML5 HEAD section content. This is not carefully merged so be careful not to override any of the tags HolisticNodeService specifies (and are required to be in specific format(s) by HolisticHTML5Service).",
-              ____types: ["jsNull", "jsString", "jsArray"],
-              ____defaultValue: null,
-              oneLine: {
-                ____accept: "jsString"
-              } // iff specified as an array strings, each is assumed to be preformatted HTML string that we insert w/a newline character into HEAD in the order specified
-
+              ____accept: ["jsNull", "jsString"],
+              ____defaultValue: null
             },
             documentEpilogueComments: {
               ____label: "Document Epilogue Comments",

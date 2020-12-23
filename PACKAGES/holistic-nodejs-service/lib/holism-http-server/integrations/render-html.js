@@ -98,8 +98,14 @@ function renderHtmlDocument(request_) {
       if (request_.appServiceRequest.renderOptions.documentEpilogueComments) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentEpilogueComments);
       }
+      /*
+      htmlDocumentLines.push(
+      `  <!-- Powered by ${appAgentMetadata.platform.name}. GET:/agent for version details. -->
+      </html>
+      `);
+      */
+      // Send the string back to @encapsule/holism.
 
-      htmlDocumentLines.push("  <!-- Powered by ".concat(appAgentMetadata.platform.name, ". GET:/agent for version details. -->\n</html>\n")); // Send the string back to @encapsule/holism.
 
       response.result = htmlDocumentLines.join("");
     } catch (exception_) {
