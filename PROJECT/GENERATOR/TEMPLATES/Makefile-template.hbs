@@ -77,8 +77,8 @@ reset: scrub
 	yarn cache clean
 	@echo Dependencies will be re-installed from refreshed package cache \(requires Internet\) on next 'make configure'.
 
-.PHONY: corebuild
-corebuild: configure
+.PHONY: applicationCoreBuild
+corebuild: applicationCoreBuild
 
 #	For now, this recipe is addative; resource rename and delete in source input directories
 #	will not automatically clean the BUILD directory tree. In this case execute `make clean`.
@@ -159,10 +159,14 @@ corebuild: configure
 	@echo '(=)'
 
 .PHONY: application
-application: corebuild chainderived
+application: applicationPreBuild corebuild applicationPostBuild
 	@echo completed.
 
-.PHONY: chainderived
-chainderived:
-	-make --makefile=Makefile-App
+.PHONY: applicationPreBuild
+applicationPreBuild: configure
+	-make --makefile=Makefile-App applicationPreBuild
+
+.PHONY: applicationPostBuild
+applicationPostBuild:
+	-make --makefile=Makefile-App applicationPostBuild
 
