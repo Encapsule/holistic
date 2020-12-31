@@ -66,6 +66,7 @@ var HolisticServiceCore = /*#__PURE__*/function () {
       this.getDisplayComponents = this.getDisplayComponents.bind(this);
       this.getCellModels = this.getCellModels.bind(this);
       this.getTargetDOMElementID = this.getTargetDOMElementID.bind(this);
+      this.getServiceBootROMSpec = this.getServiceBootROMSpec.bind(this);
       var filterResponse = constructorFilter.request(request_);
 
       if (filterResponse.error) {
@@ -149,6 +150,11 @@ var HolisticServiceCore = /*#__PURE__*/function () {
     key: "getTargetDOMElementID",
     value: function getTargetDOMElementID() {
       return this.isValid() ? this._private.nonvolatile.appCommonDefinition.appData.appConfig.display.targetDOMElementID : this.toJSON();
+    }
+  }, {
+    key: "getServiceBootROMSpec",
+    value: function getServiceBootROMSpec() {
+      return this.isValid() ? this._private.nonvolatile.serviceBootROMSpec : this.toJSON();
     }
   }]);
 

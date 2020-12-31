@@ -30,6 +30,8 @@ var Holistic_d2r2Components = require("@encapsule/d2r2-components").components;
 
 var ServiceCore_KernelCellModelFactory = require("../../HolisticServiceCore_Kernel");
 
+var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-factory");
+
 (function () {
   var factoryResponse = arccore.filter.create({
     operationID: "P9-aWxR5Ts6AhYSQ7Ymgbg",
@@ -173,12 +175,10 @@ var ServiceCore_KernelCellModelFactory = require("../../HolisticServiceCore_Kern
           specs: derivedAppService_MetadataOutputSpec
         }; // v0.0.49-spectrolite
         // This is a small little accomodation made here to hide differences between HolisticNodeService
-        // and HolisticTabService implementations the derive from @encapsule/holism driving most of the
-        // action in current builds of based on HolisticNodeService. While in current builds CellProcessor
-        // is in charge of everything in a HolisticTabService. This means the layering of concerns here is
-        // rather rididulous (for now). e.g. everything above ideal moves to AppMetadata CellModel.
-        // But, for now lets just avoid code duplication and suck it up on the one-time wiring
-        // required to hide this shit.
+        // and HolisticHTML5Service implementations. HolisticNodeSerivce derives primarily from @encapsule/holism
+        // that and that RTL's API (old) was designed to be in charge (i.e. it takes a lot of broad inputs and does type synthesis internally
+        // making it rather difficult to extend and maintain; this is why APM composition BTW.. This is exactly why you can splice filter specs
+        // together into trees natively w/____appdsl: apm .... + you can also then activate the data, or even evaluate it per async rules...
 
         var metadataValueAccessors = response.result.nonvolatile.appMetadata.accessors = {
           getAppMetadataDigraph: function getAppMetadataDigraph() {
@@ -230,7 +230,30 @@ var ServiceCore_KernelCellModelFactory = require("../../HolisticServiceCore_Kern
         }
 
         var serviceCoreKernelCellModel = cmFactoryResponse.result;
-        var coreCellModels = response.result.nonvolatile.coreCellModels = [serviceCoreKernelCellModel].concat(_toConsumableArray(request_.appModels.cellModels)); // console.log(JSON.stringify(response, undefined, 4));
+        var coreCellModels = response.result.nonvolatile.coreCellModels = [serviceCoreKernelCellModel].concat(_toConsumableArray(request_.appModels.cellModels)); // Synthesize the service bootROM filter specification that is needed by:
+        // - HolisticNodeService: used to serialize initial runtime context, boot-time microcode instruction, and options into the tail of a serialized HolisticHTML5Service (aka HTML5 doc synthesized by HolisticNodeService) for use by the HolisticHTML5Service kernel boot process.
+        // - HolisticHTML5Service: ... is initially activated inside a HolisticNodeService instance service filter context and subsequently serialized to HTML5 doc where it is deserialized by the HolisticHTML5Service kernel process during standard boot and service initialization sequence.
+
+        var bootROMSynthResponse = appServiceBootROMSpecFactory.request({
+          httpResponseDispositionSpec: {
+            ____accept: "jsObject"
+          },
+          pageMetadataOverrideFieldsSpec: {
+            ____accept: "jsObject"
+          },
+          serverAgentSpec: {
+            ____accept: "jsObject"
+          },
+          userLoginSessionDataSpec: response.result.nonvolatile.appCommonDefinition.appTypes.userLoginSession.untrusted.clientUserLoginSessionSpec
+        });
+
+        if (bootROMSynthResponse.error) {
+          errors.push("Unable to synthesize the ".concat(appBuild.app.name, " service core kernel CellModel due to error:"));
+          errors.push(bootROMSynthResponse.error);
+          return "break";
+        }
+
+        response.result.nonvolatile.serviceBootROMSpec = bootROMSynthResponse.result; // console.log(JSON.stringify(response, undefined, 4));
 
         return "break";
       };

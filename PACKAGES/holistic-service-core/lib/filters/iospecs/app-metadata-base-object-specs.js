@@ -20,6 +20,7 @@ var pageViewTopoSortProps = {
     ____label: "Child Page Views",
     ____description: "An ordered array of either pageURI or hashroutePathname string keys corresponding to this page view's direct child page views.",
     ____types: "jsArray",
+    ____defaultValue: [],
     keyString: {
       ____accept: "jsString"
     }
@@ -28,26 +29,65 @@ var pageViewTopoSortProps = {
     ____label: "Topological Sort Info",
     ____description: "Information deduced via a directed graph topological sort on the page view tree defined by your page/hashroute metadata that's useful for building dynamic menus & page-view-level UI nav widgets.",
     ____types: "jsObject",
+    ____defaultValue: {},
     d: {
       ____label: "Depth",
-      ____accept: "jsNumber"
+      ____accept: ["jsNumber", "jsNull"],
+      ____defaultValue: null
     },
     i: {
       ____label: "In",
-      ____accept: "jsNumber"
+      ____accept: ["jsNumber", "jsNull"],
+      ____defaultValue: null
     },
     o: {
       ____label: "Out",
-      ____accept: "jsNumber"
+      ____accept: ["jsNumber", "jsNull"],
+      ____defaultValue: null
     },
     p: {
       ____label: "Pages",
-      ____accept: "jsNumber"
+      ____accept: ["jsNumber", "jsNull"],
+      ____defaultValue: null
     },
     w: {
       ____label: "Width",
-      ____accept: "jsNumber"
+      ____accept: ["jsNull", "jsNumber"],
+      ____defaultValue: null
     }
+  }
+};
+var basePackageBuildProps = {
+  ____types: "jsObject",
+  name: {
+    ____accept: "jsString"
+  },
+  description: {
+    ____accept: "jsString"
+  },
+  version: {
+    ____accept: "jsString"
+  },
+  codename: {
+    ____accept: "jsString"
+  },
+  author: {
+    ____accept: "jsString"
+  },
+  license: {
+    ____accept: "jsString"
+  },
+  buildID: {
+    ____accept: "jsString"
+  },
+  buildSource: {
+    ____accept: "jsString"
+  },
+  buildTime: {
+    ____accept: "jsNumber"
+  },
+  buildDateISO: {
+    ____accept: "jsString"
   }
 };
 module.exports = {
@@ -59,44 +99,56 @@ module.exports = {
       ____label: "Org Metadata Input",
       ____description: "Information about the group/organization/company that produced this derived app service.",
       ____types: "jsObject",
+      ____defaultValue: {},
       name: {
         ____label: "Org Name",
         ____description: "The name of the publishing organization.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Your Company/Organization Name"
       },
       location: {
         ____label: "Org Location",
         ____description: "The geographic location of the organization.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Somewhere, Someplace Country"
       },
       url: {
         ____label: "Org URL",
         ____description: "The full URL of the publishing organization's main website.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "http://your-co-org.com"
       },
       social: {
         ____label: "Org Social Media",
         ____description: "Links to the organization's social media account(s).",
         ____types: "jsObject",
+        ____defaultValue: {},
         twitterUrl: {
           ____label: "Org Twitter URL",
           ____description: "The full URL of your organization's Twitter account.",
-          ____accept: "jsString"
+          ____accept: "jsString",
+          ____defaultValue: "https://twitter.com/encapsule" // e.g. @encapsule on Twitter (substitute as appropriate for your own company or organization's needs)
+
         },
         githubUrl: {
           ____label: "Org GitHub Org URL",
           ____description: "The full URL of the organization's GitHub organization.",
-          ____accept: "jsString"
+          ____accept: "jsString",
+          ____defaultValue: "https://github.com/Encapsule" // e.g. @encapsule on GitHub (substitue as approriate for your own company or organization's needs)
+
         }
       },
       copyrightHolder: {
         ____label: "Org Copyright Holder",
         ____description: "Information about the organization's principal copyright holder.",
         ____types: "jsObject",
+        ____defaultValue: {},
         name: {
           ____label: "Org Copyright Holder Name",
           ____description: "The name of the principal copyright holder of this application.",
-          ____accept: "jsString"
+          ____accept: "jsString",
+          ____defaultValue: "Your Co/Org, Inc." // This is used to create a legal copyright (C) string w/the year tied to wall clock (so it updates automatically on New Years).
+
         }
       }
     },
@@ -104,45 +156,87 @@ module.exports = {
       ____label: "App Metadata Input",
       ____description: "Information about this specific app service + the app service build's unique app-build.json data.",
       ____types: "jsObject",
+      ____defaultValue: {},
       name: {
         ____label: "Application Name",
         ____description: "A short name for the website.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "The Name of Your App Service"
       },
       description: {
         ____label: "Application Description",
         ____description: "A short description of the website.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "A description of your app service."
       },
       build: {
         ____label: "Application Build Manifest",
         ____description: "A copy of the build descriptor generated when this application was built and packaged for deployment.",
-        ____accept: "jsObject"
+        ____types: "jsObject",
+        app: _objectSpread(_objectSpread({}, basePackageBuildProps), {}, {
+          copyright: {
+            ____types: "jsObject",
+            holder: {
+              ____accept: "jsString"
+            },
+            year: {
+              ____accept: "jsNumber"
+            }
+          }
+        }),
+        platform: {
+          ____types: "jsObject",
+          app: _objectSpread({}, basePackageBuildProps),
+          data: _objectSpread({}, basePackageBuildProps),
+          display: {
+            ____types: "jsObject",
+            name: {
+              ____accept: "jsString"
+            },
+            // The library used to scribble on the DOM (will be set to React unless/until we find something that's better)
+            description: {
+              ____accept: "jsString"
+            },
+            version: {
+              ____accept: "jsString"
+            },
+            // semver
+            author: {
+              ____accept: "jsString"
+            } // The author of the library used for DOM scribbling (currently set to Facebook who publishes React library)
+
+          }
+        }
       }
     },
     page: {
       ____label: "App Page Metadata Input",
       ____description: "Information about a specific HTML5 document (aka derived app client) synthesized by the derived app server in response to a request to https://xyzzy.com/<URI>.",
       ____types: "jsObject",
+      ____defaultValue: {},
       title: {
         ____label: "Page Title",
         ____description: "A short title for the page that is used to populate the browser title and history.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing Page View Title"
       },
       description: {
         ____label: "Page Description",
         ____description: "A short description of this page that is used for page header metadata. And, in abbreviated lists as a short description.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing page view description."
       },
       name: {
         ____label: "Page Name",
         ____description: "A short moniker to use as the display label for menus, buttons, and hyperlinks referring to this page.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing Page View Name"
       },
       tooltip: {
         ____label: "Page Tooltip",
         ____description: "A short string to display on mouse over/hover over links/buttons/menus...",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing page view tooltip..."
       },
       rank: {
         ____label: "Page Peer Rank",
@@ -151,6 +245,7 @@ module.exports = {
         ____defaultValue: 0 // defaults to simple alpha sort by name
 
       },
+      // WE WANT TO REWORK THE LINE BETWEEN THE PLATFORM AND THE APP METADATA PROPS VERY CAREFULLY WHEN WE GET TO IT.
       pageViewProcessConfig: {
         ____label: "Page View Process Config",
         ____description: "Information that is used by a PageView cell process to configure and specialize its behaviors to the unique requirements of a specific view.",
@@ -168,25 +263,30 @@ module.exports = {
       ____label: "App Hashroute Metadata Input",
       ____description: "Information about a specific dynamically-generated browser page view that may be displayed to the user by the derived app client service under various programmatically-determined conditions.",
       ____types: "jsObject",
+      ____defaultValue: {},
       title: {
         ____label: "Page Title",
         ____description: "A short title for the page that is used to populate the browser title and history.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing Page View Title"
       },
       description: {
         ____label: "Page Description",
         ____description: "A short description of this page that is used for page header metadata. And, in abbreviated lists as a short description.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing page view description."
       },
       name: {
         ____label: "Page Name",
         ____description: "A short moniker to use as the display label for menus, buttons, and hyperlinks referring to this page.",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing Page View Name"
       },
       tooltip: {
         ____label: "Page Tooltip",
         ____description: "A short string to display on mouse over/hover over links/buttons/menus...",
-        ____accept: "jsString"
+        ____accept: "jsString",
+        ____defaultValue: "Missing page view tooltip..."
       },
       rank: {
         ____label: "Page Peer Rank",
@@ -195,6 +295,10 @@ module.exports = {
         ____defaultValue: 0 // defaults to simple alpha sort by name
 
       },
+      // NOT 100% SURE ABOUT THE CONTENTS OR REPRESENTATION OF DATA IN THIS NAMESPACE
+      // There's more integration work to be done to eliminate the last of the baseline
+      // sharp edges left in v0.0.49 blocking before returning back to complete the work
+      // started in early Dec 2020 on PageViewController and PageView CellModels.
       pageViewProcessConfig: {
         ____label: "Page View Process Config",
         ____description: "Information that is used by a PageView cell process to configure and specialize its behaviors to the unique requirements of a specific view.",

@@ -40,7 +40,7 @@ var controllerAction = new holarchy.ControllerAction({
                 ____types: "jsObject",
                 action: {
                   ____accept: "jsString",
-                  ____inValueSet: ["noop", "activate-subprocesses", "activate-display-adapter", "start-display-adapter", // After which the derived HTML5 service logic is actor who updates the display adapter
+                  ____inValueSet: ["noop", "activate-subprocesses", "deserialize-bootROM-data", "activate-display-adapter", "start-display-adapter", // After which the derived HTML5 service logic is actor who updates the display adapter
                   "relinquish-display-adapter"],
                   ____defaultValue: "noop"
                 }
@@ -88,7 +88,7 @@ var controllerAction = new holarchy.ControllerAction({
         // ****************************************************************
 
         case "activate-subprocesses":
-          // THIS IS WRONG
+          // THIS IS WRONG (v0.0.49-spectrolite - Not sure this is still wrong but have not yet confirmed the full matrix of possibilities wrt metadata code paths yet)
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Activating derived AppMetadata process on behalf of the app client process.",
@@ -208,6 +208,47 @@ var controllerAction = new holarchy.ControllerAction({
         // ****************************************************************
         // ****************************************************************
 
+        case "deserialize-bootROM-data":
+          try {
+            var bootROMElement = document.getElementById(kernelCellData.bootROMElementID);
+
+            if (bootROMElement === null) {
+              errors.push("Unexpected error in HolisticHTML5Service_Kernel process: Cannot locate DOM element '".concat(kernelCelLData.bootROMElementID, "' expected to contain the kernel's bootROM data."));
+              break;
+            }
+
+            var bootDataString = bootROMElement.textContent;
+            var bootDataShouldBeBase64 = Buffer.from(bootDataString, 'base64'); // Should return new Buffer containing deserialized base64-encoded bootROM data in JSON format. Or, Buffer.from will throw a TypeError exception if this presumption is not met.
+
+            var bootDataShouldBeJSON = bootDataShouldBeBase64.toString("utf8"); // We expect this to be a JSON-encoded UTF-8 string. But, am only sure of that if we can actually deserialize it as JSON.
+
+            var bootROMShouldBeValidData = JSON.parse(bootDataShouldBeJSON); // If the UTF-8 string is not valid JSON, then JSON.parse will throw a SyntaxError exception.
+            // So now we have some in-memory data deserialized from JSON but have no idea what it is. Or, if it's valid.
+            // There are many levels of meaning to this data potentially. Here we do not have nearly enough context to make those
+            // decisions but do have the ability to write the deserialized bootROM data into the kernel process' OCD memory.
+            // And, if this fails then we can stop the kernel from booting w/bad initial state.
+
+            ocdResponse = request_.context.ocdi.writeNamespace({
+              apmBindingPath: request_.context.apmBindingPath,
+              dataPath: "#.bootROMData"
+            }, bootROMShouldBeValidData);
+
+            if (ocdResponse.error) {
+              errors.push("Unexpected internal error in HolisticHTML5Service_Kernel process: Service bootROM data is invalid or corrupt; we cannot start the service kernel due to error:");
+              errors.push(ocdResponse.error);
+            } else {
+              // Finally, if no errors remove the element from the DOM and free the heap occupied by the serialized copy that we have now deserialized into the kernel's cell memory.
+              bootROMElement.parentNode.removeChild(bootROMElement); // delete the DOM node
+            }
+          } catch (exception_) {
+            errors.push("Unexpected exception caught during HolisticHTML5Service kernel bootROM deserialization is preventing service boot:");
+            errors.push(exception_.toString());
+          }
+
+          break;
+        // ****************************************************************
+        // ****************************************************************
+
         case "activate-display-adapter":
           actResponse = request_.context.act({
             actorName: actorName,
@@ -307,13 +348,13 @@ var controllerAction = new holarchy.ControllerAction({
           break;
 
         case "relinquish-display-adapter":
-          var _ocdResponse = request_.context.ocdi.writeNamespace({
+          ocdResponse = request_.context.ocdi.writeNamespace({
             apmBindingPath: request_.context.apmBindingPath,
             dataPath: "#.displayReady"
           }, true);
 
-          if (_ocdResponse.error) {
-            errors.push(_ocdResponse.error);
+          if (ocdResponse.error) {
+            errors.push(ocdResponse.error);
             break;
           }
 

@@ -149,29 +149,26 @@ var controllerAction = new holarchy.ControllerAction({
           // by the holistic app server process when it synthesized the app client process (and then serialized it HTML5 over
           // HTTP to the user's browser agent) has loaded into the DOM. So, we can use DOM API's to retrieve the "bootROM"
           // data that the app server process spliced into the HTML5 document for us.
-          var bootROMElement = document.getElementById(kernelCellData.bootROMElementID);
-          var bootDataBase64 = bootROMElement.textContent;
-          var bootDataJSON = new Buffer(bootDataBase64, 'base64').toString('utf8');
-          var bootROMData = JSON.parse(bootDataJSON);
+
+          /*
+          const bootROMElement = document.getElementById(kernelCellData.bootROMElementID);
+          const bootDataBase64 = bootROMElement.textContent;
+          const bootDataJSON = new Buffer(bootDataBase64, 'base64').toString('utf8');
+          const bootROMData = JSON.parse(bootDataJSON);
           bootROMElement.parentNode.removeChild(bootROMElement); // delete the DOM node
-
-          ocdResponse = request_.context.ocdi.writeNamespace({
-            apmBindingPath: request_.context.apmBindingPath,
-            dataPath: "#.bootROMData"
-          }, bootROMData);
-
+          ocdResponse = request_.context.ocdi.writeNamespace({ apmBindingPath: request_.context.apmBindingPath, dataPath: "#.bootROMData" }, bootROMData);
           if (ocdResponse.error) {
-            errors.push(ocdResponse.error);
-            break;
-          } // v0.0.48-kyanite note:
+              errors.push(ocdResponse.error);
+              break;
+          }
+           */
+          // v0.0.48-kyanite note:
           // We do not yet have @encapsule/holistic-app-server-cm RTL so must rely on the correctness of a derived holistic application's
           // app server process wrt synthesizing and serializing the HTML5 app client process we're currently in the act of deserializing
           // and re-activating in the browser tab. There are an unacceptably large number of ways that developers can currently violate
           // conventions and presumptions made by @encapsule/holistic-app-common-cm and @encapsule/holistic-app-client-cm CellModels.
-          // So, we need to be very defensive at this stage of the app client process boot in order to try to ensure that all the flagrant
+          // So, we need to be very defensive at this stage of the app client process boot in order to try to ensure that all these
           // cases get caught and reported as error(s).
-
-
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Delegating app client kernel deserialize lifecycle event to the derived app client process.",
@@ -186,7 +183,7 @@ var controllerAction = new holarchy.ControllerAction({
                           client: {
                             lifecycle: {
                               deserialize: {
-                                bootROMData: bootROMData
+                                bootROMData: kernelCellData.bootROMData
                               }
                             }
                           }
