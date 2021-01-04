@@ -213,7 +213,8 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
           appBuild: appBuild,
           appTypes: {
             metadata: {
-              specs: {}
+              specs: {// TODO: v0.0.49-spectrolite why is this sitting dangling here unspecified? Follow this down. No quarter for metadata bugs anywhere...
+              }
             }
           },
           appModels: {
@@ -236,14 +237,22 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
 
         var bootROMSynthResponse = appServiceBootROMSpecFactory.request({
           httpResponseDispositionSpec: {
-            ____accept: "jsObject"
+            ____types: "jsObject",
+            code: {
+              ____accept: "jsNumber"
+            },
+            message: {
+              ____accept: "jsString"
+            }
           },
           pageMetadataOverrideFieldsSpec: {
             ____accept: "jsObject"
           },
+          // TODO 
           serverAgentSpec: {
             ____accept: "jsObject"
           },
+          // TODO 
           userLoginSessionDataSpec: response.result.nonvolatile.appCommonDefinition.appTypes.userLoginSession.untrusted.clientUserLoginSessionSpec
         });
 

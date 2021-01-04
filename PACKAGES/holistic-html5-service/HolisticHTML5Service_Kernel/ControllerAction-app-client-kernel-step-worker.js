@@ -161,7 +161,9 @@ var controllerAction = new holarchy.ControllerAction({
           if (actResponse.error) {
             errors.push(actResponse.error);
             break;
-          }
+          } // v0.0.49-spectrolite
+          // Have another look at this because we don't initialize the display adapter with cell process activation data anymore!
+
 
           actResponse = request_.context.act({
             actorName: actorName,
@@ -250,6 +252,21 @@ var controllerAction = new holarchy.ControllerAction({
         // ****************************************************************
 
         case "activate-display-adapter":
+          // At this point the actual contents of the DOM visible to the user as the HolisticHTML5Service is booting
+          // was rendered by HolisticNodeService in response to an HTTP GET request for an HTML5 document. If the HTTP
+          // request was valid (i.e. accepted by HolisticNodeService) then the visible DOM contents will be a function
+          // of information encoded in a holistic page metadata record corresponding to the HTTP request's URI
+          // (e.g. GET:/ URI is '/', GET:/dashboard?x=1234 URI is '/dashboard'). If the request is invalid then the
+          // visible contents of the DOM is likely some type of error page. We can determine which of these cases
+          // by inspecting the HolisticNodeService's HTTP response code status to ensure it is identical to 200.
+          // But, at this point in the HolisticHTML5Service boot process we actually do not care; the visible DOM content
+          // is whatever it is. The DOM may or or may not contain HTML5 elements that expect/require programmatic functionality
+          // from your HolisticHTML5Service instance. So, as a first order of business we simply re-render to the DOM
+          // w/whatever was rendered by HolisticNodeService using info passed to us through the bootROM. Display adapter
+          // takes care of the details but briefly is using ReactDOM.hydrate API to logically unsuspend the service's
+          // display process (some number of React.Element instances managed by React VDOM) that were activated in
+          // the context of an HTTP request handled by HolisticNodeService, subsequently serialized to HTML + data,
+          // and here "unsuspended" (i.e. re-activated) from deep sleep (i.e. serialized form of a process).
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Sending initial layout request data to the app client display adapter to activate the display adapter process.",
@@ -282,6 +299,10 @@ var controllerAction = new holarchy.ControllerAction({
           break;
         // ****************************************************************
         // ****************************************************************
+        // TODO: Leave for now but this is probably really not the sort of thing we want
+        // to get into at this low-level. how an app pre-renders content and what the
+        // boot experience is should be 100% customizable w/reasonable defaults. This
+        // solution isn't really ... never mind i think i already cut it out.
 
         case "start-display-adapter":
           actResponse = request_.context.act({

@@ -109,9 +109,11 @@ var factoryResponse = arccore.filter.create({
                     ____description: "Data passed by an HTTP server filter to obtain data about the website being served by this webserver.",
                     ____types: "jsObject",
                     appStateContext: httpIntegrationFiltersFactoryRequestSpec.appStateContext,
+                    // KILL KILL KILL
                     // v0.0.49-spectrolite --- this has been lurking here forever.
                     // It's nonsense - we don't need to consider session to resolve static app metadata (what used to be called "site" by holism)
                     // session: request_.integrations.metadata.session.get_session.response.client_spec
+                    // KILL KILL KILL
                 },
                 outputFilterSpec: request_.integrations.metadata.site.get.outputFilterSpec,
                 bodyFunction: request_.integrations.metadata.site.get.bodyFunction
@@ -403,12 +405,7 @@ var factoryResponse = arccore.filter.create({
                         ____label: "App Service Request",
                         ____description: "The actual dynamic content data synthesized by the requesting derived app server process that the derived app server's HTML5 document rendering integration filter should render as the initial user-visible content of the HTML5 document.",
                         ____types: "jsObject",
-                        loginSessionData: {
-                            ____label: "Login Session Data",
-                            ____description: "If the derived app server process is processing a request from an authenticated user, then a copy of the login session descriptor. Otherwise, null for anonymous, non-authenicated, user.",
-                            ____accept: [ "jsNull", "jsObject" ],
-                            ____defaultValue: null
-                        },
+                        userLoginSessionData:  request_.integrations.metadata.session.get_session.response.client_spec,
                         renderData: {
                             ____label: "d2r2/React Render Request",
                             ____description: "An @encapsule/d2r2 <ComponentRouter/> renderData request descriptor object synthesized by the calling derived app server process (via a @encapsule/holism service filter that handles requests for this GET:/URL route).",

@@ -62,12 +62,7 @@ var factoryResponse = arccore.filter.create({
         opcRef._private.opcActorStack.push({
           actorName: request_.actorName,
           actorTaskDescription: request_.actorTaskDescription
-        });
-
-        if (initialActorStackDepth === 1) {
-          console.log("================================================================");
-          console.log("> EXTERNAL ACTION REQUEST RECEIVED...");
-        } // Log the start of the action.
+        }); // Log the start of the action.
 
 
         logger.request({
@@ -232,8 +227,6 @@ var factoryResponse = arccore.filter.create({
             phase: "body",
             message: "CellProcessor will now go back to sleep and wait for another external actor to act..."
           });
-          console.log("> EXTERNAL ACTION REQUEST PROCESSED.");
-          console.log("================================================================");
 
           if (evaluateResponse.error) {
             errors.push("Unable to evaluate OPC state after executing controller action due to error:");

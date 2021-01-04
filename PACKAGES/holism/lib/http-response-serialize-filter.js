@@ -109,7 +109,7 @@ var factoryResponse = arccore.filter.create({
                         }
                     },
                     appServiceRequest: {
-                        loginSessionData: request_.request_descriptor.session,
+                        userLoginSessionData: request_.request_descriptor.session, // This is filtered per constraints defined by HolisticServiceCore instance.
                         renderData: request_.response_descriptor.data,
                         renderOptions: request_.integrations.htmlRenderOptions
                     }
