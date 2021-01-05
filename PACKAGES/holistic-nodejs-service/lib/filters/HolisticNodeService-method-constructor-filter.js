@@ -136,10 +136,8 @@ var factoryResponse = arccore.filter.create({
 
       var callbackRequest = {
         appBuild: appBuild,
-        deploymentEnvironment: "development" // <======== TODO THIS IS BLOCKING P1 AT THIS POINT TO FURTHER INTEGRATIONS W/DERIVED APP
-
-      }; // TODO deploymentEnvironment
-
+        deploymentEnvironment: request_.appModels.httpRequestProcessor.holismConfig.deploymentEnvironmentFlag
+      };
       var filterResponse = getMemoryFileRegistrationMapFilter.request(callbackRequest);
 
       if (filterResponse.error) {
@@ -297,8 +295,7 @@ var factoryResponse = arccore.filter.create({
       console.log("> \"".concat(path.resolve(__filename), "\" Performing final dynamic assembly of ").concat(appBuild.app.name, " embedded @encapsule/holism HTTP request processor instance..."));
       factoryResponse = holism.server.create({
         holisticAppBuildManifest: appBuild,
-        appServerRuntimeEnvironment: "development",
-        // TODO!
+        appServerRuntimeEnvironment: request_.appModels.httpRequestProcessor.holismConfig.deploymentEnvironmentFlag,
         config: {
           options: {},
           // TODO!
