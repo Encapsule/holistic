@@ -31,6 +31,10 @@ var outputFilterSpec = require("./iospecs/HolisticNodeService-method-constructor
 
 var renderHtmlFunction = require("../holism-http-server/integrations/render-html");
 
+var holisticPlatformMemoryFileRegistrationMapFunction = require("../holism-http-server/config/memory-files");
+
+var holisticPlatformServiceFilterRegistrationMapFunction = require("../holism-http-server/config/service-filters");
+
 var holisticAppModels = {
   display: {
     d2r2Components: []
@@ -97,11 +101,20 @@ var factoryResponse = arccore.filter.create({
         inputFilterSpec: {
           ____types: "jsObject",
           appBuild: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.holisticAppBuildManifest),
-          // <== THIS IS WRONG: we want this format set in common and we'll pick it up from there
-          deploymentEnvironment: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.appServerRuntimeEnvironment)
+          // <== THIS IS SUBOPTIMAL: we want this format set in common and we'll pick it up from there
+          deploymentEnvironment: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.appServerRuntimeEnvironment),
+          targetBodyFunction: {
+            ____accept: "jsFunction"
+          }
         },
         outputFilterSpec: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.config.files),
-        bodyFunction: request_.appModels.httpRequestProcessor.holismConfig.registrations.resources.getMemoryFileRegistrationMap
+        bodyFunction: function bodyFunction(request_) {
+          // request_.appModels.httpRequestProcessor.holismConfig.registrations.resources.getMemoryFileRegistrationMap
+          return request_.targetBodyFunction({
+            appBuild: request_.appBuild,
+            deploymentEnvironment: request_.deploymentEnvironment
+          });
+        }
       });
 
       if (factoryResponse.error) {
@@ -119,7 +132,7 @@ var factoryResponse = arccore.filter.create({
         inputFilterSpec: {
           ____types: "jsObject",
           appBuild: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.holisticAppBuildManifest),
-          // <== THIS IS WRONG: we want this format set in common and we'll pick it up from there
+          // <== THIS IS SUBOPTIMAL: we want this format set in common and we'll pick it up from there
           deploymentEnvironment: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.appServerRuntimeEnvironment)
         },
         outputFilterSpec: _objectSpread({}, holism.filters.factories.server.filterDescriptor.inputFilterSpec.config.services),
@@ -136,7 +149,8 @@ var factoryResponse = arccore.filter.create({
 
       var callbackRequest = {
         appBuild: appBuild,
-        deploymentEnvironment: request_.appModels.httpRequestProcessor.holismConfig.deploymentEnvironmentFlag
+        deploymentEnvironment: request_.appModels.httpRequestProcessor.holismConfig.deploymentEnvironmentFlag,
+        targetBodyFunction: request_.appModels.httpRequestProcessor.holismConfig.registrations.resources.getMemoryFileRegistrationMap
       };
       var filterResponse = getMemoryFileRegistrationMapFilter.request(callbackRequest);
 
@@ -146,7 +160,28 @@ var factoryResponse = arccore.filter.create({
         return "break";
       }
 
-      var appServerMemoryFileRegistrationMap = response.result.httpServerInstance.holismInstance.config.data.memoryFileRegistrations = filterResponse.result; // Get the derived app server's service filter plug-in registration map.
+      var appServerMemoryFileRegistrationMap = response.result.httpServerInstance.holismInstance.config.data.memoryFileRegistrations = filterResponse.result; // The the holistic platform's memory file registration map via our filter.
+
+      callbackRequest.targetBodyFunction = holisticPlatformMemoryFileRegistrationMapFunction;
+      filterResponse = getMemoryFileRegistrationMapFilter.request(callbackRequest);
+
+      if (filterResponse.error) {
+        errors.push("Internal error occurred querying holistic platform memory file resource registration map:");
+        errors.push(filterResponse.error);
+        return "break";
+      }
+
+      var holisticPlatformMemoryFileRegistrationMap = filterResponse.result;
+
+      var memoryFileRegistrationMapInput = _objectSpread(_objectSpread({}, appServerMemoryFileRegistrationMap), holisticPlatformMemoryFileRegistrationMap);
+
+      var memoryFileRegistrationMapOutput = {}; // Populated in the following loop. This is what gets passed to @encapsule/holism
+
+      for (var filename_ in memoryFileRegistrationMapInput) {
+        resourceFilepath = path.resolve(path.join(request_.appModels.httpRequestProcessor.holismConfig.serverModuleDirname, "..", filename_));
+        memoryFileRegistrationMapOutput[resourceFilepath] = memoryFileRegistrationMapInput[filename_];
+      } // Get the derived app server's service filter plug-in registration map.
+
 
       filterResponse = getServiceFilterRegistrationMapFilter.request(callbackRequest);
 
@@ -298,8 +333,8 @@ var factoryResponse = arccore.filter.create({
         appServerRuntimeEnvironment: request_.appModels.httpRequestProcessor.holismConfig.deploymentEnvironmentFlag,
         config: {
           options: {},
-          // TODO!
-          files: appServerMemoryFileRegistrationMap,
+          // TODO! We're already taking in the options. Connect this...
+          files: memoryFileRegistrationMapOutput,
           services: appServerServiceFilterRegistrationMap
         },
         integrations: holismInstanceIntegrationFilters
@@ -321,6 +356,8 @@ var factoryResponse = arccore.filter.create({
     };
 
     while (!inBreakScope) {
+      var resourceFilepath;
+
       var _ret = _loop();
 
       if (_ret === "break") break;

@@ -85,6 +85,11 @@ module.exports = {
         ____description: "Initialization options, type and runtime behavior specializations for runtime-type filtered @encapsule/holism embedded HTTP 1.1 server instance.",
         ____types: "jsObject",
         ____defaultValue: {},
+        serverModuleDirname: {
+          ____label: "HolisticNodeService Module Directory Name",
+          ____description: "We need to know the directory name of the derived app's SOURCES/SERVER/server.js module at runtime in order to correctly locate the static ASSETS resource directory at runtime. This should always be set to __dirname (reserved Node.js keyword that is evaluated when the server.js module is loaded to start the Node.js service.",
+          ____accept: "jsString"
+        },
         deploymentEnvironmentFlag: {
           ____label: "HolisticNodeService Deployment Mode Flag",
           ____description: "A flag set by the derived application's backend Node.js service bootstrap SOURCES/SERVER/server.js using whatever protocol it chooses. This flag is constrained to be one of four predefined string values that is passed on to registered @encapsule/holism service filter plug-ins as an _informational_ cue.",

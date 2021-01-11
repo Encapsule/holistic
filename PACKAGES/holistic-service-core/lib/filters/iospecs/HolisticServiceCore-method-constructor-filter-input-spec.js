@@ -165,7 +165,7 @@ module.exports = {
           ____label: "Service Display Adapter DOM Target Element ID",
           ____description: "The id attribute value used to render <html><body><div id={targetDOMElementID}>{service display adapter rendered content}</div></body></html>.",
           ____accept: "jsString",
-          ____defaultValue: "idTabServiceDisplayProcess"
+          ____defaultValue: "idServiceDisplay"
         }
       }
     },
