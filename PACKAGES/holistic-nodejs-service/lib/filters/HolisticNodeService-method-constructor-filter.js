@@ -234,7 +234,7 @@ var factoryResponse = arccore.filter.create({
         // ----------------------------------------------------------------
         integrations: {
           preprocessor: {
-            redirect: request_.appModels.httpRequestProcessor.holismConfig.lifecycle.redirectProcessor
+            redirect: request_.appModels.httpRequestProcessor.holismConfig.lifecycle.redirectPreprocessor
           },
           metadata: {
             // This doesn't need to be all fancy like this. Metadata has grown beyond just the sphere of @encapsule/holism
