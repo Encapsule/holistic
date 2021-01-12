@@ -19,6 +19,9 @@ var holarchy = require("@encapsule/holarchy");
 
 var d2r2 = require("@encapsule/d2r2");
 
+var _require = require("@encapsule/holistic-service-core"),
+    HolisticServiceCore = _require.HolisticServiceCore;
+
 var html5ServiceCellModelFactory = require("../../HolisticHTML5Service_Kernel");
 
 var factoryResponse = arccore.filter.create({
@@ -36,7 +39,8 @@ var factoryResponse = arccore.filter.create({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      var appBuild = request_.appServiceCore.getAppBuild();
+      var appServiceCore = request_.appServiceCore instanceof HolisticServiceCore ? request_.appServiceCore : new HolisticServiceCore(request_.appServiceCore);
+      var appBuild = appServiceCore.getAppBuild();
       response.result = {
         serviceModel: null,
         serviceRuntime: null
@@ -58,12 +62,12 @@ var factoryResponse = arccore.filter.create({
       var factoryResponse = html5ServiceCellModelFactory.request({
         appBuild: appBuild,
         appTypes: {
-          bootROMSpec: request_.appServiceCore.getServiceBootROMSpec()
+          bootROMSpec: appServiceCore.getServiceBootROMSpec()
         },
         appModels: {
           display: {
-            targetDOMElementID: request_.appServiceCore.getTargetDOMElementID(),
-            d2r2Components: [].concat(_toConsumableArray(request_.appServiceCore.getDisplayComponents()), _toConsumableArray(request_.appModels.display.d2r2Components))
+            targetDOMElementID: appServiceCore.getTargetDOMElementID(),
+            d2r2Components: [].concat(_toConsumableArray(appServiceCore.getDisplayComponents()), _toConsumableArray(request_.appModels.display.d2r2Components))
           }
         }
       });
@@ -150,7 +154,7 @@ var factoryResponse = arccore.filter.create({
         },
         // apm
         // TODO: We have work to do before we do this definition synthesis in order to pre-process the registration set.
-        subcells: [].concat(_toConsumableArray(request_.appServiceCore.getCellModels()), _toConsumableArray(request_.appModels.cellModels), [// All the CellModels registered by the developer via HolisticHTML5Service::constructor request.
+        subcells: [].concat(_toConsumableArray(appServiceCore.getCellModels()), _toConsumableArray(request_.appModels.cellModels), [// All the CellModels registered by the developer via HolisticHTML5Service::constructor request.
         html5ServiceKernelCellModel // The synthesized HTML5 service kernel CellModel.
         ]),
         actions: [// ----------------------------------------------------------------

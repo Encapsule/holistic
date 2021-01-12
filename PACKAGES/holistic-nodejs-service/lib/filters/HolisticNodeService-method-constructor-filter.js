@@ -16,6 +16,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // layer for HolisticNodeService similar to what we've built for HolisticHTML5Service.
 var path = require("path");
 
+var process = require("process");
+
 var arccore = require("@encapsule/arccore");
 
 var holism = require("@encapsule/holism");
@@ -176,9 +178,14 @@ var factoryResponse = arccore.filter.create({
       var memoryFileRegistrationMapInput = _objectSpread(_objectSpread({}, appServerMemoryFileRegistrationMap), holisticPlatformMemoryFileRegistrationMap);
 
       var memoryFileRegistrationMapOutput = {}; // Populated in the following loop. This is what gets passed to @encapsule/holism
+      // We need the relative path to the actual ASSET resource file.
+
+      var cwd = process.cwd();
+      var dirname = __dirname;
+      var relativeAssetPath = path.relative(cwd, path.resolve(request_.appModels.httpRequestProcessor.holismConfig.serverModuleDirname, ".."));
 
       for (var filename_ in memoryFileRegistrationMapInput) {
-        resourceFilepath = path.resolve(path.join(request_.appModels.httpRequestProcessor.holismConfig.serverModuleDirname, "..", filename_));
+        resourceFilepath = path.join(relativeAssetPath, filename_);
         memoryFileRegistrationMapOutput[resourceFilepath] = memoryFileRegistrationMapInput[filename_];
       } // Get the derived app server's service filter plug-in registration map.
 
