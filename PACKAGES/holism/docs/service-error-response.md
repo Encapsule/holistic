@@ -23,7 +23,7 @@ This filter normalizes the value of `input` passed to its `request` method using
 ```JavaScript
 {
     "____label": "HTTP Error Response Request",
-    "____description": "Specifies the format of an error response request.",
+    "____description": "Specifies the format of an error response request message.",
     "____types": "jsObject",
     "streams": {
         "____label": "HTTP Server Stream Context",
@@ -92,6 +92,11 @@ This filter normalizes the value of `input` passed to its `request` method using
                     "jsUndefined",
                     "jsObject"
                 ]
+            },
+            "body": {
+                "____label": "Request Body",
+                "____description": "The body of the request (if any) extracted from the HttpRequest stream by holism, and passed on in serialized form.",
+                "____opaque": true
             },
             "bodyParsed": {
                 "____label": "Body Parsed Flag",
@@ -299,8 +304,8 @@ This filter normalizes the value of `input` passed to its `request` method using
         }
     },
     "error_descriptor": {
-        "____label": "Error Response Descriptor",
-        "____description": "Additional information about the error, failure, or fault.",
+        "____label": "Server Error Response Descriptor",
+        "____description": "Data to be passed to a service filter's error responder filter to complete an HTTP request w/with an HTTP error response.",
         "____types": "jsObject",
         "http": {
             "____label": "HTTP Status",
@@ -423,8 +428,8 @@ If no error then any value type including [object Undefined] may be assigned to 
 
 | filter identifier | version independent | version dependent |
 |--------|---------------------|-------------------|
-| operation | `XoyKovKcQ-i-Pwy5PSrn1Q` | `bQL0E7fLO1cWsgztIX4AtA` |
-| input contract | `vj6tQBAdHQrK_H5Em3nhgw` | `i5OESIo3omt4W4u5f-Bshw` |
+| operation | `XoyKovKcQ-i-Pwy5PSrn1Q` | `bfrUE7f3EFcWvCvtIRbjtA` |
+| input contract | `vj6tQBAdHQrK_H5Em3nhgw` | `A1kCXH9FKlYyAaUI-nXEZw` |
 | output contract | `1LI8w603xnaTfXNizPRo1A` | `dHR0dNnZ2dlUVFRUyMjIyA` |
 
 ### Configuration
@@ -440,5 +445,5 @@ Filter classification:  **input processor**
 ## About
 Filters are created with the [Encapsule/arccore](https://github.com/Encapsule/arccore/) library.<br>
 This document was generated with [Encapsule/arctools](https://github.com/Encapsule/arctools/) v0.1.10 toolset.<br>
-Document updated Tue Jan 12 2021 19:36:19 GMT-0800 (Pacific Standard Time)
+Document updated Tue Jan 19 2021 10:47:00 GMT-0800 (Pacific Standard Time)
 

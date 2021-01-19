@@ -50,8 +50,8 @@ module.exports = new holarchy.ControllerAction({
       if (addHash) {
         // Always display the hash # delimiter between the server href and client-only hashroute portions of the href string.
         var newLocation = "".concat(location.href, "#");
-        console.log("> DOMLocationProcessor is setting the replacing the DOM location with \"".concat(newLocation, "\"."));
-        location.replace(newLocation);
+        console.log("> DOMLocationProcessor is setting the replacing the DOM location with \"".concat(newLocation, "\".")); // location.replace(newLocation);
+
         ignoreEvent = true;
       }
 

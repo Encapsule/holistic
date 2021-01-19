@@ -13,7 +13,6 @@ const errorResponseFilter = require("./lib/http-response-error-filter");
 const serviceDataGateway = require("./lib/service-data-gateway");
 const dataGatewayRouterFactory = require("./lib/data-gateway-router-factory");
 
-
 module.exports = {
     __meta: {
         author: packageMeta.author,
@@ -49,3 +48,4 @@ module.exports = {
         }
     }
 };
+

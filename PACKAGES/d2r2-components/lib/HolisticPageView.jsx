@@ -37,41 +37,37 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
   renderDataBindingSpec: {
     ____types: "jsObject",
     HolisticPageView: {
-      ____label: "RUXBase_Page HTML View Render Request",
-      ____description: "HTML render request format for <RUXBase_Page/> React component.",
+      ____label: "HolisticPageView Render Request Message",
+      ____description: "@encapsule/d2r2 renderData request format used to dynamically bind a <HolisticPageView/> React element.",
       ____types: "jsObject",
-      // the caller must literally specify this subnamespace
+      // Caller must explicitly specify the HolisticPageView namespace...
       pageHeaderEP: {
         ____label: "Page Header Extension Point (EP)",
         ____description: "The contents of this namespace is created dynamically via <ComponentRouter/>.",
-        ____accept: "jsObject",
+        ____accept: ["jsNull", "jsObject"],
         ____defaultValue: {
-          ApplicationPageHeader: {}
+          AppServiceDisplayExtenstion_PageHeader: {}
         }
       },
       pageContentEP: {
         ____label: "Page Content Extension Point (EP)",
         ____description: "The contents of this namespace is created dynamically via <ComponentRouter/>.",
         ____accept: "jsArray",
-        ____defaultValue: [{
-          ApplicationPageMissingContent: {}
-        }]
+        ____defaultValue: []
       },
       pageFooterEP: {
         ____label: "Page Footer Extension Point (EP)",
         ____description: "The contents of this namespace is created dynamically via <ComponentRouter/>.",
-        ____accept: "jsObject",
+        ____accept: ["jsNull", "jsObject"],
         ____defaultValue: {
-          ApplicationPageFooter: {}
+          AppServiceDisplayExtension_PageFooter: {}
         }
       },
       pageDebugEP: {
         ____label: "Page Debug Extenion Point (EP)",
         ____description: "The contents of this namespace is created dynamically via <ComponentRouter/>.",
         ____accept: "jsArray",
-        ____defaultValue: [{
-          HolisticDebugReactComponentProps: {}
-        }]
+        ____defaultValue: []
       }
     },
     // HolisticPageView
@@ -91,12 +87,8 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
         padding: {
           ____accept: "jsString",
           ____defaultValue: "0px"
-        },
-        // padding
-        backgroundColor: {
-          ____accept: "jsString",
-          ____defaultValue: "white"
-        }
+        } // padding
+
       } // container
 
     }
@@ -116,42 +108,62 @@ var factoryResponse = reactComponentBindingFilterFactory.create({
     _createClass(HolisticPageView, [{
       key: "render",
       value: function render() {
-        var self = this;
-        var ComponentRouter = this.props.renderContext.ComponentRouter;
-        var renderData = this.props.renderData;
-        var renderMessage = renderData.HolisticPageView;
-        var index = 0;
+        try {
+          var makeKey = function makeKey() {
+            return "HolisticPageView" + index++;
+          };
 
-        function makeKey() {
-          return "HolisticPageView" + index++;
+          var self = this;
+          var ComponentRouter = this.props.renderContext.ComponentRouter;
+          var renderData = this.props.renderData;
+          var renderMessage = renderData.HolisticPageView;
+          var index = 0;
+          var content = []; // Optionally inject custom page header element.
+
+          if (renderMessage.pageHeaderEP) {
+            content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
+              key: makeKey()
+            }, self.props, {
+              renderData: renderMessage.pageHeaderEP
+            })));
+          } // Inject the page view's content element(s).
+
+
+          if (renderMessage.pageContentEP.length) {
+            renderMessage.pageContentEP.forEach(function (contentRenderData_) {
+              content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
+                key: makeKey()
+              }, self.props, {
+                renderData: contentRenderData_
+              })));
+            });
+          } else {
+            content.push( /*#__PURE__*/React.createElement("div", {
+              key: makeKey()
+            }, "No page view content elements were specified. Nothing to display..."));
+          } // Optionally inject custom page footer element.
+
+
+          if (renderMessage.pageFooterEP) {
+            content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
+              key: makeKey()
+            }, self.props, {
+              renderData: renderMessage.pageFooterEP
+            })));
+          } // Optionally inject developer tooling element(s).
+
+
+          renderMessage.pageDebugEP.forEach(function (contentRenderData_) {
+            content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
+              key: makeKey()
+            }, self.props, {
+              renderData: contentRenderData_
+            })));
+          });
+          return /*#__PURE__*/React.createElement("div", null, content);
+        } catch (exception_) {
+          return /*#__PURE__*/React.createElement("div", null, "An unhandled exception occurred inside HolisticPageView::render method: ", exception_.message);
         }
-
-        var content = [];
-        content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
-          key: makeKey()
-        }, this.props, {
-          renderData: renderMessage.pageHeaderEP
-        })));
-        renderMessage.pageContentEP.forEach(function (contentRenderData_) {
-          content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
-            key: makeKey()
-          }, self.props, {
-            renderData: contentRenderData_
-          })));
-        });
-        content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
-          key: makeKey()
-        }, this.props, {
-          renderData: renderMessage.pageFooterEP
-        })));
-        renderMessage.pageDebugEP.forEach(function (contentRenderData_) {
-          content.push( /*#__PURE__*/React.createElement(ComponentRouter, _extends({
-            key: makeKey()
-          }, self.props, {
-            renderData: contentRenderData_
-          })));
-        });
-        return /*#__PURE__*/React.createElement("div", null, content);
       }
     }]);
 

@@ -73,7 +73,8 @@ module.exports = new holarchy.ControllerAction({
         break;
       }
 
-      var cellMemory = ocdResponse.result; // v0.0.48-kyanite - Isn't this handled correctly by ControllerActoin-dom-location-processor-initialize.js?
+      var cellMemory = ocdResponse.result;
+      console.log(JSON.stringify(cellMemory)); // v0.0.48-kyanite - Isn't this handled correctly by ControllerActoin-dom-location-processor-initialize.js?
       // Set a breakpoint in here; does it ever get hit. We should be able to remove this and make this logic simpler
       // to understand.
 
@@ -84,6 +85,12 @@ module.exports = new holarchy.ControllerAction({
       }
 
       var hrefParse = url.parse(location.href);
+
+      if (!hrefParse.hash) {
+        console.log("> Current location.href '".concat(location.href, "' does not contain a hashroute component. Taking no action(s) whatsoever."));
+        break;
+      }
+
       var hashrouteParseRaw = url.parse(hrefParse.hash.slice(1));
       var hashrouteParse = {
         pathname: "#".concat(hashrouteParseRaw.pathname ? hashrouteParseRaw.pathname : ""),

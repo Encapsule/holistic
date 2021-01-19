@@ -87,7 +87,7 @@ function renderHtmlDocument(request_) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentPrologueComments);
       }
 
-      htmlDocumentLines.push("  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>".concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/viewpath5-").concat(appAgentMetadata.buildID, ".css\">\n    <link href=\"https://fonts.googleapis.com/css?family=Play|Montserrat:300,400,600,700|Share+Tech+Mono|Nunito:300,400,600,700|Roboto:300,400,600,700\" rel=\"stylesheet\">\n    <link rel='stylesheet' href=\"/css/spinners.css\">\n"));
+      htmlDocumentLines.push("  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>".concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/holistic-html5-service-fonts.css\">\n    <link rel='stylesheet' href=\"/css/spinners.css\">\n"));
 
       if (request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta);
