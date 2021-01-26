@@ -33,12 +33,16 @@ var holarchy = require("@encapsule/holarchy");
               ____types: "jsObject",
               update: {
                 ____types: "jsObject",
+                hrefParse: {
+                  ____accept: "jsObject" // TODO - this is a service core-defined common filter spec for holistic platform TODO
+
+                },
                 hashroutePathname: {
-                  ____accept: "jsString" // corresponds to routerEventDescriptor.hashrouteParse.pathname which is also the string key format to access hashroute app metadata
+                  ____accept: ["jsNull", "jsString"] // corresponds to routerEventDescriptor.hashrouteParse.pathname which is also the string key format to access hashroute app metadata
 
                 },
                 hashrouteQueryParse: {
-                  ____types: "jsObject",
+                  ____types: ["jsNull", "jsObject"],
                   ____asMap: true,
                   paramName: {
                     ____label: "Unparsed Param Value",
@@ -211,7 +215,7 @@ var holarchy = require("@encapsule/holarchy");
 
         if (pageViewControllerMemory.activeHashroutePathname !== messageBody.hashroutePathname) {
           // Okay - this is an update request that specifies a hashroute pathname that's different than that last selected.
-          // Activate the new incoming ViewpathPageView process. And, deactive teh old outgoing ViewpathPageView process.
+          // Activate the new incoming ViewpathPageView process.
           var _actResponse4 = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Attempting to activate a new page view cell process for view pathname \"".concat(messageBody.hashroutePathname, "\"."),

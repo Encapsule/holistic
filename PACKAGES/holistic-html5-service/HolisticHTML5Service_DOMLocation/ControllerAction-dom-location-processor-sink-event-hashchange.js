@@ -32,8 +32,10 @@ module.exports = new holarchy.ControllerAction({
               notifyEvent: {
                 ____types: "jsObject",
                 hashchange: {
-                  ____accept: "jsBoolean",
-                  ____inValueSet: [true]
+                  ____types: "jsObject",
+                  event: {
+                    ____opaque: true
+                  }
                 }
               }
             }
@@ -82,27 +84,38 @@ module.exports = new holarchy.ControllerAction({
         console.log("> This event will be ignored. It was induced by the DOM Location Processor's init action replacing the server's non-hashroute with the default, #.");
         console.log("HEY WE DIDN'T ACTUALLY EXPECT THIS TO HAPPEN. SET A BREAKPOINT HERE AND FIGURE THIS SHIT OUT.");
         break;
-      }
+      } // Top-level URL parse is standardized in HTTP 1.1 specification wrt parsing and token semantics.
+
 
       var hrefParse = url.parse(location.href);
+      var hashrouteParse = null; // Presume we do not have a hashroute fragment in location.href string.
+      // Old code - okay for now..
 
       if (!hrefParse.hash) {
-        console.log("> Current location.href '".concat(location.href, "' does not contain a hashroute component. Taking no action(s) whatsoever."));
-        break;
+        console.log("> Current location.href '".concat(location.href, "' does not contain a hashroute component. Taking no action(s) whatsoever.")); // let it happen - let it break;
       }
 
-      var hashrouteParseRaw = url.parse(hrefParse.hash.slice(1));
-      var hashrouteParse = {
-        pathname: "#".concat(hashrouteParseRaw.pathname ? hashrouteParseRaw.pathname : ""),
-        path: "#".concat(hashrouteParseRaw.path ? hashrouteParseRaw.path : ""),
-        search: hashrouteParseRaw.search,
-        query: hashrouteParseRaw.query
-      };
+      if (hrefParse.hash) {
+        // Hashroute fragment string component of a URL (i.e. the string that begins w/#) is explicitly defined in HTTP 1.1 spec as an opaque UTF-8 string.
+        // This means that we can do with this string whatever we want. But, that's a lot of possibilities. And, in the interest of making life a little
+        // simpler to understand, we implement a set of parsing conventions for the hashroute fragment here that reuses and re-applies most of HTTP 1.1 spec
+        // parsing conventions for base URL to the hashroute fragment string.
+        var hashrouteParseRaw = url.parse(hrefParse.hash.slice(1));
+        hashrouteParse = {
+          pathname: "#".concat(hashrouteParseRaw.pathname ? hashrouteParseRaw.pathname : ""),
+          path: "#".concat(hashrouteParseRaw.path ? hashrouteParseRaw.path : ""),
+          search: hashrouteParseRaw.search,
+          query: hashrouteParseRaw.query
+        };
+      }
+
       var routerEventDescriptor = {
         actor: cellMemory["private"].routerEventCount === cellMemory["private"].lastOutputEventIndex ? cellMemory["private"].routerEventCount ? "user" : "server" : "app",
-        hashrouteString: hrefParse.hash,
+        // v0.0.50-crystallite looks maybe okay but needs to be verified
+        hrefParse: hrefParse,
+        hashrouteString: hrefParse.hash ? hrefParse.hash : null,
         hashrouteParse: hashrouteParse,
-        hashrouteQueryParse: queryString.parse(hashrouteParse.query),
+        hashrouteQueryParse: hashrouteParse ? queryString.parse(hashrouteParse.query) : null,
         routerEventNumber: cellMemory["private"].routerEventCount
       };
       cellMemory["private"].locationHistory.push(routerEventDescriptor);

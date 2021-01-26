@@ -23,6 +23,10 @@ var factoryResponse = arccore.filter.create({
 
             let response_descriptor = {
                 ...request_.error_descriptor,
+                http: {
+                    code: request_.error_descriptor.http.code,
+                    message: request_.error_descriptor.http.message?request_.error_descriptor.http.message:http.STATUS_CODES[request_.error_descriptor.http.code]
+                },
                 data: {
                     HolisticNodeService_HTTPErrorResponse: {
                         ...request_.error_descriptor.data,

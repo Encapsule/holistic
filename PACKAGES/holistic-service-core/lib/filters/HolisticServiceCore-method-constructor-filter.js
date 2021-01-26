@@ -205,33 +205,7 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
         // set of d2r2 components that need to be registered by a specific holistic service runtime.
         // i.e. we just cache them and hand the set off to HolisticXService constructor function via
         // HolisticServiceCore class instance reference.
-        // Okay - Now we need to go synthesize some number (we don't care) of CellModel's to do
-        // some stuff that all services need done that's rather complex to automate unless you're
-        // ridiculously disciplined. So we do that here instead.
-
-        var cmFactoryResponse = ServiceCore_KernelCellModelFactory.request({
-          appBuild: appBuild,
-          appTypes: {
-            metadata: {
-              specs: {// TODO: v0.0.49-spectrolite why is this sitting dangling here unspecified? Follow this down. No quarter for metadata bugs anywhere...
-              }
-            }
-          },
-          appModels: {
-            metadata: {
-              accessors: metadataValueAccessors
-            }
-          }
-        });
-
-        if (cmFactoryResponse.error) {
-          errors.push("Unable to synthesize the ".concat(appBuild.app.name, " service core kernel CellModel due to error:"));
-          errors.push(cmFactoryResponse.error);
-          return "break";
-        }
-
-        var serviceCoreKernelCellModel = cmFactoryResponse.result;
-        var coreCellModels = response.result.nonvolatile.coreCellModels = [serviceCoreKernelCellModel].concat(_toConsumableArray(request_.appModels.cellModels)); // Synthesize the service bootROM filter specification that is needed by:
+        // Synthesize the service bootROM filter specification that is needed by:
         // - HolisticNodeService: used to serialize initial runtime context, boot-time microcode instruction, and options into the tail of a serialized HolisticHTML5Service (aka HTML5 doc synthesized by HolisticNodeService) for use by the HolisticHTML5Service kernel boot process.
         // - HolisticHTML5Service: ... is initially activated inside a HolisticNodeService instance service filter context and subsequently serialized to HTML5 doc where it is deserialized by the HolisticHTML5Service kernel process during standard boot and service initialization sequence.
 
@@ -262,7 +236,33 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
           return "break";
         }
 
-        response.result.nonvolatile.serviceBootROMSpec = bootROMSynthResponse.result; // console.log(JSON.stringify(response, undefined, 4));
+        response.result.nonvolatile.serviceBootROMSpec = bootROMSynthResponse.result; // Okay - Now we need to go synthesize some number (we don't care) of CellModel's to do
+        // some stuff that all services need done that's rather complex to automate unless you're
+        // ridiculously disciplined. So we do that here instead.
+
+        var cmFactoryResponse = ServiceCore_KernelCellModelFactory.request({
+          appBuild: appBuild,
+          appTypes: {
+            metadata: {
+              specs: {// TODO: v0.0.49-spectrolite why is this sitting dangling here unspecified? Follow this down. No quarter for metadata bugs anywhere...
+              }
+            }
+          },
+          appModels: {
+            metadata: {
+              accessors: metadataValueAccessors
+            }
+          }
+        });
+
+        if (cmFactoryResponse.error) {
+          errors.push("Unable to synthesize the ".concat(appBuild.app.name, " service core kernel CellModel due to error:"));
+          errors.push(cmFactoryResponse.error);
+          return "break";
+        }
+
+        var serviceCoreKernelCellModel = cmFactoryResponse.result;
+        var coreCellModels = response.result.nonvolatile.coreCellModels = [serviceCoreKernelCellModel].concat(_toConsumableArray(request_.appModels.cellModels)); // console.log(JSON.stringify(response, undefined, 4));
 
         return "break";
       };

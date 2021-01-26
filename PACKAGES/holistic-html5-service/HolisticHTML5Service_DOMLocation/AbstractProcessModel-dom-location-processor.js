@@ -16,12 +16,22 @@ var routerEventDescriptorSpec = {
     "app" // Application actor set the current href value by calling a DOM Location Processor controller action.
     ]
   },
+  hrefParse: {
+    ____accept: "jsObject"
+  },
   hashrouteString: {
-    ____accept: "jsString"
+    ____accept: ["jsNull", // there is no hashroute fragment present in location.href.
+    "jsString" // the unparsed hashroute fragment obtained from location.href by DOM Location processor.
+    ],
+    ____defaultValue: null // no hashroute component present by default
+
   },
   // This is the string beginning with the # character as we specified in the user request. Or, was added by the app client kernel during boot.
   hashrouteParse: {
-    ____types: "jsObject",
+    ____types: ["jsNull", // there is no hashroute fragment present in location.href
+    "jsObject" // the parsed hashroute fragment obtained from hashrouteString by DOM Location processor.
+    ],
+    ____defaultValue: null,
     pathname: {
       ____label: "Secondary Resource Request Pathname",
       ____description: "Use this string as the primary key to query app metadata for hashroute descriptor.",
@@ -42,7 +52,9 @@ var routerEventDescriptorSpec = {
     }
   },
   hashrouteQueryParse: {
-    ____types: "jsObject",
+    ____types: ["jsNull", // no hashroute fragment in location.href parsed -> no query pararms
+    "jsObject"],
+    ____defaultValue: null,
     ____asMap: true,
     paramName: {
       ____accept: ["jsString", "jsNull"
@@ -62,8 +74,8 @@ var apmClientHashRouteLocationProcessor = module.exports = {
     ____label: "DOM Location Processor Cell",
     ____types: "jsObject",
     ____defaultValue: {},
-    // v0.0.48-kyanite - app client kernel needs to tell us where the derived app client cell process is located in the cellplane
-    // so that DOM Location Processor cell process can communicate with it via actions.
+    // v0.0.48-kyanite - HolisticHTML5Service kernel needs to tell us where the derived app service cell process is located in the cellplane
+    // so that DOM Location Processor cell process may relay information to it directly via its actions lifecycle actions.
     derivedAppClientProcessCoordinates: {
       ____label: "Derived App Client Runtime Process Coordinates",
       ____description: "The cell process coordinates to be used to launch the derived app client cell process.",
@@ -102,6 +114,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         ____defaultValue: [],
         routerEventDescriptor: routerEventDescriptorSpec
       },
+      // v0.0.50-crystallite --- What's this now? I don't think I think this anymore.
       updateObservers: {
         ____label: "Update Observers Flag",
         ____description: "A Boolean flag set by DOM Location Processor actions to indicate to the DOM Location Processor model that it should transition to update step.",
@@ -125,19 +138,14 @@ var apmClientHashRouteLocationProcessor = module.exports = {
         transitionIf: {
           always: true
         },
-        nextStep: "dom-location-processor-initialize"
+        nextStep: "dom-location-initialize"
       }]
     },
-    "dom-location-processor-initialize": {
-      description: "Registering hashchange DOM event callback.",
-      transitions: [{
-        transitionIf: {
-          always: true
-        },
-        nextStep: "dom-location-processor-wait-kernel-ready"
-      }],
+    "dom-location-initialize": {
+      description: "Performs first post-activation cell initialization on exit from this process step.",
       actions: {
-        exit: [{
+        exit: [// Parses the initial location.href and writes the initial routerEventDescriptor object to the cell's private locationHistory array.
+        {
           holistic: {
             app: {
               client: {
@@ -150,8 +158,30 @@ var apmClientHashRouteLocationProcessor = module.exports = {
             }
           }
         }]
-      }
+      },
+      transitions: [{
+        transitionIf: {
+          always: true
+        },
+        nextStep: "dom-location-wait-kernel-config"
+      }]
     },
+    "dom-location-wait-kernel-config": {
+      description: "Blocks and waits for the HTML5 kernel process to provide additional configuration information needed to determine runtime policy of this cell."
+    },
+
+    /*
+    "dom-location-initialize": {
+        description: "Registering hashchange DOM event callback.",
+        transitions: [ { transitionIf: { always: true }, nextStep: "dom-location-processor-wait-kernel-ready" } ],
+        actions: {
+             // Analyze and parse the current location.href into normalized base URI pathname. And, if present the current hashroute fragment.
+            // Take no other action wrt hooking the DOM hashchange event at this point; we do not yet know the HTTP response disposition
+            // returned by HolisticNodeService instance...
+            exit: [ { holistic: { app: { client: { domLocation: { _private: { initialize: true } } } } } } ]
+        }
+    },
+    */
     "dom-location-processor-wait-kernel-ready": {
       description: "Waiting on the kernel to reach its active state. After that point, we start actively communicating directly with the derived app client process.",
       transitions: [{
@@ -190,7 +220,9 @@ var apmClientHashRouteLocationProcessor = module.exports = {
                 domLocation: {
                   _private: {
                     notifyEvent: {
-                      hashchange: true
+                      hashchange: {
+                        event: "intial hashroute synthetic event trigggered by DOM Location Processor APM"
+                      }
                     }
                   }
                 }

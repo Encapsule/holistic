@@ -31,6 +31,7 @@ var factoryResponse = arccore.filter.create({
   inputFilterSpec: require("./iospecs/HolisticHTML5Service-method-constructor-filter-input-spec"),
   outputFilterSpec: require("./iospecs/HolisticHTML5Service-method-constructor-filter-output-spec"),
   bodyFunction: function bodyFunction(request_) {
+    console.log("HolisticHTML5Service::constructor [".concat(this.operationID, "::").concat(this.operationName, "]"));
     var response = {
       error: null
     };
@@ -41,6 +42,7 @@ var factoryResponse = arccore.filter.create({
       inBreakScope = true;
       var appServiceCore = request_.appServiceCore instanceof HolisticServiceCore ? request_.appServiceCore : new HolisticServiceCore(request_.appServiceCore);
       var appBuild = appServiceCore.getAppBuild();
+      var serviceBootROMSpec = appServiceCore.getServiceBootROMSpec();
       response.result = {
         serviceModel: null,
         serviceRuntime: null
@@ -62,7 +64,7 @@ var factoryResponse = arccore.filter.create({
       var factoryResponse = html5ServiceCellModelFactory.request({
         appBuild: appBuild,
         appTypes: {
-          bootROMSpec: appServiceCore.getServiceBootROMSpec()
+          bootROMSpec: serviceBootROMSpec
         },
         appModels: {
           display: {
@@ -160,7 +162,7 @@ var factoryResponse = arccore.filter.create({
         actions: [// ----------------------------------------------------------------
         // ControllerAction: holistic.app.client.boot
         {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.start")).result,
+          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.boot")).result,
           name: "".concat(appBuild.app.name, " HTML5 Service Boot Action"),
           description: "This action is called by HolisticHTML5Service.start method (typically in SOURCES/CLIENT/client.js) to boot the HTML5 service's re-activation sequence and bring it out of its suspended state as an lifeless HTML5 document.",
           actionRequestSpec: {
@@ -261,155 +263,6 @@ var factoryResponse = arccore.filter.create({
             return response;
           }
         }, // ----------------------------------------------------------------
-        // ControllerAction: holistic.app.client.lifecycle.init
-        {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.init")).result,
-          name: "".concat(appBuild.app.name, " App Client Lifecycle Action: Init"),
-          description: "This action is dispatched by the HTML5 service kernel to inform ".concat(appBuild.app.name, " service logic that it is time to configure/initialize any library and/or runtime code that is **EXTERNAL** to the HTML5 service instance. It's unclear anybody actually needs this. If not, then it will get removed."),
-          actionRequestSpec: {
-            ____types: "jsObject",
-            holistic: {
-              ____types: "jsObject",
-              app: {
-                ____types: "jsObject",
-                client: {
-                  ____types: "jsObject",
-                  lifecycle: {
-                    ____types: "jsObject",
-                    init: {
-                      ____accept: "jsObject"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          actionResultSpec: {
-            ____accept: "jsUndefined"
-          },
-          // The app client kernel does not care what the app client runtime does inside of its lifecycle init action.
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.initFunction
-        }, // ----------------------------------------------------------------
-        // ControllerAction: holistic.app.client.lifecycle.query
-        {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.query")).result,
-          name: "".concat(appBuild.app.name, " App Client Lifecycle Action: Query"),
-          description: "This action is dispatched by the HTML5 service kernel to query ".concat(appBuild.app.name, " service logic for runtime config and init options known only once the HTML5 service boot process starts."),
-          actionRequestSpec: {
-            ____types: "jsObject",
-            holistic: {
-              ____types: "jsObject",
-              app: {
-                ____types: "jsObject",
-                client: {
-                  ____types: "jsObject",
-                  lifecycle: {
-                    ____types: "jsObject",
-                    query: {
-                      ____accept: "jsObject"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          actionResultSpec: {
-            ____label: "Holistic App Client Runtime Query Result",
-            ____types: "jsObject",
-            ____defaultValue: {} // v0.0.49-spectrolite - we have not actually defined any kernel/app service protocol here so just ignore for now. TODO: Good that we put this here. Bad, that it's in the developer API unused. Should be removed from dev-facing API and possibly removed entirely?
-
-          },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.queryFunction
-        }, // ----------------------------------------------------------------
-        // ControllerAction: holistic.app.client.lifecycle.deserialize
-        {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.deserialize")).result,
-          name: "".concat(appBuild.app.name, " App Client Lifecycle Action: Deserialize"),
-          description: "This action is dispatched by the HTML5 service kernel to give the ".concat(appBuild.app.name, " service logic a chance to deserialize app-specific portions of the HTML5 service's bootROM data."),
-          actionRequestSpec: {
-            ____types: "jsObject",
-            holistic: {
-              ____types: "jsObject",
-              app: {
-                ____types: "jsObject",
-                client: {
-                  ____types: "jsObject",
-                  lifecycle: {
-                    ____types: "jsObject",
-                    deserialize: {
-                      ____types: "jsObject",
-                      bootROMData: {
-                        ____accept: "jsObject"
-                      } // TODO: We will want to schematize this object when we bring holistic app server kernel online. v0.0.49-spectrolite yes we do...
-
-                    }
-                  }
-                }
-              }
-            }
-          },
-          actionResultSpec: {
-            ____label: "Holistic App Client Runtime Deserialize Result",
-            ____types: "jsObject",
-            ____defaultValue: {},
-            appBootROMData: {
-              ____description: "An opaque, application-defined object returned by the derived app client runtime process in response to the deserialize lifecycle event. This object is passed back to the derived app client runtime process via action request during subsequent kernel dispatch of the config lifecycle action.",
-              ____accept: "jsObject",
-              ____defaultValue: {}
-            }
-          },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.deserializeFunction
-        }, // ----------------------------------------------------------------
-        // ControllerAction: holistic.app.client.lifecycle.config
-        {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.config")).result,
-          name: "".concat(appBuild.app.name, " App Client Lifecycle Action: Config"),
-          description: "This action is invoked by the HTML5 service kernel to inform ".concat(appBuild.app.name, " service logic to configure itself and perform its final preparation(s) (if any) in advance of receipt of lifecycle 'start' action."),
-          actionRequestSpec: {
-            ____types: "jsObject",
-            holistic: {
-              ____types: "jsObject",
-              app: {
-                ____types: "jsObject",
-                client: {
-                  ____types: "jsObject",
-                  lifecycle: {
-                    ____types: "jsObject",
-                    config: {
-                      ____types: "jsObject",
-                      appInitialClientRoute: {
-                        ____opaque: true
-                      },
-                      // TODO: not even sure I want/need this yet.
-                      appBootROMData: {
-                        ____accept: "jsObject"
-                      },
-                      // TODO: Schematize
-                      appRuntimeServiceProcesses: {
-                        ____types: "jsObject",
-                        appClientKernelProcessID: {
-                          ____accept: "jsString"
-                        },
-                        d2r2DisplayAdapterProcessID: {
-                          ____accept: "jsString"
-                        },
-                        domLocationProcessorProcessID: {
-                          ____accept: "jsString"
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          },
-          actionResultSpec: {
-            ____accept: "jsUndefined"
-            /*currently we take nothing back*/
-
-          },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.configFunction
-        }, // ----------------------------------------------------------------
         // ControllerAction: holistic.app.client.lifecycle.start
         {
           id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.start")).result,
@@ -471,15 +324,19 @@ var factoryResponse = arccore.filter.create({
                         "app" // ? Not sure
                         ]
                       },
+                      hrefParse: {
+                        ____accept: "jsObject" // TODO - note that this is a common schema to be deduced from the urlParse library implementation and shared as needed in platform code
+
+                      },
                       hashrouteString: {
                         ____label: "Hashroute String",
                         ____description: "The unparsed hashroute string extracted from the current location.href value. Note that there are no official parsing rules for hashroute strings. We impose some predictable guiderails.",
-                        ____accept: "jsString"
+                        ____accept: ["jsNull", "jsString"]
                       },
                       hashrouteParse: {
                         ____label: "Hashroute Parse Descriptor",
                         ____description: "The hashroute string parsed into a descriptor that includes unparsed search and query subproperties.",
-                        ____types: "jsObject",
+                        ____types: ["jsNull", "jsObject"],
                         pathname: {
                           ____label: "Hashroute Pathname",
                           ____description: "The hashroute pathname should be used as the a stable primary key for querying app metadata; it does not include any URL-encoded query parameter information.",
@@ -501,8 +358,9 @@ var factoryResponse = arccore.filter.create({
                       },
                       hashrouteQueryParse: {
                         ____label: "Hashroute Query Parse Descriptor",
-                        ____accept: "jsObject" // TODO
-
+                        ____accept: ["jsNull", "jsObject"
+                        /*TODO*/
+                        ]
                       },
                       routerEventNumber: {
                         ____accept: "jsNumber"

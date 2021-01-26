@@ -59,8 +59,8 @@ var HolisticHTML5Service = /*#__PURE__*/function () {
       }
 
       return this._private.serviceRuntime.act({
-        actorName: "Browser Tab Host",
-        actorTaskDescription: "Browser is attempting to boot the tab service.",
+        actorName: "HolisticHTML5Service::boot Method",
+        actorTaskDescription: "Attempting to boot and deserialize the HolisticHTML5Service process from HolisticNodeService-rendered HTML5 document.",
         actionRequest: {
           holistic: {
             app: {

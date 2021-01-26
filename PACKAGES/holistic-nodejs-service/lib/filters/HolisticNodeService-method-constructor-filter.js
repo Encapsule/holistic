@@ -50,7 +50,7 @@ var factoryResponse = arccore.filter.create({
   inputFilterSpec: inputFilterSpec,
   outputFilterSpec: outputFilterSpec,
   bodyFunction: function bodyFunction(request_) {
-    console.log("HolisticAppServer::constructor [".concat(this.operationID, "::").concat(this.operationName, "]"));
+    console.log("HolisticNodeService::constructor [".concat(this.operationID, "::").concat(this.operationName, "]"));
     var response = {
       error: null,
       result: {
@@ -274,19 +274,22 @@ var factoryResponse = arccore.filter.create({
               get: {
                 bodyFunction: function bodyFunction(_ref) {
                   var http_code = _ref.http_code,
+                      http_message = _ref.http_message,
                       resource_uri = _ref.resource_uri;
-                  var queryResult = appServiceCore.getAppMetadataPage(resource_uri);
+                  var result;
 
-                  if (queryResult instanceof String) {
+                  if (http_code !== 200) {
                     return {
-                      error: queryResult
+                      error: null,
+                      result: {
+                        title: http_message,
+                        name: "Error ".concat(http_code),
+                        description: "HTTP request failed with error code ".concat(http_code, ": ").concat(http_message, ".")
+                      }
                     };
                   }
 
-                  return {
-                    error: null,
-                    result: queryResult
-                  };
+                  return appServiceCore.getAppMetadataPage(resource_uri); // returns a filter response
                 },
                 outputFilterSpec: appMetadataTypeSpecs.pages.pageURI
               }

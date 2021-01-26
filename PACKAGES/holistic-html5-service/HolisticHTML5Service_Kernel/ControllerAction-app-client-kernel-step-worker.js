@@ -1,11 +1,5 @@
 "use strict";
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 // ControllerAction-app-client-kernel-step-worker.js
 var holarchy = require("@encapsule/holarchy");
 
@@ -40,8 +34,7 @@ var controllerAction = new holarchy.ControllerAction({
                 ____types: "jsObject",
                 action: {
                   ____accept: "jsString",
-                  ____inValueSet: ["noop", "activate-subprocesses", "deserialize-bootROM-data", "activate-display-adapter", "start-display-adapter", // After which the derived HTML5 service logic is actor who updates the display adapter
-                  "relinquish-display-adapter"],
+                  ____inValueSet: ["noop", "activate-subprocesses", "deserialize-bootROM-data", "activate-display-adapter", "signal-lifecycle-start"],
                   ____defaultValue: "noop"
                 }
               }
@@ -56,24 +49,22 @@ var controllerAction = new holarchy.ControllerAction({
     ____defaultValue: "okay"
   },
   bodyFunction: function bodyFunction(request_) {
-    var _this = this;
-
     var response = {
       error: null
     };
     var errors = [];
     var inBreakScope = false;
 
-    var _loop = function _loop() {
+    while (!inBreakScope) {
       inBreakScope = true;
-      var actorName = "[".concat(_this.operationID, "::").concat(_this.operationName, "]");
+      var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.kernel._private.stepWorker;
       console.log("".concat(actorName, " processing \"").concat(messageBody.action, "\" request on behalf of app client kernel process."));
       var hackLibResponse = hackLib.getStatus.request(request_.context);
 
       if (hackLibResponse.error) {
         errors.push(hackLibResponse.error);
-        return "break";
+        break;
       }
 
       var hackDescriptor = hackLibResponse.result;
@@ -89,6 +80,8 @@ var controllerAction = new holarchy.ControllerAction({
 
         case "activate-subprocesses":
           // THIS IS WRONG (v0.0.49-spectrolite - Not sure this is still wrong but have not yet confirmed the full matrix of possibilities wrt metadata code paths yet)
+          // v0.0.50-crystallite --- it seems that we need to predictate metadata responses inside the HTML5 service based on HTTP disposition? If so we may either
+          // want to defer activation, or provide additional config after deserialization occurs in the kernel process?
           actResponse = request_.context.act({
             actorName: actorName,
             actorTaskDescription: "Activating derived AppMetadata process on behalf of the app client process.",
@@ -100,15 +93,11 @@ var controllerAction = new holarchy.ControllerAction({
                     actionRequest: {
                       CellProcessor: {
                         process: {
+                          activate: {},
                           processCoordinates: {
                             apmID: "srjZAO8JQ2StYj07u_rgGg"
                             /* "Holistic App Common Kernel: App Metadata Process" */
 
-                          },
-                          activate: {
-                            processData: {
-                              construction: _objectSpread({}, kernelCellData.lifecycleResponses.query.result.actionResult.appMetadata)
-                            }
                           }
                         }
                       }
@@ -137,15 +126,15 @@ var controllerAction = new holarchy.ControllerAction({
                     actionRequest: {
                       CellProcessor: {
                         process: {
-                          activate: {
-                            processData: {
-                              derivedAppClientProcessCoordinates: kernelCellData.derivedAppClientProcessCoordinates
-                            }
-                          },
                           processCoordinates: {
                             apmID: "OWLoNENjQHOKMTCEeXkq2g"
                             /* "Holistic App Client Kernel: DOM Location Processor" */
 
+                          },
+                          activate: {
+                            processData: {
+                              derivedAppClientProcessCoordinates: kernelCellData.derivedAppClientProcessCoordinates
+                            }
                           }
                         }
                       }
@@ -176,13 +165,7 @@ var controllerAction = new holarchy.ControllerAction({
                     actionRequest: {
                       CellProcessor: {
                         process: {
-                          activate: {
-                            processData: {
-                              construction: {
-                                d2r2Components: kernelCellData.lifecycleResponses.query.result.actionResult.d2r2ComponentsArray
-                              }
-                            }
-                          },
+                          activate: {},
                           processCoordinates: {
                             apmID: "IxoJ83u0TXmG7PLUYBvsyg"
                             /* "Holistic Client App Kernel: d2r2/React Client Display Adaptor" */
@@ -197,6 +180,27 @@ var controllerAction = new holarchy.ControllerAction({
             },
             apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
 
+          });
+
+          if (actResponse.error) {
+            errors.push(actResponse.error);
+            break;
+          }
+
+          actResponse = request_.context.act({
+            actorName: actorName,
+            actorTaskDescription: "Attempting to activate the PageViewController cell process singleton.",
+            actionRequest: {
+              CellProcessor: {
+                process: {
+                  activate: {},
+                  processCoordinates: {
+                    apmID: "AZaqZtWRSdmHOA6EbTr9HQ"
+                  } // PageViewController cell singleton instance
+
+                }
+              }
+            }
           });
 
           if (actResponse.error) {
@@ -287,7 +291,7 @@ var controllerAction = new holarchy.ControllerAction({
                 }
               }
             },
-            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+            apmBindingPath: request_.context.apmBindingPath // will be the holistic HTML5 service kernel process
 
           });
 
@@ -299,86 +303,34 @@ var controllerAction = new holarchy.ControllerAction({
           break;
         // ****************************************************************
         // ****************************************************************
-        // TODO: Leave for now but this is probably really not the sort of thing we want
-        // to get into at this low-level. how an app pre-renders content and what the
-        // boot experience is should be 100% customizable w/reasonable defaults. This
-        // solution isn't really ... never mind i think i already cut it out.
 
-        case "start-display-adapter":
+        case "signal-lifecycle-start":
           actResponse = request_.context.act({
             actorName: actorName,
-            actorTaskDescription: "Sending final kernel boot update to the display adapater and relinquishing responsibility for further updates to derived HTML5 app service logic.",
+            actorTaskDescription: "Dispatching the derived HTML5 service's start lifecycle action to inform it that kernel boot has completed.",
             actionRequest: {
-              holistic: {
-                app: {
-                  client: {
-                    display: {
-                      update: {
-                        thisProps: {
-                          renderData: {
-                            Viewpath5: {
-                              pageview: {
-                                loadingApp: {
-                                  appStarted: true
-                                }
-                              }
+              CellProcessor: {
+                cell: {
+                  delegate: {
+                    actionRequest: {
+                      holistic: {
+                        app: {
+                          client: {
+                            lifecycle: {
+                              start: {}
                             }
                           }
                         }
                       }
                     }
-                  }
+                  },
+                  cellCoordinates: kernelCellData.derivedAppClientProcessCoordinates
                 }
               }
             },
-            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
+            apmBindingPath: request_.context.apmBindingPath // will be the holistic HTML5 service kernel process
 
           });
-
-          if (actResponse.error) {
-            errors.push(actResponse.error);
-            break;
-          }
-
-          var st = new Date().getTime();
-          console.log("******************** DELAY TIMER STARTED ********************" + new Date().getTime());
-          setTimeout(function () {
-            var et = new Date().getTime();
-            console.log("******************** DELAY TIMER FIRED ******************** ellaped " + (et - st) + "ms");
-            request_.context.act({
-              actorName: actorName,
-              actorTaskDescription: "Relinquishing display adapter to derived HTML5 service logic.",
-              actionRequest: {
-                holistic: {
-                  app: {
-                    client: {
-                      kernel: {
-                        _private: {
-                          stepWorker: {
-                            action: "relinquish-display-adapter"
-                          }
-                        }
-                      }
-                    }
-                  }
-                }
-              },
-              apmBindingPath: request_.context.apmBindingPath
-            });
-          }, 500);
-          break;
-
-        case "relinquish-display-adapter":
-          ocdResponse = request_.context.ocdi.writeNamespace({
-            apmBindingPath: request_.context.apmBindingPath,
-            dataPath: "#.displayReady"
-          }, true);
-
-          if (ocdResponse.error) {
-            errors.push(ocdResponse.error);
-            break;
-          }
-
           break;
 
         default:
@@ -386,13 +338,7 @@ var controllerAction = new holarchy.ControllerAction({
           break;
       }
 
-      return "break";
-    };
-
-    while (!inBreakScope) {
-      var _ret = _loop();
-
-      if (_ret === "break") break;
+      break;
     }
 
     if (errors.length) {

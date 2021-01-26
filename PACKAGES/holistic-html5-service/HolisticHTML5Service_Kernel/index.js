@@ -96,7 +96,7 @@ var displayAdapterFactory = require("../HolisticHTML5Service_DisplayAdapter"); /
           name: "HolisticHTML5Service Kernel Model",
           description: "Holistic HTML5 service kernel cell manages the overall lifecycle of a HolisicHTML5Service app instance (i.e. the client JavaScript executing in a user's browser tab) and provides base-level services by all app-specific features, logic, etc.",
           apm: serviceKernelAPM,
-          actions: [require("./ControllerAction-app-client-kernel-cell-plane-error"), require("./ControllerAction-app-client-kernel-hook-events"), require("./ControllerAction-app-client-kernel-notify-event"), require("./ControllerAction-app-client-kernel-step-worker"), require("./ControllerAction-app-client-kernel-signal-lifecycle-event")],
+          actions: [require("./ControllerAction-app-client-kernel-cell-plane-error"), require("./ControllerAction-app-client-kernel-hook-events"), require("./ControllerAction-app-client-kernel-notify-event"), require("./ControllerAction-app-client-kernel-step-worker")],
           subcells: [// v0.0.49-spectrolite --- AppClientDOMLocation is fine w/out any changes I think
           displayAdapterCellModel, // Manages the boundary between the app service implementation process(es) and the app service display process.
           require("../HolisticHTML5Service_DOMLocation") // Manages the boundary between the app service runtime process and the DOM's location.

@@ -1,5 +1,6 @@
 // http-service-filter-factory.js
 
+const http = require("http");
 const arccore = require("@encapsule/arccore");
 const serializeResponseFilter = require("./http-response-serialize-filter");
 const errorResponseFilter = require("./http-response-error-filter");
@@ -51,6 +52,9 @@ var factoryResponse = arccore.filter.create({
                 inputFilterSpec: serviceErrorResponseRequestSpec,
                 bodyFunction: function(serviceErrorResponseRequest_) {
                     console.log("..... " + this.operationID + "::" + this.operationName);
+                    if (!serviceErrorResponseRequest_.error_descriptor.http.message) {
+                        serviceErrorResponseRequest_.error_descriptor.http.message = http.STATUS_CODES[serviceErrorResponseRequest_.error_descriptor.http.code];
+                    }
                     var response = errorResponseFilter.request(serviceErrorResponseRequest_);
                     return response;
                 }
@@ -74,6 +78,9 @@ var factoryResponse = arccore.filter.create({
                 inputFilterSpec: serviceResultResponseRequestSpec,
                 bodyFunction: function(serviceResultResponseRequest_) {
                     console.log("..... " + this.operationID + "::" + this.operationName);
+                    if (!serviceResultResponseRequest_.response_descriptor.http.message) {
+                        serviceResultResponseRequest_.response_descriptor.http.message = http.STATUS_CODES[serviceResultResponseRequest_.response_descriptor.http.code];
+                    }
                     var response = serializeResponseFilter.request(serviceResultResponseRequest_);
                     return response;
                 }

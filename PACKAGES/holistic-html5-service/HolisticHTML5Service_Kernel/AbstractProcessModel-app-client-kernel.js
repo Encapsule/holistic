@@ -95,10 +95,6 @@ var _require = require("@encapsule/holarchy"),
             lifecycleResponses: {
               ____types: "jsObject",
               ____defaultValue: {},
-              init: optionalFilterResponseSpec,
-              query: optionalFilterResponseSpec,
-              deserialize: optionalFilterResponseSpec,
-              config: optionalFilterResponseSpec,
               start: optionalFilterResponseSpec
             },
             windowLoaded: {
@@ -136,7 +132,7 @@ var _require = require("@encapsule/holarchy"),
             }
           },
           steps: {
-            uninitialized: {
+            "uninitialized": {
               description: "Default starting process step.",
               transitions: [{
                 transitionIf: {
@@ -156,76 +152,6 @@ var _require = require("@encapsule/holarchy"),
                         kernel: {
                           _private: {
                             hookDOMEvents: {}
-                          }
-                        }
-                      }
-                    }
-                  }
-                }]
-              },
-              transitions: [{
-                transitionIf: {
-                  always: true
-                },
-                nextStep: "kernel-signal-lifecycle-init"
-              }]
-            },
-            "kernel-signal-lifecycle-init": {
-              description: "Informing the derived holistic app client process that it is time initialize any private external subsystems that it requires and manages external to this CellProcessor instance.",
-              actions: {
-                exit: [{
-                  CellProcessor: {
-                    util: {
-                      writeActionResponseToPath: {
-                        dataPath: "#.lifecycleResponses.init",
-                        actionRequest: {
-                          holistic: {
-                            app: {
-                              client: {
-                                kernel: {
-                                  _private: {
-                                    signalLifecycleEvent: {
-                                      eventLabel: "init"
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }]
-              },
-              transitions: [{
-                transitionIf: {
-                  always: true
-                },
-                nextStep: "kernel-signal-lifecycle-query"
-              }]
-            },
-            "kernel-signal-lifecycle-query": {
-              description: "Querying the derived holistic app client process for its runtime requirements and capabilities.",
-              actions: {
-                exit: [{
-                  CellProcessor: {
-                    util: {
-                      writeActionResponseToPath: {
-                        dataPath: "#.lifecycleResponses.query",
-                        actionRequest: {
-                          holistic: {
-                            app: {
-                              client: {
-                                kernel: {
-                                  _private: {
-                                    signalLifecycleEvent: {
-                                      eventLabel: "query"
-                                    }
-                                  }
-                                }
-                              }
-                            }
                           }
                         }
                       }
@@ -270,7 +196,8 @@ var _require = require("@encapsule/holarchy"),
               description: "Waiting for holistic app client kernel subprocesses to come online...",
               transitions: [{
                 transitionIf: {
-                  and: [{
+                  and: [// TODO: ensure that we wait on everything we activated in stepWorker activate-subprocesses action.
+                  {
                     CellProcessor: {
                       cell: {
                         query: {
@@ -290,7 +217,7 @@ var _require = require("@encapsule/holarchy"),
                       cell: {
                         query: {
                           inStep: {
-                            apmStep: "dom-location-processor-wait-kernel-ready"
+                            apmStep: "dom-location-wait-kernel-config"
                           }
                         },
                         cellCoordinates: {
@@ -307,7 +234,7 @@ var _require = require("@encapsule/holarchy"),
             },
             "kernel-wait-browser-tab-resources-loaded": {
               description: "Waiting for the browser to finish load/parse of the current HTML5 document so that we can safely presume all the resources that it references are accessible.",
-              transitions: [// TODO: update this signature; it's an intrinsic part of @encapsule/holarchy so should live in CellProcessor request space.
+              transitions: [// TODO: update this action request signature
               {
                 transitionIf: {
                   holarchy: {
@@ -355,6 +282,7 @@ var _require = require("@encapsule/holarchy"),
               description: "Completing subprocess initializations using information obtained from the deserialized bootROM.",
               actions: {
                 enter: [// Rehydrate the display process in whatever state it was left in immediately prior to being serialized to an HTML5 document.
+                // Then render the same data w/modified context indicating that we're now live inside the HTML5 service kernel (i.e. act is connected).
                 {
                   holistic: {
                     app: {
@@ -369,83 +297,43 @@ var _require = require("@encapsule/holarchy"),
                       }
                     }
                   }
-                }, {
-                  CellProcessor: {
-                    util: {
-                      writeActionResponseToPath: {
-                        dataPath: "#.lifecycleResponses.deserialize",
-                        actionRequest: {
-                          holistic: {
-                            app: {
-                              client: {
-                                kernel: {
-                                  _private: {
-                                    signalLifecycleEvent: {
-                                      eventLabel: "deserialize"
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
-                }, {
-                  CellProcessor: {
-                    util: {
-                      writeActionResponseToPath: {
-                        dataPath: "#.lifecycleResponses.config",
-                        actionRequest: {
-                          holistic: {
-                            app: {
-                              client: {
-                                kernel: {
-                                  _private: {
-                                    signalLifecycleEvent: {
-                                      eventLabel: "config"
-                                    }
-                                  }
-                                }
-                              }
-                            }
-                          }
-                        }
-                      }
-                    }
-                  }
                 }]
               },
-              transitions: [{
+              transitions: [// We want to wait here for subprocesses to reach their quiescent states.
+              {
                 transitionIf: {
-                  holarchy: {
-                    cm: {
-                      operators: {
-                        ocd: {
-                          compare: {
-                            values: {
-                              operator: "===",
-                              a: {
-                                path: "#.bootROMData.initialDisplayData.httpResponseDisposition.code"
-                              },
-                              b: {
-                                value: 200
-                              }
-                            }
+                  and: [{
+                    CellProcessor: {
+                      cell: {
+                        query: {
+                          inStep: {
+                            apmStep: "display-adapter-service-ready"
                           }
+                        },
+                        cellCoordinates: {
+                          apmID: "IxoJ83u0TXmG7PLUYBvsyg"
+                          /*display adpater*/
+
                         }
                       }
                     }
-                  }
+                  }]
                 },
                 nextStep: "kernel-signal-lifecycle-start"
-              }, {
-                transitionIf: {
-                  always: true
-                },
-                nextStep: "kernel-service-offline-standby"
               }]
+              /*
+              transitions: [
+                  {
+                      transitionIf: { holarchy: { cm: { operators: { ocd: { compare: { values: { operator: "===", a: { path: "#.bootROMData.initialDisplayData.httpResponseDisposition.code" }, b: { value: 200 } } } } } } } },
+                      nextStep: "kernel-signal-lifecycle-start"
+                  },
+                  {
+                      transitionIf: { always: true },
+                      nextStep: "kernel-service-offline-standby"
+                  }
+              ]
+              */
+
             },
             "kernel-signal-lifecycle-start": {
               description: "Informing the derived holistic app client process that it is time to start the show!",
@@ -461,8 +349,8 @@ var _require = require("@encapsule/holarchy"),
                               client: {
                                 kernel: {
                                   _private: {
-                                    signalLifecycleEvent: {
-                                      eventLabel: "start"
+                                    stepWorker: {
+                                      action: "signal-lifecycle-start"
                                     }
                                   }
                                 }

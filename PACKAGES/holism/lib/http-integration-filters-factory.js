@@ -146,6 +146,12 @@ var factoryResponse = arccore.filter.create({
                         ____accept: "jsNumber",
                         ____defaultValue: 200
                     },
+                    http_message: {
+                        ____label: "HTTP Status Message",
+                        ____description: "Custom HTTP response status message. Or, http_code-dependent default value.",
+                        ____accept: "jsString",
+                        ____defaultValue: "Okay"
+                    },
                     resource_uri: {
                         ____label: "Page URI",
                         ____description: "The URI of the page to retrieve metadata for. This corresponds to the pathname portion of the HTTP " +

@@ -62,7 +62,16 @@ var factoryResponse = arccore.filter.create({
         opcRef._private.opcActorStack.push({
           actorName: request_.actorName,
           actorTaskDescription: request_.actorTaskDescription
-        }); // Log the start of the action.
+        });
+
+        if (initialActorStackDepth === 0) {
+          console.log("\nEXTERNAL ACTOR -->");
+          console.log("O       o O       o O       o");
+          console.log("| O   o | | O   o | | O   o |");
+          console.log("| | O | | | | O | | | | O | |");
+          console.log("| o   O | | o   O | | o   O |");
+          console.log("o       O o       O o       O");
+        } // Log the start of the action.
 
 
         logger.request({

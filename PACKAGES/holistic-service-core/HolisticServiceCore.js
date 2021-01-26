@@ -118,16 +118,52 @@ var HolisticServiceCore = /*#__PURE__*/function () {
     key: "getAppMetadataApp",
     value: function getAppMetadataApp() {
       return this.isValid() ? this._private.nonvolatile.appMetadata.accessors.getAppMetadataApp() : this.toJSON();
-    }
+    } // Returns filter response object.
+
   }, {
     key: "getAppMetadataPage",
     value: function getAppMetadataPage(pageURI_) {
-      return this.isValid() ? this._private.nonvolatile.appMetadata.accessors.getAppMetadataPage(pageURI_) : this.toJSON();
-    }
+      if (!this.isValid()) {
+        return {
+          error: this.toJSON()
+        };
+      }
+
+      var pageMetadataValue = this._private.nonvolatile.appMetadata.accessors.getAppMetadataPage(pageURI_);
+
+      if (!pageMetadataValue) {
+        return {
+          error: "No page metadata found for URI \"".concat(pageURI_, "\".")
+        };
+      }
+
+      return {
+        error: null,
+        result: pageMetadataValue
+      };
+    } // Returns filter response object.
+
   }, {
     key: "getAppMetadataHashroute",
     value: function getAppMetadataHashroute(hashroutePathname_) {
-      return this.isValid() ? this._private.nonvolatile.appMetadata.acessors.getAppMetadataHashroute(hashroutePathname_) : this.toJSON();
+      if (!this.isValid()) {
+        return {
+          error: this.toJSON()
+        };
+      }
+
+      var hashrouteMetadataValue = this._private.nonvolatile.appMetadata.acessors.getAppMetadataHashroute(hashroutePathname_);
+
+      if (!hashrouteMetadataValue) {
+        return {
+          error: "No hashroute metadata found for URI \"".concat(hashroutePathname_, "\".")
+        };
+      }
+
+      return {
+        error: null,
+        result: hashrouteMetadataValue
+      };
     }
   }, {
     key: "getClientUserLoginSessionSpec",

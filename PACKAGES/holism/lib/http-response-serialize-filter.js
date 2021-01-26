@@ -64,6 +64,7 @@ var factoryResponse = arccore.filter.create({
                 // Ask the application for a copy of the page's metadata.
                 integrationResponse = integrationFilters.get_page_metadata.request({
                     http_code: responseDescriptor.http.code,
+                    http_message: responseDescriptor.http.message,
                     resource_uri: request_.request_descriptor.url_parse.pathname,
                     appStateContext: appStateContext
                 });
