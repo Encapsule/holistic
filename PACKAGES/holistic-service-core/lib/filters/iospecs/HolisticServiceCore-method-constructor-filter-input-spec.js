@@ -1,14 +1,14 @@
 "use strict";
 
-// HolisticAppCommon-method-constructor-filter-input-spec.js
-//// TODO: Rename before release
-// v--- My best ideas so far...
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
-/*
-  HolisticServiceCore
-  HolisticNodeService
-  HolisticBTabService
-*/
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+// HolisticAppCommon-method-constructor-filter-input-spec.js
+var appMetadataBaseObjectSpecs = require("./app-metadata-base-object-specs");
+
 module.exports = {
   ____label: "HolisticServiceCore::constructor Request Object",
   ____description: "This is the request format developers need to follow in order to construct a HolisticServiceCore class instance.",
@@ -138,18 +138,7 @@ module.exports = {
     // app metadata specs and values entirely from this API and make org and app non-extensible
     // fixed-format data that's required developer input in holistic-app.json manifest used by appgen.
     // (and subsequently by the Makefile it code-generates into the derived app service repo's root directory).
-    appBuild: {
-      ____label: "Holistic App Build Metadata",
-      ____description: "A reference to the app-build.json manifest created by the app Makefile.",
-      ____accept: "jsObject" // TODO: schematize this slippery sucker once and for all and be done with it.
-      // Note that in HolisticAppServer::constructor filter we're taking a dependency right now on @holism server filter factory request's version of buildID
-      // This is probably wrong. So, don't copy the pattern here w/out thinking about it some more.
-      // DEFINITELY SCHEMATIZE THE appBuild structure right here. Everyone else (including appgen) can base off this.
-      // Then the hand-off between platform-generated Makefile (that produces app-build.json in the first place)
-      // and the platform-guided runtime process initialization that really can't ever break w/out driving me
-      // finally over the edge will be locked down in one place - finally.
-
-    },
+    appBuild: _objectSpread({}, appMetadataBaseObjectSpecs.input.app.build),
     // ~.appData.appBuild
     appConfig: {
       ____label: "Service Synthesis Config Options",

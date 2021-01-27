@@ -17,8 +17,8 @@ var arccore = require("@encapsule/arccore");
         ____description: "A copy of HolisticNodeService HTTP response disposition descriptor spec. These values are set by HolisticNodeService when it serializes an HTML5 document.",
         ____accept: "jsObject"
       },
-      pageMetadataOverrideFieldsSpec: {
-        ____label: "HTTP Error Page Metadata Overrides Spec",
+      pageMetadataSpec: {
+        ____label: "HTTP Error Page Metadata Spec",
         ____description: "If httpResponseDisposition.code !== 200 then HolisticNodeService will override standard fields in page X metadata w/error information and use these values to populate standard values in HTML5, bootROM, etc. If HTTP response code 200, then these values are simply copies of X's build-time static page metadata field values.",
         ____accept: "jsObject"
       },
@@ -54,7 +54,7 @@ var arccore = require("@encapsule/arccore");
           initialDisplayData: {
             ____types: "jsObject",
             httpResponseDisposition: request_.httpResponseDispositionSpec,
-            pageMetadata: request_.pageMetadataOverrideFieldsSpec,
+            pageMetadata: request_.pageMetadataSpec,
             renderData: {
               ____label: "@encapsule/d2r2/React renderData Request",
               ____description: "The initial display process request passed to @encapsule/d2r2 in HolisticNodeService to synthesize the HTML5 document's initial user-visible content (what they see prior to HolisticHTML5Service boot).",

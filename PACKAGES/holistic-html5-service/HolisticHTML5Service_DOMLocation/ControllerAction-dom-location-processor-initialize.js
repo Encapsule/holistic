@@ -1,6 +1,6 @@
 "use strict";
 
-// ControllerAction-init-dom-client-hash-router.js
+// ControllerAction-dom-location-processor-initialize.js
 var holarchy = require("@encapsule/holarchy");
 
 var queryString = require("query-string");

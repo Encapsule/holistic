@@ -36,7 +36,8 @@ module.exports = {
     HolisticServiceCore: {
       constructor: require("./lib/filters/iospecs/HolisticServiceCore-method-constructor-filter-input-spec"),
       _private: require("./lib/filters/iospecs/HolisticServiceCore-method-constructor-filter-output-spec"),
-      httpServerError: require("./lib/filters/iospecs/http-response-error-result-spec.json")
+      httpServerError: require("./lib/filters/iospecs/http-response-error-result-spec.json"),
+      httpServerAgent: require("./lib/filters/iospecs/http-server-agent-result-spec.json")
     }
   }
 };

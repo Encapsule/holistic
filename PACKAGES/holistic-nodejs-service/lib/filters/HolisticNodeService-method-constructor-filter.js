@@ -279,12 +279,13 @@ var factoryResponse = arccore.filter.create({
                   var result;
 
                   if (http_code !== 200) {
+                    var appMetadata = appServiceCore.getAppMetadataApp();
                     return {
                       error: null,
                       result: {
-                        title: http_message,
-                        name: "Error ".concat(http_code),
-                        description: "HTTP request failed with error code ".concat(http_code, ": ").concat(http_message, ".")
+                        title: "".concat(appMetadata.name, " - HTTP Error ").concat(http_code),
+                        name: "".concat(appMetadata.name, " HTTP Error ").concat(http_code),
+                        description: "".concat(appMetadata.name, " could not process your HTTP request and failed with code ").concat(http_code, " - ").concat(http_message, ".")
                       }
                     };
                   }

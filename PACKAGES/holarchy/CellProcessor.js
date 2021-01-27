@@ -86,7 +86,15 @@ module.exports = /*#__PURE__*/function () {
   }, {
     key: "processes",
     get: function get() {
-      return !this.isValid() ? this.toJSON() : this.toJSON().opc.toJSON().ocdi.toJSON()["x7pM9bwcReupSRh0fcYTgw_CellProcessor"].ownedCellProcesses.digraph.toJSON();
+      if (!this.isValid()) {
+        return this.toJSON();
+      }
+
+      var cpmMemory = this._private.opc._private.ocdi._private.storeData["x7pM9bwcReupSRh0fcYTgw_CellProcessor"];
+      return {
+        ownedCellProcessesDigraph: cpmMemory.ownedCellProcesses.digraph.toJSON(),
+        sharedCellProcessesDigraph: cpmMemory.sharedCellProcesses.digraph.toJSON()
+      };
     }
   }]);
 

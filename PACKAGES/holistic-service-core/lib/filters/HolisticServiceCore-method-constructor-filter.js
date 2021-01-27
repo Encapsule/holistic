@@ -70,25 +70,34 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
           ____label: "App Service Metadata Input Values",
           ____description: "This is the format for the app metadata values required by by HolisticAppCommon::constructor function.",
           ____types: "jsObject",
+          org: _objectSpread(_objectSpread(_objectSpread({}, request_.appTypes.appMetadata.orgExtSpec), appMetadataBaseObjectSpecs.input.org), {}, {
+            ____label: "Build-Time Org Metadata Input Descriptor",
+            ____description: "The value provided by the developer to define app-specific metadata for their organization."
+          }),
           // TODO: Now that this is migrated to the correct place. Add ____label/____description from appBuild metadata
-          org: _objectSpread(_objectSpread({}, request_.appTypes.appMetadata.orgExtSpec), appMetadataBaseObjectSpecs.input.org),
-          // TODO: Now that this is migrated to the correct place. Add ____label/____description from appBuild metadata
-          app: _objectSpread(_objectSpread({}, request_.appTypes.appMetadata.appExtSpec), appMetadataBaseObjectSpecs.input.app),
-          // TODO: Now that this is migrated to the correct place. Add ____label/____description from appBuild metadata
+          app: _objectSpread(_objectSpread(_objectSpread({}, request_.appTypes.appMetadata.appExtSpec), appMetadataBaseObjectSpecs.input.app), {}, {
+            ____label: "Build-Time App Metadata Input Descriptor",
+            ____description: "The value provided by the developer to define app-specific metadata for this specific app and/or service."
+          }),
           pages: {
-            ____label: "App Service Server Page Views Metadata Map",
-            ____description: "A map of pageURI string keys to page metadata descriptor object.",
+            ____label: "Build-Time Page Metadata Input Descriptor Map",
+            ____description: "A map of pageURI string keys to page metadata descriptor objects provided by the developer to define app-specific page metadata for this specific app and/or service.",
             ____types: "jsObject",
             ____asMap: true,
-            pageURI: _objectSpread(_objectSpread({}, request_.appTypes.appMetadata.pageExtSpec), appMetadataBaseObjectSpecs.input.page)
+            pageURI: _objectSpread(_objectSpread(_objectSpread({}, request_.appTypes.appMetadata.pageExtSpec), appMetadataBaseObjectSpecs.input.page), {}, {
+              ____label: "Build-Time Page Metadata Descriptor",
+              ____description: "The value provided by the developer to define app-specific metadata for a specific page URI hosted by a HolisticNodeService instance."
+            })
           },
-          // TODO: Now that this is migrated to the correct place. Add ____label/____description from appBuild metadata
           hashroutes: {
-            ____label: "App Service Client Page Views Metadata Map",
-            ____description: "A map of hashroutePathname string keys to hashroute metadata descriptor object.",
+            ____label: "Build-Time Hashroute Metadata Input Descriptor Map",
+            ____description: "A map of hashroutePathname string keys to hashroute metadata descriptor objects provided by the developer to define app-specific page metadata for this specific app and/or service. Note, that hashroute metadata is defined per/service. But, is leveraged primarily by HolisticHTML5Service.",
             ____types: "jsObject",
             ____asMap: true,
-            hashroutePathname: _objectSpread(_objectSpread({}, request_.appTypes.appMetadata.hashrouteExtSpec), appMetadataBaseObjectSpecs.input.hashroute)
+            hashroutePathname: _objectSpread(_objectSpread(_objectSpread({}, request_.appTypes.appMetadata.hashrouteExtSpec), appMetadataBaseObjectSpecs.input.hashroute), {}, {
+              ____label: "Build-Time Hashroute Metadata Input Descriptor",
+              ____description: "The value provided by the developer to define app-specific metadata for a specific hashroute pathname hosted by a HolisticHTML5Service instance."
+            })
           }
         }; // derivedAppMetadataInputSpec
         // Synthesize a filter spec to validate (or simply document) the metadata values returned by any app metadata query by bucket org/app/page/hashroute.
@@ -219,14 +228,8 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
               ____accept: "jsString"
             }
           },
-          pageMetadataOverrideFieldsSpec: {
-            ____accept: "jsObject"
-          },
-          // TODO 
-          serverAgentSpec: {
-            ____accept: "jsObject"
-          },
-          // TODO 
+          pageMetadataSpec: response.result.nonvolatile.appMetadata.specs.pages.pageURI,
+          serverAgentSpec: require("./iospecs/http-server-agent-result-spec.json"),
           userLoginSessionDataSpec: response.result.nonvolatile.appCommonDefinition.appTypes.userLoginSession.untrusted.clientUserLoginSessionSpec
         });
 
@@ -244,8 +247,10 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
           appBuild: appBuild,
           appTypes: {
             metadata: {
-              specs: {// TODO: v0.0.49-spectrolite why is this sitting dangling here unspecified? Follow this down. No quarter for metadata bugs anywhere...
-              }
+              specs: response.result.nonvolatile.appMetadata.specs
+            },
+            bootROM: {
+              spec: response.result.nonvolatile.serviceBootROMSpec
             }
           },
           appModels: {

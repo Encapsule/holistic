@@ -23,7 +23,14 @@ var ServiceCore_AppMetadataCellModelFactory = require("../HolisticServiceCore_Me
         metadata: {
           ____types: "jsObject",
           specs: {
-            ____accept: "jsObject" // TODO: lock this down
+            ____accept: "jsObject" // TODO: lock this down? It's technically fine as we're passing through a filter spec as an opaque descriptor object here. No need to actually re-filter it.
+
+          }
+        },
+        bootROM: {
+          ____types: "jsObject",
+          spec: {
+            ____accept: "jsObject" // TODO: lock this down? Same rationale for leaving it as-is as above.
 
           }
         }
@@ -56,7 +63,7 @@ var ServiceCore_AppMetadataCellModelFactory = require("../HolisticServiceCore_Me
         // digraph building upstairs in the HolisticServiceCore::constructor. But, we just use the same delegation
         // pattern and push the details down into the AppMetadata cell definition at let it sort it out.
 
-        var cmFactoryResponse = ServiceCore_AppMetadataCellModelFactory.request(request_); // it's a filter so will clip out what it's not interested in.
+        var cmFactoryResponse = ServiceCore_AppMetadataCellModelFactory.request(request_); // it's a filter so will clip out what we're not interested in on the way in through input filter spec.
 
         if (cmFactoryResponse.error) {
           errors.push("Unable to synthesize HolisticServiceCore instance kernel CellModel because an error occurred synthesizing a required CellModel dependency:");
