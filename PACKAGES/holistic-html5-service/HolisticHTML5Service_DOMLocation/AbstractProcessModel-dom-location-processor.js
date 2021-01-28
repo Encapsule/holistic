@@ -1,71 +1,8 @@
 "use strict";
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 // AbstractProcessModel-client-hash-route-location-processor.js
-var routerEventDescriptorSpec = {
-  ____types: "jsObject",
-  actor: {
-    ____accept: "jsString",
-    ____inValueSet: ["server", // href value set by the app server actor (usually a copy of HTTP request URL from the user actor's agent, the browser).
-    "user", // User actor set the current href value via browser user agent forward/back navigation. Or, explicit modification of browser location bar input value.
-    "app" // Application actor set the current href value by calling a DOM Location Processor controller action.
-    ]
-  },
-  hrefParse: {
-    ____accept: "jsObject"
-  },
-  hashrouteString: {
-    ____accept: ["jsNull", // there is no hashroute fragment present in location.href.
-    "jsString" // the unparsed hashroute fragment obtained from location.href by DOM Location processor.
-    ],
-    ____defaultValue: null // no hashroute component present by default
+var routerEventDescriptorSpec = require("./lib/iospecs/router-event-descriptor-spec");
 
-  },
-  // This is the string beginning with the # character as we specified in the user request. Or, was added by the app client kernel during boot.
-  hashrouteParse: {
-    ____types: ["jsNull", // there is no hashroute fragment present in location.href
-    "jsObject" // the parsed hashroute fragment obtained from hashrouteString by DOM Location processor.
-    ],
-    ____defaultValue: null,
-    pathname: {
-      ____label: "Secondary Resource Request Pathname",
-      ____description: "Use this string as the primary key to query app metadata for hashroute descriptor.",
-      ____accept: "jsString"
-    },
-    path: {
-      ____label: "Secondary Resource Request Path",
-      ____description: "Same as above except that it includes any URL-encoded query params. In for debugging only but not really useful vs hashrouteQueryParse.",
-      ____accept: "jsString"
-    },
-    search: {
-      ____label: "Secondary Resource Reqeust Search Params String",
-      ____accept: ["jsString", "jsNull"]
-    },
-    query: {
-      ____label: "Secondary Resource Request Query Params String",
-      ____accept: ["jsString", "jsNull"]
-    }
-  },
-  hashrouteQueryParse: {
-    ____types: ["jsNull", // no hashroute fragment in location.href parsed -> no query pararms
-    "jsObject"],
-    ____defaultValue: null,
-    ____asMap: true,
-    paramName: {
-      ____accept: ["jsString", "jsNull"
-      /*e.g. #x?foo --> foo: null */
-      ]
-    }
-  },
-  routerEventNumber: {
-    ____accept: "jsNumber"
-  }
-};
 var apmClientHashRouteLocationProcessor = module.exports = {
   id: "OWLoNENjQHOKMTCEeXkq2g",
   name: "Holistic App Client Kernel: DOM Location Processor",
@@ -95,49 +32,27 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       ____defaultValue: -1 // Not a valid HTTP error code. Used to indicate that the process has not yet been configured by the HolisticHTML5Service_Kernel process.
 
     },
-    "private": {
-      ____types: "jsObject",
-      ____defaultValue: {},
-      routerEventCount: {
-        ____label: "Router Event Count",
-        ____description: "A count of the total number of observed changes of the DOM location object induced by all actors.",
-        ____accept: "jsNumber",
-        ____defaultValue: 0
-      },
-      lastOutputEventIndex: {
-        ____label: "Last Output Index",
-        ____description: "A count of the total number of routerEventDescriptor objects written to the model's output.",
-        ____accept: "jsNumber",
-        ____defaultValue: 0
-      },
-      // v0.0.48-kyanite
-      // TODO: We are currently maintaining an unbounded array of routerEventDescriptors.
-      // So, we need to study this a bit and understand if we need the history at all.
-      // If yes, how many entries max. Do we actions to allow the app to query and reset this info?
-      locationHistory: {
-        ____label: "Location History Array",
-        ____description: "Array written by the sink hashchange event action for every observed change in location.",
-        ____types: "jsArray",
-        ____defaultValue: [],
-        routerEventDescriptor: routerEventDescriptorSpec
-      },
-      // v0.0.50-crystallite --- What's this now? I don't think I think this anymore.
-      updateObservers: {
-        ____label: "Update Observers Flag",
-        ____description: "A Boolean flag set by DOM Location Processor actions to indicate to the DOM Location Processor model that it should transition to update step.",
-        ____accept: "jsBoolean",
-        ____defaultValue: false
-      }
+    routerEventCount: {
+      ____label: "Router Event Count",
+      ____description: "A count of the total number of observed changes of the DOM location object induced by all actors.",
+      ____accept: "jsNumber",
+      ____defaultValue: 0
     },
-    outputs: {
-      ____types: "jsObject",
-      ____defaultValue: {},
-      currentRoute: _objectSpread(_objectSpread({}, routerEventDescriptorSpec), {}, {
-        ____types: ["jsNull", "jsObject"],
-        ____defaultValue: null
-      })
+    lastOutputEventIndex: {
+      ____label: "Last Output Index",
+      ____description: "A count of the total number of routerEventDescriptor objects written to the model's output.",
+      ____accept: "jsNumber",
+      ____defaultValue: 0
+    },
+    locationHistory: {
+      ____label: "Location History Array",
+      ____description: "Array written by the sink hashchange event action for every observed change in location.",
+      ____types: "jsArray",
+      ____defaultValue: [],
+      routerEventDescriptor: routerEventDescriptorSpec
     }
   },
+  // ~.ocdDataSpec
   steps: {
     uninitialized: {
       description: "Default starting process step.",
@@ -158,7 +73,7 @@ var apmClientHashRouteLocationProcessor = module.exports = {
               client: {
                 domLocation: {
                   _private: {
-                    initialize: true
+                    initialize: {}
                   }
                 }
               }
@@ -174,7 +89,34 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       }]
     },
     "dom-location-wait-kernel-config": {
-      description: "Blocks and waits for the HTML5 kernel process to provide additional configuration information needed to determine runtime policy of this cell."
+      description: "Blocks and waits for the HTML5 kernel process to provide additional configuration information needed to determine runtime policy of this cell.",
+      transitions: [{
+        transitionIf: {
+          holarchy: {
+            cm: {
+              operators: {
+                ocd: {
+                  compare: {
+                    values: {
+                      a: {
+                        path: "#.httpResponseCode"
+                      },
+                      b: {
+                        value: -1
+                      },
+                      operator: ">"
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        nextStep: "dom-location-configured"
+      }]
+    },
+    "dom-location-configured": {
+      description: "got here"
     },
 
     /*

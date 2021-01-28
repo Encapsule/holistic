@@ -777,7 +777,7 @@ var factoryResponse = arccore.filter.create({
               iid: opcRef._private.iid,
               name: opcRef._private.name,
               evalCount: result.evalNumber,
-              frameCount: result.summary.counts.frames,
+              frameCount: result.summary.counts.frames - 1,
               actorStack: opcRef._private.opcActorStack
             },
             subsystem: "opc",
@@ -795,7 +795,7 @@ var factoryResponse = arccore.filter.create({
               iid: opcRef._private.iid,
               name: opcRef._private.name,
               evalCount: result.evalNumber,
-              frameCount: result.summary.counts.frames,
+              frameCount: result.summary.counts.frames - 1,
               actorStack: opcRef._private.opcActorStack
             },
             subsystem: "opc",
@@ -829,13 +829,13 @@ var factoryResponse = arccore.filter.create({
         iid: opcRef._private.iid,
         name: opcRef._private.name,
         evalCount: opcRef._private.evalCount,
-        frameCount: result.summary.counts.frames,
+        frameCount: result.summary.counts.frames - 1,
         actorStack: opcRef._private.opcActorStack
       },
       subsystem: "opc",
       method: "evaluate",
       phase: "epilogue",
-      message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.counts.frames, " eval frame(s) in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
+      message: "COMPLETE OPC system state update #".concat(result.evalNumber, ". Completed ").concat(result.summary.counts.frames, " eval frame").concat(result.summary.counts.frames ? "s" : "", " in ").concat(result.summary.evalStopwatch.totalMilliseconds, " ms.")
     });
     response.result = result;
     return response;

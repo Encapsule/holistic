@@ -7,6 +7,6 @@ module.exports = new holarchy.CellModel({
   name: "DOM Location Processor",
   description: "Abstracts monitoring and setting the window.location and hashroute.",
   apm: require("./AbstractProcessModel-dom-location-processor"),
-  actions: [require("./ControllerAction-dom-location-processor-initialize"), require("./ControllerAction-dom-location-processor-configure"), require("./ControllerAction-dom-location-processor-sink-event-hashchange")],
+  actions: [require("./ControllerAction-dom-location-processor-initialize"), require("./ControllerAction-dom-location-processor-configure"), require("./ControllerAction-dom-location-processor-hashchange")],
   subcells: []
 });

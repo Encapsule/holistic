@@ -23,6 +23,10 @@ var factoryResponse = arccore.filter.create({
 
             let response_descriptor = {
                 ...request_.error_descriptor,
+                headers: {
+                    ...request_.error_descriptor.headers,
+                    "Cache-Control": "no-store, max-age=0"
+                },
                 http: {
                     code: request_.error_descriptor.http.code,
                     message: request_.error_descriptor.http.message?request_.error_descriptor.http.message:http.STATUS_CODES[request_.error_descriptor.http.code]
