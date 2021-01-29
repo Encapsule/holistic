@@ -90,8 +90,8 @@ var controllerAction = new holarchy.ControllerAction({
         var displayAdapterStatus = hacdLibResponse.result;
         var displayAdapterCellData = displayAdapterStatus.cellMemory;
 
-        if (displayAdapterCellData.__apmiStep !== "display-adapter-service-ready") {
-          errors.push("This action may only be called once the app client display adapter process is in its \"display-adapter-service-ready\" step.");
+        if (displayAdapterCellData.__apmiStep !== "display-adapter-ready") {
+          errors.push("This action may only be called once the app client display adapter process is in its \"display-adapter-ready\" step.");
           break;
         }
 

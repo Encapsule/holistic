@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains an extensible framework for defining application-specific metadata - i.e. data about your app. It is intended for use in derived apps/services and is typically used in conjunction with @encapsule/holism integration plug-in filters to satisfy queries re: publishing organization, application, page, route, hashroute, resource, operation...
 
 ```
-Package: @encapsule/holism-metadata v0.0.50 "crystallite" build ID "aX3EBzztRHS658u2GLtRdg"
-Sources: Encapsule/holistic-master#b934c6b8ead0429fe29d1ac822b04cb2831f4da2
-Created: 2021-01-29T22:56:40.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism-metadata v0.0.50 "crystallite" build ID "qgAMFxZmSxSwbS-lJkKKLw"
+Sources: Encapsule/holistic-master#065196a423cc04b831a107570ef006ce15272fe4
+Created: 2021-01-29T23:10:40.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
