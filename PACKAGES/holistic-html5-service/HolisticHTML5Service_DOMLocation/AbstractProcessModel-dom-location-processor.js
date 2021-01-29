@@ -32,18 +32,6 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       ____defaultValue: -1 // Not a valid HTTP error code. Used to indicate that the process has not yet been configured by the HolisticHTML5Service_Kernel process.
 
     },
-    routerEventCount: {
-      ____label: "Router Event Count",
-      ____description: "A count of the total number of observed changes of the DOM location object induced by all actors.",
-      ____accept: "jsNumber",
-      ____defaultValue: 0
-    },
-    lastOutputEventIndex: {
-      ____label: "Last Output Index",
-      ____description: "A count of the total number of routerEventDescriptor objects written to the model's output.",
-      ____accept: "jsNumber",
-      ____defaultValue: 0
-    },
     locationHistory: {
       ____label: "Location History Array",
       ____description: "Array written by the sink hashchange event action for every observed change in location.",
@@ -116,91 +104,16 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       }]
     },
     "dom-location-configured": {
-      description: "got here"
-    },
-
-    /*
-    "dom-location-initialize": {
-        description: "Registering hashchange DOM event callback.",
-        transitions: [ { transitionIf: { always: true }, nextStep: "dom-location-processor-wait-kernel-ready" } ],
-        actions: {
-             // Analyze and parse the current location.href into normalized base URI pathname. And, if present the current hashroute fragment.
-            // Take no other action wrt hooking the DOM hashchange event at this point; we do not yet know the HTTP response disposition
-            // returned by HolisticNodeService instance...
-            exit: [ { holistic: { app: { client: { domLocation: { _private: { initialize: true } } } } } } ]
-        }
-    },
-    */
-    "dom-location-processor-wait-kernel-ready": {
-      description: "Waiting on the kernel to reach its active state. After that point, we start actively communicating directly with the derived app client process.",
-      transitions: [{
-        transitionIf: {
-          CellProcessor: {
-            cell: {
-              query: {
-                inStep: {
-                  apmStep: "kernel-service-ready"
-                }
-              },
-              cellCoordinates: {
-                apmID: "PPL45jw5RDWSMNsB97WIWg"
-                /* "Holistic App Client Kernel Process" */
-
-              }
-            }
-          }
-        },
-        nextStep: "dom-location-processor-signal-initial-hashroute"
-      }]
-    },
-    "dom-location-processor-signal-initial-hashroute": {
-      description: "Inform the app client process of the initial hashroute assignment inherited from the HTTP request URL. Note, that it is up to the app client process to decide what to do with this information specifically wrt to active cells etc.",
+      description: "The HolisticHTML5Service_DOMLocation process has been configured.",
       transitions: [{
         transitionIf: {
           always: true
         },
-        nextStep: "dom-location-processor-active"
-      }],
-      actions: {
-        exit: [{
-          holistic: {
-            app: {
-              client: {
-                domLocation: {
-                  _private: {
-                    notifyEvent: {
-                      hashchange: {
-                        event: "intial hashroute synthetic event trigggered by DOM Location Processor APM"
-                      }
-                    }
-                  }
-                }
-              }
-            }
-          }
-        }]
-      }
+        nextStep: "dom-location-ready"
+      }]
     },
-    "dom-location-processor-active": {
+    "dom-location-ready": {
       description: "The DOM Location Processor is active and waiting from action requests from the app. And, hashchange events caused by user interaction w/the browser."
     }
-    /*
-    "dom-location-wait-hashchange-event": {
-        description: "Waiting for DOM hashchange event.",
-        transitions: [
-            {
-                transitionIf: { holarchy: { cm: { operators: { ocd: { isBooleanFlagSet: { path: "#.private.updateObservers" } } } } } },
-                nextStep: "dom-location-signal-update"
-            }
-        ]
-    },
-     "dom-location-signal-update": {
-        description: "The observable browser location has been updated. Information about the current location, and who set it is available in this model's output namespace.",
-        // v0.0.48-kyanite this is changing...
-        actions: { exit: [ { holarchy: { cm: { actions: { ocd: { clearBooleanFlag: { path: "#.private.updateObservers" } } } } } } ] },
-        transitions: [ { transitionIf: { always: true }, nextStep: "dom-location-wait-hashchange-event" } ]
-    }
-    */
-
   }
 };

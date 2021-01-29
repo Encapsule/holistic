@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
 
 function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
@@ -92,74 +98,72 @@ var factoryResponse = arccore.filter.create({
           id: html5ServiceAPMID,
           name: "".concat(appBuild.app.name, " HTML5 Service Process (synthesized)"),
           description: "Synthesized HolisticHTML5Service runtime AbstractProcessModel for app service '".concat(appBuild.app.name, "'."),
-          ocdDataSpec: {
-            ____label: "".concat(appBuild.app.name, " HTML5 Service Process Memory"),
-            ____description: "The ObservableControllerData filter spec for APM ID '".concat(html5ServiceAPMID, "' (").concat(appBuild.app.name, " synthesized HTML5 service CellModel) that defines APM's cell memory data format."),
-            ____types: "jsObject",
-            ____defaultValue: {},
-            kernelProxy: {
-              ____types: "jsObject",
-              ____appdsl: {
-                apm: "CPPU-UPgS8eWiMap3Ixovg"
-                /* cell proxy APM */
-
-              }
-            },
-            locationProxy: {
-              ____types: "jsObject",
-              ____appdsl: {
-                apm: "CPPU-UPgS8eWiMap3Ixovg"
-                /* cell proxy APM */
-
-              }
-            },
-            displayProxy: {
-              ____types: "jsObject",
-              ____appdsl: {
-                apm: "CPPU-UPgS8eWiMap3Ixovg"
-                /* cell proxy APM */
-
-              }
+          ocdDataSpec: _objectSpread(_objectSpread({}, request_.appModels.html5ServiceCell.apmDeclaration.ocdDataSpec), {}, {
+            activationMode: {
+              ____label: "".concat(appBuild.app.name, " Process Activation Mode"),
+              ____description: "A flag that indicates the activation mode of ".concat(appBuild.app.name, " derived service process."),
+              ____accept: "jsString",
+              ____inValueSet: ["app-service-start", "app-service-error"]
             }
-          },
+          }),
           // ocdDataSpec
-          steps: {
-            uninitialized: {
+          steps: _objectSpread(_objectSpread({
+            // Order matters here.
+            "app-service-start": {
+              description: "The derived app service process has been activated and is now interactive."
+            },
+            "app-service-error": {
+              description: "The dervied app service process has been activated but did not start correctly. And, is not interactive."
+            }
+          }, request_.appModels.html5ServiceCell.apmDeclaration.steps), {}, {
+            "uninitialized": {
               description: "Default APM starting step.",
               transitions: [{
                 transitionIf: {
                   always: true
                 },
-                nextStep: "app-client-wait-kernel-config"
+                nextStep: "app-service-boot"
               }]
             },
-            "app-client-wait-kernel-config": {
-              description: "Derived app client process has been started by the app client kernel. Waiting for the kernel to finish configuring...",
+            "app-service-boot": {
+              description: "".concat(appBuild.app.name, " process is booting."),
               transitions: [{
+                nextStep: "app-service-start",
                 transitionIf: {
-                  CellProcessor: {
-                    proxy: {
-                      proxyCoordinates: "#.kernelProxy",
-                      connect: {
-                        statusIs: "connected"
+                  holarchy: {
+                    cm: {
+                      operators: {
+                        ocd: {
+                          compare: {
+                            values: {
+                              a: {
+                                value: "app-service-start"
+                              },
+                              b: {
+                                path: "#.activationMode"
+                              },
+                              operator: "==="
+                            }
+                          }
+                        }
                       }
                     }
                   }
-                },
-                nextStep: "app-client-active"
+                }
+              }, {
+                nextStep: "app-service-error",
+                transitionIf: {
+                  always: true
+                }
               }]
-            },
-            "app-client-active": {
-              description: "The derived app client process has been activated and is now interactive."
             }
-          }
+          })
         },
         // apm
         // TODO: We have work to do before we do this definition synthesis in order to pre-process the registration set.
         subcells: [].concat(_toConsumableArray(appServiceCore.getCellModels()), _toConsumableArray(request_.appModels.cellModels), [// All the CellModels registered by the developer via HolisticHTML5Service::constructor request.
-        html5ServiceKernelCellModel // The synthesized HTML5 service kernel CellModel.
-        ]),
-        actions: [// ----------------------------------------------------------------
+        html5ServiceKernelCellModel], _toConsumableArray(request_.appModels.html5ServiceCell.subcells)),
+        actions: [].concat(_toConsumableArray(request_.appModels.html5ServiceCell.actions), [// ----------------------------------------------------------------
         // ControllerAction: holistic.app.client.boot
         {
           id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.boot")).result,
@@ -174,8 +178,7 @@ var factoryResponse = arccore.filter.create({
                 client: {
                   ____types: "jsObject",
                   boot: {
-                    ____types: "jsObject" // TODO? Options?
-
+                    ____types: "jsObject"
                   }
                 }
               }
@@ -226,32 +229,31 @@ var factoryResponse = arccore.filter.create({
               }
 
               var appClientKernelActivateResult = actResponse.result;
+              /*
               actResponse = controllerActionRequest_.context.act({
-                actorName: actorName,
-                actorTaskDescription: "Attempting to launch derived application '".concat(appBuild.app.name, "' process."),
-                actionRequest: {
-                  CellProcessor: {
-                    process: {
-                      processCoordinates: {
-                        apmID: html5ServiceAPMID // X HTML5 service APM ID (synthesized)
-
-                      },
-                      activate: {
-                        processData: {
-                          appClientRuntime: undefined // v0.0.49-spectrolite --- take the default here for now and let html5Service APM sort it out in its OCD spec.
-
-                        }
+                  actorName,
+                  actorTaskDescription: `Attempting to launch derived application '${appBuild.app.name}' process.`,
+                  actionRequest: {
+                      CellProcessor: {
+                          process: {
+                              processCoordinates: {
+                                  apmID: html5ServiceAPMID // X HTML5 service APM ID (synthesized)
+                              },
+                              activate: {
+                                  processData: {
+                                      appClientRuntime: undefined // v0.0.49-spectrolite --- take the default here for now and let html5Service APM sort it out in its OCD spec.
+                                  }
+                              },
+                          }
                       }
-                    }
-                  }
-                },
-                apmBindingPath: "~"
+                  },
+                  apmBindingPath: "~"
               });
-
               if (actResponse.error) {
-                errors.push(actResponse.error);
-                break;
+                  errors.push(actResponse.error);
+                  break;
               }
+              */
 
               break;
             }
@@ -263,36 +265,7 @@ var factoryResponse = arccore.filter.create({
             return response;
           }
         }, // ----------------------------------------------------------------
-        // ControllerAction: holistic.app.client.lifecycle.start
-        {
-          id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.start")).result,
-          name: "".concat(appBuild.app.name, " App Client Lifecycle Action: Start"),
-          description: "This action is invoked by the HTML5 service kernel to inform ".concat(appBuild.app.name, " service logic that the kernel has completed its boot process and is yielding control of the HTML5 service to {$appBuild.app.name} service logic."),
-          actionRequestSpec: {
-            ____types: "jsObject",
-            holistic: {
-              ____types: "jsObject",
-              app: {
-                ____types: "jsObject",
-                client: {
-                  ____types: "jsObject",
-                  lifecycle: {
-                    ____types: "jsObject",
-                    start: {
-                      ____accept: "jsObject"
-                    }
-                  }
-                }
-              }
-            }
-          },
-          actionResultSpec: {
-            ____opaque: true
-            /*TODO*/
-
-          },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.startFunction
-        }, // ----------------------------------------------------------------
+        // I THINK WE WILL DEPRECATE THIS TOO!!!!
         // ControllerAction: holistic.app.client.lifecycle.hashroute
         {
           id: arccore.identifier.irut.fromReference("".concat(html5ServiceCellModelID, "::holistic.app.client.lifecycle.hashroute")).result,
@@ -376,7 +349,7 @@ var factoryResponse = arccore.filter.create({
             /*TODO*/
 
           },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.hashrouteFunction
+          bodyFunction: request_.appModels.html5ServiceCell.lifecycle.hashrouteFunction
         }, // ----------------------------------------------------------------
         // ControllerAction: holistic.app.client.lifecycle.error
         {
@@ -428,8 +401,9 @@ var factoryResponse = arccore.filter.create({
             ____accept: "jsString",
             ____defaultValue: "okay"
           },
-          bodyFunction: request_.appModels.html5ServiceConfig.lifecycle.errorFunction
-        }]
+          bodyFunction: request_.appModels.html5ServiceCell.lifecycle.errorFunction
+        }]),
+        operators: _toConsumableArray(request_.appModels.html5ServiceCell.operators)
       }); // new CellModel
 
       if (!html5ServiceCellModel.isValid()) {

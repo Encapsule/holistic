@@ -67,8 +67,8 @@ var controllerAction = new holarchy.ControllerAction({
       var displayAdapterStatus = hacdLibResponse.result;
       var displayAdapterCellData = displayAdapterStatus.cellMemory;
 
-      if (displayAdapterCellData.__apmiStep !== "display-adapter-wait-initial-layout") {
-        errors.push("This action may only be called once the app client display adapter process is in its \"display-adapter-wait-initial-layout\" step.");
+      if (displayAdapterCellData.__apmiStep !== "display-adapter-wait-kernel-config") {
+        errors.push("This action may only be called once the app client display adapter process is in its \"display-adapter-wait-kernel-config\" step.");
         break;
       }
 

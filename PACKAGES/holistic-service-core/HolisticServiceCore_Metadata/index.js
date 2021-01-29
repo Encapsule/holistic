@@ -78,6 +78,48 @@ var holarchy = require("@encapsule/holarchy");
               ____types: "jsObject",
               ____defaultValue: {},
               pageMetadataOverride: pageMetadataOverrideSpec
+            },
+            steps: {
+              uninitialized: {
+                description: "Default starting step of a newly-activated cell process.",
+                transitions: [{
+                  transitionIf: {
+                    always: true
+                  },
+                  nextStep: "metadata-wait-kernel-config"
+                }]
+              },
+              "metadata-wait-kernel-config": {
+                description: "Waiting for for the HolisticHTML5Service_Kernel process to provide boot-time config data...",
+                transitions: [{
+                  transitionIf: {
+                    holarchy: {
+                      cm: {
+                        operators: {
+                          ocd: {
+                            isNamespaceTruthy: {
+                              path: "#.pageMetadataOverride"
+                            }
+                          }
+                        }
+                      }
+                    }
+                  },
+                  nextStep: "metadata-configured"
+                }]
+              },
+              "metadata-configured": {
+                description: "HolisticServiceCore_Metadata process has been configured.",
+                transitions: [{
+                  transitionIf: {
+                    always: true
+                  },
+                  nextStep: "metadata-ready"
+                }]
+              },
+              "metadata-ready": {
+                description: "The HolisticServiceCore_Metadata process is configured and ready to process action requests."
+              }
             }
           },
           actions: [{

@@ -7,6 +7,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // TODO: app-client-method-constructor-input-spec.js
+var holarchy = require("@encapsule/holarchy");
+
+var apmConstructorRequestSpec = holarchy.appTypes.AbstractProcessModel.constructorRequest;
+var cmConstructorRequestSpec = holarchy.appTypes.CellModel.constructorRequest;
+
 var serviceTypes = require("@encapsule/holistic-service-core").serviceTypes;
 
 module.exports = {
@@ -34,71 +39,27 @@ module.exports = {
     ____description: "A collection of application-specific plug-in artifacts derived from @encapsule/holistic RTL's to register for use inside this holistic browser tab service instance.",
     ____types: "jsObject",
     ____defaultValue: {},
-    html5ServiceConfig: {
-      ____label: "HolisticHTML5Service Config",
+    html5ServiceCell: {
+      ____label: "HolisticHTML5Service App CellModel Declaration",
       ____description: "Intialization options, type and runtime behavior specializations to be applied to the generic Holistic Tab Service kernel (synthesized CellModel specialized for your specific derived tab service).",
       ____types: "jsObject",
       ____defaultValue: {},
+      apmDeclaration: {
+        ____label: "HolisticHTML5Service App CellModel APM Declaratoin",
+        ____description: "Information provided by a developer to specialize the top level HolisticHTML5Service App CellModel synthesized for the derived service.",
+        ____types: "jsObject",
+        ____defaultValue: {},
+        ocdDataSpec: apmConstructorRequestSpec.ocdDataSpec,
+        steps: apmConstructorRequestSpec.steps
+      },
+      operators: cmConstructorRequestSpec.operators,
+      actions: cmConstructorRequestSpec.actions,
+      subcells: cmConstructorRequestSpec.subcells,
       lifecycle: {
         ____label: "HTML5 Service Lifecycle Actions",
         ____description: "Holistic tab service kernel cell signals to the derived app service via \"lifecycle\" actions. The request and response.result format of these effectively synchronous arccore.filter-style body functions is pre-defined by holistic platform. App developers may accept default values. Or, override these values w/custom handlers.",
         ____types: "jsObject",
         ____defaultValue: {},
-        initFunction: {
-          ____label: "Application Client Lifecyle Signal Action: Initialize",
-          ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.init ControllerAction plug-in.",
-          ____accept: "jsFunction",
-          ____defaultValue: function ____defaultValue(request_) {
-            console.log("WARNING: No holistic.app.client.lifecycle.init signal action was registered. USING DEFAULT HANDLER (does nothing).");
-            return {
-              error: null
-            };
-          }
-        },
-        queryFunction: {
-          ____label: "Application Client Lifecycle Signal Action: Query",
-          ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.query ControllerAction plug-in.",
-          ____accept: "jsFunction",
-          ____defaultValue: function ____defaultValue(request_) {
-            console.log("WARNING: No holistic.app.client.lifecycle.query signal action was registered. USING DEFAULT HANDLER (does nothing).");
-            return {
-              error: null
-            };
-          }
-        },
-        deserializeFunction: {
-          ____label: "Application Client Lifecycle Signal Action: Deserialize",
-          ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.deserialize ControllerAction plug-in.",
-          ____accept: "jsFunction",
-          ____defaultValue: function ____defaultValue(request_) {
-            console.log("WARNING: No holistic.app.client.lifecycle.deserialize signal action was registered. USING DEFAULT HANDLER (does nothing).");
-            return {
-              error: null
-            };
-          }
-        },
-        configFunction: {
-          ____label: "Application Client Lifecycle Signal Action: Config",
-          ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.config ControllerAction plug-in.",
-          ____accept: "jsFunction",
-          ____defaultValue: function ____defaultValue(request_) {
-            console.log("WARNING: No holistic.app.client.lifecycle.config signal action was registered. USING DEFAULT HANDLER (does nothing).");
-            return {
-              error: null
-            };
-          }
-        },
-        startFunction: {
-          ____label: "Application Client Lifecycle Signal Action: Start",
-          ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.start ControllerAction plug-in.",
-          ____accept: "jsFunction",
-          ____defaultValue: function ____defaultValue(request_) {
-            console.log("WARNING: No holistic.app.client.lifecycle.start signal action registered. USING DEFAULT HANDLER (does nothing).");
-            return {
-              error: null
-            };
-          }
-        },
         hashrouteFunction: {
           ____label: "Application Client Lifecycle Signal Action: Hashroute",
           ____description: "A filter bodyFunction that defines client application-specific behaviors for the synthesized CellModel's holistic.app.client.lifecycle.hashroute ControllerAction plug-in.",
