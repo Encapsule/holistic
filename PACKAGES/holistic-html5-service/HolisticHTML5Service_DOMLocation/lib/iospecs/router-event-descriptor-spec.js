@@ -2,7 +2,9 @@
 
 // router-event-descriptor-spec.js
 module.exports = {
-  ____types: "jsObject",
+  ____label: "HolisticHTML5Service_DOMLocation Router Event Descriptor",
+  ____description: "Updated whenever the current window.location.href value changes.",
+  ____types: ["jsUndefined", "jsObject"],
   actor: {
     ____accept: "jsString",
     ____inValueSet: ["server", // href value set by the app server actor (usually a copy of HTTP request URL from the user actor's agent, the browser).

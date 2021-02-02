@@ -1,6 +1,8 @@
 "use strict";
 
 // AbstractProcessModel-client-hash-route-location-processor.js
+var arccore = require("@encapsule/arccore");
+
 var routerEventDescriptorSpec = require("./lib/iospecs/router-event-descriptor-spec");
 
 var apmClientHashRouteLocationProcessor = module.exports = {
@@ -38,6 +40,18 @@ var apmClientHashRouteLocationProcessor = module.exports = {
       ____types: "jsArray",
       ____defaultValue: [],
       routerEventDescriptor: routerEventDescriptorSpec
+    },
+    observableValues: {
+      ____label: "Observable Values",
+      ____types: "jsObject",
+      ____defaultValue: {},
+      domLocation: {
+        ____types: "jsObject",
+        ____defaultValue: {},
+        ____appdsl: {
+          apm: arccore.identifier.irut.fromReference("HolisticHTML5Service_DOMLocation.ObservableValue.AbstractProcessModel.routerEventDescriptor").result
+        }
+      }
     }
   },
   // ~.ocdDataSpec
