@@ -19,7 +19,7 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
   | o   O | | o   O | | o   O |
   o       O o       O o       O
 */
-// @encapsule/holarchy Copyright (C) 2020 Christopher D. Russell for Encapsule Project
+// @encapsule/holarchy Copyright (C) 2021 Christopher D. Russell for Encapsule Project
 // ObservableProcessController.js
 
 /*

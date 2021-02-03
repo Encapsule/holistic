@@ -8,7 +8,7 @@
   o       O o       O o       O
 */
 // @encapsule/holarchy
-// Copyright (C) 2000-2020 Christopher D. Russell
+// Copyright (C) 2000-2021 Christopher D. Russell
 // Published for free and public use under MIT License by Encapsule Project, Seattle WA USA
 // @encapsule/holistic platform disitution package is available for public download here:
 // git@github.com:Encapsule/holistic.git https://github.com/Encapsule/holistic

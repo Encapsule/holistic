@@ -8,7 +8,7 @@
   o       O o       O o       O
 */
 // @encapsule/holarchy
-// Copyright (C) 2000-2020 Christopher D. Russell
+// Copyright (C) 2000-2021 Christopher D. Russell
 // Published for free and public use under MIT License by Encapsule Project, Seattle WA USA
 // @encapsule/holistic platform disitution package is available for public download here:
 // git@github.com:Encapsule/holistic.git https://github.com/Encapsule/holistic
@@ -132,12 +132,27 @@ module.exports = {
   */
   ObservableControllerData: ObservableControllerData,
   // ================================================================
+  // RUNTIME METAPROGRAMMING
   // ================================================================
+  // TODO: There's several days work required to refactor and expose all the filter spec contracts
+  // that are needed generally by authors building algorithms that synthesize @encapsule/holarchy
+  // code artifacts at runtime.
+  appTypes: {
+    AbstractProcessModel: {
+      constructorRequest: require("./lib/filters/iospecs/apm-method-constructor-input-spec")
+    },
+    ControllerAction: {
+      constructorRequest: require("./lib/filters/iospecs/cac-method-constructor-input-spec")
+    },
+    TransitionOperator: {
+      constructorRequest: require("./lib/filters/iospecs/top-method-constructor-input-spec")
+    },
+    CellModel: {
+      constructorRequest: require("./lib/filters/iospecs/cm-method-constructor-input-spec")
+    }
+  },
   // ================================================================
-  // DEPRECATED: ApplicationStateController is deprecated. Use OCD.
-  // ApplicationDataStore: ObservableControllerData,
-  // ================================================================
-  // ================================================================
+  // TESTING IMPLEMENTATION
   // ================================================================
   // HolarchyCore is a CellModel that encapsulates core logic and memory
   // operations for CellProcessor cell process manager process. It is
@@ -145,13 +160,5 @@ module.exports = {
   // testing of the ObservableProcessController (OPC) runtime host
   // environment mechanism and the contents of HolarchyCore itself without
   // using CellProcessor.
-  HolarchyCore: require("./lib/intrinsics/HolarchyCore"),
-  appTypes: {
-    AbstractProcessModel: {
-      constructorRequest: require("./lib/filters/iospecs/apm-method-constructor-input-spec")
-    },
-    CellModel: {
-      constructorRequest: require("./lib/filters/iospecs/cm-method-constructor-input-spec")
-    }
-  }
+  HolarchyCore: require("./lib/intrinsics/HolarchyCore")
 };

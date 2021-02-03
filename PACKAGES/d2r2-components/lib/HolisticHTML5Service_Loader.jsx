@@ -76,7 +76,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var key = 0;
           var content = [];
           var flexContent = [];
-          var statusMessage = this.props.renderContext.serverRender ? "D O W N L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E !"; // let cssAnimationClass = (this.props.renderContext.serverRender?"spinner-dual":(!messageBody.appStarted?"spinner-triple":"spinner-fast"));
+          var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E !"; // let cssAnimationClass = (this.props.renderContext.serverRender?"spinner-dual":(!messageBody.appStarted?"spinner-triple":"spinner-fast"));
 
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),

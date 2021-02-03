@@ -6,25 +6,7 @@ var factoryResponse = arccore.filter.create({
   operationID: "-99RI_6HTsiQgwN2OV1xXQ",
   operationName: "Transition Operator Filter Factory",
   operationDescription: "Constructs a transition operator filter plug-in that is compatible with ObservableProcessModel and ObservableProcessController.",
-  inputFilterSpec: {
-    ____label: "Filter Factory Request",
-    ____types: "jsObject",
-    id: {
-      ____accept: "jsString"
-    },
-    name: {
-      ____accept: "jsString"
-    },
-    description: {
-      ____accept: "jsString"
-    },
-    operatorRequestSpec: {
-      ____accept: "jsObject"
-    },
-    bodyFunction: {
-      ____accept: "jsFunction"
-    }
-  },
+  inputFilterSpec: require("./iospecs/top-method-constructor-input-spec"),
   bodyFunction: function bodyFunction(request_) {
     var response = {
       error: null,

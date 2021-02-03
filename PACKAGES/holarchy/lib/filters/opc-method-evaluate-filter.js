@@ -14,7 +14,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   o       O o       O o       O
 */
 // @encapsule/holarchy - the keystone of holistic app platform
-// Copyright (C) 2020 Christopher D. Russell for Encapsule Project
+// Copyright (C) 2021 Christopher D. Russell for Encapsule Project
 var arccore = require("@encapsule/arccore");
 
 var SimpleStopwatch = require("../util/SimpleStopwatch");
