@@ -32,7 +32,16 @@ var factoryResponse = arccore.filter.create({
   operationID: "xbcn-VBLTaC_0GmCuTQ8NA",
   operationName: "CellModel::constructor Filter",
   operationDescription: "Filters request descriptor passed to CellModel::constructor function.",
-  inputFilterSpec: inputFilterSpec,
+  inputFilterSpec: _objectSpread(_objectSpread({}, inputFilterSpec), {}, {
+    CellModel: {
+      ____accept: "jsFunction"
+    },
+    // We build CM class instances
+    CellModelInstance: {
+      ____opaque: true
+    } // Reference to the calling CM instance's this.
+
+  }),
   outputFilterSpec: outputFilterSpec,
   bodyFunction: function bodyFunction(request_) {
     var response = {

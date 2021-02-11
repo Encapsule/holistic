@@ -17,11 +17,11 @@
 //
 var packageMeta = require("./package.json");
 
+var CellModelArtifactSpace = require("./CellModelArtifactSpace");
+
 var CellModel = require("./CellModel");
 
 var CellProcessor = require("./CellProcessor");
-
-var CellProcessPlane = require("./CellProcessPlane");
 
 var AbstractProcessModel = require("./AbstractProcessModel");
 
@@ -45,9 +45,24 @@ module.exports = {
     build: packageMeta.buildID,
     source: packageMeta.buildSource
   },
+  // CellModelArtifactSpace class instance specialized for @encapsule/holarchy package.
+  cmasHolarchyPackage: require("./cmasHolarchyPackage"),
   // ================================================================
   // DEVELOPER API
   // ================================================================
+
+  /*
+    CellModelArtifactSpace (CMAS) is an ES6 class instantiated with operator
+    new that represents a unique mapping between a CellModel "artifact label" value
+    (a human-readable string) and a set of unique CellModel artifact IRUT ID's
+    within that artifact space. Quite a lot more needs to be written about the
+    theory and intended use of this facility; it's a fairly deep rabbit hole...
+    For now understand that the facility is used primarily to ensure that
+    CellModel instances synthesized via CellModelTemplate class instances
+    that may be later resolved by querying the appropriate CellModelArtifactSpace
+    instance w/a so-called CellModel label string in order to obtain IRUT ID's.
+  */
+  CellModelArtifactSpace: CellModelArtifactSpace,
 
   /*
     CellModel (CM) is an ES6 class instantiated with operator
@@ -58,6 +73,11 @@ module.exports = {
     transitions and their associated enter and exit action(s).
   */
   CellModel: CellModel,
+
+  /*
+    TODO:
+   */
+  CellModelTemplate: require("./CellModelTemplate"),
 
   /*
     AbstractProcessModel (APM) is an ES6 class instantiated with
@@ -93,13 +113,6 @@ module.exports = {
     cellular process(es) defined by SoftwareCellModel class instances.
   */
   CellProcessor: CellProcessor,
-
-  /*
-    CellProcessPlane is an ES6 class instantiated with operator new
-    that is used to derive CellModel and AbstractProcessModel ID IRUT's
-    from dot-delimited, developer-defined string constants.
-  */
-  CellProcessPlane: CellProcessPlane,
   // ================================================================
   // IMPLEMENTATION
   // ================================================================

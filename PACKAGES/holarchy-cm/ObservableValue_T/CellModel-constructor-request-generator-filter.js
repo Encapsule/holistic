@@ -11,12 +11,12 @@ var arccore = require("@encapsule/arccore");
 
 var holarchy = require("@encapsule/holarchy");
 
-var lib = require("./lib");
+var cellLib = require("./celllib");
 
 (function () {
   var filterDeclaration = {
     operationID: "pubMU3fRR7GItLYLDT4ePw",
-    operationName: "ObservableValue CellModel Factory",
+    operationName: "ObservableValue_T Factory",
     operationDescription: "A filter that manufactures an ObservableValue CellModel class instance that is specialized to a specific value type.",
     inputFilterSpec: {
       ____label: "ObservableValue CellModel Factory Request",
@@ -44,7 +44,7 @@ var lib = require("./lib");
       }
     },
     outputFilterSpec: {
-      ____accept: "jsObject" // This is an @encapsule/holarchy CellModel class instance.
+      ____accept: "jsObject" // This is an @encapsule/holarchy CellModel declaration descriptor object.
 
     },
     bodyFunction: function bodyFunction(factoryRequest_) {
@@ -175,14 +175,14 @@ var lib = require("./lib");
 
               while (!inBreakScope) {
                 inBreakScope = true;
-                var libResponse = lib.getStatus(_objectSpread(_objectSpread({}, actionRequest_.context), {}, {
+                var cellLibResponse = cellLib.getStatus(_objectSpread(_objectSpread({}, actionRequest_.context), {}, {
                   apmID: factoryRequest_.apmID
                 }));
 
-                if (libResponse.error) {
-                  errors.push(libResponse.error);
+                if (cellLibResponse.error) {
+                  errors.push(cellLibResponse.error);
                   break;
-                } // const { cellMemory, cellProcess } = libResponse.result;
+                } // const { cellMemory, cellProcess } = cellLibResponse.result;
 
 
                 var ocdResponse = actionRequest_.context.ocdi.writeNamespace(apmBindingPath, {});
@@ -241,18 +241,18 @@ var lib = require("./lib");
 
               while (!inBreakScope) {
                 inBreakScope = true;
-                var libResponse = lib.getStatus(_objectSpread(_objectSpread({}, actionRequest_.context), {}, {
+                var cellLibResponse = cellLib.getStatus(_objectSpread(_objectSpread({}, actionRequest_.context), {}, {
                   apmID: factoryRequest_.apmID
                 }));
 
-                if (libResponse.error) {
-                  errors.push(libResponse.error);
+                if (cellLibResponse.error) {
+                  errors.push(cellLibResponse.error);
                   break;
                 }
 
-                var _libResponse$result = libResponse.result,
-                    cellMemory = _libResponse$result.cellMemory,
-                    cellProcess = _libResponse$result.cellProcess;
+                var _cellLibResponse$resu = cellLibResponse.result,
+                    cellMemory = _cellLibResponse$resu.cellMemory,
+                    cellProcess = _cellLibResponse$resu.cellProcess;
                 var messageBody = actionRequest_.actionRequest.holarchy.cm.actions.ObservableValue.write;
                 cellMemory.__apmiStep = "observable-value-ready", cellMemory.value = messageBody.value;
                 cellMemory.revision += 1;
@@ -308,14 +308,7 @@ var lib = require("./lib");
           operators: [],
           subcells: []
         };
-        var cellModel = new holarchy.CellModel(cellModelDeclaration);
-
-        if (!cellModel.isValid()) {
-          errors.push(cellModel.toJSON());
-          break;
-        }
-
-        response.result = cellModel;
+        response.result = cellModelDeclaration;
         break;
       }
 

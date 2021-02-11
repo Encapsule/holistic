@@ -14,8 +14,9 @@ module.exports = {
     build: packageMeta.buildID,
     source: packageMeta.buildSource
   },
-  factories: {
-    makeObservableValueCellModel: require("./HolarchyCommon_ObservableValue/cellmodel-factory-filter"),
-    makeValueObserverWorkerCellModel: require("./HolarchyCommon_ValueObserverWorker/cellmodel-factory-filter")
-  }
+  // CellModelArtifactSpace class instance specialized for @encapsule/holarchy-cm package.
+  cmasHolarchyCMPackage: require("./cmasHolarchyCMPackage"),
+  // CellModelTemplate class instance for synthesizing value-type-specialized ObservableValue CellModel.
+  cmtObservableValue: require("./ObservableValue_T"),
+  ObservableValueProxy: require("./ObservableValueProxy")
 };

@@ -6,14 +6,6 @@ module.exports = {
   ____label: "Cell Model Descriptor",
   ____description: "A request object passed to CellModel ES6 class constructor function.",
   ____types: "jsObject",
-  CellModel: {
-    ____accept: "jsFunction"
-  },
-  // We build CM class instances
-  CellModelInstance: {
-    ____opaque: true
-  },
-  // Reference to the calling CM instance's this.
   id: {
     ____label: "Model ID",
     ____description: "A unique version-independent IRUT identifier used to identify this CellModel.",
