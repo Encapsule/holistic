@@ -12,6 +12,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
+  var observableValueBaseCellModel = require("./ObservableValueBase");
+
   var cmtObservableValueProxyWorker = require("./ObservableValueProxyWorker_T");
 
   var observableValueProxyCellModel = require("../ObservableValueProxy");
@@ -99,11 +101,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                               compare: {
                                 values: {
                                   a: {
-                                    value: -1
-                                  },
-                                  operator: "<",
-                                  b: {
                                     path: "#.revision"
+                                  },
+                                  operator: ">",
+                                  b: {
+                                    value: -1
                                   }
                                 }
                               }
@@ -124,13 +126,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   description: "ObservableValue has not yet been written and is in reset process step."
                 },
                 "observable-value-ready": {
-                  description: "ObservableValue is ready and processing write action(s)."
+                  description: "ObservableValue has been written and can be read and/or observed for subsequent update(s) by a value producing cell process."
                 }
               } // ~.apm.steps
 
             },
             // ~.apm
-            subcells: [observableValueProxyCellModel, observableValueProxyWorkerCellModel]
+            subcells: [observableValueBaseCellModel, observableValueProxyCellModel, observableValueProxyWorkerCellModel]
           }; // result (CellModel declaration)
 
           break;

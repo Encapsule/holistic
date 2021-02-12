@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.50 crystallite
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.51 ametrine
 
 ## &#x25F0; Runtime library: @encapsule/holism
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains an experimental HTTP 1.1 application server and REST framework derived from the Node.js HTTP API's and the @encapsule/arccore filter RTL. This provides developers with a simple mechanism to define and re-use backend operations as plug-in service filters hosted by the holism server RTL. The package is intended for use in derived applications and services.
 
 ```
-Package: @encapsule/holism v0.0.50 "crystallite" build ID "xT5lKFfNQuyil9ynScGPCA"
-Sources: Encapsule/holistic-master#f34b2bfa1e63e7fd7b957e6eccf147809e1a894f
-Created: 2021-02-11T16:57:24.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism v0.0.51 "ametrine" build ID "C4Wxui2yQw-J659hEOUqDQ"
+Sources: Encapsule/holistic-master#409d9eb2a449c0dbb07ec24f228826afccc34e50
+Created: 2021-02-12T18:00:10.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
