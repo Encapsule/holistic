@@ -147,8 +147,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             while (!inBreakScope) {
               inBreakScope = true;
               response.result = {
-                spaceLabel: "".concat(artifactSpaceLabel, ".").concat(request_.spaceLabel)
-              };
+                spaceLabel: "".concat(artifactSpaceLabel).concat(request_.spaceLabel)
+              }; // TODO: Consider if we should maintain artifactSpaceLabel as an array (so we can keep track of the implicit token order induced by calls to makeSubspaceInstance).
+
               break;
             }
 

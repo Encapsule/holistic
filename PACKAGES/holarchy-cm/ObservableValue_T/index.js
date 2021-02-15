@@ -12,11 +12,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var observableValueBaseCellModel = require("./ObservableValueBase");
+  var cmObservableValueBase = require("./ObservableValueBase");
+
+  var cmObservableValueProxyHelper = require("../ObservableValueProxy");
 
   var cmtObservableValueProxyWorker = require("./ObservableValueProxyWorker_T");
-
-  var observableValueProxyCellModel = require("../ObservableValueProxy");
 
   var templateLabel = "ObservableValue";
 
@@ -56,7 +56,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             break;
           }
 
-          var observableValueProxyWorkerCellModel = synthesizeResponse.result; // Now synthesize the requested ObservableValue specialization.
+          var cmObservableValueProxyWorker = synthesizeResponse.result; // Now synthesize the requested ObservableValue specialization.
 
           var cellMemorySpec = {
             ____types: "jsObject",
@@ -132,7 +132,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             },
             // ~.apm
-            subcells: [observableValueBaseCellModel, observableValueProxyCellModel, observableValueProxyWorkerCellModel]
+            subcells: [cmObservableValueBase, // Generic behaviors of ObservableValue_T
+            cmObservableValueProxyWorker, // Type-specialized ObservableValueProxyWorker_T-generated CellModel used to observe the ObservableValue family CellModel we're generating via a cell process proxy.
+            cmObservableValueProxyHelper // Generic helper for reading a value from any ObservableValue family member (an active cell whose definition was synthesized here).
+            ]
           }; // result (CellModel declaration)
 
           break;
