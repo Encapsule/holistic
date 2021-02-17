@@ -14,14 +14,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmObservableValueBase = require("./ObservableValueBase");
 
-  var cmObservableValueProxyHelper = require("../ObservableValueProxy");
+  var cmObservableValueHelper = require("../ObservableValueHelper");
 
-  var cmtObservableValueProxyWorker = require("./ObservableValueProxyWorker_T");
+  var cmtObservableValueWorker = require("./ObservableValueWorker_T");
 
   var templateLabel = "ObservableValue";
-
-  var cellLib = require("./lib");
-
   var cmtObservableValue = new holarchy.CellModelTemplate({
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
@@ -47,16 +44,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var inBreakScope = false;
 
         while (!inBreakScope) {
-          inBreakScope = true; // First, synthesize a specialized ObservableValueProxyWorker CellModel specialization.
+          inBreakScope = true; // First, synthesize a specialized ObservableValueWorker CellModel specialization.
 
-          var synthesizeResponse = cmtObservableValueProxyWorker.synthesizeCellModel(request_); // Same request signature w/different CellModel generator.
+          var synthesizeResponse = cmtObservableValueWorker.synthesizeCellModel(request_); // Same request signature w/different CellModel generator.
 
           if (synthesizeResponse.error) {
             errors.push(synthesizeResponse.error);
             break;
           }
 
-          var cmObservableValueProxyWorker = synthesizeResponse.result; // Now synthesize the requested ObservableValue specialization.
+          var cmObservableValueWorker = synthesizeResponse.result; // Now synthesize the requested ObservableValue specialization.
 
           var cellMemorySpec = {
             ____types: "jsObject",
@@ -84,15 +81,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 "uninitialized": {
                   description: "Default starting process step.",
                   transitions: [{
-                    transitionIf: {
-                      always: true
-                    },
-                    nextStep: "observable-value-initialize"
-                  }]
-                },
-                "observable-value-initialize": {
-                  description: "ObservableValue is initializing.",
-                  transitions: [{
+                    // If the cell was activated with its memory initialized, skip to observable-value-ready process step.
                     transitionIf: {
                       holarchy: {
                         cm: {
@@ -133,8 +122,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             },
             // ~.apm
             subcells: [cmObservableValueBase, // Generic behaviors of ObservableValue_T
-            cmObservableValueProxyWorker, // Type-specialized ObservableValueProxyWorker_T-generated CellModel used to observe the ObservableValue family CellModel we're generating via a cell process proxy.
-            cmObservableValueProxyHelper // Generic helper for reading a value from any ObservableValue family member (an active cell whose definition was synthesized here).
+            cmObservableValueWorker, // Type-specialized ObservableValueWorker_T-generated CellModel used to observe the ObservableValue family CellModel we're generating via a cell process proxy.
+            cmObservableValueHelper // Generic helper for reading a value from any ObservableValue family member (an active cell whose definition was synthesized here).
             ]
           }; // result (CellModel declaration)
 

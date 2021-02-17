@@ -32,11 +32,7 @@ var routerEventDescriptorSpec = require("./iospecs/router-event-descriptor-spec"
       },
       href: {
         ____accept: "jsString"
-      },
-      routerEventNumber: {
-        ____accept: "jsNumber"
-      } // to assign to result routerEventNumber
-
+      }
     },
     outputFilterSpec: _objectSpread({}, routerEventDescriptorSpec),
     bodyFunction: function bodyFunction(request_) {
@@ -80,8 +76,7 @@ var routerEventDescriptorSpec = require("./iospecs/router-event-descriptor-spec"
           hrefParse: hrefParse,
           hashrouteString: hrefParse.hash ? hrefParse.hash : null,
           hashrouteParse: hashrouteParse,
-          hashrouteQueryParse: hashrouteParse ? queryString.parse(hashrouteParse.query) : null,
-          routerEventNumber: request_.routerEventNumber
+          hashrouteQueryParse: hashrouteParse ? queryString.parse(hashrouteParse.query) : null
         };
         break;
       }

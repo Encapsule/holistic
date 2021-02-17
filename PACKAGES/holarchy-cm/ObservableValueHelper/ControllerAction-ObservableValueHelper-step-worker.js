@@ -1,17 +1,31 @@
 "use strict";
 
-// ControllerAction-value-observer-step-worker.js
-var arccore = require("@encapsule/arccore");
-
-var holarchy = require("@encapsule/holarchy");
-
+// ControllerAction-ObservableValueHelper-step-worker.js
 (function () {
+  var holarchy = require("@encapsule/holarchy");
+
+  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
+
+  var cmLabel = require("./cm-label-string");
+
+  var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
+    spaceLabel: cmLabel
+  });
+
+  if (cmasResponse.error) {
+    throw new Error(cmasResponse.error);
+  }
+
+  var cmasObservableValueHelper = new holarchy.CellModelArtifactSpace(cmasResponse.result);
+
   var lib = require("./lib");
 
   var action = new holarchy.ControllerAction({
-    id: arccore.identifier.irut.fromReference("@encapsule/holarchy-cm.ValueObserver.ControllerAction.stepWorker").result,
-    name: "ValueObserver Step Worker",
-    description: "ValueObserver Step Worker action.",
+    id: cmasObservableValueHelper.mapLabels({
+      ACT: "stepWorker"
+    }).result.ACTID,
+    name: "".concat(cmLabel, " Step Worker"),
+    description: "Private evaluation implementation action of ".concat(cmLabel, "."),
     actionRequestSpec: {
       ____types: "jsObject",
       holarchy: {

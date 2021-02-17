@@ -6,23 +6,37 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// ControllerAction-value-observer-configure.js
-var arccore = require("@encapsule/arccore");
-
-var holarchy = require("@encapsule/holarchy");
-
+// ControllerAction-ObservableValueHelper-configure.js
 (function () {
+  var holarchy = require("@encapsule/holarchy");
+
+  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
+
+  var cmLabel = require("./cm-label-string");
+
+  var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
+    spaceLabel: cmLabel
+  });
+
+  if (cmasResponse.error) {
+    throw new Error(cmasResponse.error);
+  }
+
+  var cmasObservableValueHelper = new holarchy.CellModelArtifactSpace(cmasResponse.result);
+
   var lib = require("./lib");
 
-  var apmValueObserver = require("./AbstractProcessModel-value-observer");
+  var apmValueObserver = require("./AbstractProcessModel-ObservableValueHelper");
 
   var configurationDataSpec = _objectSpread({}, apmValueObserver._private.declaration.ocdDataSpec.configuration);
 
   delete configurationDataSpec.____defaultValue;
   var action = new holarchy.ControllerAction({
-    id: arccore.identifier.irut.fromReference("@encapsule/holarchy-cm.ValueObserver.ControllerAction.configure").result,
-    name: "ValueObserver Configure",
-    description: "ValueObserver configure action write configuration data into the cell instance indicated by apmBindingPath.",
+    id: cmasObservableValueHelper.mapLabels({
+      ACT: "configure"
+    }).result.ACTID,
+    name: "".concat(cmLabel, " Configure"),
+    description: "Allows an actor to configure / reconfigure the ".concat(cmLabel, " cell process."),
     actionRequestSpec: {
       ____types: "jsObject",
       holarchy: {

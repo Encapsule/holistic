@@ -57,8 +57,5 @@ module.exports = {
       /*e.g. #x?foo --> foo: null */
       ]
     }
-  },
-  routerEventNumber: {
-    ____accept: "jsNumber"
   }
 };

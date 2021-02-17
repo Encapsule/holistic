@@ -7,17 +7,19 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // AbstractProcessModel-app-client-kernel-declaration.js
-var arccore = require("@encapsule/arccore");
-
-var _require = require("@encapsule/holarchy"),
-    AbstractProcessModel = _require.AbstractProcessModel;
-
 (function () {
-  // v0.0.49-spectrolite
+  var arccore = require("@encapsule/arccore");
+
+  var _require = require("@encapsule/holarchy"),
+      AbstractProcessModel = _require.AbstractProcessModel;
+
+  var cmasHolisticHTML5ServicePackage = require("../cmasHolisticHTML5ServicePackage"); // v0.0.49-spectrolite
   // Should we specialize these for the different uses? There are some nuanced
   // tradeoffs an insufficient time to think them through now. But, we'll need
   // to get all this filter spec composition stuff settled ultimately. There
   // are several approaches worth considering in the long-term.
+
+
   var optionalFilterResponseSpec = {
     ____types: ["jsUndefined", "jsObject"],
     error: {
@@ -227,9 +229,9 @@ var _require = require("@encapsule/holarchy"),
                           }
                         },
                         cellCoordinates: {
-                          apmID: "OWLoNENjQHOKMTCEeXkq2g"
-                          /* HolisticHTMLService_DOMLocation */
-
+                          apmID: cmasHolisticHTML5ServicePackage.mapLabels({
+                            APM: "HolisticHTML5Service_DOMLocation"
+                          }).result.APMID
                         }
                       }
                     }
@@ -370,9 +372,9 @@ var _require = require("@encapsule/holarchy"),
                           }
                         },
                         cellCoordinates: {
-                          apmID: "OWLoNENjQHOKMTCEeXkq2g"
-                          /* HolisticHTMLService_DOMLocation */
-
+                          apmID: cmasHolisticHTML5ServicePackage.mapLabels({
+                            APM: "HolisticHTML5Service_DOMLocation"
+                          }).result.APMID
                         }
                       }
                     }

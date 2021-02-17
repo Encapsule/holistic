@@ -48,35 +48,42 @@ var dlpLib = require("./lib");
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var libResponse = dlpLib.getStatus.request(request_.context);
-
+        /* I THINK WE DO NOT EVEN NEED INIT
+         let libResponse = dlpLib.getStatus.request(request_.context);
         if (libResponse.error) {
-          errors.push(libResponse.error);
-          break;
+            errors.push(libResponse.error);
+            break;
         }
-
-        var _libResponse$result = libResponse.result,
-            cellMemory = _libResponse$result.cellMemory,
-            cellProcess = _libResponse$result.cellProcess;
-        libResponse = dlpLib.parseLocation.request({
-          actor: "server",
-          href: window.location.href,
-          routerEventNumber: 0
+        const { cellMemory, cellProcess } = libResponse.result;
+         libResponse = dlpLib.parseLocation.request({
+            actor: "server",
+            href: window.location.href,
+            routerEventNumber: 0,
         });
-
         if (libResponse.error) {
-          errors.push(libResponse.error);
-          break;
+            errors.push(libResponse.error);
+            break;
         }
+        const routerEventDescriptor = libResponse.result;
+         let actResponse = request_.context.act({
+            actorName: "DOMLocationProcessor",
+            actionTaskDescription: "Write the new router event descriptor to our ObservableValue output mailbox.",
+            actionRequest: {
+                holarchy: {
+                    common: {
+                        ObservableValue: {
+                            writeValue: {
+                                value: routerEventDescriptor,
+                                path: "#.outputs.domLocation" // Relative to apmBindingPath
+                            }
+                        }
+                    }
+                }
+            },
+            apmBindingPath: request_.context.apmBindingPath // Our binding path
+        });
+         */
 
-        var routerEventDescriptor = libResponse.result;
-        cellMemory.locationHistory.push(routerEventDescriptor);
-        var ocdResponse = request_.context.ocdi.writeNamespace(cellProcess.apmBindingPath, cellMemory);
-
-        if (ocdResponse.error) {
-          errors.push(ocdResponse.error);
-          break;
-        }
         /* ----------------------------------------------------------------
            v0.0.48-kyanite
            SAVE THIS - this is the actual spanner in the works that blocks the user from navigating away or
@@ -91,7 +98,6 @@ var dlpLib = require("./lib");
            }, false); // <- This last parameter is deprecated as a Boolean. It's not an options object per MDN docs.
             ^^^ SAVE THIS
            ---------------------------------------------------------------- */
-
 
         break;
       }

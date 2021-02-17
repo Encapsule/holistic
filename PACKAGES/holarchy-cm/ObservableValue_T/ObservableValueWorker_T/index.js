@@ -1,13 +1,13 @@
 "use strict";
 
-// ObservableValueProxyWorker_T/index.js
+// ObservableValueWorker_T/index.js
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
   var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
 
-  var templateLabel = "ObservableValueProxyWorker";
-  var cmtObservableValueProxyWorker = new holarchy.CellModelTemplate({
+  var templateLabel = "ObservableValueWorker";
+  var cmtObservableValueWorker = new holarchy.CellModelTemplate({
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
@@ -81,8 +81,7 @@
             },
             actions: [],
             operators: [],
-            subcells: [// ObservableValueProxy
-            ]
+            subcells: []
           };
           break;
         }
@@ -98,9 +97,9 @@
 
   });
 
-  if (!cmtObservableValueProxyWorker.isValid()) {
-    throw new Error(cmtObservableValueProxyWorker.toJSON());
+  if (!cmtObservableValueWorker.isValid()) {
+    throw new Error(cmtObservableValueWorker.toJSON());
   }
 
-  module.exports = cmtObservableValueProxyWorker;
+  module.exports = cmtObservableValueWorker;
 })();

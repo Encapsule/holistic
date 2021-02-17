@@ -27,9 +27,16 @@ var action = new holarchy.ControllerAction({
             // <- non-optional spec down to this point for arccore.discriminator
             ____types: "jsObject",
             value: {
-              ____label: "New Value",
+              ____label: "Value Data",
               ____description: "The new value to be written to the ObservableValue_T cell's #.value namespace.",
               ____opaque: true // <- We allow you to pass _anything_ through here. However... #.value is type-specialized in the OCD. So, if you pass a bad value through here then the action will fail as OCD will reject the write.
+
+            },
+            path: {
+              ____label: "Value Path",
+              ____description: "The OCD path relative to the ObservableValue family cell's containing cell process.",
+              ____accept: "jsString",
+              ____defaultValue: "#" // This is typically #.outputs.X or #.inputs.Y because ObservableValue family CellModels are typically used as helper cells.
 
             }
           }
@@ -48,13 +55,52 @@ var action = new holarchy.ControllerAction({
     }
   },
   bodyFunction: function bodyFunction(actionRequest_) {
-    return {
-      error: null,
-      result: {
-        value: "whatever",
-        revision: 0
+    var response = {
+      error: null
+    };
+    var errors = [];
+    var inBreakScope = false;
+
+    while (!inBreakScope) {
+      inBreakScope = true;
+      var messageBody = actionRequest_.actionRequest.holarchy.common.ObservableValue.writeValue;
+      var ocdResponse = actionRequest_.context.ocdi.readNamespace({
+        apmBindingPath: actionRequest_.context.apmBindingPath,
+        dataPath: "".concat(messageBody.path, ".revision")
+      });
+
+      if (ocdResponse.error) {
+        errors.push("Cannot read the current ObservableValue revision number from cell memory!");
+        errors.push(ocdResponse.error);
+        break;
       }
-    }; // TODO
+
+      var newRevision = ocdResponse.result + 1;
+      var newCellMemory = {
+        __apmiStep: "observable-value-ready",
+        revision: newRevision,
+        value: messageBody.value
+      };
+      ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+        apmBindingPath: actionRequest_.context.apmBindingPath,
+        dataPath: messageBody.path
+      }, newCellMemory);
+
+      if (ocdResponse.error) {
+        errors.push("Cannot write the new ObservableValue value to cell memory!");
+        errors.push(ocdResponse.error);
+        break;
+      }
+
+      response.result = newCellMemory;
+      break;
+    }
+
+    if (errors.length) {
+      response.error = errors.join(" ");
+    }
+
+    return response;
   }
 });
 

@@ -29,8 +29,15 @@
         },
         displayElement: {
           ____label: "Display Element Specializations",
-          ___accept: "jsObject" // TODO
-
+          ____types: "jsObject",
+          ____defaultValue: {},
+          observableValueSpec: {
+            ____accept: "jsObject",
+            ____defaultValue: {
+              ____types: "jsObject",
+              ____label: "Default Specialization"
+            }
+          }
         }
       }
     },
@@ -43,6 +50,21 @@
 
       while (!inBreakScope) {
         inBreakScope = true;
+        var cellModelLabel = "".concat(templateName, "<").concat(generatorRequest_.cellModelLabel, ">");
+        var cmSynthResponse = cmtObservableValue.synthesizeCellModel({
+          cellModelLabel: cellModelLabel,
+          synthesizeRequest: {
+            valueTypeDescription: "Specialization for ".concat(cellModelLabel),
+            valueTypeSpec: generatorRequest_.sythesizeRequest.displayElement.observableValueSpec
+          }
+        });
+
+        if (cmSynthResponse.error) {
+          errors.push(cmSynthResponse.error);
+          break;
+        }
+
+        var cmDisplayViewOutputObservableValue = cmSynthResponse.result;
         var cellMemorySpec = {
           ____label: "".concat(templateName, "<").concat(generatorRequest_.cellModelLabel, "> Cell Memory"),
           ____types: "jsObject",
@@ -55,9 +77,9 @@
               ____label: "".concat(generatorRequest_.cellModelLabel, " Display View Output"),
               ____types: "jsObject",
               ____appdsl: {
-                apm: cmtObservableValue.mapLabels({
-                  APM: "".concat(templateName, "<").concat(generatorRequest_.cellModelLabel, ">")
-                }).result.APMID
+                apm: cmDisplayViewOutputObservableValue.getCMConfig({
+                  type: "APM"
+                }).result[0].getID()
               }
             }
           },
@@ -80,7 +102,8 @@
               }
             }
           }
-        };
+        }; // TODO: will fail in OFSP because we're not setting response.result to valid CellModel declaration yet...
+
         break;
       }
 
