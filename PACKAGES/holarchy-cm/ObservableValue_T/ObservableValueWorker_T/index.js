@@ -11,7 +11,7 @@
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
-      synthesizeMethodRequestSpec: {
+      specializationDataSpec: {
         ____label: "".concat(templateLabel, "<X> Specialization Request"),
         ____types: "jsObject",
         valueTypeDescription: {

@@ -51,7 +51,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _loop = function _loop() {
         inBreakScope = true;
         var spaceLabel = constructorRequest_.spaceLabel;
-        var artifactSpaceLabel = "".concat(spaceLabel);
+        var artifactSpaceLabel = "".concat(spaceLabel); // Create a filter that implements the mapLabels method.
+
         var factoryResponse2 = arccore.filter.create({
           operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::mapLabels")).result,
           operationName: "CellModelArtifactSpace::mapLabels<".concat(artifactSpaceLabel, ">"),
@@ -130,7 +131,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return "break";
         }
 
-        var mapLabelsMethodFilter = factoryResponse2.result;
+        var mapLabelsMethodFilter = factoryResponse2.result; // Create a filter that implements the makeSubspaceInstance method.
+
         factoryResponse2 = arccore.filter.create({
           operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::makeSubspaceInstance")).result,
           operationName: "CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::makeSubspaceInstance"),
@@ -145,11 +147,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var inBreakScope = false;
 
             while (!inBreakScope) {
-              inBreakScope = true;
-              response.result = {
-                spaceLabel: "".concat(artifactSpaceLabel).concat(request_.spaceLabel)
-              }; // TODO: Consider if we should maintain artifactSpaceLabel as an array (so we can keep track of the implicit token order induced by calls to makeSubspaceInstance).
+              inBreakScope = true; // Here a "subspace" is an artifact space "boundary". U+2202 (stylized d) is used here to demarcate the boundary.
 
+              response.result = {
+                spaceLabel: "".concat(artifactSpaceLabel, "\u2202").concat(request_.spaceLabel)
+              };
               break;
             }
 
@@ -162,7 +164,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         });
 
         if (factoryResponse2.error) {
-          errors.push(factoryReponse2.error);
+          errors.push(factoryResponse2.error);
           return "break";
         }
 

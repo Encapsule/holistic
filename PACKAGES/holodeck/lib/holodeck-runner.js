@@ -305,12 +305,18 @@ var runnerFascade = _objectSpread(_objectSpread({}, holisticTestRunner), {}, {
 
     var runnerEvalLogsDir = helpers.getLogEvalDir(runnerRequest_.logsRootDir, runnerRequest_.id);
     var runnerInducedGitDiffsFilename = helpers.getRunnerInducedGitDiffsFilename(runnerRequest_.logsRootDir, runnerRequest_.id);
+    console.log("================================================================");
+    console.log("Holodeck runner is calculating git diffs...");
     var gitDiffTreeResponse = helpers.syncExec({
       command: "git diff --unified=0 ".concat(runnerEvalLogsDir, " > ").concat(runnerInducedGitDiffsFilename),
       cwd: runnerEvalLogsDir
     });
+    console.log("Holodeck runner is now done calculating git diffs.");
+    console.log("Holodeck runner is writing the evaluation summary log...");
     fs.writeFileSync(helpers.getRunnerEvalSummaryFilename(runnerRequest_.logsRootDir, runnerRequest_.id), "".concat(JSON.stringify(analysis, undefined, 2), "\n"));
+    console.log("Holodeck runner is writing the runner response summary log...");
     fs.writeFileSync(helpers.getRunnerResponseFilename(runnerRequest_.logsRootDir, runnerRequest_.id), "".concat(JSON.stringify(runnerResponse, undefined, 2), "\n"));
+    console.log("Holodeck runner is done.");
     return runnerResponse;
   }
 });

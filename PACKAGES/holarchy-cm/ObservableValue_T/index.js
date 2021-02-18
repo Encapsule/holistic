@@ -23,7 +23,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
-      synthesizeMethodRequestSpec: {
+      specializationDataSpec: {
         ____label: "".concat(templateLabel, "<X> Specialization Request"),
         ____types: "jsObject",
         valueTypeDescription: {
@@ -58,7 +58,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var cellMemorySpec = {
             ____types: "jsObject",
             ____defaultValue: {},
-            value: _objectSpread({}, request_.synthesizeRequest.valueTypeSpec),
+            value: _objectSpread({}, request_.specializationData.valueTypeSpec),
             revision: {
               ____types: "jsNumber",
               ____defaultValue: -1
