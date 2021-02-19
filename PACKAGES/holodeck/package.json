@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "6em1i3GxTvGTjlQFFxJ5Ww",
-    "buildSource": "f2644b1a33a0fc60adf41dfcde14448ef248ea86",
-    "buildTime": 1613585573,
-    "codename": "ametrine",
+    "buildID": "v-aPlTQdSaeWa4mrL8CeOg",
+    "buildSource": "afc5db2aa13321585881029acc54b04a7a7abb1d",
+    "buildTime": 1613768205,
+    "codename": "tourmaline",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -16,8 +16,8 @@
     ],
     "description": "This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.",
     "engines": {
-        "node": ">=12.16.1 <13",
-        "yarn": ">=1.22.0 <=1.22.4"
+        "node": "14.15.5",
+        "yarn": ">=1.22.0 <=1.22.5"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.51"
+    "version": "0.0.52"
 }

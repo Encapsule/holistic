@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.51 ametrine
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.52 tourmaline
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.51 "ametrine" build ID "6em1i3GxTvGTjlQFFxJ5Ww"
-Sources: Encapsule/holistic-master#f2644b1a33a0fc60adf41dfcde14448ef248ea86
-Created: 2021-02-17T18:12:53.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.0.52 "tourmaline" build ID "v-aPlTQdSaeWa4mrL8CeOg"
+Sources: Encapsule/holistic-master#afc5db2aa13321585881029acc54b04a7a7abb1d
+Created: 2021-02-19T20:56:45.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

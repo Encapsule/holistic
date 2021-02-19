@@ -22,9 +22,9 @@ module.exports = {
     ____label: "CellModel Generator",
     ____description: "CellModelTemplate::synthesizeCellModel method calls the CellModelTemplate class instance's cellModelGenerator filter to synthesize a unique specialization of CellModel. These values specialize the behavior of the CellModel generator filter for the specific family of CellModel identified by templateLabel value.",
     ____types: "jsObject",
-    synthesizeMethodRequestSpec: {
-      ____label: "CellModelTemplate::synthesizeCellModel Request Spec",
-      ____description: "A developer-defined format of a request object passed to CellModelTemplate::synthesizeCellModel method.",
+    specializationDataSpec: {
+      ____label: "CellModelTemplate::synthesizeCellModel Specialization Data Spec",
+      ____description: "A filter spec that defines the format of the information someone who will call your CellModelTemplate class instance's synthesizeCellModel method must supply via ~.specializationData value.",
       ____accept: "jsObject" // This will be an @encapsule/arccore.filter spec object.
 
     },

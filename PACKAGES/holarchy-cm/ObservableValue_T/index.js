@@ -16,14 +16,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmObservableValueHelper = require("../ObservableValueHelper");
 
-  var cmtObservableValueWorker = require("./ObservableValueWorker_T");
-
   var templateLabel = "ObservableValue";
   var cmtObservableValue = new holarchy.CellModelTemplate({
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
-      synthesizeMethodRequestSpec: {
+      specializationDataSpec: {
         ____label: "".concat(templateLabel, "<X> Specialization Request"),
         ____types: "jsObject",
         valueTypeDescription: {
@@ -44,21 +42,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var inBreakScope = false;
 
         while (!inBreakScope) {
-          inBreakScope = true; // First, synthesize a specialized ObservableValueWorker CellModel specialization.
-
-          var synthesizeResponse = cmtObservableValueWorker.synthesizeCellModel(request_); // Same request signature w/different CellModel generator.
-
-          if (synthesizeResponse.error) {
-            errors.push(synthesizeResponse.error);
-            break;
-          }
-
-          var cmObservableValueWorker = synthesizeResponse.result; // Now synthesize the requested ObservableValue specialization.
+          inBreakScope = true; // Synthesize the requested template specialization using our algorithm to produce a CellModel constructor request descriptor object.
 
           var cellMemorySpec = {
             ____types: "jsObject",
             ____defaultValue: {},
-            value: _objectSpread({}, request_.synthesizeRequest.valueTypeSpec),
+            value: _objectSpread({}, request_.specializationData.valueTypeSpec),
             revision: {
               ____types: "jsNumber",
               ____defaultValue: -1
@@ -122,7 +111,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             },
             // ~.apm
             subcells: [cmObservableValueBase, // Generic behaviors of ObservableValue_T
-            cmObservableValueWorker, // Type-specialized ObservableValueWorker_T-generated CellModel used to observe the ObservableValue family CellModel we're generating via a cell process proxy.
             cmObservableValueHelper // Generic helper for reading a value from any ObservableValue family member (an active cell whose definition was synthesized here).
             ]
           }; // result (CellModel declaration)

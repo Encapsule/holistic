@@ -34,7 +34,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       } // This will be an @encapsule/arccore.filter object.
 
     },
-    bodyFunction: function bodyFunction(templateConstructorRequest_) {
+    bodyFunction: function bodyFunction(constructorRequest_) {
       var response = {
         error: null
       };
@@ -43,7 +43,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var cmasTemplateScope = templateConstructorRequest_.cmasTemplateScope instanceof CellModelArtifactSpace ? templateConstructorRequest_.cmasTemplateScope : new CellModelArtifactSpace(templateConstructorRequest_.cmasTemplateScope);
+        var cmasTemplateScope = constructorRequest_.cmasScope instanceof CellModelArtifactSpace ? constructorRequest_.cmasScope : new CellModelArtifactSpace(constructorRequest_.cmasScope);
 
         if (!cmasTemplateScope.isValid()) {
           errors.push(cmasTemplateScope.toJSON());
@@ -51,7 +51,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         var cmasInstanceScope = cmasTemplateScope.makeSubspaceInstance({
-          spaceLabel: templateConstructorRequest_.templateLabel
+          spaceLabel: constructorRequest_.templateLabel
         });
 
         if (!cmasInstanceScope.isValid()) {
@@ -59,7 +59,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
-        var templateLabel = "CellModelTemplate<".concat(templateConstructorRequest_.templateLabel, ">");
+        var templateLabel = "CellModelTemplate<".concat(constructorRequest_.templateLabel, ">");
         var cellModelTemplateSynthMethodLabel = "".concat(templateLabel, "::synthesizeCellModel");
         var cellModelGeneratorFilterLabel = "".concat(templateLabel, "::cellModelGeneratorFilter"); // Construct the specialized CellModel generator filter instance.
 
@@ -85,8 +85,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               ____accept: "jsString" // Note that cellModelLabel is used to call CellModelTemplate.mapLabels method (inherited from CellModelArtifactSpace) and is used e.g. as the value passed { CM: cellModelLabel, APM: cellModelLabel ... }
 
             },
-            synthesizeRequest: _objectSpread(_objectSpread({}, templateConstructorRequest_.cellModelGenerator.synthesizeMethodRequestSpec), {}, {
-              ____label: "".concat(templateLabel, " Generator Request"),
+            specializationData: _objectSpread(_objectSpread({}, constructorRequest_.cellModelGenerator.specializationDataSpec), {}, {
+              ____label: "".concat(templateLabel, " Instance Specialization & Config Data"),
               ____description: "Specific instructions to ".concat(cellModelGeneratorFilterLabel, " about how to build a new CellModel instance.")
             })
           },
@@ -105,7 +105,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               inBreakScope = true;
 
               try {
-                var innerResponse = templateConstructorRequest_.cellModelGenerator.generatorFilterBodyFunction(generateCellModelRequest_);
+                var innerResponse = constructorRequest_.cellModelGenerator.generatorFilterBodyFunction(generateCellModelRequest_);
 
                 if (innerResponse.error) {
                   errors.push(innerResponse.error);

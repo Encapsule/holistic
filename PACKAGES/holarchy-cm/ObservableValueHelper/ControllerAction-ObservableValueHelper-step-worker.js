@@ -30,11 +30,11 @@
       ____types: "jsObject",
       holarchy: {
         ____types: "jsObject",
-        cm: {
+        common: {
           ____types: "jsObject",
           actions: {
             ____types: "jsObject",
-            ValueObserver: {
+            ObservableValueHelper: {
               ____types: "jsObject",
               _private: {
                 ____types: "jsObject",
@@ -42,7 +42,7 @@
                   ____types: "jsObject",
                   action: {
                     ____accept: "jsString",
-                    ____inValueSet: ["noop"]
+                    ____inValueSet: ["noop", "apply-configuration"]
                   }
                 }
               }
@@ -56,9 +56,67 @@
       ____defaultValue: "okay"
     },
     bodyFunction: function bodyFunction(actionRequest_) {
-      return {
+      var response = {
         error: null
       };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+        var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValueHelper._private.stepWorker;
+        var actResponse = actionRequest_.context.act({
+          actorName: "ObservableValueHelper",
+          actorTaskDescription: "Attempting CPM cell query...",
+          actionRequest: {
+            CellProcessor: {
+              cell: {
+                query: {},
+                cellCoordinates: actionRequest_.context.apmBindingPath
+              }
+            }
+          },
+          apmBindingPath: actionRequest_.context.apmBindingPath
+        });
+
+        if (actResponse.error) {
+          console.log(actResponse.error);
+        }
+
+        var libResponse = lib.getStatus.request(actionRequest_.context);
+
+        if (libResponse.error) {
+          errors.push(libResponse.error);
+          break;
+        }
+
+        var cellMemory = libResponse.result.cellMemory;
+        console.log("> Dispatching ObservableValueHelper::stepWorker action ".concat(messageBody.action, "..."));
+
+        switch (messageBody.action) {
+          case "noop":
+            break;
+
+          case "apply-configuration":
+            break;
+
+          default:
+            errors.push("Internal error - unhandled switch case \"".concat(messageBody.action, "\"."));
+            break;
+        }
+
+        if (errors.length) {
+          break;
+        }
+
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   });
 
