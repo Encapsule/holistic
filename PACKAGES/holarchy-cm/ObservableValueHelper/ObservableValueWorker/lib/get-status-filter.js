@@ -1,15 +1,16 @@
 "use strict";
 
+// ObservableValueHelper/ObservableValueWorker/lib/get-status-filter.js
 (function () {
   var arccore = require("@encapsule/arccore");
 
-  var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
+  var cmasHolarchyCMPackage = require("../../../cmasHolarchyCMPackage");
 
   var cmLabel = require("../cell-label");
 
   var filterLabel = "".concat(cmLabel, "::getStatus");
   var apmID = cmasHolarchyCMPackage.mapLabels({
-    APM: "ObservableValueHelper"
+    APM: cmLabel
   }).result.APMID;
   var filterID = cmasHolarchyCMPackage.mapLabels({
     OTHER: filterLabel
@@ -17,14 +18,14 @@
   var factoryResponse = arccore.filter.create({
     operationID: filterID,
     operationName: filterLabel,
-    operationDescription: "Retrieves cell memory and process info for the ObservableValueHelper cell.",
+    operationDescription: "Verifies that the caller is asking about an ".concat(cmLabel, " cell and returns its cell memory data."),
     inputFilterSpec: {
       ____types: "jsObject",
-      ocdi: {
-        ____accept: "jsObject"
-      },
       act: {
         ____accept: "jsFunction"
+      },
+      ocdi: {
+        ____accept: "jsObject"
       },
       apmBindingPath: {
         ____accept: "jsString"

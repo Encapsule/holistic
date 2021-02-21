@@ -6,7 +6,7 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cm-label-string");
+  var cmLabel = require("./cell-label");
 
   var apm = new holarchy.AbstractProcessModel({
     id: cmasHolarchyCMPackage.mapLabels({
@@ -48,14 +48,14 @@
             ____defaultValue: "#" // Almost never correct as ObservableValue CellModel family members are typically used as helper cells and rarely as cell processes.
 
           }
-        } // ~.ocdDataSpec.configuration.valueObserver
+        } // ~.ocdDataSpec.configuration.observableValue
 
       },
       // ~.ocdDataSpec.configuration
       _private: {
         ____types: "jsObject",
         ____defaultValue: {},
-        valueObserverProcess: {
+        observableValueWorker: {
           ____accept: ["jsNull", "jsObject"],
           // TODO
           ____defaultValue: null

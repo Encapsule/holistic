@@ -12,7 +12,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cm-label-string");
+  var cmLabel = require("./cell-label");
 
   var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
     spaceLabel: cmLabel

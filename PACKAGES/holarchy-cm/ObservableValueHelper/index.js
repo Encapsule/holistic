@@ -6,7 +6,7 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cm-label-string");
+  var cmLabel = require("./cell-label");
 
   var cellmodel = new holarchy.CellModel({
     id: cmasHolarchyCMPackage.mapLabels({

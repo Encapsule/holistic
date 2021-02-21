@@ -6,7 +6,7 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cm-label-string");
+  var cmLabel = require("./cell-label");
 
   var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
     spaceLabel: cmLabel
@@ -17,6 +17,7 @@
   }
 
   var cmasObservableValueHelper = new holarchy.CellModelArtifactSpace(cmasResponse.result);
+  var actionName = "".concat(cmLabel, "::stepWorker");
 
   var lib = require("./lib");
 
@@ -24,7 +25,7 @@
     id: cmasObservableValueHelper.mapLabels({
       ACT: "stepWorker"
     }).result.ACTID,
-    name: "".concat(cmLabel, " Step Worker"),
+    name: actionName,
     description: "Private evaluation implementation action of ".concat(cmLabel, "."),
     actionRequestSpec: {
       ____types: "jsObject",
@@ -65,24 +66,6 @@
       while (!inBreakScope) {
         inBreakScope = true;
         var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValueHelper._private.stepWorker;
-        var actResponse = actionRequest_.context.act({
-          actorName: "ObservableValueHelper",
-          actorTaskDescription: "Attempting CPM cell query...",
-          actionRequest: {
-            CellProcessor: {
-              cell: {
-                query: {},
-                cellCoordinates: actionRequest_.context.apmBindingPath
-              }
-            }
-          },
-          apmBindingPath: actionRequest_.context.apmBindingPath
-        });
-
-        if (actResponse.error) {
-          console.log(actResponse.error);
-        }
-
         var libResponse = lib.getStatus.request(actionRequest_.context);
 
         if (libResponse.error) {
@@ -91,13 +74,57 @@
         }
 
         var cellMemory = libResponse.result.cellMemory;
-        console.log("> Dispatching ObservableValueHelper::stepWorker action ".concat(messageBody.action, "..."));
+        console.log("> Dispatching ".concat(actionName, " action ").concat(messageBody.action, "..."));
+        var actResponse = void 0,
+            ocdResponse = void 0;
 
         switch (messageBody.action) {
           case "noop":
             break;
 
           case "apply-configuration":
+            actResponse = actionRequest_.context.act({
+              actorName: actionName,
+              actorTaskDescription: "Activating an ObservableValueWorker cell to maintain the link.",
+              actionRequest: {
+                CellProcessor: {
+                  process: {
+                    processCoordinates: {
+                      apmID: cmasHolarchyCMPackage.mapLabels({
+                        APM: "ObservableValueWorker"
+                      }).result.APMID,
+                      instanceName: actionRequest_.context.apmBindingPath // We know this is unique within the neighborhood of cells that may occupy our CellProcessor's cellplane. So this guarantees that the ObversableValueWorker instance is unique and dedicated to serving this ObservableValueHelper cell.
+
+                    },
+                    activate: {
+                      processData: {
+                        configuration: {
+                          observableValueHelper: {
+                            apmBindingPath: actionRequest_.context.apmBindingPath
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            });
+
+            if (actResponse.error) {
+              errors.push(actResponse.error);
+              break;
+            }
+
+            ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+              apmBindingPath: actionRequest_.context.apmBindingPath,
+              dataPath: "#._private.observableValueWorker"
+            });
+
+            if (ocdResponse.error) {
+              errors.push(ocdResponse.error);
+              break;
+            }
+
             break;
 
           default:

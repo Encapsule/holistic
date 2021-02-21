@@ -6,7 +6,7 @@
 
   var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cellmodel-label");
+  var cmLabel = require("./cell-label");
 
   var cellModel = new holarchy.CellModel({
     id: cmasHolarchyCMPackage.mapLabels({
@@ -15,7 +15,7 @@
     name: "".concat(cmLabel, " Model"),
     description: "Performs work on behalf a single ObservableValueHelper cell.",
     apm: require("./AbstractProcessModel-ObservableValueWorker"),
-    actions: [],
+    actions: [require("./ControllerAction-ObservableValueWorker-step-worker")],
     operators: [],
     subcells: []
   });

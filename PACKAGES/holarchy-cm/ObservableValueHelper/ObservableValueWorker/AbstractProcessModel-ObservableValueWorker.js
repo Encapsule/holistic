@@ -6,7 +6,7 @@
 
   var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cellmodel-label");
+  var cmLabel = require("./cell-label");
 
   var apm = new holarchy.AbstractProcessModel({
     id: cmasHolarchyCMPackage.mapLabels({
@@ -17,11 +17,17 @@
     ocdDataSpec: {
       ____types: "jsObject",
       ____defaultValue: {},
-      observableValueHelper: {
-        ____label: "ObservableValueHelper Instance",
-        ____description: "Data used to track which ObservableValueHelper cell instance this cell is working on behalf of.",
-        ____accept: "jsObject" // TODO
-
+      configuration: {
+        ____types: "jsObject",
+        observableValueHelper: {
+          ____label: "ObservableValueHelper Instance",
+          ____description: "Data used to track which ObservableValueHelper cell instance this cell is working on behalf of.",
+          ____types: "jsObject",
+          apmBindingPath: {
+            ____label: "ObservableValueHelper Cell Path",
+            ____accept: "jsString"
+          }
+        }
       },
       // This is a proxy helper cell that is connected to a specific ObservableValue cell instance.
       // Current thinking is that ObservableValueHelper's step worker action can control this proxy directly w/out the need for custom logic in the worker.
@@ -41,11 +47,37 @@
           transitionIf: {
             always: true
           },
-          nextStep: "value-observer-worker-initialize"
+          nextStep: "observable-value-worker-apply-configuration"
         }]
       },
-      "value-observer-worker-initialize": {
-        description: "The ValueObserverWorker process is initializing."
+      "observable-value-worker-apply-configuration": {
+        description: "The ValueObserverWorker process is applying configuration data supplied at cell activation time...",
+        actions: {
+          exit: [{
+            holarchy: {
+              common: {
+                actions: {
+                  ObservableValueWorker: {
+                    _private: {
+                      stepWorker: {
+                        action: "apply-configuration"
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          }]
+        },
+        transitions: [{
+          transitionIf: {
+            always: true
+          },
+          nextStep: "observable-value-worker-wait-linked"
+        }]
+      },
+      "observable-value-worker-wait-linked": {
+        description: "TODO"
       }
     }
   });
