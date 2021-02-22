@@ -1,6 +1,6 @@
 "use strict";
 
-// ObservableValueWorker_T/index.js
+// ObservableValueHelper/ObservableValueWorker/index.js
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
@@ -15,8 +15,8 @@
     name: "".concat(cmLabel, " Model"),
     description: "Performs work on behalf a single ObservableValueHelper cell.",
     apm: require("./AbstractProcessModel-ObservableValueWorker"),
-    actions: [require("./ControllerAction-ObservableValueWorker-step-worker")],
-    operators: [],
+    actions: [require("./ControllerAction-ObservableValueWorker-read"), require("./ControllerAction-ObservableValueWorker-step-worker")],
+    operators: [require("./TransitionOperator-ObservableValueWorker-value-has-updated"), require("./TransitionOperator-ObservableValueWorker-value-is-active"), require("./TransitionOperator-ObservableValueWorker-value-is-available")],
     subcells: []
   });
 

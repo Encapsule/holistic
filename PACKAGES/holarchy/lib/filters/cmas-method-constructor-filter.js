@@ -18,8 +18,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     spaceLabel: {
       ____label: "Artifact Space Label",
       ____description: "A unique string label used to identify the specific CellModel artifact space to use to resolve CellModel artifact label queries.",
-      ____accept: "jsString",
-      ____defaultValue: "@encapsule/holarchy"
+      ____accept: "jsString"
     }
   };
   var factoryResponse1 = arccore.filter.create({
@@ -51,6 +50,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _loop = function _loop() {
         inBreakScope = true;
         var spaceLabel = constructorRequest_.spaceLabel;
+
+        if (spaceLabel.length === 0) {
+          errors.push("You must specify a spaceLabel value of one or more character(s) in length.");
+          return "break";
+        }
+
         var artifactSpaceLabel = "".concat(spaceLabel); // Create a filter that implements the mapLabels method.
 
         var factoryResponse2 = arccore.filter.create({
@@ -68,6 +73,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             APM: {
               ____accept: ["jsUndefined", "jsString"]
             },
+            // CAUTION: A specific CellModelArtifactSpace instance will map unique CM and APM labels to unique CMID and APMID.
+            // But, will NOT DO WHAT YOU MIGHT WANT for ACT/TOP/OTHER. Note that ACT/TOP are specifically 1:N w/CM label
+            // (i.e. Within CMAS X we can have CM labels A, B, C. A may have ACT "foo" and B may also have ACT "foo".
+            // You can:
+            // - Specify your ACT labels explicitly as "${cellLabel}${actLabel}"
+            // - If you're defining ACT/TOP in separate modules oftentimes we just grab CMAS and call makeSubspaceIntance passing in the cellLabel as the spaceLabel value.
             ACT: {
               ____accept: ["jsUndefined", "jsString"]
             },
@@ -76,7 +87,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             },
             OTHER: {
               ____accept: ["jsUndefined", "jsString"]
-            }
+            } // SAME CAUTIONS HERE --- you can do whatever you want w/this.
+
           },
           outputFilterSpec: {
             ____label: "Artifact Space Mapping",

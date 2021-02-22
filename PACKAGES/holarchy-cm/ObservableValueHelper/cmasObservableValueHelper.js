@@ -6,9 +6,13 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmLabel = require("./cell-label");
+  var cmasObservableValueHelper = cmasHolarchyCMPackage.makeSubspaceInstance({
+    spaceLabel: require("./cell-label")
+  });
 
-  module.exports = new holarchy.CellModelArtifactSpace(cmasHolarchyCMPackage.makeSubspaceInstance({
-    spaceLabel: cmLabel
-  }).result);
+  if (!cmasObservableValueHelper.isValid()) {
+    throw new Error(cmasObservableValueHelper.toJSON());
+  }
+
+  module.exports = cmasObservableValueHelper;
 })();

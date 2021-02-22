@@ -266,8 +266,9 @@ var factoryResponse = arccore.filter.create({
 
                     if (aVDID !== bVDID) {
                       errors.push("Bad ".concat(pcmr_.type, " registration. Unable to merge CellModel id='").concat(artifactID, "' into CellModel id='").concat(request_.id, "' due to conflict."));
-                      errors.push("CellModel id='".concat(artifactID, "' ").concat(bProps.type, " registration id='").concat(bProps.artifact.getID(), "' invalid runtime version."));
-                      errors.push("Expected VDID='".concat(aVDID, "' but found '").concat(bVDID, "'."));
+                      errors.push("CellModel id='".concat(artifactID, "' ").concat(bProps.type, " registration id='").concat(bProps.artifact.getID(), "' has an invalid/unexpected runtime version."));
+                      errors.push("Expected runtime VDID='".concat(aVDID, "' but instead found runtime version VDID='").concat(bVDID, "'."));
+                      errors.push("Verified artifact=\"".concat(JSON.stringify(aProps), "\" <-- merge conflict <-- merge artifact=\"").concat(JSON.stringify(bProps), "\"."));
                     } // if the developer is confused, sloppy with their code oranization, unclear in their thinking wrt CellModel's it will likely be sorted here
 
                   } // end if subcell intersection vertex is not an index (i.e. it has an artifact class attached to its vertex property)

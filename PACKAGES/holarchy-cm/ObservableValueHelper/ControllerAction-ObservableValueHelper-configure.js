@@ -10,19 +10,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
+  var cmasObservableValueHelper = require("./cmasObservableValueHelper");
 
   var cmLabel = require("./cell-label");
-
-  var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
-    spaceLabel: cmLabel
-  });
-
-  if (cmasResponse.error) {
-    throw new Error(cmasResponse.error);
-  }
-
-  var cmasObservableValueHelper = new holarchy.CellModelArtifactSpace(cmasResponse.result);
 
   var lib = require("./lib");
 

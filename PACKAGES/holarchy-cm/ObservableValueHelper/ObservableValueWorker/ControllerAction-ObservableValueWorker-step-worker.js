@@ -6,17 +6,10 @@
 
   var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
 
+  var cmasObservableValueWorker = require("./cmasObservableValueWorker");
+
   var cmLabel = require("./cell-label");
 
-  var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
-    spaceLabel: cmLabel
-  });
-
-  if (cmasResponse.error) {
-    throw new Error(cmasResponse.error);
-  }
-
-  var cmasObservableValueWorker = new holarchy.CellModelArtifactSpace(cmasResponse.result);
   var actionName = "".concat(cmLabel, "::stepWorker");
 
   var lib = require("./lib");
