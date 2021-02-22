@@ -6,18 +6,11 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
+  var cmasObservableValueHelper = require("./cmasObservableValueHelper");
+
   var cmLabel = require("./cell-label");
 
-  var cmasResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
-    spaceLabel: cmLabel
-  });
-
-  if (cmasResponse.error) {
-    throw new Error(cmasResponse.error);
-  }
-
-  var cmasObservableValueHelper = new holarchy.CellModelArtifactSpace(cmasResponse.result);
-  var actionName = "".concat(cmLabel, "::stepWorker");
+  var actionName = "".concat(cmLabel, " Private Step Worker");
 
   var lib = require("./lib");
 
@@ -117,8 +110,8 @@
 
             ocdResponse = actionRequest_.context.ocdi.writeNamespace({
               apmBindingPath: actionRequest_.context.apmBindingPath,
-              dataPath: "#._private.observableValueWorker"
-            });
+              dataPath: "#.link.observableValueWorkerProcess"
+            }, actResponse.result.actionResult);
 
             if (ocdResponse.error) {
               errors.push(ocdResponse.error);

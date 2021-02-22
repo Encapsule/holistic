@@ -52,13 +52,29 @@
 
       },
       // ~.ocdDataSpec.configuration
-      _private: {
+      link: {
         ____types: "jsObject",
         ____defaultValue: {},
-        observableValueWorker: {
-          ____accept: ["jsNull", "jsObject"],
-          // TODO
-          ____defaultValue: null
+        observableValueWorkerProcess: {
+          ____types: ["jsNull", "jsObject"],
+          ____defaultValue: null,
+          apmBindingPath: {
+            ____accept: "jsString"
+          }
+        },
+        observableValueProviderProcess: {
+          ____types: ["jsNull", "jsObject"],
+          ____defaultValue: null,
+          apmBindingPath: {
+            ____accept: "jsString"
+          }
+        },
+        observableValueCell: {
+          ____types: ["jsNull", "jsObject"],
+          ____defaultValue: null,
+          apmBindingPath: {
+            ____accept: "jsString"
+          }
         }
       }
     },
@@ -92,7 +108,7 @@
         description: "The ObservableValueHelper cell is waiting for link configuration data to be written to this cell's memory via its configure action..."
       },
       "observable-value-helper-apply-configuration": {
-        description: "The ValueObserver cell is waiting for configuration data...",
+        description: "The ObservableValueHelper cell is waiting for configuration data...",
         actions: {
           exit: [{
             holarchy: {
@@ -118,7 +134,11 @@
         }]
       },
       "observable-value-helper-wait-linked": {
-        description: "The ValueObserver cell is waiting for the configuration process to complete and the link to the configured ObservableValue cell has been activated and is ready for service..."
+        description: "The ObervableValueHelper cell is waiting for the configuration process to complete and the link to the configured ObservableValue cell has been activated and is ready for service..." // TODO: WE need a TransitionOperator here on ObservableValueHelper CellModel for monitor various status of the ObservableValueWorker, the provider cell process its connected to. And, and ObservableValue cell of course...
+
+      },
+      "observable-value-helper-linked": {
+        description: "The ObservableValueHelper cell has established a link to the observableValue cellplane coordinates specified."
       }
     } // ~.apm.steps
 

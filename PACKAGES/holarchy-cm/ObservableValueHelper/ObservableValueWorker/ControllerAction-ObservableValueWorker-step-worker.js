@@ -94,15 +94,14 @@
               break;
             }
 
-            var observableValueConfig = ocdResponse.result; // Attempt to connect our CellProcessProxy helper cell to the cell process specified by ObservableValueHelper's config data.
-
+            var observableValueConfig = ocdResponse.result;
             actResponse = actionRequest_.context.act({
               actorName: actionName,
               actorTaskDescription: "Attempting to connect proxy helper to the cell process that owns the ObservableValue family member cell we're attempting to link to.",
               actionRequest: {
                 CellProcessor: {
                   proxy: {
-                    proxyCoordinates: "#.observableValueProxy",
+                    proxyCoordinates: "#.ovcpProviderProxy",
                     connect: {
                       processCoordinates: observableValueConfig.processCoordinates
                     }
@@ -113,9 +112,14 @@
             });
 
             if (actResponse.error) {
+              // v0.0.52-tourmaline --- Report transport error on attempt to proxy to an unknown cell process coordinate.
+              // If we cannot establish a cell process proxy connection to it, then there's no possibility that we'll be
+              // able to access the ObservableValue cell on behalf of any other cell here.
+              errors.push("Link request failed: ".concat(cmLabel, " cell instance \"").concat(actionRequest_.context.apmBindingPath, "\" failed to connect cell process proxy to the cell process expected to provide some ObservableValue due to error:"));
               errors.push(actResponse.error);
               break;
-            }
+            } // Okay - so the CellProcessProxy connected w/out error. That's good.
+
             /*
              actResponse = actionRequest_.context.act({
                 actorName: actionName,

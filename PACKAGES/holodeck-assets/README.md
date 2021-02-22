@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.
 
 ```
-Package: @encapsule/holodeck-assets v0.0.52 "tourmaline" build ID "CSZDPO9iTnKC5SV3ONesOw"
-Sources: Encapsule/holistic-master#0c2fb0abb371b89290e603c67125c1287ca881f9
-Created: 2021-02-21T15:20:33.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holodeck-assets v0.0.52 "tourmaline" build ID "7bDs4c7_R5mmz9Ugb_uKrA"
+Sources: Encapsule/holistic-master#752ec9f36e766f8a31994a3111f4c121c631b7c7
+Created: 2021-02-22T06:52:24.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
