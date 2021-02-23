@@ -21,9 +21,6 @@
     operationDescription: "Verifies that the caller is asking about an ".concat(cmLabel, " cell and returns its cell memory data."),
     inputFilterSpec: {
       ____types: "jsObject",
-      act: {
-        ____accept: "jsFunction"
-      },
       ocdi: {
         ____accept: "jsObject"
       },

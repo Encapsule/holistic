@@ -47,6 +47,30 @@
           apm: "CPPU-UPgS8eWiMap3Ixovg"
         } // CPP
 
+      },
+      // If we fail to connect the ocvpProviderProxy this is likely because we got handed bogus provider cell process coordinates.
+      // Rather than report a transport error in the context of applying the configuration, we instead write any failure that occurs
+      // to ovcpProviderProxyError namespace.
+      ovcpProviderProxyError: {
+        ____accept: ["jsNull", "jsString"],
+        ____defaultValue: null
+      },
+      // If the proxy is connected (i.e. ovcpProviderProxy is connected and ovcpProviderProxyError === null)
+      // then our step worker action will continue on to initialize ovCell that is used to determine the existence,
+      // status, and ultimately the value of the target value-type-specialized ObservableValue cell.
+      // So, initialization of ovCell does not in and of itself infer these things; it's just the info
+      // that is later required to answer these questions (via actions and operators).
+      ovCell: {
+        ____types: ["jsNull", "jsObject"],
+        ____defaultValue: null,
+        apmBindingPath: {
+          ____accept: "jsString"
+        },
+        lastReadRevision: {
+          ____accept: "jsNumber",
+          ____defaultValue: -2 // Indicates we do not know if ovCell exists or not (because we haven't checked). Or we have, and it doesn't.
+
+        }
       }
     },
     steps: {
@@ -82,14 +106,14 @@
           transitionIf: {
             always: true
           },
-          nextStep: "observable-value-worker-ready"
+          nextStep: "observable-value-worker-wait-proxy-connected"
         }]
       },
-      "observable-value-worker-wait-configured": {
+      "observable-value-worker-wait-proxy-connected": {
         description: "The ObservableValueWorker process is waiting for the applied configuration to be accepted.",
         transitions: [{
           transitionIf: {
-            CellProcesor: {
+            CellProcessor: {
               proxy: {
                 proxyCoordinates: "#.ovcpProviderProxy",
                 connect: {
@@ -98,11 +122,20 @@
               }
             }
           },
-          nextStep: "observable-value-worker-ready"
-        }]
+          nextStep: "observable-value-worker-proxy-connected"
+        }, {
+          transitionIf: {
+            always: true
+          },
+          nextStep: "observable-value-worker-proxy-disconnected"
+        } // We know this because we know we asked to connect and it is not connected.
+        ]
       },
-      "observable-value-worker-ready": {
-        description: "The ObservableValueWorker process has successfully connected its cell process proxy helper to the target ObservableValue's provider cell process."
+      "observable-value-worker-proxy-connected": {
+        description: "The ObservableValueWorker process has successfully connected its cell process proxy helper cell to the target ObservableValue's provider cell process."
+      },
+      "observable-value-worker-proxy-disconnected": {
+        description: "The ObservableValueWorker process could not connect its cell process proxy to the cell process that is supposed to be providing the target ObservableValue cell."
       }
     }
   });

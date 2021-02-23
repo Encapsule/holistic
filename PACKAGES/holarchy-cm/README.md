@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains the Holistic App Platform's core re-usable CellModel library.
 
 ```
-Package: @encapsule/holarchy-cm v0.0.52 "tourmaline" build ID "JfTI4vzzRcSaJlp47KNZ8w"
-Sources: Encapsule/holistic-master#bbb641a5a5f32fc0dc7617819ec4e61283aad96d
-Created: 2021-02-22T20:30:11.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holarchy-cm v0.0.52 "tourmaline" build ID "tWwqmWZjTXygjBZHu-dhEA"
+Sources: Encapsule/holistic-master#7703adff15d0405ef248bc1f90df57d777f7e404
+Created: 2021-02-23T18:24:29.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -68,15 +68,15 @@ Authoring `/* ... your derived code ... */` is discussed in the next section.
 
 Please read through these webpages to get a broad sense of the architectural precepts that underpin **S**ystem-**I**n-**C**ell (SiC) architecture.
 
-- [All About Circuits - Finite State Machines](https://www.allaboutcircuits.com/textbook/digital/chpt-11/finite-state-machines/) *** This is our long-established program execution model - _CellProcessor evaluation is execution_.
+- [All About Circuits - Finite State Machines](https://www.allaboutcircuits.com/textbook/digital/chpt-11/finite-state-machines/) **This is our long-established program execution model - _CellProcessor evaluation is execution_.**
 
-- [All About Circuits - Introduction to Combinatorial Logic Functions](https://www.allaboutcircuits.com/textbook/digital/chpt-9/combinational-logic-functions/) *** Basic information about logic (in hardware terms). Note that a call to **act** is a _clock signal_.
+- [All About Circuits - Introduction to Combinatorial Logic Functions](https://www.allaboutcircuits.com/textbook/digital/chpt-9/combinational-logic-functions/) **Basic information about logic (in hardware terms). Note that a call to `act` is a _clock signal_.**
 
-- [ScienceDirect - Boolean Expression](https://www.sciencedirect.com/topics/computer-science/boolean-expression) *** A brief look at compositional patterns that we seek to capture here as CellModel for re-use _everythere_ at all levels of system X distributed across [ A, B, C... ] service instance(s).
+- [ScienceDirect - Boolean Expression](https://www.sciencedirect.com/topics/computer-science/boolean-expression) **A brief look at compositional patterns that we seek to capture here as CellModel for re-use _everythere_ at all levels of system X distributed across [ A, B, C... ] service instance(s).**
 
 - [All About Circuits - Multiplexers](https://www.allaboutcircuits.com/textbook/digital/chpt-9/multiplexers/)
 
-- [All About Circuits - Ladder Diagrams(]https://www.allaboutcircuits.com/textbook/digital/chpt-6/ladder-diagrams/)
+- [All About Circuits - Ladder Diagrams](https://www.allaboutcircuits.com/textbook/digital/chpt-6/ladder-diagrams/) **YEA, THIS**
 
 - [All About Circuits - Digital Logic Functions](https://www.allaboutcircuits.com/textbook/digital/chpt-6/digital-logic-functions/)
 

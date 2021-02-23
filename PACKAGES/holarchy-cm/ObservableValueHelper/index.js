@@ -16,7 +16,7 @@
     description: "Provides a generic means of linking to and subsequently reading from an active ObservableValue family member cell owned by another cell process.",
     apm: require("./AbstractProcessModel-ObservableValueHelper"),
     actions: [require("./ControllerAction-ObservableValueHelper-configure"), require("./ControllerAction-ObservableValueHelper-read"), require("./ControllerAction-ObservableValueHelper-reset"), require("./ControllerAction-ObservableValueHelper-step-worker")],
-    operators: [require("./TransitionOperator-ObservableValueHelper-provider-is-active"), require("./TransitionOperator-ObservableValueHelper-value-has-updated"), require("./TransitionOperator-ObservableValueHelper-value-is-active"), require("./TransitionOperator-ObservableValueHelper-value-is-available")],
+    operators: [require("./TransitionOperator-ObservableValueHelper-is-linked"), require("./TransitionOperator-ObservableValueHelper-value-has-updated"), require("./TransitionOperator-ObservableValueHelper-value-is-active"), require("./TransitionOperator-ObservableValueHelper-value-is-available")],
     subcells: [require("./ObservableValueWorker")]
   });
 

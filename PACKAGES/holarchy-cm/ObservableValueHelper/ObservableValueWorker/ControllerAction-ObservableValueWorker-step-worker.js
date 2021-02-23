@@ -105,49 +105,47 @@
             });
 
             if (actResponse.error) {
-              // v0.0.52-tourmaline --- Report transport error on attempt to proxy to an unknown cell process coordinate.
-              // If we cannot establish a cell process proxy connection to it, then there's no possibility that we'll be
-              // able to access the ObservableValue cell on behalf of any other cell here.
-              errors.push("Link request failed: ".concat(cmLabel, " cell instance \"").concat(actionRequest_.context.apmBindingPath, "\" failed to connect cell process proxy to the cell process expected to provide some ObservableValue due to error:"));
-              errors.push(actResponse.error);
+              ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+                apmBindingPath: actionRequest_.context.apmBindingPath,
+                dataPath: "#.ovcpProviderProxyError"
+              }, actResponse.error);
+
+              if (ocdResponse.error) {
+                // Now actually report a transport error because this is FUBAR.
+                errors.push("Internal error: Attempting to connect cell process proxy to requested provided coordinates failed w/error. And, our attempt to write the error to our cell memory failed!");
+                errors.push(actResponse.error);
+                errors.push(ocdResponse.error);
+              } // No matter what we're done here.
+
+
               break;
             } // Okay - so the CellProcessProxy connected w/out error. That's good.
 
-            /*
-             actResponse = actionRequest_.context.act({
-                actorName: actionName,
-                actorTaskDescription: "Activating an ObservableValueWorker cell to maintain the link.",
-                actionRequest: {
-                    CellProcessor: {
-                        process: {
-                            processCoordinates: {
-                                apmID: cmasHolarchyCMPackage.mapLabels({ APM: "ObservableValueWorker" }).result.APMID,
-                                instanceName: actionRequest_.context.apmBindingPath // We know this is unique within the neighborhood of cells that may occupy our CellProcessor's cellplane. So this guarantees that the ObversableValueWorker instance is unique and dedicated to serving this ObservableValueHelper cell.
-                            },
-                            activate: {
-                                processData: {
-                                    configuration: {
-                                        observableValueHelper: {
-                                            apmBindingPath: actionRequest_.context.apmBindingPath
-                                        }
-                                    }
-                                }
-                            }
-                        }
-                    }
-                }
-            });
-            if (actResponse.error) {
-                errors.push(actResponse.error);
-                break;
-            }
-             ocdResponse = actionRequest_.context.ocdi.writeNamespace({ apmBindingPath: actionRequest_.context.apmBindingPath, dataPath: "#._private.observableValueWorker" });
-            if (ocdResponse.error) {
-                errors.push(ocdResponse.error);
-                break;
-            }
-             */
 
+            var proxyConnectInfo = actResponse.result.actionResult; // We need the apmBindingPath of the actual target ObservableValue cell now.
+
+            ocdResponse = holarchy.ObservableControllerData.dataPathResolve({
+              apmBindingPath: proxyConnectInfo.connected.apmBindingPath,
+              dataPath: observableValueConfig.path
+            });
+
+            if (ocdResponse.error) {
+              errors.push(ocdResponse.error);
+              break;
+            }
+
+            var ovCellPath = ocdResponse.result;
+            ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+              apmBindingPath: actionRequest_.context.apmBindingPath,
+              dataPath: "#.ovCell"
+            }, {
+              apmBindingPath: ovCellPath
+            });
+
+            if (ocdResponse.error) {
+              errors.push(ocdResponse.error);
+              break;
+            }
 
             break;
 

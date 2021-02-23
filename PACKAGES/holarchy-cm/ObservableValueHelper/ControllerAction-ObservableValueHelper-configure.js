@@ -100,10 +100,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
-        ocdResponse = actionRequest_.context.ocdi.writeNamespace(ovhBindingPath, _objectSpread(_objectSpread({}, cellMemory), {}, {
-          __apmiStep: "observable-value-helper-apply-configuration",
-          configuration: messageBody.configuration
-        }));
+        ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+          apmBindingPath: ovhBindingPath,
+          dataPath: "#.configuration"
+        }, messageBody.configuration);
 
         if (ocdResponse.error) {
           errors.push(ocdResponse.error);
