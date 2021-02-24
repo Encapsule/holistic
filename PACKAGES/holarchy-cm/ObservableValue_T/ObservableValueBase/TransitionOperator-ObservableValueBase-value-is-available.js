@@ -4,13 +4,13 @@
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
+  var cmasObservableValueBase = require("./cmasObservableValueBase");
 
-  var cellModelLabel = require("./cell-label");
+  var cmLabel = require("./cell-label");
 
-  var operatorName = "".concat(cellModelLabel, ".operator.valueIsAvailable");
+  var operatorName = "".concat(cmLabel, " Value Is Available");
   var operator = new holarchy.TransitionOperator({
-    id: cmasHolarchyCMPackage.mapLabels({
+    id: cmasObservableValueBase.mapLabels({
       TOP: operatorName
     }).result.TOPID,
     name: operatorName,
@@ -22,10 +22,13 @@
         ____types: "jsObject",
         common: {
           ____types: "jsObject",
-          ObservableValue: {
+          operators: {
             ____types: "jsObject",
-            valueIsAvailable: {
-              ____types: "jsObject"
+            ObservableValue: {
+              ____types: "jsObject",
+              valueIsAvailable: {
+                ____types: "jsObject"
+              }
             }
           }
         }

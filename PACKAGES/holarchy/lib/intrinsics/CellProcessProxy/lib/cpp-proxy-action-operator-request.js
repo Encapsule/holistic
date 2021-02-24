@@ -121,9 +121,7 @@ var factoryResponse = arccore.filter.create({
       }
 
       if (errors.length) {
-        errors.push("Requesting cell path '".concat(cppMemoryStatusDescriptor.paths.apmBindingPath, "' (we presume the owner of the cell proxy helper)."));
-        errors.push("The addressed cell proxy helper cell we're looking at is located at '".concat(cppMemoryStatusDescriptor.paths.resolvedPath, "' (and we know it's actually a cell process proxy)."));
-        errors.push("And, we're trying to proxy an ".concat(request.requestType, " request through the proxy when this failure occurred."));
+        errors.unshift("During attempt to proxy an ".concat(request_.requestType, " request through the proxy:"));
       }
 
       break;

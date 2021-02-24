@@ -52,7 +52,7 @@ var action = new TransitionOperator({
     }
 
     if (errors.length) {
-      repsonse.error = errors.join(" ");
+      response.error = errors.join(" ");
     }
 
     return response;

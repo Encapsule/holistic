@@ -8,15 +8,15 @@
 
   var cmLabel = require("./cell-label");
 
-  var operatorName = "".concat(cmLabel, " Value Has Updated");
+  var operatorName = "".concat(cmLabel, " Cell Exists");
   var operator = new holarchy.TransitionOperator({
     id: cmasObservableValueBase.mapLabels({
       TOP: operatorName
     }).result.TOPID,
     name: operatorName,
-    description: "Returns Boolean true iff the ObservableValue cell's value has been written (updated) since the last time a specific observer (the caller of the this operator) queried the ObservableValue for update(s).",
+    description: "Returns Boolean true iff the ObservableValue cell exists in the cellplane at the specified path / coordinates.",
     operatorRequestSpec: {
-      ____label: "ObservableValue Value Has Updated Operator Request",
+      ____label: "ObservableValue Cell Exists Request",
       ____types: "jsObject",
       holarchy: {
         ____types: "jsObject",
@@ -26,17 +26,11 @@
             ____types: "jsObject",
             ObservableValue: {
               ____types: "jsObject",
-              valueHasUpdated: {
+              cellExists: {
                 ____types: "jsObject",
-                since: {
-                  ____types: "jsObject",
-                  revision: {
-                    ____label: "ObservableValue Observer Revision",
-                    ____description: "The last revision of this ObservableValue cell's value that was read by the requesting observer cell.",
-                    ____types: ["jsNumber", // The observer is specifying the value revision they last read by its literal value
-                    "jsString" // The observer is specifying the full path of the OCD namespace _they_ own and maintain which contains the value revision they last read (we read this value and use it as the comparison basis)
-                    ]
-                  }
+                path: {
+                  ____accept: "jsString",
+                  ____defaultValue: "#"
                 }
               }
             }
@@ -45,6 +39,7 @@
       }
     },
     bodyFunction: function bodyFunction(operatorRequest_) {
+      // We should land here w/the apmBindingPath pointing at the provider cell process that holds the target ObservableValue cell of interest (path).
       return {
         error: null,
         result: false

@@ -2,8 +2,6 @@
 
 // cmasObservableValueHelper.js
 (function () {
-  var holarchy = require("@encapsule/holarchy");
-
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
   var cmasObservableValueHelper = cmasHolarchyCMPackage.makeSubspaceInstance({

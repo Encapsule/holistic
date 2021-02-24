@@ -4,13 +4,13 @@
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
+  var cmasObservableValueBase = require("./cmasObservableValueBase");
 
-  var cellModelLabel = require("./cell-label");
+  var cmLabel = require("./cell-label");
 
-  var actionName = "".concat(cellModelLabel, ".action.readValue");
+  var actionName = "".concat(cmLabel, " Read Value");
   var action = new holarchy.ControllerAction({
-    id: cmasHolarchyCMPackage.mapLabels({
+    id: cmasObservableValueBase.mapLabels({
       ACT: actionName
     }).result.ACTID,
     name: actionName,
@@ -22,10 +22,15 @@
         ____types: "jsObject",
         common: {
           ____types: "jsObject",
+          // TODO : actions namespace for consistency
           ObservableValue: {
             ____types: "jsObject",
             readValue: {
-              ____types: "jsObject"
+              ____types: "jsObject",
+              path: {
+                ____accept: "jsString",
+                ____defaultValue: "#"
+              }
             }
           }
         }

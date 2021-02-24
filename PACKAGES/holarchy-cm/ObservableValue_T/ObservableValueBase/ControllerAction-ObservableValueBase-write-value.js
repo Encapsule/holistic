@@ -3,13 +3,13 @@
 // ObservableValue_T/ObservableValueBase/ControllerAction-ObservableValueBase-write-value.js
 var holarchy = require("@encapsule/holarchy");
 
-var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
+var cmasObservableValueBase = require("./cmasObservableValueBase");
 
-var cellModelLabel = require("./cell-label");
+var cmLabel = require("./cell-label");
 
-var actionName = "".concat(cellModelLabel, ".action.writeValue");
+var actionName = "".concat(cmLabel, " Write Value");
 var action = new holarchy.ControllerAction({
-  id: cmasHolarchyCMPackage.mapLabels({
+  id: cmasObservableValueBase.mapLabels({
     ACT: actionName
   }).result.ACTID,
   name: actionName,
