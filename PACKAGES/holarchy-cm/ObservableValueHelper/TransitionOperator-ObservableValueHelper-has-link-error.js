@@ -6,7 +6,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// TransitionOperator-ObsevableValueHelper-value-is-active.js
+// TransitionOperator-ObservableValueHelper-has-link-error.js
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
@@ -14,16 +14,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmLabel = require("./cell-label");
 
-  var operatorName = "".concat(cmLabel, " Value Is Active");
+  var operatorName = "".concat(cmLabel, " Has Link Error");
 
   var lib = require("./lib");
 
   var operator = new holarchy.TransitionOperator({
     id: cmasObservableValueHelper.mapLabels({
-      TOP: "valueIsActive"
+      TOP: "hasLinkError"
     }).result.TOPID,
     name: operatorName,
-    description: "Returns Boolean true if the target ObservableValue cell is active.",
+    description: "Returns Boolean true if the specified ObservableValueHelper cell is not reset and not linked to the target ObservableValue cell's provider cell process.",
     operatorRequestSpec: {
       ____types: "jsObject",
       holarchy: {
@@ -34,7 +34,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             ____types: "jsObject",
             ObservableValueHelper: {
               ____types: "jsObject",
-              valueIsActive: {
+              hasLinkError: {
                 ____types: "jsObject",
                 path: {
                   ____accept: "jsString"
@@ -53,19 +53,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var inBreakScope = false;
 
       while (!inBreakScope) {
-        inBreakScope = true; // TODO: This is a useful pattern. We should make it generically re-usable somehow. But, not today ;-)
+        inBreakScope = true;
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.isReset; // Query the cell process step of the indicated ObservableValueHelper cell.
 
-        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.valueIsActive;
-
-        var suboperatorRequest = _objectSpread(_objectSpread({}, operatorRequest_), {}, {
+        var operatorRequest = _objectSpread(_objectSpread({}, operatorRequest_), {}, {
           operatorRequest: {
-            holarchy: {
-              common: {
-                operators: {
-                  ObservableValueHelper: {
-                    isLinked: {
-                      path: messageBody.path
-                    }
+            CellProcessor: {
+              cell: {
+                cellCoordinates: messageBody.path,
+                query: {
+                  inStep: {
+                    apmStep: "observable-value-helper-link-error"
                   }
                 }
               }
@@ -73,7 +71,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
         });
 
-        var operatorResponse = operatorRequest_.context.transitionDispatcher.request(suboperatorRequest);
+        var operatorResponse = operatorRequest_.context.transitionDispatcher.request(operatorRequest);
 
         if (operatorResponse.error) {
           errors.push(operatorResponse.error);
@@ -81,63 +79,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         var operatorFilter = operatorResponse.result;
-        operatorResponse = operatorFilter.request(suboperatorRequest);
-
-        if (operatorResponse.error) {
-          errors.push(operatorResponse.error);
-          break;
-        }
-
-        if (!operatorResponse.result) {
-          response.result = false;
-          break;
-        }
-
-        var ocdResponse = operatorRequest_.context.ocdi.readNamespace({
-          apmBindingPath: operatorRequest_.context.apmBindingPath,
-          dataPath: "".concat(messageBody.path, ".observableValueWorkerProcess.apmBindingPath")
-        });
-
-        if (ocdResponse.error) {
-          errors.push(ocdResponse.error);
-          break;
-        }
-
-        var ovwProcessCoordinates = ocdResponse.result;
-        suboperatorRequest = {
-          context: _objectSpread(_objectSpread({}, operatorRequest_.context), {}, {
-            apmBindingPath: ovwProcessCoordinates
-          }),
-          operatorRequest: {
-            holarchy: {
-              common: {
-                operators: {
-                  ObservableValueWorker: {
-                    _private: {
-                      valueIsActive: {}
-                    }
-                  }
-                }
-              }
-            }
-          }
-        };
-        operatorResponse = operatorRequest_.context.transitionDispatcher.request(suboperatorRequest);
-
-        if (operatorResponse.error) {
-          errors.push(operatorResponse.error);
-          break;
-        }
-
-        operatorFilter = operatorResponse.result;
-        operatorResponse = operatorFilter.request(suboperatorRequest);
-
-        if (operatorResponse.error) {
-          errors.push(operatorResponse.error);
-          break;
-        }
-
-        response.result = operatorResponse.result;
+        response = operatorFilter.request(operatorRequest);
         break;
       }
 
