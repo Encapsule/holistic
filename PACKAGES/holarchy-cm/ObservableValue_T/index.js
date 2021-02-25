@@ -48,9 +48,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             ____types: "jsObject",
             ____defaultValue: {},
             mailbox: {
-              ____types: "jsObject",
-              ____defaultValue: {},
-              // And, so we will make this default activatable in order. And mailbox.value will be undefined if not written. As expected.
+              ____types: ["jsUndefined", "jsObject"],
+              // Because we want mailbox to be default constructable w/out any reliance whatsoever on valueTypeSpec.
               value: _objectSpread({}, request_.specializationData.valueTypeSpec)
             },
             revision: {
