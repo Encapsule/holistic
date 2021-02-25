@@ -44,7 +44,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               getLinkError: {
                 ____types: "jsObject",
                 path: {
-                  ____accept: "jsString"
+                  ____accept: "jsString",
+                  ____defaultValue: "#"
                 }
               }
             }

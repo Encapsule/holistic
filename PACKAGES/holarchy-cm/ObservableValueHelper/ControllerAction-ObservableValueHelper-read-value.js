@@ -21,7 +21,7 @@
 
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueHelper.mapLabels({
-      ACT: "read"
+      ACT: "readValue"
     }).result.ACTID,
     name: actionName,
     description: "Reads the type-specialized ObservableValue cell's value and version mailbox descriptor value.",
@@ -36,7 +36,7 @@
             ____types: "jsObject",
             ObservableValueHelper: {
               ____types: "jsObject",
-              read: {
+              readValue: {
                 ____types: "jsObject",
                 path: {
                   ____accept: "jsString",
@@ -70,7 +70,7 @@
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValueHelper.read;
+        var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValueHelper.readValue;
         var ocdResponse = actionRequest_.context.ocdi.readNamespace({
           apmBindingPath: actionRequest_.context.apmBindingPath,
           dataPath: "".concat(messageBody.path, ".__apmiStep")
@@ -112,7 +112,7 @@
                 actions: {
                   ObservableValueWorker: {
                     _private: {
-                      read: {}
+                      readValue: {}
                     }
                   }
                 }

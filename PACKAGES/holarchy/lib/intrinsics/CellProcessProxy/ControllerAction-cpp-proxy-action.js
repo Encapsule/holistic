@@ -50,7 +50,7 @@ var action = new ControllerAction({
         break;
       }
 
-      response.result = proxyResponse.result;
+      response.result = proxyResponse.result.actionResult;
       break;
     }
 

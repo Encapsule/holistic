@@ -37,7 +37,7 @@
               ____types: "jsObject",
               _private: {
                 ____types: "jsObject",
-                read: {
+                readValue: {
                   ____types: "jsObject"
                 }
               }
@@ -145,11 +145,9 @@
         if (actResponse.error) {
           errors.push(actResponse.error);
           break;
-        } // FIX FOR THIS SHOULD BE IN CPP PROXY ACTION
+        }
 
-
-        response.result = actResponse.result.actionResult.actionResult; // TODO: Look into this. I believe that CPP proxy action should act like CPM delegate ;-)
-        // Update the ObservableValueWorker cell's lastReadRevision value.
+        response.result = actResponse.result.actionResult; // Update the ObservableValueWorker cell's lastReadRevision value.
 
         ocdResponse = actionRequest_.context.ocdi.writeNamespace({
           apmBindingPath: actionRequest_.context.apmBindingPath,

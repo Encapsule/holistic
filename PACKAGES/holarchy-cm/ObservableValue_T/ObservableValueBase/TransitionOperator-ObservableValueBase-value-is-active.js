@@ -1,6 +1,6 @@
 "use strict";
 
-// ObservableValue_T/ObservableValueBase/TransitionOperator-ObservableValueBase-value-has-updated.js
+// ObservableValue_T/ObservableValueBase/TransitionOperator-ObservableValueBase-value-is-active.js
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
@@ -8,7 +8,7 @@
 
   var cmLabel = require("./cell-label");
 
-  var operatorName = "".concat(cmLabel, " Cell Exists");
+  var operatorName = "".concat(cmLabel, " Value Is Active");
   var operator = new holarchy.TransitionOperator({
     id: cmasObservableValueBase.mapLabels({
       TOP: operatorName
@@ -27,7 +27,7 @@
             ObservableValue: {
               ____types: "jsObject",
               // TODO: Should be renamed to valueIsActive for consistency w/ObservableValueWorker naming I think.
-              cellExists: {
+              valueIsActive: {
                 ____types: "jsObject",
                 path: {
                   ____accept: "jsString",
@@ -49,14 +49,14 @@
       while (!inBreakScope) {
         inBreakScope = true;
         console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
-        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.cellExists; // If we cannot read the ObservableValue cell's revision number, then it does not exist.
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.valueIsActive; // If we cannot read the ObservableValue cell's revision number, then it does not exist.
 
         var ocdResponse = operatorRequest_.context.ocdi.readNamespace({
           apmBindingPath: operatorRequest_.context.apmBindingPath,
           dataPath: "".concat(messageBody.path, ".revision")
         });
         response.result = ocdResponse.error ? false : true;
-        console.log("> Answer is ".concat(response.result, " --- value cell is ").concat(response.result ? "ACTIVE" : "inactive", "."));
+        console.log("> Answer is ".concat(response.result, " --- value cell is ").concat(response.result ? "ACTIVE" : "INACTIVE", "."));
         break;
       }
 

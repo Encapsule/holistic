@@ -15,7 +15,7 @@
     name: "".concat(cmLabel, " Model"),
     description: "Performs work on behalf a single ObservableValueHelper cell.",
     apm: require("./AbstractProcessModel-ObservableValueWorker"),
-    actions: [require("./ControllerAction-ObservableValueWorker-read"), require("./ControllerAction-ObservableValueWorker-step-worker")],
+    actions: [require("./ControllerAction-ObservableValueWorker-read-value"), require("./ControllerAction-ObservableValueWorker-step-worker")],
     operators: [require("./TransitionOperator-ObservableValueWorker-value-has-updated"), require("./TransitionOperator-ObservableValueWorker-value-is-active"), require("./TransitionOperator-ObservableValueWorker-value-is-available")],
     subcells: []
   });

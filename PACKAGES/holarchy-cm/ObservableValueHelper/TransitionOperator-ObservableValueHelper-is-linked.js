@@ -37,7 +37,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               isLinked: {
                 ____types: "jsObject",
                 path: {
-                  ____accept: "jsString"
+                  ____accept: "jsString",
+                  ____defaultValue: "#"
                 }
               }
             }

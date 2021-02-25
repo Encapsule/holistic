@@ -70,7 +70,7 @@
 
         var currentRevision = ocdResponse.result;
 
-        if (currentRevision < 0) {
+        if (currentRevision < 0 && messageBody.lastReadRevision < 0) {
           response.result = false;
           break;
         }
