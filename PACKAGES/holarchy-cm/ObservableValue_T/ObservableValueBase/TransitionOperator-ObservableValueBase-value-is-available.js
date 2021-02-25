@@ -27,7 +27,11 @@
             ObservableValue: {
               ____types: "jsObject",
               valueIsAvailable: {
-                ____types: "jsObject"
+                ____types: "jsObject",
+                path: {
+                  ____accept: "jsString",
+                  ____defaultValue: "#"
+                }
               }
             }
           }
@@ -35,10 +39,41 @@
       }
     },
     bodyFunction: function bodyFunction(operatorRequest_) {
-      return {
-        error: null,
-        result: false
-      }; // TODO
+      var response = {
+        error: null
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.valueIsAvailable; // If we cannot read the ObservableValue cell's revision number, then it does not exist.
+
+        var ocdResponse = operatorRequest_.context.ocdi.readNamespace({
+          apmBindingPath: operatorRequest_.context.apmBindingPath,
+          dataPath: "".concat(messageBody.path, ".revision")
+        });
+
+        if (ocdResponse.error) {
+          // Either the provider cell process or the ObservableValue cell process is not active.
+          // So, the answer is false --- the ObservableValue is not available.
+          response.result = false;
+          break;
+        }
+
+        var currentRevision = ocdResponse.result; // The ObservableValue is "available" if it has been written once or more times since since activation / reset.
+
+        response.result = currentRevision > -1;
+        console.log("> Answer is ".concat(response.result, " --- value cell is ").concat(response.result ? "AVAILABLE" : "UNAVAILABLE", "."));
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   });
 

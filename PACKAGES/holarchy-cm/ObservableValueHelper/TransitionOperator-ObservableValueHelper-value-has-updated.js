@@ -55,7 +55,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       while (!inBreakScope) {
         inBreakScope = true; // TODO: This is a useful pattern. We should make it generically re-usable somehow. But, not today ;-)
 
-        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.valueIsAvailable;
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.valueHasUpdated;
 
         var suboperatorRequest = _objectSpread(_objectSpread({}, operatorRequest_), {}, {
           operatorRequest: {

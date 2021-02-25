@@ -63,6 +63,7 @@ var action = new holarchy.ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
+      console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(actionRequest_.context.apmBindingPath, "\""));
       var messageBody = actionRequest_.actionRequest.holarchy.common.ObservableValue.writeValue;
       var ocdResponse = actionRequest_.context.ocdi.readNamespace({
         apmBindingPath: actionRequest_.context.apmBindingPath,
@@ -100,6 +101,7 @@ var action = new holarchy.ControllerAction({
       response.error = errors.join(" ");
     }
 
+    console.log("> Value write ".concat(response.error ? "FAILURE" : "SUCCESS", "."));
     return response;
   }
 });

@@ -47,13 +47,128 @@
       }
     },
     actionResultSpec: {
-      ____accept: "jsString",
-      ____defaultValue: "okay"
+      ____label: "".concat(actionName, " Result"),
+      ____types: "jsObject",
+      value: {
+        ____label: "Value",
+        ____opaque: true // We do not know and we do not care at this level if this valid or what it even means.
+
+      },
+      revision: {
+        ____label: "Revision",
+        ____accept: "jsNumber"
+      }
     },
     bodyFunction: function bodyFunction(actionRequest_) {
-      return {
+      var response = {
         error: null
-      }; // TODO
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+        var ocdResponse = actionRequest_.context.ocdi.readNamespace({
+          apmBindingPath: actionRequest_.context.apmBindingPath,
+          dataPath: "#.__apmiStep"
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        var apmiStep = ocdResponse.result;
+
+        if (apmiStep !== "observable-value-worker-proxy-connected") {
+          response.result = {
+            revision: -3
+            /* not linked */
+
+          };
+          break;
+        }
+
+        ocdResponse = actionRequest_.context.ocdi.readNamespace({
+          apmBindingPath: actionRequest_.context.apmBindingPath,
+          dataPath: "#.ovCell"
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        var _ocdResponse$result = ocdResponse.result,
+            path = _ocdResponse$result.path,
+            lastReadRevision = _ocdResponse$result.lastReadRevision; // Now, actually query the ObservableValue cell for its current value mailbox descriptor.
+
+        var actResponse = actionRequest_.context.act({
+          actorName: actionName,
+          actorTaskDescription: "Delegating the ObservableValue read request to the target ObservableValue cell...",
+          actionRequest: {
+            // <- start CellProcessor delegate request
+            CellProcessor: {
+              cell: {
+                cellCoordinates: "#.ovcpProviderProxy",
+                delegate: {
+                  actionRequest: {
+                    // <- start CellProcessProxy action request
+                    holarchy: {
+                      CellProcessProxy: {
+                        proxy: {
+                          actionRequest: {
+                            // <- start the request to send to the cell process the proxy is connected to, the provider cell process...
+                            holarchy: {
+                              common: {
+                                actions: {
+                                  ObservableValue: {
+                                    readValue: {
+                                      path: path
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          apmBindingPath: actionRequest_.context.apmBindingPath
+        });
+
+        if (actResponse.error) {
+          errors.push(actResponse.error);
+          break;
+        } // FIX FOR THIS SHOULD BE IN CPP PROXY ACTION
+
+
+        response.result = actResponse.result.actionResult.actionResult; // TODO: Look into this. I believe that CPP proxy action should act like CPM delegate ;-)
+        // Update the ObservableValueWorker cell's lastReadRevision value.
+
+        ocdResponse = actionRequest_.context.ocdi.writeNamespace({
+          apmBindingPath: actionRequest_.context.apmBindingPath,
+          dataPath: "#.ovCell.lastReadRevision"
+        }, response.result.revision);
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   });
 

@@ -26,6 +26,7 @@
             ____types: "jsObject",
             ObservableValue: {
               ____types: "jsObject",
+              // TODO: Should be renamed to valueIsActive for consistency w/ObservableValueWorker naming I think.
               cellExists: {
                 ____types: "jsObject",
                 path: {
@@ -39,11 +40,31 @@
       }
     },
     bodyFunction: function bodyFunction(operatorRequest_) {
-      // We should land here w/the apmBindingPath pointing at the provider cell process that holds the target ObservableValue cell of interest (path).
-      return {
-        error: null,
-        result: false
-      }; // TODO
+      var response = {
+        error: null
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.cellExists; // If we cannot read the ObservableValue cell's revision number, then it does not exist.
+
+        var ocdResponse = operatorRequest_.context.ocdi.readNamespace({
+          apmBindingPath: operatorRequest_.context.apmBindingPath,
+          dataPath: "".concat(messageBody.path, ".revision")
+        });
+        response.result = ocdResponse.error ? false : true;
+        console.log("> Answer is ".concat(response.result, " --- value cell is ").concat(response.result ? "ACTIVE" : "inactive", "."));
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   });
 

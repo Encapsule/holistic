@@ -28,6 +28,7 @@
     actionRequestSpec: {
       ____types: "jsObject",
       holarchy: {
+        ____label: "".concat(actionName, " Request"),
         ____types: "jsObject",
         common: {
           ____types: "jsObject",
@@ -36,7 +37,11 @@
             ObservableValueHelper: {
               ____types: "jsObject",
               read: {
-                ____types: "jsObject"
+                ____types: "jsObject",
+                path: {
+                  ____accept: "jsString",
+                  ____defaultValue: "#"
+                }
               }
             }
           }
@@ -44,13 +49,93 @@
       }
     },
     actionResultSpec: {
-      ____accept: "jsString",
-      ____defaultValue: "okay"
+      ____label: "".concat(actionName, " Result"),
+      ____types: "jsObject",
+      value: {
+        ____label: "Value",
+        ____opaque: true // We do not know and we do not care at this level if this valid or what it even means.
+
+      },
+      revision: {
+        ____label: "Revision",
+        ____accept: "jsNumber"
+      }
     },
     bodyFunction: function bodyFunction(actionRequest_) {
-      return {
+      var response = {
         error: null
-      }; // TODO
+      };
+      var errors = [];
+      var inBreakScope = false;
+
+      while (!inBreakScope) {
+        inBreakScope = true;
+        var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValueHelper.read;
+        var ocdResponse = actionRequest_.context.ocdi.readNamespace({
+          apmBindingPath: actionRequest_.context.apmBindingPath,
+          dataPath: "".concat(messageBody.path, ".__apmiStep")
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        var ovhStep = ocdResponse.result;
+
+        if (ovhStep !== "observable-value-helper-linked") {
+          response.result = {
+            revision: -3
+            /* not linked */
+
+          };
+          break;
+        }
+
+        ocdResponse = actionRequest_.context.ocdi.readNamespace({
+          apmBindingPath: actionRequest_.context.apmBindingPath,
+          dataPath: "".concat(messageBody.path, ".observableValueWorkerProcess.apmBindingPath")
+        });
+
+        if (ocdResponse.error) {
+          errors.push(ocdResponse.error);
+          break;
+        }
+
+        var ovwProcessCoordinates = ocdResponse.result;
+        var actResponse = actionRequest_.context.act({
+          actorName: actionName,
+          actorTaskDescription: "Delegating the ObservableValue read request to our ObservableValueWorker cell process instance...",
+          actionRequest: {
+            holarchy: {
+              common: {
+                actions: {
+                  ObservableValueWorker: {
+                    _private: {
+                      read: {}
+                    }
+                  }
+                }
+              }
+            }
+          },
+          apmBindingPath: ovwProcessCoordinates
+        });
+
+        if (actResponse.error) {
+          errors.push(actResponse.error);
+          break;
+        }
+
+        response.result = actResponse.result.actionResult;
+        break;
+      }
+
+      if (errors.length) {
+        response.error = errors.join(" ");
+      }
+
+      return response;
     }
   });
 
