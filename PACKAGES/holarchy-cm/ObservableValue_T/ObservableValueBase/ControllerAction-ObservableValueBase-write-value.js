@@ -79,8 +79,10 @@ var action = new holarchy.ControllerAction({
       var newRevision = ocdResponse.result + 1;
       var newCellMemory = {
         __apmiStep: "observable-value-ready",
-        revision: newRevision,
-        value: messageBody.value
+        mailbox: {
+          value: messageBody.value
+        },
+        revision: newRevision
       };
       ocdResponse = actionRequest_.context.ocdi.writeNamespace({
         apmBindingPath: actionRequest_.context.apmBindingPath,

@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "JgeQHobwTPO3T1uy2zD7rQ",
-    "buildSource": "6e514688c5965ee7f26f93fef85f610ef8000938",
-    "buildTime": 1614278503,
-    "codename": "tourmaline",
+    "buildID": "MhFm8tPBSWaHgQcGkRUWcg",
+    "buildSource": "aa83a1ca4e64317e4b68f7bd13f9c4796af8285b",
+    "buildTime": 1614286052,
+    "codename": "malachite",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -37,5 +37,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.52"
+    "version": "0.0.53"
 }

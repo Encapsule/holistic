@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A domain and process modeling system for building Node.js/HTML5 SaaS and PaaS products dynamically from JSON data + remixable plug-ins written in JavaScript.",
-    "version": "0.0.52",
-    "codename": "tourmaline",
+    "version": "0.0.53",
+    "codename": "malachite",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "JgeQHobwTPO3T1uy2zD7rQ",
-    "buildSource": "6e514688c5965ee7f26f93fef85f610ef8000938",
-    "buildTime": 1614278503,
-    "buildDateISO": "2021-02-25T18:41:43.000Z"
+    "buildID": "MhFm8tPBSWaHgQcGkRUWcg",
+    "buildSource": "aa83a1ca4e64317e4b68f7bd13f9c4796af8285b",
+    "buildTime": 1614286052,
+    "buildDateISO": "2021-02-25T20:47:32.000Z"
 }

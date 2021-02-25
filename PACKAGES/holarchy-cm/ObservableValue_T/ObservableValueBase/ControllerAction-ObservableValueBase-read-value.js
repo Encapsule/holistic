@@ -108,7 +108,10 @@
         }
 
         var ovCellMemory = ocdResponse.result;
-        response.result = ovCellMemory;
+        response.result = {
+          value: ovCellMemory.mailbox.value,
+          revision: ovCellMemory.revision
+        };
         break;
       }
 
