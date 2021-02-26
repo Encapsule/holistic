@@ -18,5 +18,7 @@ module.exports = {
   cmasHolarchyCMPackage: require("./cmasHolarchyCMPackage"),
   // CellModelTemplate class instance for synthesizing value-type-specialized ObservableValue CellModel.
   cmtObservableValue: require("./ObservableValue_T"),
-  cmObservableValueHelper: require("./ObservableValueHelper")
+  cmObservableValueHelper: require("./ObservableValueHelper"),
+  cmtDisplayView: require("./DisplayView_T"),
+  cmtDisplayStreamMessage: require("./DisplayView_T/DisplayStreamMessage_T")
 };

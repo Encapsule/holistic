@@ -32,20 +32,27 @@ var controllerAction = new holarchy.ControllerAction({
             update: {
               ____types: "jsObject",
               renderContext: {
+                ____label: "this.props.renderContext Overrides",
                 ____types: "jsObject",
                 ____defaultValue: {},
                 apmBindingPath: {
                   ____accept: ["jsUndefined", // If not specified then this action will use its request_.context.apmBindingPath
-                  "jsString" // The apmBindingPath of the cell process that owns the display process indicated by renderData
+                  "jsString" // The apmBindingPath of the cell process to pass through to the root React.Element instead of request_.context.apmBindingPath
                   ]
                 }
               },
+              // ================================================================
+              // i.e. NEVER USE THIS UNTIL I HAVE TIME TO REMOVE THIS
+              // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
               renderData: {
                 // DEPRECATED
                 // The routable portion of this.props bound to a <ComponentRouter/> instance
                 ____accept: ["jsUndefined", // Prefer to use thisProps that will be made mandatory in a short time.
                 "jsObject"]
               },
+              // ////////////////////////////////////////////////////////////////
+              // ================================================================
+              // v=== USE THIS INSTEAD! (NOTE YOU'RE RESPONSIBLE (ENTIRELY) FOR SETTING thisProps.renderData. AS THIS IS WHAT <ComponentRouter/> uses (exclusively) to route its this.props to 1:N of your registered d2r2 Components (aka React.Element generator filters).
               thisProps: {
                 ____label: "Component Props",
                 ____description: "If specified, this is assumed to be the entirety of the actor's d2r2 render request descriptor bound to the <1:N/> resolved by <ComponentRouter/>. Note that you cannot influence the values sent via thisProps.renderContext except via overrides allowed by this request.",

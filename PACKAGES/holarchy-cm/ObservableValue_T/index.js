@@ -55,6 +55,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             revision: {
               ____types: "jsNumber",
               ____defaultValue: -1
+            },
+            dact: {
+              ____accept: ["jsUndefined", "jsObject"]
             }
           };
           response.result = {

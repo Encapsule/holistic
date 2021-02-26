@@ -82,7 +82,8 @@ var action = new holarchy.ControllerAction({
         mailbox: {
           value: messageBody.value
         },
-        revision: newRevision
+        revision: newRevision // NOTE THAT WE CLEAR any pending dact here as appropriate!
+
       };
       ocdResponse = actionRequest_.context.ocdi.writeNamespace({
         apmBindingPath: actionRequest_.context.apmBindingPath,

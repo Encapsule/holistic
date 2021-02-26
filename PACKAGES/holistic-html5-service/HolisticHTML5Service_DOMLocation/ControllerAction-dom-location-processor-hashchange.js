@@ -74,7 +74,7 @@
 
         var actResponse = request_.context.act({
           actorName: actLabel,
-          actionTaskDescription: "Write the new router event descriptor to our ObservableValue output mailbox.",
+          actorTaskDescription: "Write the new router event descriptor to our ObservableValue output mailbox.",
           actionRequest: {
             holarchy: {
               common: {

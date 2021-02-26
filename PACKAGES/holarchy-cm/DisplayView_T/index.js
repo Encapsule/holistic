@@ -6,25 +6,23 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmtObservableValue = require("../cmtObservableValue");
+  var cmtObservableValue = require("../ObservableValue_T");
 
-  var cmObservableValueProxyHelper = require("../ObservableValueProxy"); // const cmObservableValueBase = require("./ObservableValueBase");
-  // const cmtObservableValueProxyWorker = require("./ObservableValueProxyWorker_T");
+  var cmObservableValueHelper = require("../ObservableValueHelper");
 
+  var cmtDisplayStreamMessage = require("./DisplayStreamMessage_T");
 
-  var templateLabel = "DisplayView"; // const cellLib = require("./lib");
-  // const tableDisplayView = cmtDisplayView.synthesizeCellModel({ cellModelLabel: "Table", synthesizeRequest })
-
+  var templateLabel = "DisplayView";
   var cmtDisplayView = new holarchy.CellModelTemplate({
     cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
-      synthesizeMethodRequestSpec: {
-        ____label: "".concat(templateName, "<X> Specialization Request"),
+      specializationDataSpec: {
+        ____label: "".concat(templateLabel, "<X> Specialization Data"),
         ____types: "jsObject",
         description: {
-          ____label: "".concat(templateName, "<X> Description"),
-          ____description: "Developer-provided description of the function/purpose of the X member of ".concat(templateName, " CellModel family."),
+          ____label: "".concat(templateLabel, "<X> Description"),
+          ____description: "Developer-provided description of the function/purpose of the X member of ".concat(templateLabel, " CellModel family."),
           ____accept: "jsString"
         },
         displayElement: {
@@ -39,83 +37,91 @@
             }
           }
         }
-      }
-    },
-    generatorFilterBodyFunction: function generatorFilterBodyFunction(generatorRequest_) {
-      var response = {
-        error: null
-      };
-      var errors = [];
-      var inBreakScope = false;
+      },
 
-      while (!inBreakScope) {
-        inBreakScope = true;
-        var cellModelLabel = "".concat(templateName, "<").concat(generatorRequest_.cellModelLabel, ">");
-        var cmSynthResponse = cmtObservableValue.synthesizeCellModel({
-          cellModelLabel: cellModelLabel,
-          synthesizeRequest: {
-            valueTypeDescription: "Specialization for ".concat(cellModelLabel),
-            valueTypeSpec: generatorRequest_.sythesizeRequest.displayElement.observableValueSpec
-          }
-        });
-
-        if (cmSynthResponse.error) {
-          errors.push(cmSynthResponse.error);
-          break;
+      /*
+        generatorRequest = {
+        cmtInstance, // reference to this CellModelTemplate template instance --- aka the DisplayView CellModel synthesizer.
+        cellModelLabel, // passed by cmtInstance.synthesizeCellModel from caller
+        specializationData // passed by cmtInstance.synthesizeCellModel from caller filtered per above spec
         }
+      */
+      generatorFilterBodyFunction: function generatorFilterBodyFunction(generatorRequest_) {
+        var response = {
+          error: null
+        };
+        var errors = [];
+        var inBreakScope = false;
 
-        var cmDisplayViewOutputObservableValue = cmSynthResponse.result;
-        var cellMemorySpec = {
-          ____label: "".concat(templateName, "<").concat(generatorRequest_.cellModelLabel, "> Cell Memory"),
-          ____types: "jsObject",
-          ____defaultValue: {},
-          outputs: {
-            ____label: "Observable Output Values",
-            ____types: "jsObject",
-            ____defaultValue: {},
-            displayView: {
-              ____label: "".concat(generatorRequest_.cellModelLabel, " Display View Output"),
-              ____types: "jsObject",
-              ____appdsl: {
-                apm: cmDisplayViewOutputObservableValue.getCMConfig({
-                  type: "APM"
-                }).result[0].getID()
-              }
+        while (!inBreakScope) {
+          inBreakScope = true;
+          var cellModelLabel = "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">");
+          var cmSynthResponse = cmtObservableValue.synthesizeCellModel({
+            cellModelLabel: cellModelLabel,
+            synthesizeRequest: {
+              valueTypeDescription: "Specialization for ".concat(cellModelLabel),
+              valueTypeSpec: generatorRequest_.sythesizeRequest.displayElement.observableValueSpec
             }
-          },
-          inputs: {
-            ____label: "Observable Input Values",
+          });
+
+          if (cmSynthResponse.error) {
+            errors.push(cmSynthResponse.error);
+            break;
+          }
+
+          var cmDisplayViewOutputObservableValue = cmSynthResponse.result;
+          var cellMemorySpec = {
+            ____label: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Cell Memory"),
             ____types: "jsObject",
             ____defaultValue: {},
-            displayViews: {
-              ____label: "".concat(generatorRequest_.cellModelLabel, " Sub-Display View Inputs"),
+            outputs: {
+              ____label: "Observable Output Values",
               ____types: "jsObject",
-              ____asMap: true,
               ____defaultValue: {},
-              subviewLabel: {
+              displayView: {
+                ____label: "".concat(generatorRequest_.cellModelLabel, " Display View Output"),
                 ____types: "jsObject",
                 ____appdsl: {
-                  apm: cmObservableValueProxyHelper.getCMConfig({
+                  apm: cmDisplayViewOutputObservableValue.getCMConfig({
                     type: "APM"
                   }).result[0].getID()
                 }
               }
+            },
+            inputs: {
+              ____label: "Observable Input Values",
+              ____types: "jsObject",
+              ____defaultValue: {},
+              displayViews: {
+                ____label: "".concat(generatorRequest_.cellModelLabel, " Sub-Display View Inputs"),
+                ____types: "jsObject",
+                ____asMap: true,
+                ____defaultValue: {},
+                subviewLabel: {
+                  ____types: "jsObject",
+                  ____appdsl: {
+                    apm: cmObservableValueProxyHelper.getCMConfig({
+                      type: "APM"
+                    }).result[0].getID()
+                  }
+                }
+              }
             }
-          }
-        }; // TODO: will fail in OFSP because we're not setting response.result to valid CellModel declaration yet...
+          }; // TODO: will fail in OFSP because we're not setting response.result to valid CellModel declaration yet...
 
-        break;
+          break;
+        }
+
+        if (errors.length) {
+          response.error = errors.join(" ");
+        }
+
+        return response;
       }
-
-      if (errors.length) {
-        response.error = errors.join(" ");
-      }
-
-      return response;
     }
   });
 
-  if (cmtDisplayView.isValid()) {
+  if (!cmtDisplayView.isValid()) {
     throw new Error(cmtDisplayView.toJSON());
   }
 
