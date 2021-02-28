@@ -10,17 +10,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 (function () {
   var arccore = require("@encapsule/arccore");
 
-  var cmasConstructorRequestSpec = {
-    ____label: "CellModelArtifactSpace::constructor Request",
-    ____description: "Descriptor object passed into the CellModelArtifactSpace class constructor function.",
-    ____types: "jsObject",
-    ____defaultValue: {},
-    spaceLabel: {
-      ____label: "Artifact Space Label",
-      ____description: "A unique string label used to identify the specific CellModel artifact space to use to resolve CellModel artifact label queries.",
-      ____accept: "jsString"
-    }
-  };
+  var cmasConstructorRequestSpec = require("./iospecs/cmas-method-constructor-input-spec");
+
   var factoryResponse1 = arccore.filter.create({
     operationID: "kNjJehTFRz2WhRHkuL9kWA",
     operationName: "CellModelArtifactSpace::constructor",
@@ -28,7 +19,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     inputFilterSpec: cmasConstructorRequestSpec,
     outputSpec: {
       ____types: "jsObject",
-      artifactSpaceLabel: {
+      spaceLabel: {
         ____accept: "jsString"
       },
       mapLabelsMethodFilter: {
@@ -47,26 +38,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var errors = [];
       var inBreakScope = false;
 
-      var _loop = function _loop() {
+      while (!inBreakScope) {
         inBreakScope = true;
-        var spaceLabel = constructorRequest_.spaceLabel;
+        var spaceLabel = constructorRequest_.spaceLabel; // We may add parameters to constructor request in the future which is why it's an object
 
         if (spaceLabel.length === 0) {
           errors.push("You must specify a spaceLabel value of one or more character(s) in length.");
-          return "break";
-        }
+          break;
+        } // Create a filter that implements the mapLabels method.
 
-        var artifactSpaceLabel = "".concat(spaceLabel); // Create a filter that implements the mapLabels method.
 
         var factoryResponse2 = arccore.filter.create({
-          operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::mapLabels")).result,
-          operationName: "CellModelArtifactSpace::mapLabels<".concat(artifactSpaceLabel, ">"),
-          operationDescription: "A filter that implements the CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::mapLabels class method."),
+          operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(spaceLabel, ">::mapLabels")).result,
+          operationName: "CellModelArtifactSpace::mapLabels<".concat(spaceLabel, ">"),
+          operationDescription: "A filter that implements the CellModelArtifactSpace<".concat(spaceLabel, ">::mapLabels class method."),
           inputFilterSpec: {
-            ____label: "CellModelArtifactSpace::mapLabels<".concat(artifactSpaceLabel, "> Request"),
-            ____description: "CellModelArtifactSpace::mapLabels method request descriptor object for space \"".concat(artifactSpaceLabel, "\"."),
+            ____label: "CellModelArtifactSpace::mapLabels<".concat(spaceLabel, "> Request"),
+            ____description: "CellModelArtifactSpace::mapLabels method request descriptor object for space \"".concat(spaceLabel, "\"."),
             ____types: "jsObject",
             ____defaultValue: {},
+            cmasInstance: {
+              ____accept: "jsObject"
+            },
+            // This is a pointer to a CellModelArtifactSpace class instance. Or, CellModelTemplate class instance that extends the same.
             CM: {
               ____accept: ["jsUndefined", "jsString"]
             },
@@ -125,33 +119,94 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           },
           bodyFunction: function bodyFunction(mapLabelsRequest_) {
-            return {
-              error: null,
-              result: _objectSpread(_objectSpread({}, mapLabelsRequest_), {}, {
-                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(artifactSpaceLabel, ".CellModel.").concat(mapLabelsRequest_.CM)).result : undefined,
-                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(artifactSpaceLabel, ".AbstractProcessModel.").concat(mapLabelsRequest_.APM)).result : undefined,
-                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(artifactSpaceLabel, ".ControllerAction.").concat(mapLabelsRequest_.ACT)).result : undefined,
-                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(artifactSpaceLabel, ".TransitionOperator.").concat(mapLabelsRequest_.TOP)).result : undefined,
-                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(artifactSpaceLabel, ".OtherAsset.").concat(mapLabelsRequest_.OTHER)).result : undefined
-              })
+            var response = {
+              error: null
             };
+            var errors = [];
+            var inBreakScope = false;
+
+            while (!inBreakScope) {
+              inBreakScope = true;
+              /* REJECT ZERO-LENGTH AND ENFORCE CM && ACT || CM && TOP
+              Object.keys(mapLabelsRequest_).forEach((key_) => {
+                  console.log(key_);
+                  let checkValueLength = false;
+                  let cmLabelRequired = false;
+                  switch (key_) {
+                  case "CM":
+                      checkValueLength = true;
+                      break;
+                  case "APM":
+                      checkValueLength = true;
+                      break;
+                  case "ACT":
+                      checkValueLength = true;
+                      cmLabelRequired = true;
+                      break;
+                  case "TOP":
+                      checkValueLength = true;
+                      cmLabelRequired = true;
+                      break;
+                  case "OTHER":
+                      checkValueLength = true;
+                      break;
+                  default:
+                      break;
+                  } // switch
+                  if (checkValueLength) {
+                      if (mapLabelsRequest_[key_] && (mapLabelsRequest_[key_].length === 0)) {
+                          console.error(`!!! DISCARDING BAD ${key_} VALUE "${mapLabelsRequest_[key_]}"!`);
+                          delete mapLabelsRequest_[key_];
+                      } else {
+                          if (cmLabelRequired) {
+                              if (!mapLabelsRequest_.CM || (mapLabelsRequest_.CM.length === 0)) {
+                                  console.error(`!!! DISCARDING BAD ${key_} VALUE "${mapLabelsRequest_[key_]}" SPECIFIED w/OUT ALSO SPECIFYING CM LABEL!`);
+                                  delete mapLabelsRequest_[key_];
+                              }
+                          }
+                      }
+                  }
+              });
+              */
+
+              response.result = _objectSpread(_objectSpread({}, mapLabelsRequest_), {}, {
+                cmasInstance: undefined,
+                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".CellModel.").concat(mapLabelsRequest_.CM)).result : undefined,
+                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".AbstractProcessModel.").concat(mapLabelsRequest_.APM)).result : undefined,
+                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".ControllerAction.").concat(mapLabelsRequest_.CM, "::").concat(mapLabelsRequest_.ACT)).result : undefined,
+                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".TransitionOperator.").concat(mapLabelsRequest_.CM, "::").concat(mapLabelsRequest_.TOP)).result : undefined,
+                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".OtherAsset.").concat(mapLabelsRequest_.OTHER)).result : undefined
+              });
+              break;
+            }
+
+            if (errors.length) {
+              response.error = errors.join(" ");
+            }
+
+            console.log(JSON.stringify(response));
+            return response;
           }
         });
 
         if (factoryResponse2.error) {
           errors.push(factoryResponse2.error);
-          return "break";
+          break;
         }
 
         var mapLabelsMethodFilter = factoryResponse2.result; // Create a filter that implements the makeSubspaceInstance method.
 
         factoryResponse2 = arccore.filter.create({
-          operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::makeSubspaceInstance")).result,
-          operationName: "CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::makeSubspaceInstance"),
-          operationDescription: "A filter that implements the CellModelArtifactSpace<".concat(artifactSpaceLabel, ">::makeSubspaceInstance class method."),
-          inputFilterSpec: cmasConstructorRequestSpec,
+          operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(spaceLabel, ">::makeSubspaceInstance")).result,
+          operationName: "CellModelArtifactSpace<".concat(spaceLabel, ">::makeSubspaceInstance"),
+          operationDescription: "A filter that implements the CellModelArtifactSpace<".concat(spaceLabel, ">::makeSubspaceInstance class method."),
+          inputFilterSpec: _objectSpread(_objectSpread({}, cmasConstructorRequestSpec), {}, {
+            cmasInstance: {
+              ____accept: "jsObject"
+            }
+          }),
           outputFilterSpec: cmasConstructorRequestSpec,
-          bodyFunction: function bodyFunction(request_) {
+          bodyFunction: function bodyFunction(makeSubspaceInstanceRequest_) {
             var response = {
               error: null
             };
@@ -162,7 +217,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               inBreakScope = true; // Here a "subspace" is an artifact space "boundary". U+2202 (stylized d) is used here to demarcate the boundary.
 
               response.result = {
-                spaceLabel: "".concat(artifactSpaceLabel, "\u2202").concat(request_.spaceLabel)
+                spaceLabel: "".concat(makeSubspaceInstanceRequest_.cmasInstance.spaceLabel, "\u2202").concat(makeSubspaceInstanceRequest_.spaceLabel)
               };
               break;
             }
@@ -177,22 +232,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         if (factoryResponse2.error) {
           errors.push(factoryResponse2.error);
-          return "break";
+          break;
         }
 
         var makeSubspaceInstanceMethodFilter = factoryResponse2.result;
         response.result = {
-          artifactSpaceLabel: artifactSpaceLabel,
+          spaceLabel: spaceLabel,
           mapLabelsMethodFilter: mapLabelsMethodFilter,
           makeSubspaceInstanceMethodFilter: makeSubspaceInstanceMethodFilter
         };
-        return "break";
-      };
-
-      while (!inBreakScope) {
-        var _ret = _loop();
-
-        if (_ret === "break") break;
+        break;
       }
 
       if (errors.length) {

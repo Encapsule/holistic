@@ -136,7 +136,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         var cellModelGeneratorFilter = factoryResponse2.result;
         response.result = {
-          spaceLabel: cmasInstanceScope.getArtifactSpaceLabel(),
+          spaceLabel: cmasInstanceScope.spaceLabel,
           cellModelGeneratorFilter: cellModelGeneratorFilter
         };
         break;

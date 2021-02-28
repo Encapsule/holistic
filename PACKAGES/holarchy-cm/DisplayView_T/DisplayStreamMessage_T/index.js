@@ -12,6 +12,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var cmasHolarchyCMPackage = require("../../cmasHolarchyCMPackage");
 
+  var cmtObservableValue = require("../../ObservableValue_T");
+
   var templateLabel = "DisplayStreamMessage";
   var cmtDisplayStreamMessage = new holarchy.CellModelTemplate({
     cmasScope: cmasHolarchyCMPackage,
@@ -49,18 +51,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         while (!inBreakScope) {
           inBreakScope = true;
-          var cmID = generatorRequest_.cmtInstance.mapLabels({
-            CM: generatorRequest_.cellModelLabel
-          }).result.CMID;
+          var displayStreamMessageLabel = "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">");
           var apmID = generatorRequest_.cmtInstance.mapLabels({
             APM: generatorRequest_.cellModelLabel
-          }).result.APMID; // Create a specialized cell memory spec for our CellModel's APM.
+          }).result.APMID; // Set the invariant portions of all DisplayStreamMessage family members.
 
-          var cellMemorySpec = {
-            ____label: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">"),
+          var displayStreamMessageSpec = {
+            ____label: displayStreamMessageLabel,
             ____description: generatorRequest_.specializationData.description,
             ____types: "jsObject",
             renderContext: {
+              ____label: "".concat(displayStreamMessageLabel, " Render Context"),
               ____types: "jsObject",
               ____defaultValue: {},
               apmBindingPath: {
@@ -68,24 +69,34 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               }
             },
             renderData: {
-              ____label: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Render Data Request"),
+              ____label: "".concat(displayStreamMessageLabel, " Render Data"),
               ____types: "jsObject" //// extended below
 
             }
-          }; // Specialize the renderData spec ...
+          }; // Customize the displayStreamMessageSpec by extending its renderData spec w/instance specialization data.
 
-          cellMemorySpec.renderData[apmID] = _objectSpread({}, generatorRequest_.specializationData.renderDataPropsSpec);
-          response.result = {
-            id: cmID,
-            name: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Model"),
-            description: generatorRequest_.specializationData.description,
-            apm: {
-              id: apmID,
-              name: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Process"),
-              description: generatorRequest_.specializationData.description,
-              ocdDataSpec: cellMemorySpec
+          displayStreamMessageSpec.renderData[apmID] = _objectSpread({}, generatorRequest_.specializationData.renderDataPropsSpec);
+          var synthResponse = cmtObservableValue.synthesizeCellModel({
+            cellModelLabel: displayStreamMessageLabel,
+            specializationData: {
+              valueTypeDescription: "An ObservableValue<".concat(displayStreamMessageLabel, "<").concat(generatorRequest_.cellModelLabel, ">> CellModel."),
+              valueTypeSpec: displayStreamMessageSpec
             }
-          };
+          });
+
+          if (synthResponse.error) {
+            errors.push(synthResponse.error);
+            break;
+          }
+
+          var ovCellModel = synthResponse.result;
+          ovCellModel.id = generatorRequest_.cmtInstance.mapLabels({
+            CM: generatorRequest_.cellModelLabel
+          }).result.CMID;
+          ovCellModel.apm.id = generatorRequest_.cmtInstance.mapLabels({
+            APM: generatorRequest_.cellModelLabel
+          }).result.APMID;
+          response.result = ovCellModel;
           break;
         }
 
