@@ -10,6 +10,7 @@ var cmLabel = require("./cell-label");
 var actionName = "".concat(cmLabel, " Write Value");
 var action = new holarchy.ControllerAction({
   id: cmasObservableValueBase.mapLabels({
+    CM: cmLabel,
     ACT: actionName
   }).result.ACTID,
   name: actionName,

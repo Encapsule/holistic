@@ -11,6 +11,7 @@
   var actionName = "".concat(cmLabel, " Set Deferred Action");
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueBase.mapLabels({
+      CM: cmLabel,
       ACT: actionName
     }).result.ACTID,
     name: actionName,

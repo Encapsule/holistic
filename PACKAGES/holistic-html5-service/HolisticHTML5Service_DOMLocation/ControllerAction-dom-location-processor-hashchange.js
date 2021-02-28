@@ -12,8 +12,9 @@
 
   var dlpLib = require("./lib");
 
-  module.exports = new holarchy.ControllerAction({
+  var action = new holarchy.ControllerAction({
     id: cmasHolisticHTML5ServicePackage.mapLabels({
+      CM: cmLabel,
       ACT: actLabel
     }).result.ACTID,
     name: actLabel,
@@ -144,4 +145,10 @@
       return response;
     }
   });
+
+  if (!action.isValid()) {
+    throw new Error(action.toJSON());
+  }
+
+  module.exports = action;
 })();

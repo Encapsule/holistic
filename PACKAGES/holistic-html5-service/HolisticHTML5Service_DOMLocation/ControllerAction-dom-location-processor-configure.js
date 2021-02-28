@@ -13,6 +13,7 @@
   var actLabel = "".concat(cmLabel, "::configure");
   var action = new holarchy.ControllerAction({
     id: cmasHolisticHTML5ServicePackage.mapLabels({
+      CM: cmLabel,
       ACT: actLabel
     }).result.ACTID,
     name: actLabel,

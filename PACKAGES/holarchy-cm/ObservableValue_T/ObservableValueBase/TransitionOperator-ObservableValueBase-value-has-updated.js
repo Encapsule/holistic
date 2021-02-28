@@ -11,6 +11,7 @@
   var operatorName = "".concat(cmLabel, " Value Has Updated");
   var operator = new holarchy.TransitionOperator({
     id: cmasObservableValueBase.mapLabels({
+      CM: cmLabel,
       TOP: operatorName
     }).result.TOPID,
     name: operatorName,

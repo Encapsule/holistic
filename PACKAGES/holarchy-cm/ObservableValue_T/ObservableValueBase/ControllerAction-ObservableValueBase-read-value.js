@@ -11,6 +11,7 @@
   var actionName = "".concat(cmLabel, " Read Value");
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueBase.mapLabels({
+      CM: cmLabel,
       ACT: actionName
     }).result.ACTID,
     name: actionName,

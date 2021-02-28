@@ -16,8 +16,9 @@
 
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueWorker.mapLabels({
-      APM: "stepWorker"
-    }).result.APMID,
+      CM: cmLabel,
+      ACT: "stepWorker"
+    }).result.ACTID,
     name: actionName,
     description: "Private evaluation implementation action of ".concat(cmLabel, "."),
     actionRequestSpec: {

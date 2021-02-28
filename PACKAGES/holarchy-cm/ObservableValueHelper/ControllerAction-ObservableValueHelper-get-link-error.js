@@ -27,6 +27,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueHelper.mapLabels({
+      CM: cmLabel,
       ACT: "getLinkError"
     }).result.ACTID,
     name: "".concat(cmLabel, " Get Link Error"),

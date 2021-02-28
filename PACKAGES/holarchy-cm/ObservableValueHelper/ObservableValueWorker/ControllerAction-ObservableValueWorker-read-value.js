@@ -21,6 +21,7 @@
 
   var action = new holarchy.ControllerAction({
     id: cmasObservableValueWorker.mapLabels({
+      CM: cmLabel,
       ACT: "read"
     }).result.ACTID,
     name: actionName,

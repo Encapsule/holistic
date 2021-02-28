@@ -20,6 +20,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var operator = new holarchy.TransitionOperator({
     id: cmasObservableValueHelper.mapLabels({
+      CM: cmLabel,
       TOP: "valueIsActive"
     }).result.TOPID,
     name: operatorName,
