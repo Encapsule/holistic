@@ -53,7 +53,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           inBreakScope = true;
           var displayStreamMessageLabel = "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">");
           var apmID = generatorRequest_.cmtInstance.mapLabels({
-            APM: generatorRequest_.cellModelLabel
+            APM: displayStreamMessageLabel
           }).result.APMID; // Set the invariant portions of all DisplayStreamMessage family members.
 
           var displayStreamMessageSpec = {
@@ -77,6 +77,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           displayStreamMessageSpec.renderData[apmID] = _objectSpread({}, generatorRequest_.specializationData.renderDataPropsSpec);
           var synthResponse = cmtObservableValue.synthesizeCellModel({
+            cmasScope: generatorRequest_.cmtInstance,
             cellModelLabel: displayStreamMessageLabel,
             specializationData: {
               valueTypeDescription: "An ObservableValue<".concat(displayStreamMessageLabel, "<").concat(generatorRequest_.cellModelLabel, ">> CellModel."),
@@ -90,10 +91,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           }
 
           var ovCellModel = synthResponse.result;
-          ovCellModel.id = generatorRequest_.cmtInstance.mapLabels({
+          var x = generatorRequest_.cmtInstance.mapLabels({
             CM: generatorRequest_.cellModelLabel
           }).result.CMID;
-          ovCellModel.apm.id = generatorRequest_.cmtInstance.mapLabels({
+          var y = generatorRequest_.cmtInstance.mapLabels({
             APM: generatorRequest_.cellModelLabel
           }).result.APMID;
           response.result = ovCellModel;

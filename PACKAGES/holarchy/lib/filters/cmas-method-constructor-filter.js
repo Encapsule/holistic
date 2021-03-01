@@ -128,25 +128,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             while (!inBreakScope) {
               inBreakScope = true; // REJECT ZERO-LENGTH AND ENFORCE CM && ACT || CM && TOP
 
-              var badCheck = false;
               var keys = Object.keys(mapLabelsRequest_);
               keys.forEach(function (key_) {
-                console.log(key_);
-
+                // console.log(key_);
                 if (mapLabelsRequest_[key_] !== undefined) {
                   if (["CM", "APM", "ACT", "TOP", "OTHER"].indexOf(key_) > -1) {
                     if (mapLabelsRequest_[key_].length === 0) {
-                      console.error("!!! DISCARDING BAD ".concat(key_, " VALUE \"").concat(mapLabelsRequest_[key_], "\"!"));
-                      console.log("Error in space \"".concat(mapLabelsRequest_.cmasInstance.spaceLabel, "\"."));
-                      delete mapLabelsRequest_[key_];
+                      errors.push("!!! DISCARDING BAD ".concat(key_, " VALUE \"").concat(mapLabelsRequest_[key_], "\"!"));
+                      errors.push("Error in space \"".concat(mapLabelsRequest_.cmasInstance.spaceLabel, "\"."));
+                      delete mapLabelsRequest_[key_]; // JUST IGNORE THE BAD INPUT LABEL
                     } else {
                       if (["ACT", "TOP"].indexOf(key_) > -1) {
                         var cmLabel = mapLabelsRequest_.CM;
 
                         if (cmLabel === undefined || cmLabel.length === 0) {
-                          console.error("!!! DISCARDING BAD ".concat(key_, " VALUE \"").concat(mapLabelsRequest_[key_], "\" SPECIFIED w/OUT ALSO SPECIFYING CM LABEL!"));
-                          console.log("Error in space \"".concat(mapLabelsRequest_.cmasInstance.spaceLabel, "\"."));
-                          delete mapLabelsRequest_[key_];
+                          errors.push("!!! DISCARDING BAD ".concat(key_, " VALUE \"").concat(mapLabelsRequest_[key_], "\" SPECIFIED w/OUT ALSO SPECIFYING CM LABEL!"));
+                          errors.push("Error in space \"".concat(mapLabelsRequest_.cmasInstance.spaceLabel, "\"."));
+                          delete mapLabelsRequest_[key_]; // JUST IGNORE THE BAD INPUT LABEL
                         }
                       }
                     }
@@ -165,10 +163,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
 
             if (errors.length) {
-              response.error = errors.join(" ");
-            }
+              response.error = errors.join(" "); // We expect to only hit errors here during development when labels might have been changed.
 
-            console.log(JSON.stringify(response));
+              console.warn(response.error);
+            } // NOTE: We use @encapsule/arccore.filter response format fully here.
+            // If response.error !== null then response.error is the error string.
+            // And, response.result is considered invalid AND IS TREATED AS OPAQUE
+            // by filter. But, we know mostly we'll not be checking response.error
+            // on this specific call because errors are FATAL and only expected to
+            // occur during development. Normally we would want to force people to
+            // check response.error before using response.result because it's the
+            // only opportunity to inform them of the details of the failure. However,
+            // in this case it will be obvious --- a bad mapLabels will cause some
+            // or another artifact to get a bad ID. And, this will create an obviously
+            // broken situation that developers will be able to spot and correct
+            // quickly. And, so we always return response.result no matter what in
+            // a baseline usable form (because response.error is %0.1 case).
+
+
             return response;
           }
         });

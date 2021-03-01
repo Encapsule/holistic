@@ -69,6 +69,7 @@ function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.g
       key: "synthesizeCellModel",
       value: function synthesizeCellModel(request_) {
         return this.isValid() ? this._private.cellModelGeneratorFilter.request(_objectSpread(_objectSpread({}, request_), {}, {
+          cmtClass: CellModelTemplate,
           cmtInstance: this
         })) : {
           error: this.toJSON()
