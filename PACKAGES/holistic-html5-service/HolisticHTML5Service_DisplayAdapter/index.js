@@ -1,18 +1,22 @@
 "use strict";
 
-var arccore = require("@encapsule/arccore");
-
-var holarchy = require("@encapsule/holarchy");
-
-var d2r2 = require("@encapsule/d2r2");
-
-var hacdLib = require("./lib");
-
 (function () {
+  var arccore = require("@encapsule/arccore");
+
+  var holarchy = require("@encapsule/holarchy");
+
+  var cmasHolisticHTML5ServicePackage = require("../cmasHolisticHTML5ServicePackage");
+
+  var cmLabel = require("./cell-label");
+
+  var hacdLib = require("./lib");
+
+  var d2r2 = require("@encapsule/d2r2");
+
   var factoryResponse = arccore.filter.create({
     operationID: "IN0xuhS8RQ6F3_M5uXiadg",
-    operationName: "Holistic Tab Service Display Adapter CellModel Factory",
-    operationDescription: "Used to synthesize a specialized HolisticTabService display adapter CellModel for use by HolisticTabService instance.",
+    operationName: "".concat(cmLabel, " CellModel Factory"),
+    operationDescription: "Used to synthesize a specialized HolisticTabService display adapter CellModel for use by HolisticHTML5Service_Kernel cell process.",
     inputFilterSpec: {
       ____types: "jsObject",
       appBuild: {
@@ -21,7 +25,7 @@ var hacdLib = require("./lib");
       appModels: {
         ____types: "jsObject",
         display: {
-          ____label: "Holistic Tab Service Display Adapter Specializations",
+          ____label: "".concat(cmLabel, " Specializations"),
           ____types: "jsObject",
           targetDOMElementID: {
             ____accept: "jsString" // This is the platform's selected DOM element id string value used by the caller to obtain targetDOMElement from the DOM.
@@ -81,13 +85,16 @@ var hacdLib = require("./lib");
         var ComponentRouter = factoryResponse.result;
         var cellModel = new holarchy.CellModel({
           id: "UX7JquBhSZO0QyEk7u9-sw",
-          name: "d2r2/React Display Adapter",
+          // TODO: Change to mapLabels and update the kernel to follow the new IRUT ID resolution protocol for APM ID
+          name: "".concat(cmLabel, " Model"),
           description: "Manages the DOM display via @encapsule/d2r2 and React.",
           apm: require("./AbstractProcessModel-app-client-display-adapter"),
-          actions: [{
-            // v0.0.49-spectrolite this is interesting. But, this means to the end is suspect. Come back and stare at this later; this should easy all the time for everyone everywhere.
+          actions: [// ----------------------------------------------------------------
+          {
+            // TODO: Don't do this I think... (not this way at least - this can be much much simpler / cleaner).
+            // ... generic action that returns a result pulled from closure scope is rather suspsect here...
             id: "o24IDZhRRA6MbUoOcT15EQ",
-            name: "d2r2/React Display Adapter: Load Config",
+            name: "".concat(cmLabel, " Load Config"),
             description: "Bootstraps information from CellModel construction scope into the cell's memory.",
             actionRequestSpec: {
               ____types: "jsObject",
@@ -130,15 +137,11 @@ var hacdLib = require("./lib");
                   break;
                 }
 
-                var displayAdapterStatus = hacdLibResponse.result;
-                var displayAdapterCellData = displayAdapterStatus.cellMemory;
-                displayAdapterCellData.config = {
-                  targetDOMElementID: targetDOMElementID,
-                  targetDOMElement: targetDOMElement,
-                  ComponentRouter: ComponentRouter
-                };
+                var _hacdLibResponse$resu = hacdLibResponse.result,
+                    cellMemory = _hacdLibResponse$resu.cellMemory,
+                    cellProcess = _hacdLibResponse$resu.cellProcess;
                 var ocdResponse = request_.context.ocdi.writeNamespace({
-                  apmBindingPath: displayAdapterStatus.displayAdapterProcess.apmBindingPath,
+                  apmBindingPath: cellProcess.apmBindingPath,
                   dataPath: "#.config"
                 }, {
                   targetDOMElementID: targetDOMElementID,
@@ -160,15 +163,15 @@ var hacdLib = require("./lib");
 
               return response;
             }
-          }, // holistic.app.client.display._private.loadConfig
-          // require("./ControllerAction-app-client-display-step-worker"),
-          require("./ControllerAction-app-client-display-activate"), require("./ControllerAction-app-client-display-update")],
+          }, // ACT: holistic.app.client.display._private.loadConfig
+          // ----------------------------------------------------------------
+          require("./ControllerAction-app-client-display-activate"), require("./ControllerAction-app-client-display-update"), require("./ControllerAction-app-client-display-register-display-view-process")],
           subcells: []
         });
 
         if (!cellModel.isValid()) {
           errors.push("Unable to synthesize d2r2/React display adapater CellModel for use in ".concat(appBuild.app.name, " tab service due to error:"));
-          errors.push(cellMode.toJSON());
+          errors.push(cellModel.toJSON());
           return "break";
         }
 

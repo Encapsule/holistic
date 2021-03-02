@@ -29,12 +29,8 @@
           ____label: "Display Element Specializations",
           ____types: "jsObject",
           ____defaultValue: {},
-          observableValueSpec: {
-            ____accept: "jsObject",
-            ____defaultValue: {
-              ____types: "jsObject",
-              ____label: "Default Specialization"
-            }
+          renderDataPropsSpec: {
+            ____accept: "jsObject"
           }
         }
       },
@@ -55,60 +51,89 @@
 
         while (!inBreakScope) {
           inBreakScope = true;
-          var cellModelLabel = "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">");
-          var cmSynthResponse = cmtObservableValue.synthesizeCellModel({
-            cellModelLabel: cellModelLabel,
-            synthesizeRequest: {
-              valueTypeDescription: "Specialization for ".concat(cellModelLabel),
-              valueTypeSpec: generatorRequest_.sythesizeRequest.displayElement.observableValueSpec
+          var cmSynthRequest = {
+            cellModelLabel: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">"),
+            specializationData: {
+              description: "Specialization for ".concat(generatorRequest_.cellModelLabel),
+              renderDataPropsSpec: generatorRequest_.specializationData.displayElement.renderDataPropsSpec
             }
-          });
+          };
+          var cmSynthResponse = cmtDisplayStreamMessage.synthesizeCellModel(cmSynthRequest);
 
           if (cmSynthResponse.error) {
+            errors.push("While attempting to synthesize a DisplayStreamMessage family CellModel:");
             errors.push(cmSynthResponse.error);
             break;
           }
 
           var cmDisplayViewOutputObservableValue = cmSynthResponse.result;
-          var cellMemorySpec = {
-            ____label: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Cell Memory"),
-            ____types: "jsObject",
-            ____defaultValue: {},
-            outputs: {
-              ____label: "Observable Output Values",
-              ____types: "jsObject",
-              ____defaultValue: {},
-              displayView: {
-                ____label: "".concat(generatorRequest_.cellModelLabel, " Display View Output"),
+          response.result = {
+            id: generatorRequest_.cmtInstance.mapLabels({
+              CM: generatorRequest_.cellModelLabel
+            }).result.CMID,
+            name: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Model"),
+            description: generatorRequest_.specializationData.description,
+            apm: {
+              id: generatorRequest_.cmtInstance.mapLabels({
+                APM: generatorRequest_.cellModelLabel
+              }).result.APMID,
+              name: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Process"),
+              description: generatorRequest_.specializationData.description,
+              ocdDataSpec: {
+                ____label: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, "> Cell Memory"),
                 ____types: "jsObject",
-                ____appdsl: {
-                  apm: cmDisplayViewOutputObservableValue.getCMConfig({
-                    type: "APM"
-                  }).result[0].getID()
-                }
-              }
-            },
-            inputs: {
-              ____label: "Observable Input Values",
-              ____types: "jsObject",
-              ____defaultValue: {},
-              displayViews: {
-                ____label: "".concat(generatorRequest_.cellModelLabel, " Sub-Display View Inputs"),
-                ____types: "jsObject",
-                ____asMap: true,
                 ____defaultValue: {},
-                subviewLabel: {
+                outputs: {
+                  ____label: "Observable Output Values",
                   ____types: "jsObject",
-                  ____appdsl: {
-                    apm: cmObservableValueProxyHelper.getCMConfig({
-                      type: "APM"
-                    }).result[0].getID()
+                  ____defaultValue: {},
+                  displayView: {
+                    ____label: "".concat(generatorRequest_.cellModelLabel, " Display View Output"),
+                    ____types: "jsObject",
+                    ____appdsl: {
+                      apm: cmDisplayViewOutputObservableValue.apm.id
+                    }
+                  }
+                },
+                inputs: {
+                  ____label: "Observable Input Values",
+                  ____types: "jsObject",
+                  ____defaultValue: {},
+                  displayViews: {
+                    ____label: "".concat(generatorRequest_.cellModelLabel, " Sub-Display View Inputs"),
+                    ____types: "jsObject",
+                    ____asMap: true,
+                    ____defaultValue: {},
+                    subviewLabel: {
+                      ____types: "jsObject",
+                      ____appdsl: {
+                        apm: cmObservableValueHelper.getCMConfig({
+                          type: "APM"
+                        }).result[0].getID()
+                      }
+                    }
                   }
                 }
-              }
-            }
-          }; // TODO: will fail in OFSP because we're not setting response.result to valid CellModel declaration yet...
+              },
+              // ~.apm.ocdDataSpec
+              steps: {
+                uninitialized: {
+                  description: "Default starting step of activated cell.",
+                  transitions: [{
+                    transitionIf: {
+                      always: true
+                    },
+                    nextStep: "display-view-ready"
+                  }]
+                },
+                "display-view-ready": {
+                  description: "It's not really ready yet. But, let's say it is."
+                }
+              } // ~.apm.steps
 
+            },
+            subcells: [cmDisplayViewOutputObservableValue]
+          };
           break;
         }
 

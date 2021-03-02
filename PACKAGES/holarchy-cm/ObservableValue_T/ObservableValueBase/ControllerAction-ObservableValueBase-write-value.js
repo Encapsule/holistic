@@ -22,23 +22,26 @@ var action = new holarchy.ControllerAction({
       ____types: "jsObject",
       common: {
         ____types: "jsObject",
-        ObservableValue: {
+        actions: {
           ____types: "jsObject",
-          writeValue: {
-            // <- non-optional spec down to this point for arccore.discriminator
+          ObservableValue: {
             ____types: "jsObject",
-            value: {
-              ____label: "Value Data",
-              ____description: "The new value to be written to the ObservableValue_T cell's #.value namespace.",
-              ____opaque: true // <- We allow you to pass _anything_ through here. However... #.value is type-specialized in the OCD. So, if you pass a bad value through here then the action will fail as OCD will reject the write.
+            writeValue: {
+              // <- non-optional spec down to this point for arccore.discriminator
+              ____types: "jsObject",
+              value: {
+                ____label: "Value Data",
+                ____description: "The new value to be written to the ObservableValue_T cell's #.value namespace.",
+                ____opaque: true // <- We allow you to pass _anything_ through here. However... #.value is type-specialized in the OCD. So, if you pass a bad value through here then the action will fail as OCD will reject the write.
 
-            },
-            path: {
-              ____label: "Value Path",
-              ____description: "The OCD path relative to the ObservableValue family cell's containing cell process.",
-              ____accept: "jsString",
-              ____defaultValue: "#" // This is typically #.outputs.X or #.inputs.Y because ObservableValue family CellModels are typically used as helper cells.
+              },
+              path: {
+                ____label: "Value Path",
+                ____description: "The OCD path relative to the ObservableValue family cell's containing cell process.",
+                ____accept: "jsString",
+                ____defaultValue: "#" // This is typically #.outputs.X or #.inputs.Y because ObservableValue family CellModels are typically used as helper cells.
 
+              }
             }
           }
         }
@@ -65,7 +68,7 @@ var action = new holarchy.ControllerAction({
     while (!inBreakScope) {
       inBreakScope = true;
       console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(actionRequest_.context.apmBindingPath, "\""));
-      var messageBody = actionRequest_.actionRequest.holarchy.common.ObservableValue.writeValue;
+      var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValue.writeValue;
       var ocdResponse = actionRequest_.context.ocdi.readNamespace({
         apmBindingPath: actionRequest_.context.apmBindingPath,
         dataPath: "".concat(messageBody.path, ".revision")

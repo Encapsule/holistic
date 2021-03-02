@@ -25,13 +25,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           ____accept: "jsString"
         },
         renderDataPropsSpec: {
-          ____accept: "jsObject",
-          ____defaultValue: {
-            ____types: "jsObject",
-            ____appdsl: {
-              missingRenderDataPropsSpec: true
-            }
-          }
+          ____accept: "jsObject"
         }
       },
 

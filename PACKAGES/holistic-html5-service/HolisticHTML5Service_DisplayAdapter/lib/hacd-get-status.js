@@ -23,7 +23,7 @@ var arccore = require("@encapsule/arccore");
       cellMemory: {
         ____accept: "jsObject"
       },
-      displayAdapterProcess: {
+      cellProcess: {
         ____accept: "jsObject"
       }
     },
@@ -72,7 +72,7 @@ var arccore = require("@encapsule/arccore");
 
         response.result = {
           cellMemory: ocdResponse.result,
-          displayAdapterProcess: cachedKernelProcessQuery
+          cellProcess: cachedKernelProcessQuery
         };
         break;
       }
