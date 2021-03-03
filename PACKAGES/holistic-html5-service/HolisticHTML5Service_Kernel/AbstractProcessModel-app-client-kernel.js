@@ -95,11 +95,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               appMetadata: optionalFilterResponseSpec,
               appServiceProcess: optionalFilterResponseSpec
             },
+
+            /*
             lifecycleResponses: {
-              ____types: "jsObject",
-              ____defaultValue: {},
-              start: optionalFilterResponseSpec
+                ____types: "jsObject",
+                ____defaultValue: {},
+                start: optionalFilterResponseSpec,
             },
+            */
             windowLoaded: {
               ____label: "window.onload Completed Flag",
               ____description: "Boolean flag set when the window.onload event occurs.",

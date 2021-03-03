@@ -67,7 +67,7 @@ var controllerAction = new holarchy.ControllerAction({
           ocdResponse = request_.context.ocdi.writeNamespace({
             apmBindingPath: request_.context.apmBindingPath,
             dataPath: "#.windowLoadTimeMs"
-          }, messageBody.eventData.timeStamp);
+          }, Math.round(messageBody.eventData.timeStamp));
 
           if (ocdResponse.error) {
             errors.push(ocdResponse.error);

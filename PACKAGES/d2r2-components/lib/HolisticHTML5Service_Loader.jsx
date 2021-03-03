@@ -27,6 +27,8 @@ var d2r2 = require("@encapsule/d2r2");
 
 var React = require("react");
 
+var color = require("color");
+
 var factoryResponse = d2r2.ComponentFactory.request({
   id: "jrxl_rGcQvKRCc0PpWqbtg",
   name: "HolisticHTML5Service_Loader",
@@ -76,26 +78,37 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var key = 0;
           var content = [];
           var flexContent = [];
-          var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E !"; // let cssAnimationClass = (this.props.renderContext.serverRender?"spinner-dual":(!messageBody.appStarted?"spinner-triple":"spinner-fast"));
-
+          var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E !";
+          var backgroundColor = {
+            development: "dodgerblue",
+            test: "turquoise",
+            staging: "coral",
+            production: "limegreen"
+          }[messageBody.deploymentEnvironment];
+          var textColorMain = color(backgroundColor).darken(0.25).hex();
+          var textColorMessage = "white";
+          var textColorEnvironment = color(backgroundColor).darken(0.125).hex();
+          var textColorVersion = color(backgroundColor).lighten(0.2).hex();
+          var textColorVersionShadow = color(backgroundColor).darken(0.4).hex();
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
               fontFamily: "Play",
-              fontSize: "44pt",
+              fontSize: "4vw",
               fontWeight: "bold",
               paddingBottom: "0.25em",
-              color: "rgba(0,0,0,0.6)"
+              color: textColorMain
             }
-          }, "Viewpath5"));
+          }, messageBody.appBuild.app.name));
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
               fontFamily: "Nunito",
-              fontSize: "32pt",
+              fontSize: "2.5vw",
               fontWeight: "bold",
-              color: "rgba(0,0,0,0.25)",
-              paddingBottom: "1em"
+              color: textColorMessage,
+              paddingBottom: "1em",
+              textShadow: "0px 0px 0.25vw ".concat(color(backgroundColor).darken(0.7).hex())
             }
           }, statusMessage));
 
@@ -130,7 +143,33 @@ var factoryResponse = d2r2.ComponentFactory.request({
                 className: "spinner-triple"
               })))));
             }
-          }
+          } // Environment
+
+
+          content.push( /*#__PURE__*/React.createElement("div", {
+            key: makeKey(),
+            style: {
+              position: "fixed",
+              top: "0px",
+              left: "0px"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              width: "100vw",
+              backgroundColor: backgroundColor
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "Play",
+              fontSize: "6vw",
+              color: textColorEnvironment
+            }
+          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment))))); // App name / message / spinner
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -148,13 +187,8 @@ var factoryResponse = d2r2.ComponentFactory.request({
               height: "100vh",
               width: "100vw"
             }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              fontFamily: "Play",
-              fontSize: "144pt",
-              color: "rgba(0,0,255,0.025)"
-            }
-          }, messageBody.deploymentEnvironment))));
+          }, flexContent))); // App version
+
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
@@ -166,12 +200,47 @@ var factoryResponse = d2r2.ComponentFactory.request({
             style: {
               display: "flex",
               flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
+              justifyContent: "flex-start",
+              alignItems: "flex-start",
               height: "100vh",
               width: "100vw"
             }
-          }, flexContent)));
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "Play",
+              fontSize: "1.25vw",
+              color: textColorVersion,
+              padding: "1vw",
+              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
+            }
+          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), /*#__PURE__*/React.createElement("br", null), messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null), messageBody.appBuild.app.buildID)))); // Platform version
+
+          content.push( /*#__PURE__*/React.createElement("div", {
+            key: makeKey(),
+            style: {
+              position: "fixed",
+              top: "0px",
+              left: "0px"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "flex-end",
+              alignItems: "flex-end",
+              height: "100vh",
+              width: "100vw",
+              textAlign: "right"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "Play",
+              fontSize: "1.25vw",
+              color: textColorVersion,
+              padding: "1vw",
+              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
+            }
+          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), /*#__PURE__*/React.createElement("br", null), messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null), messageBody.appBuild.platform.app.buildID))));
           return /*#__PURE__*/React.createElement("div", {
             key: makeKey()
           }, content); // ================================================================

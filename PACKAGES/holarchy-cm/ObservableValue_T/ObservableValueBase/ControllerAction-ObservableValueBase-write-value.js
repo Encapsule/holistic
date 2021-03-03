@@ -86,7 +86,10 @@ var action = new holarchy.ControllerAction({
         mailbox: {
           value: messageBody.value
         },
-        revision: newRevision // NOTE THAT WE CLEAR any pending dact here as appropriate!
+        revision: newRevision // NOTE THAT WE CLEAR any pending dact here explicitly.
+        // BY DESIGN a write is agnostic to a pending DACT and superscedes the DACT.
+        // If you were to cancel DACT via action and then writeValue the behavior
+        // would be equivalent; writeValue just does it automatically.
 
       };
       ocdResponse = actionRequest_.context.ocdi.writeNamespace({
@@ -100,7 +103,10 @@ var action = new holarchy.ControllerAction({
         break;
       }
 
-      response.result = newCellMemory;
+      response.result = {
+        revision: newCellMemory.revision,
+        value: newCellMemory.mailbox ? newCellMemory.mailbox.value : undefined
+      };
       break;
     }
 

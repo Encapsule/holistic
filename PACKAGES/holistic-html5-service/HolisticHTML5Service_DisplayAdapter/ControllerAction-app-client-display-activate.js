@@ -37,6 +37,9 @@
                 ____types: "jsObject",
                 activate: {
                   ____types: "jsObject",
+                  windowLoadTimeMs: {
+                    ____types: "jsNumber"
+                  },
                   displayLayoutRequest: {
                     ____types: "jsObject",
                     renderData: {

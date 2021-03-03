@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A platform for building distributed software systems with reusable JavaScript CellModel plug-ins. And, System-in-Cloud (SiC) information circuit architecture.",
-    "version": "0.0.55",
-    "codename": "iolite",
+    "version": "0.0.56",
+    "codename": "onyx",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "sTQqrNmySAy9unf8nz5kRg",
-    "buildSource": "977f0a3435616854eb90880ce94b8d7f8b579907",
-    "buildTime": 1614711194,
-    "buildDateISO": "2021-03-02T18:53:14.000Z"
+    "buildID": "fbDDAQiAQzi7InPL5Wb6vg",
+    "buildSource": "01fbc8057c0e68ffb3b7d7be9a4e7bea7bf2c610",
+    "buildTime": 1614808478,
+    "buildDateISO": "2021-03-03T21:54:38.000Z"
 }

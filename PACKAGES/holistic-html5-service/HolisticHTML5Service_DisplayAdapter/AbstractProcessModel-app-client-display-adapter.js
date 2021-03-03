@@ -96,13 +96,6 @@
           nextStep: "display-adapter-wait-kernel-config"
         }]
       },
-
-      /*
-        "display-adpater-initialized": {
-        description: "HolisticHTML5Service_DisplayAdapter process is initialized.",
-        transitions: [ { transitionIf: { always: true}, nextStep: "display-adapter-wait-kernel-config" } ]
-        },
-      */
       "display-adapter-wait-kernel-config": {
         description: "".concat(cmLabel, " process is waiting for the app client kernel to set the display's initial layout."),
         transitions: [{
@@ -193,7 +186,22 @@
             always: true
           },
           nextStep: "display-adapter-wait-display-view"
-        }]
+        }],
+        actions: {
+          exit: [{
+            holistic: {
+              app: {
+                client: {
+                  display: {
+                    _private: {
+                      pumpDisplayStream: {}
+                    }
+                  }
+                }
+              }
+            }
+          }]
+        }
       }
     } // steps
 
