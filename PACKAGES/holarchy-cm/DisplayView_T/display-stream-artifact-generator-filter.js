@@ -74,18 +74,20 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         var renderDataSpec = {
+          ____label: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Render Data Spec"),
           ____types: "jsObject"
-        }; // The renderDataSpec is @encapsule/arccore.discriminator-friendly (becaue of bug in @encapsule/arccore I don't have time to address for years).
-
-        renderDataSpec[cellModelConstructorRequest.apm.id] = _objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec);
-        synthResponse = d2r2.reactElementSynthFilterFactory.request({
+        };
+        renderDataSpec[cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec), {}, {
+          ____defaultValue: undefined
+        });
+        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\""));
+        synthResponse = d2r2.ComponentFactory.request({
           id: cmtDisplayView.mapLabels({
             OTHER: "".concat(cellModelConstructorRequest.id, ":d2r2Component")
           }).result.OTHERID,
           name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Display Process"),
           description: "A filter that generates a React.Element instance created via React.createElement API from the reactComponentClass specified here bound to the request data.",
-          renderDataBindingSpec: renderDataSpec,
-          // TODO: Rename this in @encapsule/d2r2 (if we even keep it passed the point where we move @encapsule/holistic-nodejs-service into CellProcessor.
+          renderDataBindingSpec: _objectSpread({}, renderDataSpec),
           reactComponent: request_.reactComponentClass
         });
 
@@ -95,7 +97,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
-        var d2r2Component = synthResponse.result; // And, we're good.
+        var d2r2Component = synthResponse.result;
+        console.log("RESULT d2r2 COMPONENT:");
+        console.log(d2r2Component); // And, we're good?
 
         response.result = {
           cellModel: cellModel,

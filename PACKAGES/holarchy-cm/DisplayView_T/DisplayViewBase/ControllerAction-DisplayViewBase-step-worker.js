@@ -87,7 +87,10 @@
                           value: {
                             renderContext: {
                               apmBindingPath: request_.context.apmBindingPath
-                            }
+                            },
+                            // set
+                            renderData: {} // reset to default values
+
                           },
                           path: "#.outputs.displayView"
                         }
