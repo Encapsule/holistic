@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "JyUV9BQrTemB3gaaBRejgg",
-    "buildSource": "53dbb54b30dd37fef3c47fb26864ea390c9bca0e",
-    "buildTime": 1614962737,
-    "codename": "kunzite",
+    "buildID": "qii3gkODTC25EKrjnTWkhQ",
+    "buildSource": "f954c5ab245cb11013708e5efd7391667c86a806",
+    "buildTime": 1614981948,
+    "codename": "redcoral",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.57"
+    "version": "0.0.58"
 }

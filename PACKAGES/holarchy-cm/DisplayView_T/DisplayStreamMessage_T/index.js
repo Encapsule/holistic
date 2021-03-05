@@ -26,7 +26,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         description: {
           ____accept: "jsString"
         },
-        renderDataSpec: {
+        displayLayoutSpec: {
           ____accept: "jsObject"
         }
       },
@@ -48,6 +48,27 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         while (!inBreakScope) {
           inBreakScope = true;
           var displayStreamMessageLabel = "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">");
+          var filterResponse = arccore.filter.create({
+            operationID: "65rI4JXWT02HOmPh1_Eamg",
+            operationName: "displayLayoutSpec MUST ACCEPT NO INPUT w/OUT ERROR",
+            operationDescription: "A filter that uses your displayLayout as inputFilterSpec to determine if it's a valid filter spec and if it can be called generically if used as inputFilterSpec.",
+            inputFilterSpec: generatorRequest_.specializationData.displayLayoutSpec
+          });
+
+          if (filterResponse.error) {
+            errors.push("Unable to generate ".concat(displayStreamMessageLabel, " CellModel because the specified displayLayoutSpec is not a valid filter spec object."));
+            errors.push(filterResponse.error);
+            break;
+          }
+
+          filterResponse = filterResponse.result.request();
+
+          if (filterResponse.error) {
+            errors.push("Unable to generate ".concat(displayStreamMessageLabel, " CellModel because the specified displayLayoutSpec is not valid. If we use your displayLayoutSpec as inputFilterSpec and call our testFilter.request() w/no request input there must be no response.error but instead:"));
+            errors.push(filterResponse.error);
+            break;
+          }
+
           var apmID = generatorRequest_.cmtInstance.mapLabels({
             APM: displayStreamMessageLabel
           }).result.APMID; // Set the invariant portions of all DisplayStreamMessage family members.
@@ -67,36 +88,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             },
             renderData: {
-              ____label: "".concat(displayStreamMessageLabel, " Render Data"),
+              ____label: "".concat(displayStreamMessageLabel, " d2r2 Render Data"),
               ____types: "jsObject",
               ____defaultValue: {} //// extended below
 
             }
-          }; // Customize the displayStreamMessageSpec by extending its renderData spec w/instance specialization data.
+          }; // Must be kept in sync w/VDDV artifact generator.
 
-          displayStreamMessageSpec.renderData[apmID] = _objectSpread({}, generatorRequest_.specializationData.renderDataSpec); // We force this to be friendly to generic call w/no request data that we perform during cell activation.
-
-          var filterResponse = arccore.filter.create({
-            operationID: "65rI4JXWT02HOmPh1_Eamg",
-            operationName: "renderDataSpec MUST ACCEPT NO INPUT w/OUT ERROR",
-            operationDescription: "A filter that uses your renderDataSpec as inputFilterSpec to determine if it's a valid filter spec and if it can be called generically if used as inputFilterSpec.",
-            inputFilterSpec: generatorRequest_.specializationData.renderDataSpec
-          });
-
-          if (filterResponse.error) {
-            errors.push("Unable to generate ".concat(displayStreamMessageLabel, " CellModel because the specified renderDataSpec is not a valid filter spec object."));
-            errors.push(filterResponse.error);
-            break;
-          }
-
-          filterResponse = filterResponse.result.request();
-
-          if (filterResponse.error) {
-            errors.push("Unable to generate ".concat(displayStreamMessageLabel, " CellModel because the specified renderDataSpec is not valid. If we use your renderDataSpec as inputFilterSpec and call our testFilter.request() w/no request input there must be no response.error but instead:"));
-            errors.push(filterResponse.error);
-            break;
-          }
-
+          var displayLayoutNamespace = "layoutViewDisplay_".concat(apmID);
+          displayStreamMessageSpec.renderData[displayLayoutNamespace] = _objectSpread({}, generatorRequest_.specializationData.displayLayoutSpec);
           var synthResponse = cmtObservableValue.synthesizeCellModel({
             cmasScope: generatorRequest_.cmtInstance,
             cellModelLabel: displayStreamMessageLabel,
@@ -111,13 +111,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             break;
           }
 
-          var ovCellModel = synthResponse.result;
-          var x = generatorRequest_.cmtInstance.mapLabels({
-            CM: generatorRequest_.cellModelLabel
-          }).result.CMID;
-          var y = generatorRequest_.cmtInstance.mapLabels({
-            APM: generatorRequest_.cellModelLabel
-          }).result.APMID;
+          var ovCellModel = synthResponse.result; // let x = generatorRequest_.cmtInstance.mapLabels({ CM: generatorRequest_.cellModelLabel }).result.CMID;
+          // let y = generatorRequest_.cmtInstance.mapLabels({ APM: generatorRequest_.cellModelLabel }).result.APMID;
+
           response.result = ovCellModel;
           break;
         }

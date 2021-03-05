@@ -80,16 +80,16 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var flexContent = [];
           var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E !";
           var backgroundColor = {
-            development: "dodgerblue",
-            test: "turquoise",
-            staging: "coral",
-            production: "limegreen"
+            development: "powderblue",
+            test: "mistyrose",
+            staging: "seashell",
+            production: "aliceblue"
           }[messageBody.deploymentEnvironment];
           var textColorMain = color(backgroundColor).darken(0.25).hex();
           var textColorMessage = "white";
           var textColorEnvironment = color(backgroundColor).darken(0.125).hex();
-          var textColorVersion = color(backgroundColor).lighten(0.2).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.4).hex();
+          var textColorVersion = color(backgroundColor).darken(0.05).hex();
+          var textColorVersionShadow = color(backgroundColor).darken(0.25).hex();
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {

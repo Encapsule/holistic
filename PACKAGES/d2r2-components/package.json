@@ -6,10 +6,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "JyUV9BQrTemB3gaaBRejgg",
-    "buildSource": "53dbb54b30dd37fef3c47fb26864ea390c9bca0e",
-    "buildTime": 1614962737,
-    "codename": "kunzite",
+    "buildID": "qii3gkODTC25EKrjnTWkhQ",
+    "buildSource": "f954c5ab245cb11013708e5efd7391667c86a806",
+    "buildTime": 1614981948,
+    "codename": "redcoral",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -34,7 +34,7 @@
     "name": "@encapsule/d2r2-components",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.10",
-        "@encapsule/d2r2": "0.0.57",
+        "@encapsule/d2r2": "0.0.58",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.57"
+    "version": "0.0.58"
 }

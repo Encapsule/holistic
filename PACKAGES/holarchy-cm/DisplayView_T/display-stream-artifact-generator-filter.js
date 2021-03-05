@@ -33,6 +33,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // display-stream-artifact-generator-filter.js
+// OMG ... this module ...
 (function () {
   var arccore = require("@encapsule/arccore");
 
@@ -45,11 +46,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var factoryResponse = arccore.filter.create({
     operationID: "A04R9PeERUatNtwHZ_cjkw",
-    operationName: "Display Stream Models Generator",
-    operationDescription: "Encapsulates the details of generating a specialized DisplayView_T family CellModel and its matching d2r2Component wrapper in a single operation. Someday, this will be a constructor function request filter.",
-    // TODO: Make this into a class when we move all DisplayView_T to @encapsule/holistic-service-core RTL
+    operationName: "DVVD Models Generator",
+    operationDescription: "A filter that generates a DisplayView family CellModel (DV) and a ViewDisplay family d2r2Component (VD) as a matching pair using the specialization data you provide via request in-parameter.",
     inputFilterSpec: {
-      ____label: "Display Stream Artifact Generator Request",
+      ____label: "DVVD Models Generator Request",
       ____types: "jsObject",
       displayViewSynthesizeRequest: {
         ____label: "DisplayView_T::synthesizeCellModel Request",
@@ -64,7 +64,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     },
     outputFilterSpec: {
       ____types: "jsObject",
-      cellModel: {
+      CellModel: {
         ____accept: "jsObject"
       },
       // This will be a CellModel class instance or constructor function request object for the same.
@@ -99,14 +99,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return "break";
         }
 
-        var apmID_displayViewOutputObservableValue = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm;
-        var renderDataDiscriminatorNamespace = "".concat(apmID_displayViewOutputObservableValue, "_DisplayProcess");
+        var apmID = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm; // Must be kept in sync w/VDDV artifact generator.
+
+        var viewDisplayClassName = "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_ViewDisplay_").concat(apmID);
+        var displayLayoutNamespace = "layoutViewDisplay_".concat(apmID);
         var renderDataSpec = {
           ____label: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Render Data Spec"),
           ____types: "jsObject"
-        }; // renderDataSpec[cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm] = { ...request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec, ____defaultValue: undefined };
-
-        renderDataSpec[apmID_displayViewOutputObservableValue] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec), {}, {
+        };
+        renderDataSpec[displayLayoutNamespace] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.displayLayoutSpec), {}, {
           ____defaultValue: undefined
         });
         console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\"")); // ****************************************************************
@@ -126,7 +127,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             _classCallCheck(this, ViewDisplayProcess);
 
             _this = _super.call(this, props_);
-            _this.displayName = renderDataDiscriminatorNamespace;
+            _this.displayName = viewDisplayClassName;
             return _this;
           }
 
@@ -202,17 +203,17 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
           return ViewDisplayProcess;
         }(request_.reactComponentClass); // class DisplayProcess extends request_.reactComponentClass extends React.Component (presumably)
-        // WILL THIS WORK? :)
-
-
-        function fuckingMagic(magicClassName_) {
-          return eval("(function() { return (class ".concat(magicClassName_, " extends ViewDisplayProcess /*extends React.Component*/ {}); })();"));
-        } // ****************************************************************
+        // ****************************************************************
         // ****************************************************************
         // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
         // ****************************************************************
         // ****************************************************************
-        // Now jam the synthesized class into a d2r2-generated filter that accepts data according to renderSpec and returns a bound React.Element via its response.result.
+        // WILL THIS WORK? :) MAGIC! (♥_♥)
+
+
+        function fuckingMagic(magicClassName_) {
+          return eval("(function() { return (class ".concat(magicClassName_, " extends ViewDisplayProcess /*extends React.Component*/ {}); })();"));
+        } // Now jam the synthesized class into a d2r2-generated filter that accepts data according to renderSpec and returns a bound React.Element via its response.result.
         // This is what we call a d2r2Component for lack a better short-hand for refering to it. In reality it's a data-to-display process transducer function (w/data filtering).
 
 
@@ -223,7 +224,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Display Process"),
           description: "A filter that generates a React.Element instance created via React.createElement API from the reactComponentClass specified here bound to the request data.",
           renderDataBindingSpec: _objectSpread({}, renderDataSpec),
-          reactComponent: fuckingMagic("".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_").concat(apmID_displayViewOutputObservableValue)) // ᕕ( ᐛ )ᕗ
+          reactComponent: fuckingMagic(viewDisplayClassName) // `${request_.displayViewSynthesizeRequest.cellModelLabel}_ViewDisplay_${apmID}`) // ᕕ( ᐛ )ᕗ
 
         });
 
@@ -238,7 +239,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log(d2r2Component); // And, we're good?
 
         response.result = {
-          cellModel: cellModel,
+          CellModel: cellModel,
           d2r2Component: d2r2Component
         };
         return "break";

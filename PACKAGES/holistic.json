@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A platform for building distributed software systems with reusable JavaScript CellModel plug-ins. And, System-in-Cloud (SiC) information circuit architecture.",
-    "version": "0.0.57",
-    "codename": "kunzite",
+    "version": "0.0.58",
+    "codename": "redcoral",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "JyUV9BQrTemB3gaaBRejgg",
-    "buildSource": "53dbb54b30dd37fef3c47fb26864ea390c9bca0e",
-    "buildTime": 1614962737,
-    "buildDateISO": "2021-03-05T16:45:37.000Z"
+    "buildID": "qii3gkODTC25EKrjnTWkhQ",
+    "buildSource": "f954c5ab245cb11013708e5efd7391667c86a806",
+    "buildTime": 1614981948,
+    "buildDateISO": "2021-03-05T22:05:48.000Z"
 }
