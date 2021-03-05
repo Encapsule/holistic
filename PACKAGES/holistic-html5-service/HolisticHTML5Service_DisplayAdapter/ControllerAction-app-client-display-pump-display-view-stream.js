@@ -63,7 +63,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var inBreakScope = false;
 
       while (!inBreakScope) {
-        inBreakScope = true; // Get our cell memory and process data.
+        inBreakScope = true;
+        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] attempting to update display layout due to detected chanage(s)...")); // Get our cell memory and process data.
 
         var hacdLibResponse = hacdLib.getStatus.request(request_.context);
 
@@ -135,8 +136,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (ocdResponse.error) {
           errors.push(ocdResponse.error);
           break;
-        } // And, we're out.
+        }
 
+        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] display process tree update ").concat(cellMemory.displayUpdateCount, " complete.")); // And, we're out.
 
         break;
       }

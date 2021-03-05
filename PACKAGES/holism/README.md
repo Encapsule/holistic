@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.56 onyx
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.57 kunzite
 
 ## &#x25F0; Runtime library: @encapsule/holism
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains an experimental HTTP 1.1 application server and REST framework derived from the Node.js HTTP API's and the @encapsule/arccore filter RTL. This provides developers with a simple mechanism to define and re-use backend operations as plug-in service filters hosted by the holism server RTL. The package is intended for use in derived applications and services.
 
 ```
-Package: @encapsule/holism v0.0.56 "onyx" build ID "lyzaBW96R0WetCwlG-lcww"
-Sources: @encapsule/holodev#efaca9974a5c3029b3d02dbd7380b5b0a424f2ac
-Created: 2021-03-04T04:04:41.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism v0.0.57 "kunzite" build ID "JyUV9BQrTemB3gaaBRejgg"
+Sources: @encapsule/holodev#53dbb54b30dd37fef3c47fb26864ea390c9bca0e
+Created: 2021-03-05T16:45:37.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

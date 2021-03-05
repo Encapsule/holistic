@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A platform for building distributed software systems with reusable JavaScript CellModel plug-ins. And, System-in-Cloud (SiC) information circuit architecture.",
-    "version": "0.0.56",
-    "codename": "onyx",
+    "version": "0.0.57",
+    "codename": "kunzite",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "lyzaBW96R0WetCwlG-lcww",
-    "buildSource": "efaca9974a5c3029b3d02dbd7380b5b0a424f2ac",
-    "buildTime": 1614830681,
-    "buildDateISO": "2021-03-04T04:04:41.000Z"
+    "buildID": "JyUV9BQrTemB3gaaBRejgg",
+    "buildSource": "53dbb54b30dd37fef3c47fb26864ea390c9bca0e",
+    "buildTime": 1614962737,
+    "buildDateISO": "2021-03-05T16:45:37.000Z"
 }

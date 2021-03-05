@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.56 onyx
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.57 kunzite
 
 ## &#x25F0; Runtime library: @encapsule/d2r2-components
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.
 
 ```
-Package: @encapsule/d2r2-components v0.0.56 "onyx" build ID "lyzaBW96R0WetCwlG-lcww"
-Sources: @encapsule/holodev#efaca9974a5c3029b3d02dbd7380b5b0a424f2ac
-Created: 2021-03-04T04:04:41.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/d2r2-components v0.0.57 "kunzite" build ID "JyUV9BQrTemB3gaaBRejgg"
+Sources: @encapsule/holodev#53dbb54b30dd37fef3c47fb26864ea390c9bca0e
+Created: 2021-03-05T16:45:37.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

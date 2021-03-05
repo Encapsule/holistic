@@ -1,5 +1,31 @@
 "use strict";
 
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
+
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
 
 function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
@@ -54,14 +80,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var errors = [];
       var inBreakScope = false;
 
-      while (!inBreakScope) {
+      var _loop = function _loop() {
         inBreakScope = true;
         var synthResponse = cmtDisplayView.synthesizeCellModel(request_.displayViewSynthesizeRequest); // Just the request in and see what happens.
 
         if (synthResponse.error) {
           errors.push("The actual call to DisplayView_T::synthesizeCellModel failed with error:");
           errors.push(synthResponse.error);
-          break;
+          return "break";
         }
 
         var cellModelConstructorRequest = synthResponse.result;
@@ -70,17 +96,126 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (!cellModel.isValid()) {
           errors.push("The CellModel::constructor request we received back from DisplayView_T::synthesizeCellModel is DOA due to error:");
           errors.push(cellModel.toJSON());
-          break;
+          return "break";
         }
 
+        var apmID_displayViewOutputObservableValue = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm;
+        var renderDataDiscriminatorNamespace = "".concat(apmID_displayViewOutputObservableValue, "_DisplayProcess");
         var renderDataSpec = {
           ____label: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Render Data Spec"),
           ____types: "jsObject"
-        };
-        renderDataSpec[cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec), {}, {
+        }; // renderDataSpec[cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm] = { ...request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec, ____defaultValue: undefined };
+
+        renderDataSpec[apmID_displayViewOutputObservableValue] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.renderDataSpec), {}, {
           ____defaultValue: undefined
         });
-        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\""));
+        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\"")); // ****************************************************************
+        // ****************************************************************
+        // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
+        // ****************************************************************
+        // ****************************************************************
+
+        var ViewDisplayProcess = /*#__PURE__*/function (_request_$reactCompon) {
+          _inherits(ViewDisplayProcess, _request_$reactCompon);
+
+          var _super = _createSuper(ViewDisplayProcess);
+
+          function ViewDisplayProcess(props_) {
+            var _this;
+
+            _classCallCheck(this, ViewDisplayProcess);
+
+            _this = _super.call(this, props_);
+            _this.displayName = renderDataDiscriminatorNamespace;
+            return _this;
+          }
+
+          _createClass(ViewDisplayProcess, [{
+            key: "componentDidMount",
+            value: function componentDidMount() {
+              var actResponse = this.props.renderContext.act({
+                actorName: this.displayName,
+                actorTaskDescription: "This is new a new instance of React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
+                actionRequest: {
+                  holistic: {
+                    common: {
+                      actions: {
+                        service: {
+                          html5: {
+                            display: {
+                              view: {
+                                linkDisplayProcess: {
+                                  notifyEvent: "display-process-activated",
+                                  reactElement: {
+                                    displayName: this.displayName,
+                                    thisRef: this
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                apmBindingPath: this.props.renderContext.apmBindingPath
+              });
+
+              _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentDidMount", this).call(this);
+            }
+          }, {
+            key: "componentWillUnmount",
+            value: function componentWillUnmount() {
+              var actResponse = this.props.renderContext.act({
+                actorName: this.displayName,
+                actorTaskDescription: "This is a previously-linked React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that is is going to unmount and deactivate."),
+                actionRequest: {
+                  holistic: {
+                    common: {
+                      actions: {
+                        service: {
+                          html5: {
+                            display: {
+                              view: {
+                                linkDisplayProcess: {
+                                  notifyEvent: "display-process-deactivating",
+                                  reactElement: {
+                                    displayName: this.displayName,
+                                    thisRef: this
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                apmBindingPath: this.props.renderContext.apmBindingPath
+              });
+
+              _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this).call(this);
+            }
+          }]);
+
+          return ViewDisplayProcess;
+        }(request_.reactComponentClass); // class DisplayProcess extends request_.reactComponentClass extends React.Component (presumably)
+        // WILL THIS WORK? :)
+
+
+        function fuckingMagic(magicClassName_) {
+          return eval("(function() { return (class ".concat(magicClassName_, " extends ViewDisplayProcess /*extends React.Component*/ {}); })();"));
+        } // ****************************************************************
+        // ****************************************************************
+        // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
+        // ****************************************************************
+        // ****************************************************************
+        // Now jam the synthesized class into a d2r2-generated filter that accepts data according to renderSpec and returns a bound React.Element via its response.result.
+        // This is what we call a d2r2Component for lack a better short-hand for refering to it. In reality it's a data-to-display process transducer function (w/data filtering).
+
+
         synthResponse = d2r2.ComponentFactory.request({
           id: cmtDisplayView.mapLabels({
             OTHER: "".concat(cellModelConstructorRequest.id, ":d2r2Component")
@@ -88,13 +223,14 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Display Process"),
           description: "A filter that generates a React.Element instance created via React.createElement API from the reactComponentClass specified here bound to the request data.",
           renderDataBindingSpec: _objectSpread({}, renderDataSpec),
-          reactComponent: request_.reactComponentClass
+          reactComponent: fuckingMagic("".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_").concat(apmID_displayViewOutputObservableValue)) // ᕕ( ᐛ )ᕗ
+
         });
 
         if (synthResponse.error) {
           errors.push("Oh snap. Things were going so well... Unfortunately, we cannot synthesize a d2r2 React.Element synthesizer filter (d2r2Component) due to error:");
           errors.push(synthResponse.error);
-          break;
+          return "break";
         }
 
         var d2r2Component = synthResponse.result;
@@ -105,7 +241,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           cellModel: cellModel,
           d2r2Component: d2r2Component
         };
-        break;
+        return "break";
+      };
+
+      while (!inBreakScope) {
+        var _ret = _loop();
+
+        if (_ret === "break") break;
       }
 
       if (errors.length) {
