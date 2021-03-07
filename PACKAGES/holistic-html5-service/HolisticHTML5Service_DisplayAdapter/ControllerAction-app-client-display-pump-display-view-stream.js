@@ -64,6 +64,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       while (!inBreakScope) {
         inBreakScope = true;
+        console.log("================================================================");
+        console.log("================================================================");
+        console.log("================================================================");
+        console.log("================================================================");
         console.log("[".concat(this.operationID, "::").concat(this.operationName, "] attempting to update display layout due to detected chanage(s)...")); // Get our cell memory and process data.
 
         var hacdLibResponse = hacdLib.getStatus.request(request_.context);
@@ -73,6 +77,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
+        console.log("> HolisticHTML5Service_DisplayAdapter has located its process and read its cell memory...");
         var _hacdLibResponse$resu = hacdLibResponse.result,
             cellMemory = _hacdLibResponse$resu.cellMemory,
             cellProcess = _hacdLibResponse$resu.cellProcess; // Read the updated DisplayStreamMessage from our ObservableValueHelper input.
@@ -103,7 +108,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         } // Okay, got it!
 
 
-        var displayStreamMessage = actResponse.result.actionResult; // Now, build an object to bind to a React.Component class to create a React.Element instance.
+        var displayStreamMessage = actResponse.result.actionResult;
+        console.log("> HolisticHTML5Service_DisplayAdapter has read a new DisplayStreamMessage from its registered DisplayView cell..."); // Now, build an object to bind to a React.Component class to create a React.Element instance.
 
         var thisProps = {
           renderData: _objectSpread({
@@ -120,13 +126,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         // And, <ComponentRouter/> maps thisProps to 1:N registered d2r2Components.
         // So, basically this can render anything into display process land.
 
-        var reactElement = React.createElement(cellMemory.config.ComponentRouter, thisProps); // SO, AFTER ALL THAT ...
+        var reactElement = React.createElement(cellMemory.config.ComponentRouter, thisProps);
+        console.log("> HolisticHTML5Service_DisplayAdapter has manufactured a React.Element from request data via d2r2 <ComponentRouter/>..."); // SO, AFTER ALL THAT ...
         // Replace the currently user-visible DOM contents (indirectly), by making an "action request" on ReactDOM.render.
         // We presume that whomever provided the DisplayStreamMessage was smart enough to send along enough info
         // so that whatever React.Element(s) they mount in the React VDOM can communicate back to to the CellProcessor
         // via thisProps.renderContext.act function.
 
         ReactDOM.render(reactElement, cellMemory.config.targetDOMElement);
+        console.log("> HolisticHTML5Service_DisplayAdapter has udpated/replaced the current set of ViewDisplay process(es) (aka mounted React.Element) in the React-managed VDOM...");
         cellMemory.displayUpdateCount += 1;
         var ocdResponse = request_.context.ocdi.writeNamespace({
           apmBindingPath: cellProcess.apmBindingPath,
@@ -138,7 +146,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] display process tree update ").concat(cellMemory.displayUpdateCount, " complete.")); // And, we're out.
+        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] display process tree update ").concat(cellMemory.displayUpdateCount, " complete."));
+        console.log("================================================================");
+        console.log("================================================================");
+        console.log("================================================================");
+        console.log("================================================================"); // And, we're out.
 
         break;
       }

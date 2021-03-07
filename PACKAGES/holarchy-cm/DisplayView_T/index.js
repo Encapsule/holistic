@@ -55,6 +55,7 @@
             cellModelLabel: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">"),
             specializationData: {
               description: "Specialization for ".concat(generatorRequest_.cellModelLabel),
+              displayViewCellModelLabel: generatorRequest_.cellModelLabel,
               displayLayoutSpec: generatorRequest_.specializationData.displayElement.displayLayoutSpec
             }
           };

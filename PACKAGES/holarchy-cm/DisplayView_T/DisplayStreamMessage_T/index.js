@@ -26,6 +26,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         description: {
           ____accept: "jsString"
         },
+        displayViewCellModelLabel: {
+          ____accept: "jsString"
+        },
         displayLayoutSpec: {
           ____accept: "jsObject"
         }
@@ -95,8 +98,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           }; // Must be kept in sync w/VDDV artifact generator.
 
-          var displayLayoutNamespace = "layoutViewDisplay_".concat(apmID);
-          displayStreamMessageSpec.renderData[displayLayoutNamespace] = _objectSpread({}, generatorRequest_.specializationData.displayLayoutSpec);
+          var viewDisplayClassName = "".concat(generatorRequest_.specializationData.displayViewCellModelLabel, "_ViewDisplay_").concat(Buffer.from(apmID, "base64").toString("hex"));
+          displayStreamMessageSpec.renderData[viewDisplayClassName] = _objectSpread({}, generatorRequest_.specializationData.displayLayoutSpec);
           var synthResponse = cmtObservableValue.synthesizeCellModel({
             cmasScope: generatorRequest_.cmtInstance,
             cellModelLabel: displayStreamMessageLabel,
