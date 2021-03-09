@@ -99,16 +99,16 @@
                 core: {
                   ____types: "jsObject",
                   ____defaultValue: {},
-                  displayProcessLink: {
+                  viewDisplayProcess: {
                     ____types: ["jsUndefined", "jsObject"],
-                    reactElement: {
-                      ____types: "jsObject",
-                      displayName: {
-                        ____accept: "jsString"
-                      },
-                      thisRef: {
-                        ____accept: "jsObject"
-                      }
+                    displayName: {
+                      ____accept: "jsString"
+                    },
+                    displayPath: {
+                      ____accept: "jsString"
+                    },
+                    thisRef: {
+                      ____accept: "jsObject"
                     }
                   }
                 },
@@ -127,7 +127,8 @@
                         apm: cmObservableValueHelper.getCMConfig({
                           type: "APM"
                         }).result[0].getID()
-                      }
+                      } // TODO: CellModel.getAPM()/getAPMID() would be really convenient instead of having to call the lower-level getCMConfig method.
+
                     }
                   }
                 }
@@ -178,7 +179,7 @@
                           operators: {
                             ocd: {
                               isNamespaceTruthy: {
-                                path: "#.core.displayProcessLink"
+                                path: "#.core.viewDisplayProcess"
                               }
                             }
                           }

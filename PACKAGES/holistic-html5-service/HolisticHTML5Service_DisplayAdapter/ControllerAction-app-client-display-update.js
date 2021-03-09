@@ -13,7 +13,9 @@ var hacdLib = require("./lib");
 
 var React = require("react");
 
-var ReactDOM = require("react-dom");
+var ReactDOM = require("react-dom"); /// OH GOOD LORD --- Just realized I have been staring at this module when
+/// when the _actual_ contract that matters really is in ControllerAction-pump...
+
 
 var controllerAction = new holarchy.ControllerAction({
   id: "RlNHSKNBT32xejFqjsiZyg",
@@ -30,6 +32,8 @@ var controllerAction = new holarchy.ControllerAction({
           display: {
             ____types: "jsObject",
             update: {
+              ____label: "Data-Driven React Render (d2r2) Command Request",
+              ____description: "Leverages an in-memory database of d2r2Component filter instances registered w/the holistic service's DisplayAdapter cell to dynamically bind thisProps to 1:N React.Component classes in order to synthesize a React.Element that is rendered via React to the targetDOMElement.",
               ____types: "jsObject",
               renderContext: {
                 ____label: "this.props.renderContext Overrides",
@@ -39,17 +43,26 @@ var controllerAction = new holarchy.ControllerAction({
                   ____accept: ["jsUndefined", // If not specified then this action will use its request_.context.apmBindingPath
                   "jsString" // The apmBindingPath of the cell process to pass through to the root React.Element instead of request_.context.apmBindingPath
                   ]
+                },
+                viewDisplayPath: {
+                  ____accept: "jsString"
                 }
               },
+              // v0.0.59-whitecoral --- DISABLE THIS FINALLY
+
+              /*
               // ================================================================
               // i.e. NEVER USE THIS UNTIL I HAVE TIME TO REMOVE THIS
               // \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
               renderData: {
-                // DEPRECATED
-                // The routable portion of this.props bound to a <ComponentRouter/> instance
-                ____accept: ["jsUndefined", // Prefer to use thisProps that will be made mandatory in a short time.
-                "jsObject"]
+                  // DEPRECATED
+                  // The routable portion of this.props bound to a <ComponentRouter/> instance
+                  ____accept: [
+                      "jsUndefined", // Prefer to use thisProps that will be made mandatory in a short time.
+                      // "jsObject" FORCE A VALIDATION ERROR TO SEE IF ANYONE IS USING THIS
+                  ]
               },
+              */
               // ////////////////////////////////////////////////////////////////
               // ================================================================
               // v=== USE THIS INSTEAD! (NOTE YOU'RE RESPONSIBLE (ENTIRELY) FOR SETTING thisProps.renderData. AS THIS IS WHAT <ComponentRouter/> uses (exclusively) to route its this.props to 1:N of your registered d2r2 Components (aka React.Element generator filters).

@@ -86,7 +86,8 @@
                         writeValue: {
                           value: {
                             renderContext: {
-                              apmBindingPath: request_.context.apmBindingPath
+                              apmBindingPath: request_.context.apmBindingPath,
+                              displayPath: "👁"
                             },
                             // set
                             renderData: {} // reset to default values

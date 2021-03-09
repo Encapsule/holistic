@@ -48,6 +48,9 @@
                         displayName: {
                           ____accept: "jsString"
                         },
+                        displayPath: {
+                          ____accept: "jsString"
+                        },
                         thisRef: {
                           ____accept: "jsObject"
                         } // The React.Element sets thisRef to `this` inside its onComponentDidMount and componentWillUnmount methods.
@@ -63,8 +66,15 @@
       }
     },
     actionResultSpec: {
-      ____accept: "jsString",
-      ____defaultValue: "okay"
+      ____types: "jsObject",
+      ____defaultValue: {},
+      displayViewProcess: {
+        ____types: ["jsNull", "jsObject"],
+        ____defaultValue: null,
+        apmBindingPath: {
+          ____accept: "jsString"
+        }
+      }
     },
     bodyFunction: function bodyFunction(request_) {
       var response = {
@@ -89,23 +99,73 @@
 
         switch (messageBody.notifyEvent) {
           case "display-process-activated":
-            if (cellMemory.core.displayProcessLink) {
-              errors.push("DisplayView cell at apmBindingPath=\"".concat(request_.context.apmBindingPath, "\" is already linked to a display process with React.Element.displayName=\"").concat(cellMemory.core.displayProcessLink.reactElement.displayName, "\". We presume you did not intend to do this?"));
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+            console.log("".concat(actionName, " received action request from ").concat(messageBody.reactElement.displayName, "!"));
+            console.log("..... displayPath = \"".concat(messageBody.reactElement.displayPath));
+            console.log(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>>");
+
+            if (!cellMemory.core.viewDisplayProcess) {
+              // We expect this to be the root ViewDisplay React.Element of the display process layer of the HTML5 service.
+              cellMemory.core.viewDisplayProcess = messageBody.reactElement;
+              var ocdResponse = request_.context.ocdi.writeNamespace({
+                apmBindingPath: request_.context.apmBindingPath,
+                dataPath: "#.core.viewDisplayProcess"
+              }, cellMemory.core.viewDisplayProcess);
+
+              if (ocdResponse.error) {
+                errors.push(ocdResponse.error);
+                break;
+              }
+
+              response.result = {
+                dislayViewProcess: {
+                  apmBindingPath: request_.context.apmBindingPath
+                }
+              };
               break;
+            } else {
+              // Otherwise, we believe it must be a child of the the root element.
+              var displayPathTokens = messageBody.reactElement.displayPath.split("."); // 👁.theLinkedViewDisplayProcess.level1ChildViewDisplayProcess
+
+              var subDisplayViewLabel = displayPathTokens[2];
+              var subDisplayPathSlice = {
+                parent: displayPathTokens.slice(0, 2).join("."),
+                child: displayPathTokens.slice(2, displayPathTokens.length).join(".")
+              };
+
+              if (!cellMemory.inputs[subDisplayViewLabel]) {
+                var _ocdResponse = ObservableControllerData.dataPathResolve({
+                  apmBindingPath: request_.context.apmBindingPath,
+                  dataPath: "#.core.displayViews.".concat(subDisplayViewLabel)
+                });
+
+                if (_ocdResponse.error) {
+                  errors.push(ocdRepsonse.error);
+                  break;
+                }
+
+                ovhBindingPath = _ocdResponse.result;
+                ocd;
+              }
+
+              if (!cellMemory.inputs[subDisplayViewLabel]) {
+                cellMemory.inputs[subDisplayViewLabel] = {}; // Queue default activation of a new ObservableValueHelper
+
+                console.log("> Queued activation of new ObservableValueHelper to manage subcription for displayPath=\"".concat(cellMemory.core.viewDisplayProcess, "\"."));
+              } else {
+                console.log("> Skipping (for now) displayPath=\"".concat(cellMemory.core.viewDisplayProcess, "\"..."));
+              }
             }
 
-            cellMemory.core.displayProcessLink = {
-              reactElement: messageBody.reactElement
-            };
             break;
 
           case "display-process-deactivated":
-            if (!cellMemory.core.displayProcessLink) {
+            if (!cellMemory.core.viewDisplayProcess) {
               errors.push("DisplayView cell at apmBindingPath=\"".concat(request_.context.apmBindingPath, "\" is not currently linked to a display process. We presume you did not intend to do this?"));
               break;
             }
 
-            cellMemory.core.displayProcessLink = undefined; // reset to default
+            cellMemory.core.viewDisplayProcess = undefined; // reset to default
 
             break;
 
@@ -115,16 +175,6 @@
         }
 
         if (errors.length) {
-          break;
-        }
-
-        var ocdResponse = request_.context.ocdi.writeNamespace({
-          apmBindingPath: request_.context.apmBindingPath,
-          dataPath: "#.core.displayProcessLink"
-        }, cellMemory.core.displayProcessLink);
-
-        if (ocdResponse.error) {
-          errors.push(ocdResponse.error);
           break;
         }
 

@@ -6,7 +6,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
-// DisplayView_T/DisplayStreamMessage_T/index.js
+// DisplayView_T/DisplayStreamMessage_T/index.js // TODO: RENAME THIS SOMETHING LESS ABSTRUSE. e.g. d2r2Request_T?
 (function () {
   var arccore = require("@encapsule/arccore");
 
@@ -75,6 +75,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           var apmID = generatorRequest_.cmtInstance.mapLabels({
             APM: displayStreamMessageLabel
           }).result.APMID; // Set the invariant portions of all DisplayStreamMessage family members.
+          // SEE ALSO: https://en.wikipedia.org/wiki/Inter-process_communication
+          //
+          // @encapsule/d2r2 may be viewed as an IPC mechanism that accepts a variant message
+          // that is parsed to determine a unique "target process" to which to deliver the message.
+          // Here we define the format of a d2r2 Request (the variant request). 
+          // CHANGES MADE HERE MUST BE PROPOGATED FORWARD INTO DISPLAY ADAPTER MESSAGE PUMP ACTION.
 
           var displayStreamMessageSpec = {
             ____label: displayStreamMessageLabel,
@@ -87,8 +93,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               ____defaultValue: {},
               apmBindingPath: {
                 ____accept: "jsString"
-              } // make required for now?
-
+              },
+              // MAKE REQUIRED VALUE
+              displayPath: {
+                ____accept: "jsString"
+              },
+              // MAKE REQUIRED VALUE , ____defaultValue: "👁" /*This should be a Unicode Eye*/ } // It's on the DisplayView family cell to set its displayPath appropriately.
+              revision: {
+                ____accept: "jsNumber",
+                ____defaultValue: -500
+              }
             },
             renderData: {
               ____label: "".concat(displayStreamMessageLabel, " d2r2 Render Data"),

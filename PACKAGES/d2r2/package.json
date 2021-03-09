@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "1KWyFu0CQzKi44OtjVEeyw",
-    "buildSource": "b0d71f4514df0b61a8f4d2a5e26315974e81a528",
-    "buildTime": 1615119402,
-    "codename": "redcoral",
+    "buildID": "YaKtMbLpTCC-2uC5qEBaUA",
+    "buildSource": "12e40f8ff329656bb5cb60fd66fc0e6ee14322cb",
+    "buildTime": 1615304478,
+    "codename": "whitecoral",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.58"
+    "version": "0.0.59"
 }

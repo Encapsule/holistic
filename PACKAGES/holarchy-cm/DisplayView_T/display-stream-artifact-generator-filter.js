@@ -8,10 +8,6 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
-
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -24,6 +20,10 @@ function _assertThisInitialized(self) { if (self === void 0) { throw new Referen
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
@@ -33,7 +33,7 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // display-stream-artifact-generator-filter.js
-// OMG ... this module ...
+// OMG ... this module ... IS NAMED POORLY
 (function () {
   var arccore = require("@encapsule/arccore");
 
@@ -81,7 +81,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var inBreakScope = false;
 
       var _loop = function _loop() {
-        inBreakScope = true;
+        inBreakScope = true; // ****************************************************************
+        // ****************************************************************
+        // SYNTHESIZE A SPECIALIZED "DISPLAY VIEW" CellModel ARTIFACT
+        // ****************************************************************
+        // ****************************************************************
+
         var synthResponse = cmtDisplayView.synthesizeCellModel(request_.displayViewSynthesizeRequest); // Just the request in and see what happens.
 
         if (synthResponse.error) {
@@ -97,9 +102,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           errors.push("The CellModel::constructor request we received back from DisplayView_T::synthesizeCellModel is DOA due to error:");
           errors.push(cellModel.toJSON());
           return "break";
-        }
+        } // This is the ID of of the newly-synthesized DisplayView family CellModel's APM.
 
-        var apmID = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm; // Must be kept in sync w/VDDV artifact generator.
+
+        var apmID = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm; // Must be kept in sync w/DVVD artifact generator.
 
         var viewDisplayClassName = "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_ViewDisplay_").concat(Buffer.from(apmID, "base64").toString("hex"));
         var displayLayoutNamespace = viewDisplayClassName;
@@ -110,35 +116,42 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         renderDataSpec[displayLayoutNamespace] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.displayLayoutSpec), {}, {
           ____defaultValue: undefined
         });
-        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\"")); // ****************************************************************
-        // ****************************************************************
-        // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
-        // ****************************************************************
-        // ****************************************************************
+        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\""));
+        var fascadeClass = void 0; // "creative" synthesis done below.
 
-        var ViewDisplayProcess = /*#__PURE__*/function (_request_$reactCompon) {
-          _inherits(ViewDisplayProcess, _request_$reactCompon);
+        (function () {
+          // This is the short cellModelLabel used to synthesize the newly-synthesized DisplayView family CellModel.
+          var friendlyClassMoniker = request_.displayViewSynthesizeRequest.cellModelLabel; // viewDisplayClassName;
+          // ****************************************************************
+          // ****************************************************************
+          // SYNTHESIZE A SPECIALIZED "VIEW DISPLAY" d2r2Component ARTIFACT
+          // ****************************************************************
+          // ****************************************************************
 
-          var _super = _createSuper(ViewDisplayProcess);
+          var ViewDisplayProcess = /*#__PURE__*/function (_request_$reactCompon) {
+            _inherits(ViewDisplayProcess, _request_$reactCompon);
 
-          function ViewDisplayProcess(props_) {
-            var _this;
+            var _super = _createSuper(ViewDisplayProcess);
 
-            _classCallCheck(this, ViewDisplayProcess);
+            function ViewDisplayProcess(props_) {
+              var _thisSuper, _thisSuper2, _this;
 
-            console.log("ViewDisplayProcess::constructor on behalf of ".concat(viewDisplayClassName));
-            _this = _super.call(this, props_);
-            _this.displayName = viewDisplayClassName;
-            return _this;
-          }
+              _classCallCheck(this, ViewDisplayProcess);
 
-          _createClass(ViewDisplayProcess, [{
-            key: "componentDidMount",
-            value: function componentDidMount() {
-              console.log("ViewDisplayProcess::componentDidMount on behalf of ".concat(viewDisplayClassName));
-              var actResponse = this.props.renderContext.act({
-                actorName: this.displayName,
-                actorTaskDescription: "This is new a new instance of React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
+              console.log("ViewDisplayProcess::constructor on behalf of ".concat(viewDisplayClassName));
+              _this = _super.call(this, props_);
+
+              if (!_this.displayName) {
+                throw new Error("Um, yea. We're going to have to have you go ahead and get your class \"".concat(friendlyClassMoniker, "\" that extends React.Component to define a constructor function, and then assign this.displayName in the body of that constructor function so that \"").concat(viewDisplayClassName, "\" that extends your \"").concat(friendlyClassMoniker, "\" class can correctly deduce where it is in the display tree when it's time to link to its backing DisplayView cell process. Thanks."));
+              }
+
+              _this.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this.displayName); // TRY
+
+              console.log("ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ".concat(viewDisplayClassName));
+
+              var actResponse = _this.props.renderContext.act({
+                actorName: _this.displayName,
+                actorTaskDescription: "This is new a new instance of React.Element ".concat(_this.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
                 actionRequest: {
                   holistic: {
                     common: {
@@ -150,8 +163,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                 linkDisplayProcess: {
                                   notifyEvent: "display-process-activated",
                                   reactElement: {
-                                    displayName: this.displayName,
-                                    thisRef: this
+                                    displayName: _this.displayName,
+                                    displayPath: _this.displayPath,
+                                    thisRef: _assertThisInitialized(_this)
                                   }
                                 }
                               }
@@ -162,38 +176,62 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     }
                   }
                 },
-                apmBindingPath: this.props.renderContext.apmBindingPath
+                apmBindingPath: _this.props.renderContext.apmBindingPath
               });
 
               try {
-                if (_get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentDidMount", this)) {
-                  _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentDidMount", this).call(this);
+                if (_get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper)) {
+                  _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper2).call(_thisSuper2);
                 }
               } catch (wtaf_) {
                 console.warn(wtaf_.message);
                 console.error(wtaf_.stack);
               }
+
+              return _this;
             }
-          }, {
-            key: "componentWillUnmount",
-            value: function componentWillUnmount() {
-              console.log("ViewDisplayProcess::componentWillUnmount on behalf of ".concat(viewDisplayClassName));
-              var actResponse = this.props.renderContext.act({
-                actorName: this.displayName,
-                actorTaskDescription: "This is a previously-linked React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that is is going to unmount and deactivate."),
-                actionRequest: {
-                  holistic: {
-                    common: {
-                      actions: {
-                        service: {
-                          html5: {
-                            display: {
-                              view: {
-                                linkDisplayProcess: {
-                                  notifyEvent: "display-process-deactivating",
-                                  reactElement: {
-                                    displayName: this.displayName,
-                                    thisRef: this
+            /*
+            componentDidMount() {
+                 console.log(`ViewDisplayProcess::componentDidMount on behalf of ${viewDisplayClassName}`);
+                let actResponse = this.props.renderContext.act({
+                    actorName: this.displayName,
+                    actorTaskDescription: `This is new a new instance of React.Element ${this.displayName} process notifying its backing DisplayView cell that it has been mounted and is now activated.`,
+                    actionRequest: { holistic: { common: { actions: { service: { html5: { display: { view: { linkDisplayProcess: { notifyEvent: "display-process-activated", reactElement: { displayName: this.displayName, displayPath: this.displayPath, thisRef: this } } } } } } } } } },
+                    apmBindingPath: this.props.renderContext.apmBindingPath
+                });
+                try {
+                    if (super.componentDidMount) {
+                        super.componentDidMount();
+                    }
+                } catch (wtaf_) {
+                    console.warn(wtaf_.message);
+                    console.error(wtaf_.stack);
+                }
+             }
+            */
+
+
+            _createClass(ViewDisplayProcess, [{
+              key: "componentWillUnmount",
+              value: function componentWillUnmount() {
+                console.log("ViewDisplayProcess::componentWillUnmount on behalf of ".concat(viewDisplayClassName));
+                var actResponse = this.props.renderContext.act({
+                  actorName: this.displayName,
+                  actorTaskDescription: "This is a previously-linked React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that is is going to unmount and deactivate."),
+                  actionRequest: {
+                    holistic: {
+                      common: {
+                        actions: {
+                          service: {
+                            html5: {
+                              display: {
+                                view: {
+                                  linkDisplayProcess: {
+                                    notifyEvent: "display-process-deactivating",
+                                    reactElement: {
+                                      displayName: this.displayName,
+                                      thisRef: this
+                                    }
                                   }
                                 }
                               }
@@ -202,40 +240,41 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         }
                       }
                     }
+                  },
+                  apmBindingPath: this.props.renderContext.apmBindingPath
+                });
+
+                try {
+                  if (_get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this)) {
+                    _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this).call(this);
                   }
-                },
-                apmBindingPath: this.props.renderContext.apmBindingPath
-              });
-
-              try {
-                if (_get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this)) {
-                  _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this).call(this);
+                } catch (wtaf_) {
+                  console.warn(wtaf_.message);
+                  console.error(wtaf_.stack);
                 }
-              } catch (wtaf_) {
-                console.warn(wtaf_.message);
-                console.error(wtaf_.stack);
               }
-            }
-          }]);
+            }]);
 
-          return ViewDisplayProcess;
-        }(request_.reactComponentClass); // class DisplayProcess extends request_.reactComponentClass extends React.Component (presumably)
-        // ****************************************************************
-        // ****************************************************************
-        // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
-        // ****************************************************************
-        // ****************************************************************
-        // WILL THIS WORK? :) MAGIC! (♥_♥)
-
-
-        function makeMagicClass(magicClassName_) {
-          var classConstructor = eval("(function() { return (class ".concat(magicClassName_, " extends ViewDisplayProcess {}); })();"));
-          return classConstructor;
-        } // Now jam the synthesized class into a d2r2-generated filter that accepts data according to renderSpec and returns a bound React.Element via its response.result.
-        // This is what we call a d2r2Component for lack a better short-hand for refering to it. In reality it's a data-to-display process transducer function (w/data filtering).
+            return ViewDisplayProcess;
+          }(request_.reactComponentClass); // class DisplayProcess extends request_.reactComponentClass extends React.Component (presumably)
+          // ****************************************************************
+          // ****************************************************************
+          // SYNTHESIZE THE DISPLAY PROCESS REACT.COMPONENT
+          // ****************************************************************
+          // ****************************************************************
+          // WILL THIS WORK? :) MAGIC! (♥_♥)
 
 
-        var magicClass = makeMagicClass(viewDisplayClassName);
+          function makeFascadeClass(fascadeClassName_) {
+            var fascadeClassConstructor = eval("(function() { return (class ".concat(fascadeClassName_, " extends ViewDisplayProcess {}); })();"));
+            return fascadeClassConstructor;
+          } // Syntheszie the fascade class.
+
+
+          fascadeClass = makeFascadeClass(viewDisplayClassName);
+        })(); // Now jam the synthesized fascade class into a a DisplayView cell process to ViewDisplay React.Element process transducer (aka d2r2Component ;)-~
+
+
         synthResponse = d2r2.ComponentFactory.request({
           id: cmtDisplayView.mapLabels({
             OTHER: "".concat(cellModelConstructorRequest.id, ":d2r2Component")
@@ -243,7 +282,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Display Process"),
           description: "A filter that generates a React.Element instance created via React.createElement API from the reactComponentClass specified here bound to the request data.",
           renderDataBindingSpec: _objectSpread({}, renderDataSpec),
-          reactComponent: magicClass // `${request_.displayViewSynthesizeRequest.cellModelLabel}_ViewDisplay_${apmID}`) // ᕕ( ᐛ )ᕗ
+          reactComponent: fascadeClass // ᕕ( ᐛ )ᕗ
 
         });
 

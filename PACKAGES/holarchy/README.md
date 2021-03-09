@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.58 redcoral
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.59 whitecoral
 
 ## &#x25F0; Runtime library: @encapsule/holarchy
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Cellular process modeling and runtime engine for Node.js and browser.
 
 ```
-Package: @encapsule/holarchy v0.0.58 "redcoral" build ID "1KWyFu0CQzKi44OtjVEeyw"
-Sources: @encapsule/holodev#b0d71f4514df0b61a8f4d2a5e26315974e81a528
-Created: 2021-03-07T12:16:42.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holarchy v0.0.59 "whitecoral" build ID "YaKtMbLpTCC-2uC5qEBaUA"
+Sources: @encapsule/holodev#12e40f8ff329656bb5cb60fd66fc0e6ee14322cb
+Created: 2021-03-09T15:41:18.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
