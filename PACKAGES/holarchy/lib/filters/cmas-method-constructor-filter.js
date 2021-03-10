@@ -8,6 +8,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 // CellModelArtifactSpace-method-constructor-filter.js
 (function () {
+  // v0.0.60-andesine --- I have modified the logic in this module to produce IRUT ID's
+  // with a much better random value distribution so that closely related labels produce
+  // generally visually distinctive, dissimlar, IRUT values (e.g. two labels in same same
+  // that differ only by their last character). This is good enough for now. But, the real
+  // issue is a difficiency in @encapsule/arccore.identifier.irut.fromReference implementation
+  // that should implement a better idempotent scrambler on the label before performing
+  // murmur hashing and serialization to final 22-char string format.
   var arccore = require("@encapsule/arccore");
 
   var cmasConstructorRequestSpec = require("./iospecs/cmas-method-constructor-input-spec");
@@ -20,6 +27,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
     outputSpec: {
       ____types: "jsObject",
       spaceLabel: {
+        ____accept: "jsString"
+      },
+      spaceID: {
         ____accept: "jsString"
       },
       mapLabelsMethodFilter: {
@@ -45,8 +55,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         if (spaceLabel.length === 0) {
           errors.push("You must specify a spaceLabel value of one or more character(s) in length.");
           break;
-        } // Create a filter that implements the mapLabels method.
+        }
 
+        var spaceLabelReverse = spaceLabel.split("").reverse().join("");
+        var splitPoint = Math.round(spaceLabelReverse.length / 2);
+        var spaceLabelReverseSplit = {
+          a: spaceLabelReverse.slice(0, splitPoint),
+          b: spaceLabelReverse.slice(splitPoint, spaceLabelReverse.length)
+        };
+        var spaceID = arccore.identifier.irut.fromReference("".concat(spaceLabelReverseSplit.b, ".e36azEvFSkmAC9MlYT6lZA.").concat(spaceLabelReverseSplit.a, ".IcH9EeK6SPyFgqjAPxGh4w")).result; // should be no perceptible relationship between IRUT created from closely-related label strings
+        // Create a filter that implements the mapLabels method.
 
         var factoryResponse2 = arccore.filter.create({
           operationID: arccore.identifier.irut.fromReference("CellModelArtifactSpace<".concat(spaceLabel, ">::mapLabels")).result,
@@ -125,10 +143,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var errors = [];
             var inBreakScope = false;
 
-            while (!inBreakScope) {
+            var _loop = function _loop() {
               inBreakScope = true; // REJECT ZERO-LENGTH AND ENFORCE CM && ACT || CM && TOP
 
               var keys = Object.keys(mapLabelsRequest_);
+              var scrambleRequest = {};
               keys.forEach(function (key_) {
                 // console.log(key_);
                 if (mapLabelsRequest_[key_] !== undefined) {
@@ -147,19 +166,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                           delete mapLabelsRequest_[key_]; // JUST IGNORE THE BAD INPUT LABEL
                         }
                       }
+
+                      if (!errors.length) {
+                        scrambleRequest[key_] = mapLabelsRequest_[key_].split("").reverse().join("");
+                      }
                     }
                   }
                 }
               });
               response.result = _objectSpread(_objectSpread({}, mapLabelsRequest_), {}, {
                 cmasInstance: undefined,
-                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".CellModel.").concat(mapLabelsRequest_.CM)).result : undefined,
-                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".AbstractProcessModel.").concat(mapLabelsRequest_.APM)).result : undefined,
-                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".ControllerAction.").concat(mapLabelsRequest_.CM, "::").concat(mapLabelsRequest_.ACT)).result : undefined,
-                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".TransitionOperator.").concat(mapLabelsRequest_.CM, "::").concat(mapLabelsRequest_.TOP)).result : undefined,
-                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(mapLabelsRequest_.cmasInstance.spaceLabel, ".OtherAsset.").concat(mapLabelsRequest_.OTHER)).result : undefined
+                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.CM, "_CellModel_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_UmROjf09T5exKvVqlP5Wtw")).result : undefined,
+                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.APM, "_AbstractProcessModel_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_szLs1awWSzK56Vtj6o3qAw")).result : undefined,
+                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.ACT, "_ControllerAction_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance.spaceID, "_97JU5UMKTYSphoP2Eh3Pow")).result : undefined,
+                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.TOP, "_TransitionOperator_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance.spaceID, "_gs2Q6ItMQde2-J_pJTZyeA")).result : undefined,
+                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.OTHER, "_OtherArtifact_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_jTK_Vk7ASq6ofZhcTdqDbQ")).result : undefined
               });
-              break;
+              return "break";
+            };
+
+            while (!inBreakScope) {
+              var _ret = _loop();
+
+              if (_ret === "break") break;
             }
 
             if (errors.length) {
@@ -210,7 +239,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var inBreakScope = false;
 
             while (!inBreakScope) {
-              inBreakScope = true; // Here a "subspace" is an artifact space "boundary". U+2202 (stylized d) is used here to demarcate the boundary.
+              inBreakScope = true;
+
+              if (!makeSubspaceInstanceRequest_.spaceLabel.length) {
+                errors.push("You must specify a spaceLabel value of one or more character(s) in length.");
+                break;
+              } // Here a "subspace" is an artifact space "boundary". U+2202 (stylized d) is used here to demarcate the boundary.
+              // See also: https://en.wikipedia.org/wiki/%E2%88%82 <- NOTE: "...or the conjugate of the Dolbeault operator on smooth differential forms over a complex manifold." (https://en.wikipedia.org/wiki/Manifold)
+              // ... Enough for now, when we can see it we will talk more & speculate about what it means. It's pretty deep.
+
 
               response.result = {
                 spaceLabel: "".concat(makeSubspaceInstanceRequest_.cmasInstance.spaceLabel, "\u2202").concat(makeSubspaceInstanceRequest_.spaceLabel)
@@ -234,6 +271,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var makeSubspaceInstanceMethodFilter = factoryResponse2.result;
         response.result = {
           spaceLabel: spaceLabel,
+          spaceID: spaceID,
           mapLabelsMethodFilter: mapLabelsMethodFilter,
           makeSubspaceInstanceMethodFilter: makeSubspaceInstanceMethodFilter
         };

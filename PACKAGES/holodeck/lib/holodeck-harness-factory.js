@@ -45,6 +45,9 @@ var factoryResponse = arccore.filter.create({
         description: {
           ____accept: "jsString"
         },
+        chai: {
+          ____accept: "jsObject"
+        },
         vectorRequest: factoryRequest_.testVectorRequestInputSpec,
         harnessDispatcher: {
           ____accept: "jsObject"
