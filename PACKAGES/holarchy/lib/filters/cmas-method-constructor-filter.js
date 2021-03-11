@@ -176,11 +176,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               });
               response.result = _objectSpread(_objectSpread({}, mapLabelsRequest_), {}, {
                 cmasInstance: undefined,
-                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.CM, "_CellModel_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_UmROjf09T5exKvVqlP5Wtw")).result : undefined,
-                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.APM, "_AbstractProcessModel_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_szLs1awWSzK56Vtj6o3qAw")).result : undefined,
-                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.ACT, "_ControllerAction_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance.spaceID, "_97JU5UMKTYSphoP2Eh3Pow")).result : undefined,
-                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.TOP, "_TransitionOperator_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance.spaceID, "_gs2Q6ItMQde2-J_pJTZyeA")).result : undefined,
-                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.OTHER, "_OtherArtifact_").concat(mapLabelsRequest_.cmasInstance.spaceID, "_jTK_Vk7ASq6ofZhcTdqDbQ")).result : undefined
+                CMID: mapLabelsRequest_.CM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.CM, "_CellModel_").concat(mapLabelsRequest_.cmasInstance._private.spaceID, "_UmROjf09T5exKvVqlP5Wtw")).result : undefined,
+                APMID: mapLabelsRequest_.APM ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.APM, "_AbstractProcessModel_").concat(mapLabelsRequest_.cmasInstance._private.spaceID, "_szLs1awWSzK56Vtj6o3qAw")).result : undefined,
+                ACTID: mapLabelsRequest_.ACT ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.ACT, "_ControllerAction_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance._private.spaceID, "_97JU5UMKTYSphoP2Eh3Pow")).result : undefined,
+                TOPID: mapLabelsRequest_.TOP ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.TOP, "_TransitionOperator_").concat(mapLabelsRequest_.CM).concat(mapLabelsRequest_.cmasInstance._private.spaceID, "_gs2Q6ItMQde2-J_pJTZyeA")).result : undefined,
+                OTHERID: mapLabelsRequest_.OTHER ? arccore.identifier.irut.fromReference("".concat(scrambleRequest.OTHER, "_OtherArtifact_").concat(mapLabelsRequest_.cmasInstance._private.spaceID, "_jTK_Vk7ASq6ofZhcTdqDbQ")).result : undefined
               });
               return "break";
             };
@@ -242,7 +242,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               inBreakScope = true;
 
               if (!makeSubspaceInstanceRequest_.spaceLabel.length) {
-                errors.push("You must specify a spaceLabel value of one or more character(s) in length.");
+                errors.push("You must specify a spaceLabel value of one or more character. Invalid zero-length spaceLabel rejected.");
                 break;
               } // Here a "subspace" is an artifact space "boundary". U+2202 (stylized d) is used here to demarcate the boundary.
               // See also: https://en.wikipedia.org/wiki/%E2%88%82 <- NOTE: "...or the conjugate of the Dolbeault operator on smooth differential forms over a complex manifold." (https://en.wikipedia.org/wiki/Manifold)

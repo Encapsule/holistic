@@ -27,6 +27,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       };
       this.isValid = this.isValid.bind(this);
       this.toJSON = this.toJSON.bind(this);
+      this.getArtifactPath = this.getArtifactPath.bind(this);
+      this.getArtifactSpaceID = this.getArtifactSpaceID.bind(this);
       this.mapLabels = this.mapLabels.bind(this);
       this.makeSubspaceInstance = this.makeSubspaceInstance.bind(this); // deprecate this.getArtifactSpaceLabel = this.getArtifactSpaceLabel.bind(this);
     }
@@ -39,7 +41,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
     }, {
       key: "toJSON",
       value: function toJSON() {
-        return this.isValid() ? this._private : this._private.constructorError;
+        return this.isValid() ? {
+          spaceLabel: this._private.spaceLabel,
+          spaceID: this._private.spaceID
+        } : this._private.constructorError;
+      }
+    }, {
+      key: "getArtifactPath",
+      value: function getArtifactPath() {
+        return this.isValid() ? this._private.spaceLabel : this._private.constructorError;
+      }
+    }, {
+      key: "getArtifactSpaceID",
+      value: function getArtifactSpaceID() {
+        return this.isValid() ? this._private.spaceID : this._private.constructorError;
       }
     }, {
       key: "mapLabels",

@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "a1zSSCQnS9OdL2Dg19zPWw",
-    "buildSource": "87118c8c206015b22dc911972c9ed67c7fd55592",
-    "buildTime": 1615360907,
-    "codename": "andesine",
+    "buildID": "K-97HnIQQCeg88c7LQeqDA",
+    "buildSource": "38f83ec39754ca00580ec6d09aea6e2e93083e34",
+    "buildTime": 1615490558,
+    "codename": "verdelite",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -31,8 +31,8 @@
     "name": "@encapsule/holistic-nodejs-service",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.10",
-        "@encapsule/holarchy": "0.0.60",
-        "@encapsule/holarchy-cm": "0.0.60",
+        "@encapsule/holarchy": "0.0.61",
+        "@encapsule/holarchy-cm": "0.0.61",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.60"
+    "version": "0.0.61"
 }

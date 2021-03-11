@@ -7,5 +7,5 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 module.exports = _objectSpread(_objectSpread(_objectSpread({}, require("./helper-sync-exec")), require("./helper-log-paths")), {}, {
-  chai: require("./chai-assert-fascade")
+  chaiAssert: require("./chai-assert-fascade")
 });

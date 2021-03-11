@@ -45,9 +45,10 @@ var factoryResponse = arccore.filter.create({
         description: {
           ____accept: "jsString"
         },
-        chai: {
+        chaiAssert: {
           ____accept: "jsObject"
         },
+        // <-- See: @encapsule/holodeck/lib/helpers/chai-assert-fascade.js (no-throw wrappers around  https://www.chaijs.com/api/assert/ functions that throw ErrorAssertion)
         vectorRequest: factoryRequest_.testVectorRequestInputSpec,
         harnessDispatcher: {
           ____accept: "jsObject"

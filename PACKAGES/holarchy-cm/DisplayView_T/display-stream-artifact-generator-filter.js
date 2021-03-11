@@ -39,6 +39,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
   var holarchy = require("@encapsule/holarchy");
 
+  var React = require("react");
+
   var d2r2 = require("@encapsule/d2r2");
 
   var cmtDisplayView = require("./"); // Currently, we're co-resident w/the DisplayView_T definition.
@@ -74,6 +76,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
     },
     bodyFunction: function bodyFunction(request_) {
+      var _this = this;
+
       var response = {
         error: null
       };
@@ -81,12 +85,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var inBreakScope = false;
 
       var _loop = function _loop() {
-        inBreakScope = true; // ****************************************************************
+        inBreakScope = true;
+        console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
+        console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] Building a new DisplayView <-> ViewDisplay process bus (DVVD Bus) cellModelLabel=\"").concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\"...")); // ****************************************************************
         // ****************************************************************
         // SYNTHESIZE A SPECIALIZED "DISPLAY VIEW" CellModel ARTIFACT
         // ****************************************************************
         // ****************************************************************
 
+        console.log("> Attempting to synthesize a specialized DisplayView CellModel for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\"..."));
         var synthResponse = cmtDisplayView.synthesizeCellModel(request_.displayViewSynthesizeRequest); // Just the request in and see what happens.
 
         if (synthResponse.error) {
@@ -99,11 +106,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         var cellModel = new holarchy.CellModel(cellModelConstructorRequest);
 
         if (!cellModel.isValid()) {
-          errors.push("The CellModel::constructor request we received back from DisplayView_T::synthesizeCellModel is DOA due to error:");
+          errors.push("The CellModel::constructor request we received back from DisplayView_T::synthesizeCellModel is not a valid CellModel:");
           errors.push(cellModel.toJSON());
           return "break";
-        } // This is the ID of of the newly-synthesized DisplayView family CellModel's APM.
+        }
 
+        console.log("> DisplayView CellModel for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\" synthesized!")); // This is the ID of of the newly-synthesized DisplayView family CellModel's APM.
 
         var apmID = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm; // Must be kept in sync w/DVVD artifact generator.
 
@@ -115,8 +123,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         };
         renderDataSpec[displayLayoutNamespace] = _objectSpread(_objectSpread({}, request_.displayViewSynthesizeRequest.specializationData.displayElement.displayLayoutSpec), {}, {
           ____defaultValue: undefined
-        });
-        console.log("RENDER DATA SPEC FOR NEW d2r2 COMPONENT = \"".concat(JSON.stringify(renderDataSpec, undefined, 4), "\""));
+        }); // console.log(`RENDER DATA SPEC FOR NEW d2r2 COMPONENT = "${JSON.stringify(renderDataSpec, undefined, 4)}"`);
+
         var fascadeClass = void 0; // "creative" synthesis done below.
 
         (function () {
@@ -134,24 +142,24 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _super = _createSuper(ViewDisplayProcess);
 
             function ViewDisplayProcess(props_) {
-              var _thisSuper, _thisSuper2, _this;
+              var _thisSuper, _thisSuper2, _this2;
 
               _classCallCheck(this, ViewDisplayProcess);
 
               console.log("ViewDisplayProcess::constructor on behalf of ".concat(viewDisplayClassName));
-              _this = _super.call(this, props_);
+              _this2 = _super.call(this, props_);
 
-              if (!_this.displayName) {
+              if (!_this2.displayName) {
                 throw new Error("Um, yea. We're going to have to have you go ahead and get your class \"".concat(friendlyClassMoniker, "\" that extends React.Component to define a constructor function, and then assign this.displayName in the body of that constructor function so that \"").concat(viewDisplayClassName, "\" that extends your \"").concat(friendlyClassMoniker, "\" class can correctly deduce where it is in the display tree when it's time to link to its backing DisplayView cell process. Thanks."));
               }
 
-              _this.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this.displayName); // TRY
+              _this2.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this2.displayName); // TRY
 
               console.log("ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ".concat(viewDisplayClassName));
 
-              var actResponse = _this.props.renderContext.act({
-                actorName: _this.displayName,
-                actorTaskDescription: "This is new a new instance of React.Element ".concat(_this.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
+              var actResponse = _this2.props.renderContext.act({
+                actorName: _this2.displayName,
+                actorTaskDescription: "This is new a new instance of React.Element ".concat(_this2.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
                 actionRequest: {
                   holistic: {
                     common: {
@@ -163,9 +171,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                                 linkDisplayProcess: {
                                   notifyEvent: "display-process-activated",
                                   reactElement: {
-                                    displayName: _this.displayName,
-                                    displayPath: _this.displayPath,
-                                    thisRef: _assertThisInitialized(_this)
+                                    displayName: _this2.displayName,
+                                    displayPath: _this2.displayPath,
+                                    thisRef: _assertThisInitialized(_this2)
                                   }
                                 }
                               }
@@ -176,19 +184,22 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                     }
                   }
                 },
-                apmBindingPath: _this.props.renderContext.apmBindingPath
+                apmBindingPath: _this2.props.renderContext.apmBindingPath
               });
 
               try {
-                if (_get((_thisSuper = _assertThisInitialized(_this), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper)) {
-                  _get((_thisSuper2 = _assertThisInitialized(_this), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper2).call(_thisSuper2);
+                if (_get((_thisSuper = _assertThisInitialized(_this2), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper)) {
+                  _get((_thisSuper2 = _assertThisInitialized(_this2), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper2).call(_thisSuper2);
                 }
               } catch (wtaf_) {
                 console.warn(wtaf_.message);
                 console.error(wtaf_.stack);
-              }
+              } // ? Expect it to be fine for now as it's not being called yet.
 
-              return _this;
+
+              _this2.componentWillUnmount = _this2.componentWillUnmount.bind(_assertThisInitialized(_this2));
+              _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
+              return _this2;
             }
             /*
             componentDidMount() {
@@ -253,6 +264,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   console.error(wtaf_.stack);
                 }
               }
+            }, {
+              key: "foo",
+              value: function foo() {
+                console.log("Hello, foo here!");
+                return /*#__PURE__*/React.createElement("div", null, "FOO");
+              }
             }]);
 
             return ViewDisplayProcess;
@@ -277,9 +294,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
         synthResponse = d2r2.ComponentFactory.request({
           id: cmtDisplayView.mapLabels({
-            OTHER: "".concat(cellModelConstructorRequest.id, ":d2r2Component")
+            OTHER: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "::ViewDisplay")
           }).result.OTHERID,
-          name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Display Process"),
+          name: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " ViewDisplay Process"),
           description: "A filter that generates a React.Element instance created via React.createElement API from the reactComponentClass specified here bound to the request data.",
           renderDataBindingSpec: _objectSpread({}, renderDataSpec),
           reactComponent: fascadeClass // ᕕ( ᐛ )ᕗ
@@ -293,13 +310,16 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         }
 
         var d2r2Component = synthResponse.result;
-        console.log("RESULT d2r2 COMPONENT:");
-        console.log(d2r2Component); // And, we're good?
+        console.log("> Specialized ViewDisplay d2r2Component (React.Element factor filter) for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\" synthesized!")); // And, we're good?
 
         response.result = {
           CellModel: cellModel,
           d2r2Component: d2r2Component
         };
+        console.log("----------------------------------------------------------------");
+        console.log("> NEW DVVD BUS ARTIFACTS for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\":"));
+        console.log(response);
+        console.log("----------------------------------------------------------------");
         return "break";
       };
 
@@ -314,6 +334,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         response.error = errors.join(" ");
       }
 
+      console.log("[".concat(this.operationID, "::").concat(this.operationName, "] DVVD Bus generator request for cellModelLabel=\"").concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\" ").concat(response.error ? "FAILED WITH ERROR!" : "completed without errror", "."));
+      console.log("////////////////////////////////////////////////////////////////");
       return response;
     }
   });

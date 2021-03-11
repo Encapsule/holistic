@@ -49,6 +49,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       while (!inBreakScope) {
         inBreakScope = true;
+
+        if (!constructorRequest_.templateLabel.length) {
+          errors.push("You must specify a templateLabel value of one or more characters. Invalid zero-length templateLabel rejected.");
+          break;
+        }
+
         var cmasTemplateScope = constructorRequest_.cmasScope instanceof CellModelArtifactSpace ? constructorRequest_.cmasScope : new CellModelArtifactSpace(constructorRequest_.cmasScope);
 
         if (!cmasTemplateScope.isValid()) {

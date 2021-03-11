@@ -79,7 +79,7 @@ var factoryResponse = arccore.filter.create({
 
         for (var testNumber = 0; testNumber < testSet.length; testNumber++) {
           var testRequest = _objectSpread(_objectSpread({}, testSet[testNumber]), {}, {
-            chai: helpers.chai,
+            chaiAssert: helpers.chaiAssert,
             harnessDispatcher: harnessDispatcher,
             harnessRunner: runnerFascade,
             // note that we pass the fascade that calls this filter, not the filter itself down the MDR dispatch tree.
