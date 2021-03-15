@@ -5,17 +5,10 @@ module.exports = {
   ____label: "CellModelTemplate::constructor Request",
   ____description: "Request object value passed to CellModelTemplate::constructor function.",
   ____types: "jsObject",
-  cmasScope: {
-    ____label: "CellModelArtifactSpace Scope",
-    ____description: "The CellModelArtifactSpace instance that models the CellModel artifact space that an instance of this CellModelTemplate should subspace when synthesizing CellModel instances via its CellModelTemplate::synthesizeCellModel method.",
-    // Typically, the cmas reference will be @encapsule/holistic RTL package, or derived app service scope CellModelArtifactSpace instance.
-    ____accept: "jsObject" // Either a CellModelAddressSpace class instance or CellModelAddressSpace::constructor request object.
-
-  },
   templateLabel: {
     ____label: "CellModelTemplate Instance Label",
     ____description: "A unique and stable label (no spaces, legal JavaScript variable name token) that refers to the family of CellModel that may be synthesized by calling the constructed CellModelTemplate instance's synthesizeCellModel method.",
-    ____accept: "jsString" // Note that the CellModelTemplate instance's base CellModelArtifactSpace class constructor will be called with cmasScope.makeSubspaceInstance({ spaceLabel: templateLabel }) // <==== v0.0.62-titanite THIS IS THE ROOT OF ALL EVIL - WE NEED TO DECOUPLE TEMPLATES FROM CMAS --- NOT THE SAME DIMENSIONS
+    ____accept: "jsString" // v0.0.62-titanite --- templateLabel is passed into a developer-defined CellModel generator filter bodyFunction for _labeling_ purposes. It does not get involved in CMAS.mapLabels/or makeSubspaceInstance (unless you make pass the value as a label to CMAS).
 
   },
   cellModelGenerator: {

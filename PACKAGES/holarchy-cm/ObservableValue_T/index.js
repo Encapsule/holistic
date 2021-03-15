@@ -10,15 +10,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
-
   var cmObservableValueBase = require("./ObservableValueBase");
 
   var cmObservableValueHelper = require("../ObservableValueHelper");
 
   var templateLabel = "ObservableValue";
   var cmtObservableValue = new holarchy.CellModelTemplate({
-    cmasScope: cmasHolarchyCMPackage,
     templateLabel: templateLabel,
     cellModelGenerator: {
       specializationDataSpec: {
@@ -61,13 +58,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }
           };
           response.result = {
-            id: request_.cmtInstance.mapLabels({
+            id: request_.cmasScope.mapLabels({
               CM: request_.cellModelLabel
             }).result.CMID,
             name: "".concat(templateLabel, "<").concat(request_.cellModelLabel, ">"),
             description: "CellModelTemplate<".concat(templateLabel, "> specialization for CellModel label \"").concat(request_.cellModelLabel, "\"."),
             apm: {
-              id: request_.cmtInstance.mapLabels({
+              id: request_.cmasScope.mapLabels({
                 APM: request_.cellModelLabel
               }).result.APMID,
               name: "".concat(templateLabel, "<").concat(request_.cellModelLabel, ">"),
@@ -137,6 +134,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   });
 
   if (!cmtObservableValue.isValid()) {
+    console.error("".concat(__dirname, " ").concat(__filename));
     throw new Error(cmtObservableValue.toJSON());
   }
 

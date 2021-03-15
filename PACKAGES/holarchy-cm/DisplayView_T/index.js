@@ -103,6 +103,16 @@
                   ____defaultValue: {},
                   viewDisplayProcess: {
                     ____types: ["jsUndefined", "jsObject"],
+                    toJSON: {
+                      ____accept: "jsFunction",
+                      ____defaultValue: function ____defaultValue() {
+                        return {
+                          displayName: this.displayName,
+                          displayPath: this.displayPath,
+                          thisRef: "****React.Element NOT SERIALIZABLE****"
+                        };
+                      }
+                    },
                     displayName: {
                       ____accept: "jsString"
                     },
