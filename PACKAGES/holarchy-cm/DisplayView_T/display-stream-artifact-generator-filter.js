@@ -2,6 +2,8 @@
 
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
+function _extends() { _extends = Object.assign || function (target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i]; for (var key in source) { if (Object.prototype.hasOwnProperty.call(source, key)) { target[key] = source[key]; } } } return target; }; return _extends.apply(this, arguments); }
+
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -33,7 +35,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // display-stream-artifact-generator-filter.js
-// OMG ... this module ... IS NAMED POORLY
+// OMG ... Sorry, this module is likely to melt your brain.
+// It is very terse given lack of time. We will expand it later and write tests
+// for all the little pieces and try to ensure that all the names and labels etc.
+// all get documented clearly etc. Lots of work to change the entire manner in
+// which we build distributed information systems...
 (function () {
   var arccore = require("@encapsule/arccore");
 
@@ -87,14 +93,15 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
       var _loop = function _loop() {
         inBreakScope = true;
         console.log("\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\");
-        console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] Building a new DisplayView <-> ViewDisplay process bus (DVVD Bus) cellModelLabel=\"").concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\"...")); // ****************************************************************
+        console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] Synthesizing new DisplayView <- d2r2 -> ViewDisplay process bus (d2r2 Bus) transceiver artifacts for cellModelLabel=\"").concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\"...")); // ****************************************************************
         // ****************************************************************
         // SYNTHESIZE A SPECIALIZED "DISPLAY VIEW" CellModel ARTIFACT
         // ****************************************************************
         // ****************************************************************
+        // Part #1: Synthesize the CellModel constructor request descriptor.
 
         console.log("> Attempting to synthesize a specialized DisplayView CellModel for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\"..."));
-        var synthResponse = cmtDisplayView.synthesizeCellModel(request_.displayViewSynthesizeRequest); // Just the request in and see what happens.
+        var synthResponse = cmtDisplayView.synthesizeCellModel(request_.displayViewSynthesizeRequest);
 
         if (synthResponse.error) {
           errors.push("The actual call to DisplayView_T::synthesizeCellModel failed with error:");
@@ -102,7 +109,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return "break";
         }
 
-        var cellModelConstructorRequest = synthResponse.result;
+        var cellModelConstructorRequest = synthResponse.result; // Part #2: Construct a new CellModel class instance using the synthesized constructor request.
+
         var cellModel = new holarchy.CellModel(cellModelConstructorRequest);
 
         if (!cellModel.isValid()) {
@@ -111,11 +119,23 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           return "break";
         }
 
-        console.log("> DisplayView CellModel for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\" synthesized!")); // This is the ID of of the newly-synthesized DisplayView family CellModel's APM.
+        console.log("> DisplayView CellModel for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\" synthesized!")); // NAH THIS IS BULLSHIT....
+        // This is tricky. We just synthesized a new member of the DisplayView family of CellModel.
+        // Each specialization of the DisplayView_T contains a specialized ObservableValue_T, #.outputs.displayView,
+        // that in the simplest scenario is read by HolisticHTML5Service_DisplayAdapter process and passed to
+        // d2r2 <ComponentRouter/> as this.props to render the root React component of a HTML5 service "display" process.
+        // And, <ComponentRouter/> of course routes to 1:N registered d2r2Components (a React.Element factory filter)
+        // based on the signature of this.props.renderData. And, this must be unique across all registered d2r2Components.
+        // So, what we do here is reach into the newly synthesized CellModel constructor request generated by calling synthesizeCellModel
+        // and snag the APM assigned to its #.outputs.displayView namespace. And, we use this APM ID that is specific to the
+        // DisplayView_T's specialized DisplayStreamMessage_T to generate a unique this.props.renderData.X label for
+        // d2r2 <ComponentRouter/>.
 
-        var apmID = cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm; // Must be kept in sync w/DVVD artifact generator.
+        var apmIDDisplayView = cellModel.getAPM().getID(); // cellModelConstructorRequest.apm.ocdDataSpec.outputs.displayView.____appdsl.apm;
+        // Must be kept in sync w/DVVD artifact generator. // ? Isn't this the artifact generator? I confuse myself here. // **** Check DisplayStreamMessage_T implementation re: this.renderData[X] OCD namespace details? I think this is what I was talking about here earlier.
+        // I don't think this is perfect because I think you cannot go from this hex back to the IRUT due to IRUT performing char subst on base64. But, I do think it's idempotent and unique and that's likely good enough for our current use cases.
 
-        var viewDisplayClassName = "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_ViewDisplay_").concat(Buffer.from(apmID, "base64").toString("hex"));
+        var viewDisplayClassName = "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "_ViewDisplay_").concat(Buffer.from(apmIDDisplayView, "base64").toString("hex"));
         var displayLayoutNamespace = viewDisplayClassName;
         var renderDataSpec = {
           ____label: "".concat(request_.displayViewSynthesizeRequest.cellModelLabel, " Render Data Spec"),
@@ -150,10 +170,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this2 = _super.call(this, props_);
 
               if (!_this2.displayName) {
-                throw new Error("Um, yea. We're going to have to have you go ahead and get your class \"".concat(friendlyClassMoniker, "\" that extends React.Component to define a constructor function, and then assign this.displayName in the body of that constructor function so that \"").concat(viewDisplayClassName, "\" that extends your \"").concat(friendlyClassMoniker, "\" class can correctly deduce where it is in the display tree when it's time to link to its backing DisplayView cell process. Thanks."));
+                throw new Error("Um, yea. We're going to have to have you go ahead and get your class \"".concat(friendlyClassMoniker, "\" that extends React.Component to define a constructor function, and then assign this.displayName in the body of that constructor function so that \"").concat(viewDisplayClassName, "\" that extends your \"").concat(friendlyClassMoniker, "\" class can correctly deduce where it is in the display tree when it's time to link to its backing DisplayView cell process. Thanks!"));
               }
 
-              _this2.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this2.displayName); // TRY
+              _this2.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this2.displayName);
+              _this2.xyzzy = "this is a test property"; // TRY - THE IMPLICATION OF THIS IS THAT WE CANNOT CONSTRUCT THIS D2R2 COMPONENT ON THE SERVER UNLESS/UNTIL WE ALSO SUPPORT SYMETRIC CELLPLANE CONFIG INSIDE NODEJS SERVICES.
+              // For now this is not a large problem; what needs to be demonstrated and what needs to work 100% is HTML5 service support for advanced layout and display update. The whole
+              // story will have to wait until there's time & resources to build a NodeJS service kernel that supports these + many other needed subservices for backend.
 
               console.log("ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ".concat(viewDisplayClassName));
 
@@ -198,6 +221,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
 
               _this2.componentWillUnmount = _this2.componentWillUnmount.bind(_assertThisInitialized(_this2));
+              _this2.mountSubViewDisplay = _this2.mountSubViewDisplay.bind(_assertThisInitialized(_this2));
               _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
               return _this2;
             }
@@ -267,8 +291,29 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             }, {
               key: "foo",
               value: function foo() {
-                console.log("Hello, foo here!");
-                return /*#__PURE__*/React.createElement("div", null, "FOO");
+                // This is an experiment to see if the class we extend w/the fascade can successfully resolve our methods in their render() implementation etc.
+                return /*#__PURE__*/React.createElement("div", null, this.xyzzy);
+              }
+            }, {
+              key: "mountSubViewDisplay",
+              value: function mountSubViewDisplay(_ref) {
+                var cmasScope = _ref.cmasScope,
+                    displayViewCellModelLabel = _ref.displayViewCellModelLabel,
+                    displayLayout = _ref.displayLayout;
+                var apmID_DisplayViewCell = cmasScope.mapLabels({
+                  APM: displayViewCellModelLabel
+                }).result.APMID;
+                var hexifiedAPMID = Buffer.from(apmID_DisplayViewCell, "base64").toString("hex");
+                var layoutNamespace = "".concat(displayViewCellModelLabel, "_ViewDisplay_").concat(hexifiedAPMID);
+                var renderData = {};
+                renderData[layoutNamespace] = displayLayout;
+                var ComponentRouter = this.props.renderContext.ComponentRouter;
+                return /*#__PURE__*/React.createElement(ComponentRouter, _extends({}, this.props, {
+                  renderContext: _objectSpread(_objectSpread({}, this.props.renderContext), {}, {
+                    displayPath: "".concat(this.props.renderContext.displayPath, ".").concat(this.displayName)
+                  }),
+                  renderData: renderData
+                }));
               }
             }]);
 
@@ -318,6 +363,9 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         };
         console.log("----------------------------------------------------------------");
         console.log("> NEW DVVD BUS ARTIFACTS for cellModelLabel=\"".concat(request_.displayViewSynthesizeRequest.cellModelLabel, "\":"));
+        var displayViewAPMRef = response.result.CellModel.getAPM();
+        console.log("[".concat(response.result.CellModel.getID(), "::").concat(response.result.CellModel.getName(), "] APM ID = \"").concat(response.result.CellModel.getAPM().getID(), "\""));
+        console.log("response===");
         console.log(response);
         console.log("----------------------------------------------------------------");
         return "break";

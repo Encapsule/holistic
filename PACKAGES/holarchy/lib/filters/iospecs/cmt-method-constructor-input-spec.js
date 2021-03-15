@@ -15,7 +15,7 @@ module.exports = {
   templateLabel: {
     ____label: "CellModelTemplate Instance Label",
     ____description: "A unique and stable label (no spaces, legal JavaScript variable name token) that refers to the family of CellModel that may be synthesized by calling the constructed CellModelTemplate instance's synthesizeCellModel method.",
-    ____accept: "jsString" // Note that the CellModelTemplate instance's base CellModelArtifactSpace class constructor will be called with cmasScope.makeSubspaceInstance({ spaceLabel: templateLabel })
+    ____accept: "jsString" // Note that the CellModelTemplate instance's base CellModelArtifactSpace class constructor will be called with cmasScope.makeSubspaceInstance({ spaceLabel: templateLabel }) // <==== v0.0.62-titanite THIS IS THE ROOT OF ALL EVIL - WE NEED TO DECOUPLE TEMPLATES FROM CMAS --- NOT THE SAME DIMENSIONS
 
   },
   cellModelGenerator: {

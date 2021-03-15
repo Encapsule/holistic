@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.61 verdelite
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.0.62 titanite
 
 ## &#x25F0; Runtime library: @encapsule/holism-metadata
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains an extensible framework for defining application-specific metadata - i.e. data about your app. It is intended for use in derived apps/services and is typically used in conjunction with @encapsule/holism integration plug-in filters to satisfy queries re: publishing organization, application, page, route, hashroute, resource, operation...
 
 ```
-Package: @encapsule/holism-metadata v0.0.61 "verdelite" build ID "K-97HnIQQCeg88c7LQeqDA"
-Sources: @encapsule/holodev#38f83ec39754ca00580ec6d09aea6e2e93083e34
-Created: 2021-03-11T19:22:38.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism-metadata v0.0.62 "titanite" build ID "Ty6RSIzESXG_7Cr7JQbk_A"
+Sources: @encapsule/holodev#6185da086ea3c977055bdd769b98413bb61f19e1
+Created: 2021-03-15T18:28:17.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

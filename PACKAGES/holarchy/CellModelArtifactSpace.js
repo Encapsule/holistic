@@ -31,13 +31,15 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
       this.getArtifactSpaceID = this.getArtifactSpaceID.bind(this);
       this.mapLabels = this.mapLabels.bind(this);
       this.makeSubspaceInstance = this.makeSubspaceInstance.bind(this); // deprecate this.getArtifactSpaceLabel = this.getArtifactSpaceLabel.bind(this);
-    }
+    } // Returns Boolean true/false
+
 
     _createClass(CellModelArtifactSpace, [{
       key: "isValid",
       value: function isValid() {
         return this._private.constructorError ? false : true;
-      }
+      } // Mostly for testing.
+
     }, {
       key: "toJSON",
       value: function toJSON() {
@@ -45,17 +47,20 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
           spaceLabel: this._private.spaceLabel,
           spaceID: this._private.spaceID
         } : this._private.constructorError;
-      }
+      } // Returns a string (that might be a constructor error string)
+
     }, {
       key: "getArtifactPath",
       value: function getArtifactPath() {
         return this.isValid() ? this._private.spaceLabel : this._private.constructorError;
-      }
+      } // Returns a string (that might be a constructor error string)
+
     }, {
       key: "getArtifactSpaceID",
       value: function getArtifactSpaceID() {
         return this.isValid() ? this._private.spaceID : this._private.constructorError;
-      }
+      } // Returns a filter response.
+
     }, {
       key: "mapLabels",
       value: function mapLabels(request_) {
@@ -64,7 +69,8 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
         })) : {
           error: this.toJSON()
         };
-      }
+      } // Returns a filter response.
+
     }, {
       key: "makeSubspaceInstance",
       value: function makeSubspaceInstance(request_) {
@@ -80,9 +86,16 @@ function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _d
 
         if (filterResponse.error) {
           return filterResponse;
-        }
+        } // v0.0.62-titanite --- This should be returning response.result
 
-        return new CellModelArtifactSpace(filterResponse.result);
+
+        var cmasInstance = new CellModelArtifactSpace(filterResponse.result);
+        return cmasInstance.isValid() ? {
+          error: null,
+          result: cmasInstance
+        } : {
+          error: cmasInstance.toJSON()
+        };
       } // deprecate?
 
       /*

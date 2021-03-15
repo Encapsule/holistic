@@ -70,10 +70,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
             /*
               The harness will call your test vector's comparisonFunction as follows:
-               const comparisonResponse = comparisonFunction({ testVectorRequest, cmasRefA, cmasRefB, mapLabelsRequestA, mapLabelsRequestB, mapLabelsResultA, mapLabelsResultB })
-               You should return a standard arccore.filter response descriptor.
+               const assertFnResponse = assertionFunction({ testVectorRequest, cmasRefA, cmasRefB, mapLabelsRequestA, mapLabelsRequestB, mapLabelsResultA, mapLabelsResultB })
+               You should return a standard arccore.filter response descriptor object.
                If you return response.error the harness will mark the current test vector evaluation as FAILED.
-               If you return response.result then it is expected that you will return a chai assertion response descriptor object.
+               If you return response.result then it is expected to be a chaiAssert result descriptor object.
              */
             testAssertion: {
               ____types: "jsObject",
@@ -140,6 +140,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             holistic: {
               holarchy: {
                 CellModelArtifactSpace: {
+                  assertValidInstance: true,
                   constructorRequest: messageBody.constructorRequestA
                 }
               }
@@ -155,6 +156,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             holistic: {
               holarchy: {
                 CellModelArtifactSpace: {
+                  assertValidInstance: true,
                   constructorRequest: messageBody.constructorRequestB
                 }
               }

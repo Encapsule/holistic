@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "K-97HnIQQCeg88c7LQeqDA",
-    "buildSource": "38f83ec39754ca00580ec6d09aea6e2e93083e34",
-    "buildTime": 1615490558,
-    "codename": "verdelite",
+    "buildID": "Ty6RSIzESXG_7Cr7JQbk_A",
+    "buildSource": "6185da086ea3c977055bdd769b98413bb61f19e1",
+    "buildTime": 1615832897,
+    "codename": "titanite",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.61"
+    "version": "0.0.62"
 }

@@ -52,6 +52,8 @@
         while (!inBreakScope) {
           inBreakScope = true;
           var cmSynthRequest = {
+            cmasScope: generatorRequest_.cmtInstance,
+            // ? ***** TODO***** THIS WILL NEED TO CHANGE --- TEMPLATES WILL NO LONGER EXTENDED CMAS --- TO BE CLEAR SYNTH REQUEST NOW REQUIRES CMAS INPUT AND GENERATOR NEVER USES CMT TO RESOLVE CMAS
             cellModelLabel: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">"),
             specializationData: {
               description: "Specialization for ".concat(generatorRequest_.cellModelLabel),
@@ -124,11 +126,8 @@
                     subviewLabel: {
                       ____types: "jsObject",
                       ____appdsl: {
-                        apm: cmObservableValueHelper.getCMConfig({
-                          type: "APM"
-                        }).result[0].getID()
-                      } // TODO: CellModel.getAPM()/getAPMID() would be really convenient instead of having to call the lower-level getCMConfig method.
-
+                        apm: cmObservableValueHelper.getAPM().getID()
+                      }
                     }
                   }
                 }

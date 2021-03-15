@@ -234,7 +234,7 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         var cpOPC = new ObservableProcessController({
           id: arccore.identifier.irut.fromReference("".concat(request_.id, "_CellProcessor_ObservableProcessController")).result,
           name: "".concat(cpName, " ObservableProcessController"),
-          description: "Provides generic shared memory and runtime evaluation services (aka \"cell plane\") for '".concat(cpName, "' CellProcessor instance."),
+          description: "Provides generic shared memory and runtime evaluation services for cell process service '".concat(cpName, "'."),
           ocdTemplateSpec: ocdTemplateSpec,
           abstractProcessModelSets: [opcConfig.apm],
           transitionOperatorSets: [opcConfig.top],
@@ -244,7 +244,20 @@ var cpmMountingNamespaceName = require("./cpm-mounting-namespace-name");
         if (!cpOPC.isValid()) {
           errors.push(JSON.stringify(cpOPC));
           break;
+        } // v0.0.62-titanite --- Let's see what happens if we fail CellProcessor instance construction iff there are any OPC construction warnings (missing APM registrations are difficult to diagnose in terms of failed ACT/TOP calls).
+        // TODO: This should be a construction-time policy option and not hard-coded behavior probably. Then a service class can expose the option, and we can make it simpler for developers to disable the checks if they really want to dive in.
+        // If you're staring at this comment and think "that's exactly what I need right now" let me know and I'll add it. Otherwise moving on for now; primarily dropping this in here to prevent myself from wasting time
+        // in the debugger on things that are merely APM registration typos as opposed to bugs in CellModelArtifactSpace, CellModelTemplate, or one of the derived CellModel generator filters...
+        // 2nd-thought: LET'S NOT DO THIS HERE. IT'S THE WRONG LAYER.
+
+        /*
+        if (cpOPC._private.constructionWarnings && cpOPC._private.constructionWarnings.length) {
+            errors.push("Warnings were reported during construction of this CellProcessor instance's contained ObservableProcessController that indicate the cellplane could not be configured as declared in your service CellModel definition:");
+            cpOPC._private.constructionWarnings.forEach((warning_) => { errors.push(warning_); });
+            break;
         }
+        */
+
 
         response.result = {
           cm: cpCM,

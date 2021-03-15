@@ -50,7 +50,7 @@
           ____types: "jsObject",
           ____defaultValue: {},
           ____appdsl: {
-            apm: holarchyCM.cmtObservableValue.mapLabels({
+            apm: holarchyCM.cmasHolarchyCMPackage.mapLabels({
               APM: "RouterEventDescriptor"
             }).result.APMID
           }

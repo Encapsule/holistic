@@ -4,13 +4,13 @@
 (function () {
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmasObservableValueHelper = cmasHolarchyCMPackage.makeSubspaceInstance({
+  var factoryResponse = cmasHolarchyCMPackage.makeSubspaceInstance({
     spaceLabel: require("./cell-label")
   });
 
-  if (!cmasObservableValueHelper.isValid()) {
-    throw new Error(cmasObservableValueHelper.toJSON());
+  if (factoryResponse.error) {
+    throw new Error(factoryResponse.error);
   }
 
-  module.exports = cmasObservableValueHelper;
+  module.exports = factoryResponse.result;
 })();
