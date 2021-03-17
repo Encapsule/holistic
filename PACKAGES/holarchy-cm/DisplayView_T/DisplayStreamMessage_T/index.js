@@ -78,7 +78,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           //
           // @encapsule/d2r2 may be viewed as an IPC mechanism that accepts a variant message
           // that is parsed to determine a unique "target process" to which to deliver the message.
-          // Here we define the format of a d2r2 Request (the variant request). 
+          // Here we define the format of a d2r2 Request (the variant request). Note, that given
+          // the semantics of React, the semantics of this IPC is rather complicated insofar as
+          // d2r2 messages affect activation/deactivation of display processes (i.e. mounting and
+          // unmounting of React.Elements). As well, as providing updates to display processes
+          // that are mounted and not subject to unmounting at the behest of their parent React.Element.
           // CHANGES MADE HERE MUST BE PROPOGATED FORWARD INTO DISPLAY ADAPTER MESSAGE PUMP ACTION.
 
 
@@ -94,20 +98,19 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               apmBindingPath: {
                 ____accept: "jsString"
               },
-              // MAKE REQUIRED VALUE
+              // This is the actual apmBindingPath of the owning DisplayView_T cell.
+              displayInstance: {
+                ____accept: "jsString",
+                ____defaultValue: "page"
+              },
               displayPath: {
                 ____accept: "jsString"
-              },
-              // MAKE REQUIRED VALUE , ____defaultValue: "👁" /*This should be a Unicode Eye*/ } // It's on the DisplayView family cell to set its displayPath appropriately.
-              revision: {
-                ____accept: "jsNumber",
-                ____defaultValue: -500
               }
             },
             renderData: {
               ____label: "".concat(displayStreamMessageLabel, " d2r2 Render Data"),
               ____types: "jsObject",
-              ____defaultValue: {} //// extended below
+              ____defaultValue: {} // X_DisplayView_012345679ABCDEF01234567890ABCDEF spliced in below
 
             }
           }; // Must be kept in sync w/DVVD artifact generator. Brittle and TAF... Maybe there's a way to break it apart and make it simpler. Or, maybe it's just fucking hard.
@@ -120,7 +123,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           displayStreamMessageSpec.renderData[viewDisplayClassName] = _objectSpread({}, generatorRequest_.specializationData.displayLayoutSpec);
           var synthResponse = cmtObservableValue.synthesizeCellModel({
             cmasScope: generatorRequest_.cmtInstance,
-            // ***** CHANGE TO CMAS REF
+            // ***** CHANGE TO CMAS REF --- i guess if this isn't throwing I am still extending ? wait - wat?
             cellModelLabel: displayStreamMessageLabel,
             specializationData: {
               valueTypeDescription: "An ObservableValue<".concat(displayStreamMessageLabel, "<").concat(generatorRequest_.cellModelLabel, ">> CellModel."),

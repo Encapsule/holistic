@@ -158,11 +158,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               console.log("ViewDisplayProcess::constructor on behalf of ".concat(viewDisplayClassName));
               _this2 = _super.call(this, props_);
 
-              if (!_this2.displayName) {
-                throw new Error("Um, yea. We're going to have to have you go ahead and get your class \"".concat(friendlyClassMoniker, "\" that extends React.Component to define a constructor function, and then assign this.displayName in the body of that constructor function so that \"").concat(viewDisplayClassName, "\" that extends your \"").concat(friendlyClassMoniker, "\" class can correctly deduce where it is in the display tree when it's time to link to its backing DisplayView cell process. Thanks!"));
+              if (!_this2.displayName || Object.prototype.toString.call(_this2.displayName) !== "[object String]" || !_this2.displayName.length) {
+                throw new Error("Please set 'this.displayName' to a non-zero-length string value in your \"".concat(friendlyClassMoniker, "::constructor\" function.")); // Because the base class constructs and starts its lifecycle before we gain control back from super(props_).
               }
 
-              _this2.displayPath = "".concat(props_.renderContext.displayPath, ".").concat(_this2.displayName);
+              _this2.displayPath = _this2.props.renderContext.displayPath; // ? `${this.props.renderContext.displayPath}.${this.props.renderContext.displayInstance}`;
+
               _this2.xyzzy = "this is a test property"; // TRY - THE IMPLICATION OF THIS IS THAT WE CANNOT CONSTRUCT THIS D2R2 COMPONENT ON THE SERVER UNLESS/UNTIL WE ALSO SUPPORT SYMETRIC CELLPLANE CONFIG INSIDE NODEJS SERVICES.
               // For now this is not a large problem; what needs to be demonstrated and what needs to work 100% is HTML5 service support for advanced layout and display update. The whole
               // story will have to wait until there's time & resources to build a NodeJS service kernel that supports these + many other needed subservices for backend.
@@ -181,10 +182,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                             display: {
                               view: {
                                 linkDisplayProcess: {
-                                  notifyEvent: "display-process-activated",
+                                  notifyEvent: _this2.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? "vd-root-activated" : "vd-child-activated",
                                   reactElement: {
                                     displayName: _this2.displayName,
-                                    displayPath: _this2.displayPath,
+                                    displayPath: props_.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? _this2.displayPath : props_.renderContext.displayPath,
+                                    displayInstance: props_.renderContext.displayInstance,
+                                    d2r2BusState: "ipc-link-pending",
+                                    displayViewAPMID: props_.renderContext.displayViewAPMID,
                                     thisRef: _assertThisInitialized(_this2)
                                   }
                                 }
@@ -214,26 +218,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
               return _this2;
             }
-            /*
-            componentDidMount() {
-                 console.log(`ViewDisplayProcess::componentDidMount on behalf of ${viewDisplayClassName}`);
-                let actResponse = this.props.renderContext.act({
-                    actorName: this.displayName,
-                    actorTaskDescription: `This is new a new instance of React.Element ${this.displayName} process notifying its backing DisplayView cell that it has been mounted and is now activated.`,
-                    actionRequest: { holistic: { common: { actions: { service: { html5: { display: { view: { linkDisplayProcess: { notifyEvent: "display-process-activated", reactElement: { displayName: this.displayName, displayPath: this.displayPath, thisRef: this } } } } } } } } } },
-                    apmBindingPath: this.props.renderContext.apmBindingPath
-                });
-                try {
-                    if (super.componentDidMount) {
-                        super.componentDidMount();
-                    }
-                } catch (wtaf_) {
-                    console.warn(wtaf_.message);
-                    console.error(wtaf_.stack);
-                }
-             }
-            */
-
 
             _createClass(ViewDisplayProcess, [{
               key: "componentWillUnmount",
@@ -288,6 +272,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               value: function mountSubViewDisplay(_ref) {
                 var cmasScope = _ref.cmasScope,
                     displayViewCellModelLabel = _ref.displayViewCellModelLabel,
+                    displayInstance = _ref.displayInstance,
                     displayLayout = _ref.displayLayout;
                 var apmID_DisplayViewCell = request_.displayViewSynthesizeRequest.cmasScope.mapLabels({
                   APM: displayViewCellModelLabel
@@ -299,7 +284,11 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 var ComponentRouter = this.props.renderContext.ComponentRouter;
                 return /*#__PURE__*/React.createElement(ComponentRouter, _extends({}, this.props, {
                   renderContext: _objectSpread(_objectSpread({}, this.props.renderContext), {}, {
-                    displayPath: "".concat(this.props.renderContext.displayPath, ".").concat(this.displayName)
+                    d2r2BusState: "vd-process-dynamic-mount",
+                    displayPath: "".concat(this.displayPath, ".").concat(displayInstance),
+                    // this.props.renderContext.displayPath,
+                    displayInstance: displayInstance,
+                    displayViewAPMID: apmID_DisplayViewCell
                   }),
                   renderData: renderData
                 }));

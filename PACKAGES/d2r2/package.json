@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "xYTme9I1Rd2_4a3tsgO0cg",
-    "buildSource": "4420c4ba7046d0bec5b576a6b9e1d6c3574cda60",
-    "buildTime": 1615860297,
-    "codename": "titanite",
+    "buildID": "a-OhvgbHRnKYhnW5Z6lS3A",
+    "buildSource": "3aa384b37b2c6f8f5a88f616ae11cd7eb2d19398",
+    "buildTime": 1615999371,
+    "codename": "lemonquartz",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.62"
+    "version": "0.0.63"
 }

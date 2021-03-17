@@ -122,6 +122,13 @@
                     thisRef: {
                       ____accept: "jsObject"
                     }
+                  },
+                  dynamicViewDisplayQueue: {
+                    ____types: "jsArray",
+                    ____defaultValue: [],
+                    reactElementDescriptor: {
+                      ____accept: "jsObject"
+                    }
                   }
                 },
                 inputs: {
