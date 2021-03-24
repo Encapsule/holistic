@@ -10,6 +10,10 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
+
+function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
+
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
 
 function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
@@ -21,10 +25,6 @@ function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) ===
 function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
 
 function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
-
-function _get(target, property, receiver) { if (typeof Reflect !== "undefined" && Reflect.get) { _get = Reflect.get; } else { _get = function _get(target, property, receiver) { var base = _superPropBase(target, property); if (!base) return; var desc = Object.getOwnPropertyDescriptor(base, property); if (desc.get) { return desc.get.call(receiver); } return desc.value; }; } return _get(target, property, receiver || target); }
-
-function _superPropBase(object, property) { while (!Object.prototype.hasOwnProperty.call(object, property)) { object = _getPrototypeOf(object); if (object === null) break; } return object; }
 
 function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
@@ -151,7 +151,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
             var _super = _createSuper(ViewDisplayProcess);
 
             function ViewDisplayProcess(props_) {
-              var _thisSuper, _thisSuper2, _this2;
+              var _this2;
 
               _classCallCheck(this, ViewDisplayProcess);
 
@@ -164,32 +164,89 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
               _this2.displayPath = _this2.props.renderContext.displayPath; // ? `${this.props.renderContext.displayPath}.${this.props.renderContext.displayInstance}`;
 
-              _this2.xyzzy = "this is a test property"; // TRY - THE IMPLICATION OF THIS IS THAT WE CANNOT CONSTRUCT THIS D2R2 COMPONENT ON THE SERVER UNLESS/UNTIL WE ALSO SUPPORT SYMETRIC CELLPLANE CONFIG INSIDE NODEJS SERVICES.
+              _this2.xyzzy = "this is a test property"; // TODO: GET RID OF THIS!
+
+              /*
+              // TRY - THE IMPLICATION OF THIS IS THAT WE CANNOT CONSTRUCT THIS D2R2 COMPONENT ON THE SERVER UNLESS/UNTIL WE ALSO SUPPORT SYMETRIC CELLPLANE CONFIG INSIDE NODEJS SERVICES.
               // For now this is not a large problem; what needs to be demonstrated and what needs to work 100% is HTML5 service support for advanced layout and display update. The whole
               // story will have to wait until there's time & resources to build a NodeJS service kernel that supports these + many other needed subservices for backend.
+              console.log(`ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ${viewDisplayClassName}`);
+              let actResponse = this.props.renderContext.act({
+                  actorName: this.displayName,
+                  actorTaskDescription: `This is new a new instance of React.Element ${this.displayName} process notifying its backing DisplayView cell that it has been mounted and is now activated.`,
+                  actionRequest: {
+                      holistic: {
+                          common: {
+                              actions: {
+                                  service: {
+                                      html5: {
+                                          display: {
+                                              view: {
+                                                  linkDisplayProcess: {
+                                                      notifyEvent: ((this.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending")?"vd-root-activated":"vd-child-activated"),
+                                                      reactElement: {
+                                                          displayName: this.displayName,
+                                                          displayPath: ((props_.renderContext.d2r2BusState === "dv-root-active-vd-root-pending")?this.displayPath:props_.renderContext.displayPath),
+                                                          displayInstance: props_.renderContext.displayInstance,
+                                                          d2r2BusState: "ipc-link-pending",
+                                                          displayViewAPMID: props_.renderContext.displayViewAPMID,
+                                                          thisRef: this
+                                                      }
+                                                  }
+                                              }
+                                          }
+                                      }
+                                  }
+                              }
+                          }
+                      }
+                  },
+                  apmBindingPath: this.props.renderContext.apmBindingPath
+              });
+              try {
+                  if (super.componentDidMount) {
+                      super.componentDidMount();
+                  }
+              } catch (wtaf_) {
+                  console.warn(wtaf_.message);
+                  console.error(wtaf_.stack);
+              }
+              */
+              // ? Expect it to be fine for now as it's not being called yet.
 
-              console.log("ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ".concat(viewDisplayClassName));
+              _this2.componentDidMount = _this2.componentDidMount.bind(_assertThisInitialized(_this2));
+              _this2.componentWillUnmount = _this2.componentWillUnmount.bind(_assertThisInitialized(_this2));
+              _this2.mountSubViewDisplay = _this2.mountSubViewDisplay.bind(_assertThisInitialized(_this2));
+              _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
+              return _this2;
+            }
 
-              var actResponse = _this2.props.renderContext.act({
-                actorName: _this2.displayName,
-                actorTaskDescription: "This is new a new instance of React.Element ".concat(_this2.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
-                actionRequest: {
-                  holistic: {
-                    common: {
-                      actions: {
-                        service: {
-                          html5: {
-                            display: {
-                              view: {
-                                linkDisplayProcess: {
-                                  notifyEvent: _this2.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? "vd-root-activated" : "vd-child-activated",
-                                  reactElement: {
-                                    displayName: _this2.displayName,
-                                    displayPath: props_.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? _this2.displayPath : props_.renderContext.displayPath,
-                                    displayInstance: props_.renderContext.displayInstance,
-                                    d2r2BusState: "ipc-link-pending",
-                                    displayViewAPMID: props_.renderContext.displayViewAPMID,
-                                    thisRef: _assertThisInitialized(_this2)
+            _createClass(ViewDisplayProcess, [{
+              key: "componentDidMount",
+              value: function componentDidMount() {
+                // We are interested in if a newly constructed React.Element is _actually_ mounted in the VDOM.
+                console.log("ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ".concat(viewDisplayClassName));
+                var actResponse = this.props.renderContext.act({
+                  actorName: this.displayName,
+                  actorTaskDescription: "This is new a new instance of React.Element ".concat(this.displayName, " process notifying its backing DisplayView cell that it has been mounted and is now activated."),
+                  actionRequest: {
+                    holistic: {
+                      common: {
+                        actions: {
+                          service: {
+                            html5: {
+                              display: {
+                                view: {
+                                  linkDisplayProcess: {
+                                    notifyEvent: this.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? "vd-root-activated" : "vd-child-activated",
+                                    reactElement: {
+                                      displayName: this.displayName,
+                                      displayPath: this.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending" ? this.displayPath : this.props.renderContext.displayPath,
+                                      displayInstance: this.props.renderContext.displayInstance,
+                                      d2r2BusState: "ipc-link-pending",
+                                      displayViewAPMID: this.props.renderContext.displayViewAPMID,
+                                      thisRef: this
+                                    }
                                   }
                                 }
                               }
@@ -198,28 +255,39 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         }
                       }
                     }
+                  },
+                  apmBindingPath: this.props.renderContext.apmBindingPath
+                });
+
+                if (actResponse.error) {
+                  console.error("DisplayViewBase::linkDisplayProcess action request failed with error:");
+                  console.error(actResponse.error); // TODO: If we find that we are hitting this specific code path frequently and it's difficult/
+                  // time-consuming for developers to root-cause/correct then we should work a little harder here
+                  // to surface the error (precisely which of the available mechanism makes the most sense at the
+                  // application layer and for application developers isn't entirely clear to me yet. So, we'll just
+                  // console.error for now. Keep an eye on this please; if you end up here often please let me know.
+
+                  return; //
+                } // The developer-provided class we presume extends React.Component may or may not implement the onComponentDidMount React Component lifecycle method.
+                // If it does, then we delegate the call to our superclass and let it do whatever it needs to. Note, that I think in most cases React.Components
+                // written to leverage this mechanism will typically not implement componentDidMount as the primary motivation for doing this is to queue requests
+                // for data. And, we're effectively handling that with the action request above. But, we endeaver to change _nothing_ whatsoever about how a developer
+                // uses React. Instead, we provide opt-in extensions and tricks to do things that are quite difficult to build at scale (and then test at scale, and
+                // then extend at scale). In most cases, using holistic platform "display stream" protocol is mutually exclusive to overlapping React functionality.
+                // But, it's fine to use both techniques in the same app and at the same time in whatever combination befits needs I think so long as they're applied
+                // to different branches of the VDOM tree ;-)
+
+
+                try {
+                  if (_get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentDidMount", this)) {
+                    _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentDidMount", this).call(this);
                   }
-                },
-                apmBindingPath: _this2.props.renderContext.apmBindingPath
-              });
-
-              try {
-                if (_get((_thisSuper = _assertThisInitialized(_this2), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper)) {
-                  _get((_thisSuper2 = _assertThisInitialized(_this2), _getPrototypeOf(ViewDisplayProcess.prototype)), "componentDidMount", _thisSuper2).call(_thisSuper2);
+                } catch (exception_) {
+                  console.error(exception_.message);
+                  console.error(exception_.stack);
                 }
-              } catch (wtaf_) {
-                console.warn(wtaf_.message);
-                console.error(wtaf_.stack);
-              } // ? Expect it to be fine for now as it's not being called yet.
-
-
-              _this2.componentWillUnmount = _this2.componentWillUnmount.bind(_assertThisInitialized(_this2));
-              _this2.mountSubViewDisplay = _this2.mountSubViewDisplay.bind(_assertThisInitialized(_this2));
-              _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
-              return _this2;
-            }
-
-            _createClass(ViewDisplayProcess, [{
+              }
+            }, {
               key: "componentWillUnmount",
               value: function componentWillUnmount() {
                 console.log("ViewDisplayProcess::componentWillUnmount on behalf of ".concat(viewDisplayClassName));

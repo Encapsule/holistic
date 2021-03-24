@@ -217,7 +217,9 @@ var applicationPackageManifest = filterResponse.result.resource; // ... as speci
 
 // TODO: MAKE THIS MORE ROBUST: We do not want to allow appgen to execute on either holistic-dev or the generated @encapsule/holistic distribution packages.
 if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "holistic-dev")) {
+    console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
     console.error("ERROR: RIDICULOUSLY INVALID --appRepoDir path specified by caller; appgen does not know how to generate itself!");
+    console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
     process.exit(1);
 }
 

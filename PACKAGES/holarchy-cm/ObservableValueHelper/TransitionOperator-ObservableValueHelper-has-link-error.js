@@ -56,7 +56,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.isReset; // Query the cell process step of the indicated ObservableValueHelper cell.
+        var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValueHelper.hasLinkError; // Query the cell process step of the indicated ObservableValueHelper cell.
 
         var operatorRequest = _objectSpread(_objectSpread({}, operatorRequest_), {}, {
           operatorRequest: {
