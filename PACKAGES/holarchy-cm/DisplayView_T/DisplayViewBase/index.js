@@ -14,7 +14,7 @@
     }).result.CMID,
     name: cmLabel,
     description: "Provides generic behaviors for specializations for DisplayValue family cells synthesized with DisplayView_T.",
-    actions: [require("./ControllerAction-DisplayViewBase-step-worker"), require("./ControllerAction-DisplayViewBase-link-display-process")]
+    actions: [require("./ControllerAction-DisplayViewBase-step-worker"), require("./ControllerAction-DisplayViewBase-link-display-process"), require("./ControllerAction-DisplayViewBase-set-as-root")]
   });
 
   if (!cellModel.isValid()) {

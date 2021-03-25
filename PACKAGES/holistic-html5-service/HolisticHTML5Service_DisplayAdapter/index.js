@@ -16,7 +16,7 @@
   var factoryResponse = arccore.filter.create({
     operationID: "IN0xuhS8RQ6F3_M5uXiadg",
     operationName: "".concat(cmLabel, " CellModel Factory"),
-    operationDescription: "Used to synthesize a specialized HolisticTabService display adapter CellModel for use by HolisticHTML5Service_Kernel cell process.",
+    operationDescription: "Used to synthesize a specialized HolisticHTML5Service_DisplayAdapater CellModel for use by HolisticHTML5Service_Kernel cell process.",
     inputFilterSpec: {
       ____types: "jsObject",
       appBuild: {

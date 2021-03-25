@@ -10,7 +10,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasObservableValueHelper = require("./cmasObservableValueHelper");
+  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
   var cmLabel = require("./cell-label");
 
@@ -26,7 +26,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
   });
 
   var action = new holarchy.ControllerAction({
-    id: cmasObservableValueHelper.mapLabels({
+    id: cmasHolarchyCMPackage.mapLabels({
       CM: cmLabel,
       ACT: "configure"
     }).result.ACTID,

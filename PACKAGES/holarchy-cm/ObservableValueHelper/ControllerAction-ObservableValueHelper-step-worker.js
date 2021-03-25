@@ -6,8 +6,6 @@
 
   var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
-  var cmasObservableValueHelper = require("./cmasObservableValueHelper");
-
   var cmLabel = require("./cell-label");
 
   var actionName = "".concat(cmLabel, " Private Step Worker");
@@ -15,7 +13,7 @@
   var lib = require("./lib");
 
   var action = new holarchy.ControllerAction({
-    id: cmasObservableValueHelper.mapLabels({
+    id: cmasHolarchyCMPackage.mapLabels({
       CM: cmLabel,
       ACT: "stepWorker"
     }).result.ACTID,

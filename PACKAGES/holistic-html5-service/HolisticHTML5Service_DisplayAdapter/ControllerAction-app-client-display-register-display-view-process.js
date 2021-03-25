@@ -92,7 +92,7 @@
                       configuration: {
                         observableValue: {
                           processCoordinates: messageBody.processCoordinates,
-                          path: "#.outputs.displayView" // TODO make consistent w/above
+                          path: "#.outputs.displayView" // Link to the ObservableValue_T family cell output of the DisplayView_T family cell at processCoordinates
 
                         }
                       }

@@ -1,6 +1,6 @@
 {
     "name": "holistic",
-    "description": "A platform for building distributed software systems with reusable JavaScript CellModel plug-ins. And, System-in-Cloud (SiC) information circuit architecture.",
+    "description": "A system of conventions, semantics, and tools, for defining domain-specific plug-and-play software models and building distributed information circuits in the cloud, the browser tab, or anwhere you can interpret JavaScript.",
     "version": "0.0.64",
     "codename": "rosequartz",
     "author": "Encapsule",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "gnrGZjVNS8qCd4wCoIxBwQ",
-    "buildSource": "01d9aca3b24a16e777cf236278e8f7ac389bdcdf",
-    "buildTime": 1616603405,
-    "buildDateISO": "2021-03-24T16:30:05.000Z"
+    "buildID": "bUkxnaCWTvWeQxIGd-helg",
+    "buildSource": "ccbbdef8866eb5ceeca66149a8907c6985369aa4",
+    "buildTime": 1616705619,
+    "buildDateISO": "2021-03-25T20:53:39.000Z"
 }

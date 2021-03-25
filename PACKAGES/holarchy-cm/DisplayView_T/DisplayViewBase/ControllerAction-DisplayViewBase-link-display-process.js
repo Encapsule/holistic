@@ -162,61 +162,6 @@
           // ================================================================
           // ================================================================
           // ================================================================
-          // SAVE FOR REFERENCE UNTIL THE DETAILS ARE MIGRATED INTO THEIR BERTHS
-          // We receive vd-child-activate to indicate that a React.Element's render method has called ViewDisplayProcess::mountSubViewDisplay method
-          // and is attempting to dynamically activate its backing ViewDisplay family cell in order to establish IPC.
-          // At this point we assume messageBody.reactElement.displayPath is assigned to the React.Element that called ViewDisplayProcess::mountSubViewDisplay method.
-          // messageBody.reactElement.displayInstance is assumed to be a unique key string value assigned by the React.Element via in-param to mountSubViewDisplay.
-          // And, we assume that this action is being dispatched on the DisplayView family cell that's linked to the React.Element's base ViewDisplayProcess.
-          // It is an error for the React.Element to call its ViewDisplayProcess::mountSubViewDisplay method w/duplicate displayInstance values --- they must be unique.
-          // And, if all checks out then we further know that the apmBindingPath of the DisplayView family cell that needs to be activated to back the dynamically
-          // mounted sub-ViewDisplay React.Element can be calculated. Possibly via a hack? But we can calculate it...
-
-          /*
-           const thisDVPathTokens = cellMemory.core.viewDisplayProcess.displayPath.split(".");
-          const thisVDPathTokens = messageBody.reactElement.displayPath.split(".");
-           if (thisDVPathTokens.length === (thisVDPathTokens.length - 1)) {
-               // Per our analysis of this DisplayView cell's displayPath vs the requesing ViewDisplay displayPath we conclude it's a direct child DisplayView that's being requested.
-               // LEGACY
-              if (cellMemory.inputs.displayViews[messageBody.reactElement.displayInstance]) {
-                  errors.push(`Invalid duplicate displayInstance key string value "${messageBody.reactElement.displayInstance}" specified. Every call to ViewDisplayProcess::mountSubDisplayView base class must specifiy a unique displayInstance key string value.`);
-                  break;
-              }
-              cellMemory.inputs.displayViews[messageBody.reactElement.displayInstance] = {
-                  configuration: {
-                      observableValue: {
-                          processCoordinates: {
-                              apmID: messageBody.reactElement.displayViewAPMID,
-                              instanceName: messageBody.reactElement.displayPath
-                          },
-                          path: "#.outputs.displayView"
-                      }
-                  }
-               }; // Queue default activation of a new ObservableValueHelper
-               let ocdResponse = request_.context.ocdi.writeNamespace({ apmBindingPath: request_.context.apmBindingPath, dataPath: "#.inputs.displayViews"}, cellMemory.inputs.displayViews);
-              if (ocdResponse.error) {
-                  errors.push(ocdRepsonse.error);
-                  break;
-              }
-              console.log(`> Queued deferred link resolution of dynamic ancestor subDisplayView`); // sub display view eHelper to manage subcription for displayPath="${cellMemory.core.viewDisplayProcess}".`);
-                // NEW ObservableValueHelperMap cell
-               let names = {};
-              names[messageBody.reactElement.displayInstance] = { observableValue: { processCoordinates: { apmID: messageBody.reactElement.displayViewAPMID, instanceName: messageBody.reactElement.displayPath }, path: "#.outputs.displayView" } };
-               let actResponse = request_.context.act({
-                  actorName: actionName,
-                  actorTaskDescription: "Attempting to add a new ObservableValueHelper entry to our ObservableValueHelperMap helper cell...",
-                  actionRequest: { holarchy: { common: { actions: { ObservableValueHelperMap: { addValues: { path: "#.inputs.subDisplayViews", names } } } } } },
-                  apmBindingPath: request_.context.apmBindingPath
-              });
-               if (actResponse.error) {
-                  errors.push(actResponse.error);
-                  break;
-              }
-               } else {
-           */
-          // ================================================================
-          // ================================================================
-          // ================================================================
 
           case "vd-deactivating":
             // TODO: Haven't exercised this code path at all yet. It's not being hit yet. Shortly....

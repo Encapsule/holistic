@@ -6,7 +6,7 @@
 (function () {
   var holarchy = require("@encapsule/holarchy");
 
-  var cmasObservableValueHelper = require("./cmasObservableValueHelper");
+  var cmasHolarchyCMPackage = require("../cmasHolarchyCMPackage");
 
   var cmLabel = require("./cell-label");
 
@@ -15,7 +15,7 @@
   var lib = require("./lib");
 
   var action = new holarchy.ControllerAction({
-    id: cmasObservableValueHelper.mapLabels({
+    id: cmasHolarchyCMPackage.mapLabels({
       CM: cmLabel,
       ACT: "reset"
     }).result.ACTID,

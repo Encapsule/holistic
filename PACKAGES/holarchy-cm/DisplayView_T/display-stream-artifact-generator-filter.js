@@ -162,62 +162,12 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                 throw new Error("Please set 'this.displayName' to a non-zero-length string value in your \"".concat(friendlyClassMoniker, "::constructor\" function.")); // Because the base class constructs and starts its lifecycle before we gain control back from super(props_).
               }
 
-              _this2.displayPath = _this2.props.renderContext.displayPath; // ? `${this.props.renderContext.displayPath}.${this.props.renderContext.displayInstance}`;
-
-              _this2.xyzzy = "this is a test property"; // TODO: GET RID OF THIS!
-
-              /*
-              // TRY - THE IMPLICATION OF THIS IS THAT WE CANNOT CONSTRUCT THIS D2R2 COMPONENT ON THE SERVER UNLESS/UNTIL WE ALSO SUPPORT SYMETRIC CELLPLANE CONFIG INSIDE NODEJS SERVICES.
-              // For now this is not a large problem; what needs to be demonstrated and what needs to work 100% is HTML5 service support for advanced layout and display update. The whole
-              // story will have to wait until there's time & resources to build a NodeJS service kernel that supports these + many other needed subservices for backend.
-              console.log(`ViewDisplayProcess::constructor attempting to register ViewDisplay instance w/backing DisplayView cell on behalf of ${viewDisplayClassName}`);
-              let actResponse = this.props.renderContext.act({
-                  actorName: this.displayName,
-                  actorTaskDescription: `This is new a new instance of React.Element ${this.displayName} process notifying its backing DisplayView cell that it has been mounted and is now activated.`,
-                  actionRequest: {
-                      holistic: {
-                          common: {
-                              actions: {
-                                  service: {
-                                      html5: {
-                                          display: {
-                                              view: {
-                                                  linkDisplayProcess: {
-                                                      notifyEvent: ((this.props.renderContext.d2r2BusState === "dv-root-active-vd-root-pending")?"vd-root-activated":"vd-child-activated"),
-                                                      reactElement: {
-                                                          displayName: this.displayName,
-                                                          displayPath: ((props_.renderContext.d2r2BusState === "dv-root-active-vd-root-pending")?this.displayPath:props_.renderContext.displayPath),
-                                                          displayInstance: props_.renderContext.displayInstance,
-                                                          d2r2BusState: "ipc-link-pending",
-                                                          displayViewAPMID: props_.renderContext.displayViewAPMID,
-                                                          thisRef: this
-                                                      }
-                                                  }
-                                              }
-                                          }
-                                      }
-                                  }
-                              }
-                          }
-                      }
-                  },
-                  apmBindingPath: this.props.renderContext.apmBindingPath
-              });
-              try {
-                  if (super.componentDidMount) {
-                      super.componentDidMount();
-                  }
-              } catch (wtaf_) {
-                  console.warn(wtaf_.message);
-                  console.error(wtaf_.stack);
-              }
-              */
-              // ? Expect it to be fine for now as it's not being called yet.
-
+              _this2.displayPath = _this2.props.renderContext.displayPath;
+              _this2.linkedDisplayViewCell = null;
               _this2.componentDidMount = _this2.componentDidMount.bind(_assertThisInitialized(_this2));
               _this2.componentWillUnmount = _this2.componentWillUnmount.bind(_assertThisInitialized(_this2));
               _this2.mountSubViewDisplay = _this2.mountSubViewDisplay.bind(_assertThisInitialized(_this2));
-              _this2.foo = _this2.foo.bind(_assertThisInitialized(_this2));
+              _this2.finalizeDisplayViewLink = _this2.finalizeDisplayViewLink.bind(_assertThisInitialized(_this2));
               return _this2;
             }
 
@@ -324,16 +274,10 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   if (_get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this)) {
                     _get(_getPrototypeOf(ViewDisplayProcess.prototype), "componentWillUnmount", this).call(this);
                   }
-                } catch (wtaf_) {
-                  console.warn(wtaf_.message);
-                  console.error(wtaf_.stack);
+                } catch (exception_) {
+                  console.warn(exception_.message);
+                  console.error(exception_.stack);
                 }
-              }
-            }, {
-              key: "foo",
-              value: function foo() {
-                // This is an experiment to see if the class we extend w/the fascade can successfully resolve our methods in their render() implementation etc.
-                return /*#__PURE__*/React.createElement("div", null, this.xyzzy);
               }
             }, {
               key: "mountSubViewDisplay",
@@ -360,6 +304,13 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                   }),
                   renderData: renderData
                 }));
+              }
+            }, {
+              key: "finalizeDisplayViewLink",
+              value: function finalizeDisplayViewLink(_ref2) {
+                var apmBindingPath = _ref2.apmBindingPath;
+                this.linkedDisplayViewCell = apmBindingPath;
+                this.forceUpdate();
               }
             }]);
 
