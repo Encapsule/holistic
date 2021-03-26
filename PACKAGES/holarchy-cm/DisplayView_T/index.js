@@ -1,5 +1,11 @@
 "use strict";
 
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
 // DisplayView_T/index.js
 (function () {
   var holarchy = require("@encapsule/holarchy");
@@ -15,6 +21,15 @@
   var cmtDisplayStreamMessage = require("./DisplayStreamMessage_T");
 
   var templateLabel = "DisplayView";
+  var ovhMemorySpec = cmObservableValueHelper.getAPM().getDataSpec();
+
+  var ovhConfigurationSpec = _objectSpread(_objectSpread({}, ovhMemorySpec.configuration), {}, {
+    ____defaultValue: undefined,
+    observableValue: _objectSpread(_objectSpread({}, ovhMemorySpec.configuration.observableValue), {}, {
+      ____defaultValue: undefined
+    })
+  });
+
   var cmResponse = cmObservableValueHelper.getArtifact({
     type: "ACT",
     id: cmasHolarchyCMPackage.mapLabels({
@@ -45,26 +60,39 @@
           ____types: "jsObject",
           ____defaultValue: {},
           // THIS IS SIMILAR TO d2r2RenderData. But... it's not exactly the same.
-          // 'renderData' is a reserved namespace allocated by d2r2 <ComponentRouter/> for the purposes of routing via @encapsule/arccore.discriminator
-          // (d2r2 ignores all of this.props _except_ renderData when routing --- it does not care about anything else).
-          // renderData MUST NOT BE DEFAULT constructable (per long-standing limitation of current @encapsule/arccore package that's on my backlog)
-          // BUT, 'displayLayoutMust' MUST BE DEFAULT CONSTRUCTABLE so that we can feed React _something_ (even the default layout data for a React.Component)
-          // when a DisplayView_T cell is activated.
+
+          /*
+            'renderData' is a reserved namespace allocated by d2r2 <ComponentRouter/>
+            for the purposes of routing via @encapsule/arccore.discriminator
+            (d2r2 ignores all of this.props _except_ renderData when routing ---
+            it does not care about anything else).
+             renderData must NOT be default constructable.
+             BUT, 'displayLayoutMust' MUST BE DEFAULT CONSTRUCTABLE so that we can feed
+            React _something_ (even the default layout data for a React.Component) when a
+            DisplayView_T cell is activated.
+          */
           displayLayoutSpec: {
             ____accept: "jsObject"
           }
         },
-        staticInputs: {
+        fixedInputs: {
           ____types: "jsObject",
           ____defaultValue: {},
-          displayViews: {
+          dataViews: {
             ____types: "jsObject",
             ____asMap: true,
             ____defaultValue: {},
-            signalName: {
-              ____types: "jsObject"
-            }
+            signalName: ovhConfigurationSpec
           }
+          /* We may enable this later?
+          displayViews: {
+              ____types: "jsObject",
+              ____asMap: true,
+              ____defaultValue: {},
+              signalName: ovhConfigurationSpec
+          }
+          */
+
         }
       },
 
@@ -87,7 +115,7 @@
 
           var cmSynthRequest = {
             cmasScope: generatorRequest_.cmtInstance,
-            // ? ***** TODO***** THIS WILL NEED TO CHANGE --- TEMPLATES WILL NO LONGER EXTENDED CMAS --- TO BE CLEAR SYNTH REQUEST NOW REQUIRES CMAS INPUT AND GENERATOR NEVER USES CMT TO RESOLVE CMAS
+            // Fine; this is a synthesis request. And, we now require that the caller pass in CMAS scope as CellModelTemplates.
             cellModelLabel: "".concat(templateLabel, "<").concat(generatorRequest_.cellModelLabel, ">"),
             specializationData: {
               description: "Specialization for ".concat(generatorRequest_.cellModelLabel),
@@ -173,13 +201,49 @@
                   ____label: "Observable Input Values",
                   ____types: "jsObject",
                   ____defaultValue: {},
-                  subDisplayViews: {
+                  fixed: {
                     ____types: "jsObject",
                     ____defaultValue: {},
                     ____appdsl: {
-                      apm: cmasHolarchyCMPackage.mapLabels({
-                        APM: "ObservableValueHelperMap"
-                      }).result.APMID
+                      fixedInputBindings: generatorRequest_.specializationData.fixedInputs
+                    },
+                    dataViews: {
+                      ____types: "jsObject",
+                      ____defaultValue: {},
+                      ____appdsl: {
+                        apm: cmasHolarchyCMPackage.mapLabels({
+                          APM: "ObservableValueHelperMap"
+                        }).result.APMID
+                      }
+                    }
+                    /* We may add this later?
+                    displayViews: {
+                        ____types: "jsObject",
+                        ____defaultValue: {},
+                        ____appdsl: { apm: cmasHolarchyCMPackage.mapLabels({ APM: "ObservableValueHelperMap" }).result.APMID }
+                    }
+                    */
+
+                  },
+                  dynamic: {
+                    ____types: "jsObject",
+                    ____defaultValue: {},
+
+                    /* We may add this later?
+                    dataViews: {
+                        ____types: "jsObject",
+                        ____defaultValue: {},
+                        ____appdsl: { apm: cmasHolarchyCMPackage.mapLabels({ APM: "ObservableValueHelperMap" }).result.APMID }
+                    },
+                    */
+                    displayViews: {
+                      ____types: "jsObject",
+                      ____defaultValue: {},
+                      ____appdsl: {
+                        apm: cmasHolarchyCMPackage.mapLabels({
+                          APM: "ObservableValueHelperMap"
+                        }).result.APMID
+                      }
                     }
                   }
                 }
@@ -297,7 +361,7 @@
                           operators: {
                             ObservableValueHelperMap: {
                               mapIsEmpty: {
-                                path: "#.inputs.subDisplayViews"
+                                path: "#.inputs.dynamic.displayViews"
                               }
                             }
                           }
@@ -353,7 +417,7 @@
                           operators: {
                             ObservableValueHelperMap: {
                               mapIsLinked: {
-                                path: "#.inputs.subDisplayViews"
+                                path: "#.inputs.dynamic.displayViews"
                               }
                             }
                           }

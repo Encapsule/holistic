@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A system of conventions, semantics, and tools, for defining domain-specific plug-and-play software models and building distributed information circuits in the cloud, the browser tab, or anwhere you can interpret JavaScript.",
-    "version": "0.0.64",
-    "codename": "rosequartz",
+    "version": "0.0.65",
+    "codename": "goshenite",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "bUkxnaCWTvWeQxIGd-helg",
-    "buildSource": "ccbbdef8866eb5ceeca66149a8907c6985369aa4",
-    "buildTime": 1616705619,
-    "buildDateISO": "2021-03-25T20:53:39.000Z"
+    "buildID": "TToMwOKSQ3q4D6r_7VnNAQ",
+    "buildSource": "aefec0c3a6bae4586232e1241175767f61ca5e6a",
+    "buildTime": 1616781382,
+    "buildDateISO": "2021-03-26T17:56:22.000Z"
 }

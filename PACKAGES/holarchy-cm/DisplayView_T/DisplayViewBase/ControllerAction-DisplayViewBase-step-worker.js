@@ -75,6 +75,14 @@
             break;
 
           case "initialize":
+            // Given the nature of the beast, we never know when we're activated exactly what role we're being activated to fullfill.
+            // We presume (tentatively) that we're being activated to fill the role of root DisplayView_T (which is typically wrong assumption).
+            // If this is the case, then HolisticHTML5Service_DisplayAdapter will be the cell that actually causes this DisplayView_T cell to
+            // be activated and it will want/need to be able to read the DisplayView_T cell's d2r2 output message in order to render the root
+            // (presumably some sort of page) ViewDisplay_T family React.Element via d2r2 <ComponentRouter/>. We queue a DACT (deferred action)
+            // on our output so that any cell that queries will see hasUpdated === true. However, once it's clear that we're not to fill
+            // the role of root (page-level DisplayView_T cell) we clear the DACT and proceeed with our standard process algorithm for
+            // correlating and updating the d2r2 ObservableValue_T family cell output of this DisplayView_T cell.
             actResponse = request_.context.act({
               actorName: actionName,
               actorTaskDescription: "Registering a DACT on this DisplayView_T cell's d2r2 ObservableValue_T cell so if we're mounted as the root component, the HolisticHTML5Service_DisplayAdapter can read the DisplayView_T cell's default d2r2 message in order to start the linking and embedding process.",
@@ -110,8 +118,23 @@
             if (actResponse.error) {
               errors.push(actResponse.error);
               break;
+            } // Most DisplayView_T monitor a set of DataView_T (view process that correlates some number of input data streams).
+            // The new DataGateway_T family of cells is an example. HolisticHTML5Service_DOMLocation, and
+            // HolisticHTML5Service_UserLoginSession are several others. Developer's specify which if any fixed DataView_T cells
+            // their specific DisplayView_T cell specialization will monitor and correlate via declarations passed into
+            // DisplayView_T.synthesizeCellModel that the generator attaches to the synthesized APM ocdDataSpec as an ____appdsl
+            // annotation. Here we go read the ____appdsl annotation and turn the design-time declarations into runtime
+            // behavior by configuring this specific cell instance's to link to the specified DataView_T cell(s).
+
+
+            ocdResponse = request_.context.ocdi.readNamespaceSpec(request_.context.apmBindingPath);
+
+            if (ocdResponse.error) {
+              errors.push(ocdResponse.error);
+              break;
             }
 
+            var displayViewSpec = ocdResponse.result;
             break;
 
           case "update-view-display-context":
@@ -136,7 +159,7 @@
               var linkRequestDisplayPathTokens = deferredViewDisplayLinkRequest.reactElement.displayPath.split(".");
 
               if (linkRequestDisplayPathTokens.length === ourDisplayPathTokens.length + 1) {
-                // The unlinked ViewDisplay process will be registered in this DisplayView cell's #.inputs.subDisplayViews ObservableValueHelperMap.
+                // The unlinked ViewDisplay process will be registered in this DisplayView cell's #.inputs.dynamic.displayViews ObservableValueHelperMap.
                 // Synthesize the action request names map.
                 var names = {};
                 names[deferredViewDisplayLinkRequest.reactElement.displayInstance] = {
@@ -159,7 +182,7 @@
                         actions: {
                           ObservableValueHelperMap: {
                             addValues: {
-                              path: "#.inputs.subDisplayViews",
+                              path: "#.inputs.dynamic.displayViews",
                               names: names
                               /*synthesized above*/
 
