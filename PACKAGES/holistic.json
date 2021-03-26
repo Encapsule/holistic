@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "A system of conventions, semantics, and tools, for defining domain-specific plug-and-play software models and building distributed information circuits in the cloud, the browser tab, or anwhere you can interpret JavaScript.",
-    "version": "0.0.65",
-    "codename": "goshenite",
+    "version": "0.0.66",
+    "codename": "moonstone",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "7bVkdiuVSXy8mXJIU1eN7w",
-    "buildSource": "21c4cba3edf007b61ee4e2ed97d71b39388caa8a",
-    "buildTime": 1616786528,
-    "buildDateISO": "2021-03-26T19:22:08.000Z"
+    "buildID": "ZQbcVUInSk-Iomo2BkkyQQ",
+    "buildSource": "16448f5884fdf9970ee0d91bf720064812d5312c",
+    "buildTime": 1616794301,
+    "buildDateISO": "2021-03-26T21:31:41.000Z"
 }

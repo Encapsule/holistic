@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "7bVkdiuVSXy8mXJIU1eN7w",
-    "buildSource": "21c4cba3edf007b61ee4e2ed97d71b39388caa8a",
-    "buildTime": 1616786528,
-    "codename": "goshenite",
+    "buildID": "ZQbcVUInSk-Iomo2BkkyQQ",
+    "buildSource": "16448f5884fdf9970ee0d91bf720064812d5312c",
+    "buildTime": 1616794301,
+    "codename": "moonstone",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -31,8 +31,8 @@
     "name": "@encapsule/holistic-html5-service",
     "peerDependencies": {
         "@encapsule/arccore": "0.1.10",
-        "@encapsule/holarchy": "0.0.65",
-        "@encapsule/holarchy-cm": "0.0.65",
+        "@encapsule/holarchy": "0.0.66",
+        "@encapsule/holarchy-cm": "0.0.66",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.65"
+    "version": "0.0.66"
 }
