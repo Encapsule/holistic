@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "ZQbcVUInSk-Iomo2BkkyQQ",
-    "buildSource": "16448f5884fdf9970ee0d91bf720064812d5312c",
-    "buildTime": 1616794301,
-    "codename": "moonstone",
+    "buildID": "VFVD35jjTOqJ6RWxF87pMw",
+    "buildSource": "595fc06356a866b0ea7dc208aed55799ed364209",
+    "buildTime": 1619632934,
+    "codename": "three-worlds",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -16,7 +16,7 @@
     ],
     "description": "This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.",
     "engines": {
-        "node": "14.15.5",
+        "node": "14.16.1",
         "yarn": ">=1.22.0 <=1.22.5"
     },
     "homepage": "https://github.com/Encapsule",
@@ -35,7 +35,7 @@
     "main": "index.js",
     "name": "@encapsule/d2r2",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.10",
+        "@encapsule/arccore": "0.1.11",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.66"
+    "version": "0.1.00"
 }

@@ -1,8 +1,8 @@
 {
     "name": "holistic",
-    "description": "A system of conventions, semantics, and tools, for defining domain-specific plug-and-play software models and building distributed information circuits in the cloud, the browser tab, or anwhere you can interpret JavaScript.",
-    "version": "0.0.66",
-    "codename": "moonstone",
+    "description": "Encapsule Project private AGPLv3-licensed build sources for @encapsule/holistic distribution package.",
+    "version": "0.1.00",
+    "codename": "three-worlds",
     "author": "Encapsule",
     "copyright": {
         "holder": "Christopher D. Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "ZQbcVUInSk-Iomo2BkkyQQ",
-    "buildSource": "16448f5884fdf9970ee0d91bf720064812d5312c",
-    "buildTime": 1616794301,
-    "buildDateISO": "2021-03-26T21:31:41.000Z"
+    "buildID": "VFVD35jjTOqJ6RWxF87pMw",
+    "buildSource": "595fc06356a866b0ea7dc208aed55799ed364209",
+    "buildTime": 1619632934,
+    "buildDateISO": "2021-04-28T18:02:14.000Z"
 }

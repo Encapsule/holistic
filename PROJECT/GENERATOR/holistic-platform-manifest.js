@@ -6,7 +6,7 @@ const holisticAppPlatformManifestFilter = require('./LIB/holistic-platform-manif
 const filterResponse = holisticAppPlatformManifestFilter.request({
 
     applicationPackageManifest: {
-        engines: { node: "14.15.5", yarn: ">=1.22.0 <=1.22.5" },
+        engines: { node: "14.16.1", yarn: ">=1.22.0 <=1.22.5" },
 
         scripts: {
             install: "# Installation complete. Enjoy the holistic platform 8>",
@@ -14,9 +14,9 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
             scrub: "make scrub",
             reset: "make reset",
             build: "make application",
-            start: "node ./BUILD/runtime-phase3/SERVER/server.js",
+            start: "node ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
             server: "yarn build && yarn start",
-            "debug-server": "node --inspect-brk ./BUILD/runtime-phase3/SERVER/server.js",
+            "debug-server": "node --inspect-brk ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
             iruts: "./node_modules/.bin/arc_generateIRUT",
             appinfo: 'echo "\nHOLISTIC APP MANIFEST (created by developer) ===" && cat ./holistic-app.json && echo "\nHOLISTIC APP PACKAGE (created by appgen) ===" && cat ./package.json && "HOLISTIC APP PLATFORM JSON (Tools and RTL\'s installed by appgen) ===" && cat ./HOLISTIC/PACKAGES/holistic.json &&',
             holodeck: "./TESTS/holodeck/run-test-program.js"
@@ -31,13 +31,16 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         "@babel/plugin-transform-react-jsx": "7.10.4",
         "@babel/preset-env": "7.10.4",
         "chai": "^4.2.0",
+        "css-loader": "3.6.0",
+        "csvtojson": "2.0.10",
         "eslint": "7.4.0",
+        "handlebars": "^4.7.6", // TODO: exorcise this codebase of handlebars
+        "jsdom": "16.3.0",
+        "mkdirp": "^1.0.4",
         "mockery": "^2.1.0",
+        "style-loader": "1.2.1",
         "webpack": "4.43.0",
         "webpack-cli": "3.3.12",
-        "css-loader": "3.6.0",
-        "style-loader": "1.2.1",
-        "handlebars": "^4.7.6", // TODO: exorcise this codebase of handlebars
 
         // Holistic platform runtime library dependencies.
         "@encapsule/arccore": arccore.__meta.version,
@@ -59,9 +62,9 @@ const filterResponse = holisticAppPlatformManifestFilter.request({
         // Third-party runtime library dependencies.
         "color": "^3.1.0",
         "color-string": "^1.5.3",
+        "is-reachable": "5.0.0",
         "commander": "^2.19.0",
         "query-string": "^6.2.0",
-        "mkdirp": "^1.0.4",
         "react": "16.12.0",
         "react-dom": "16.12.0",
         "react-markdown": "^2.5.0",

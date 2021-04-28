@@ -1,0 +1,149 @@
+{
+  "statusText": "OK",
+  "status": 200,
+  "headers": {
+    "x-xss-protection": "0",
+    "x-frame-options": "SAMEORIGIN",
+    "x-content-type-options": "nosniff",
+    "vary": "Origin, X-Origin, Referer",
+    "transfer-encoding": "chunked",
+    "server": "ESF",
+    "date": "Mon, 01 Apr 2019 18:39:26 GMT",
+    "content-type": "application\/json; charset=UTF-8",
+    "content-encoding": "gzip",
+    "connection": "close",
+    "cache-control": "private",
+    "alt-svc": "quic=\":443\"; ma=2592000; v=\"46,44,43,39\""
+  },
+  "data": {
+    "emailAddresses": [
+      {
+        "value": "chris.russell@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true,
+          "primary": true
+        }
+      },
+      {
+        "value": "chris-collaborator@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true
+        }
+      },
+      {
+        "value": "chris-team@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true
+        }
+      },
+      {
+        "value": "chris-enterprise@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true
+        }
+      },
+      {
+        "value": "chris-pro@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true
+        }
+      },
+      {
+        "value": "chris-starter@viewpath.com",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          },
+          "verified": true
+        }
+      }
+    ],
+    "photos": [
+      {
+        "url": "https:\/\/lh3.googleusercontent.com\/-WMO4sTlL1m4\/AAAAAAAAAAI\/AAAAAAAAAAc\/MB5sMz8k47Q\/s100\/photo.jpg",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "PROFILE"
+          },
+          "primary": true
+        }
+      }
+    ],
+    "names": [
+      {
+        "displayNameLastFirst": "Russell, Chris",
+        "givenName": "Chris",
+        "familyName": "Russell",
+        "displayName": "Chris Russell",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "PROFILE"
+          },
+          "primary": true
+        }
+      },
+      {
+        "displayNameLastFirst": "Chris Russell",
+        "givenName": "Chris",
+        "familyName": "Russell",
+        "displayName": "Chris Russell",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "DOMAIN_PROFILE"
+          }
+        }
+      }
+    ],
+    "locales": [
+      {
+        "value": "en",
+        "metadata": {
+          "source": {
+            "id": "110037967500954395595",
+            "type": "ACCOUNT"
+          },
+          "primary": true
+        }
+      }
+    ],
+    "etag": "%Eg0BAj0DBgcJPgw1NyUuGgQBAgUHIgxLcE14NXNHZEFvdz0=",
+    "resourceName": "people\/110037967500954395595"
+  },
+  "config": {
+    "method": "GET",
+    "responseType": "json",
+    "params": {
+      "personFields": "names,emailAddresses,locales,birthdays,organizations,photos,urls"
+    },
+    "headers": {
+      "Accept": "application\/json",
+      "User-Agent": "google-api-nodejs-client\/3.1.1",
+      "Authorization": "Bearer ya29.GlveBhC7q7J2Axf3xiB7BBN8HuvZe5qH7jwUxU86CeT51uMMULJKq5ltYuUKMQRBJjVUC0mZnGL3T7Dx_L99A3Sh8rjZYKS1-8cpei6jQRll_kVvBHJ_g9rbUMFx"
+    },
+    "url": "https:\/\/people.googleapis.com\/v1\/people\/me?personFields=names%2CemailAddresses%2Clocales%2Cbirthdays%2Corganizations%2Cphotos%2Curls"
+  }
+}

@@ -6,6 +6,7 @@
     "@encapsule/holism",
     "@encapsule/holism-metadata",
     "@encapsule/holism-services",
+    "@encapsule/holistic-app-models",
     "@encapsule/holistic-html5-service",
     "@encapsule/holistic-nodejs-service",
     "@encapsule/holistic-service-core",

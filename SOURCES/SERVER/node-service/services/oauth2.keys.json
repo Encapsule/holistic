@@ -1,0 +1,9 @@
+{
+    "web": {
+        "client_id": "649520747940-od7v0ph7hgnm8ohfv2807o8pki8ri3ff.apps.googleusercontent.com",
+        "client_secret": "RwOxEdwC6mz7Nx3mKYj6Pvm3",
+        "redirect_uris": [
+            "https://vp5.viewpath.com/login-oauth2"
+        ]
+    }
+}

@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.0.66 moonstone
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.1.00 three-worlds
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.0.66 "moonstone" build ID "ZQbcVUInSk-Iomo2BkkyQQ"
-Sources: @encapsule/holodev#16448f5884fdf9970ee0d91bf720064812d5312c
-Created: 2021-03-26T21:31:41.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.1.00 "three-worlds" build ID "VFVD35jjTOqJ6RWxF87pMw"
+Sources: @encapsule/holodev#595fc06356a866b0ea7dc208aed55799ed364209
+Created: 2021-04-28T18:02:14.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -49,6 +49,8 @@ Holistic app platform is becoming quite stable. But, lacks examples (required) a
     - &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
 
     - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+
+    - &#x25F0; [@encapsule/holistic-app-models](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
 
     - &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 
@@ -338,6 +340,12 @@ This package contains an extensible framework for defining application-specific 
 This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.
 
 > [README &#9656;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
+
+### &#x25F0; [@encapsule/holistic-app-models](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
+
+This package contains a collection of optional application and service models that may be resused to build holistic-powered runtimes.
+
+> [README &#9656;](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
 
 ### &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 

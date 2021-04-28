@@ -1,0 +1,442 @@
+{
+    "#": {
+        "version": "7",
+        "hashroute": "#",
+        "title": "Viewpath5",
+        "name": "Viewpath5",
+        "description": "Project & resource management platform for business.",
+        "tooltip": "Switch to home view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#dashboard": {
+        "version": "",
+        "hashroute": "#dashboard",
+        "title": "Viewpath5 Dashboard",
+        "name": "Dashboard",
+        "description": "Landing page to create dashboard views",
+        "tooltip": "Switch to dashboard view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org": {
+        "version": "",
+        "hashroute": "#org",
+        "title": "Viewpath5 Organization Dashboard",
+        "name": "Organization",
+        "description": "Displays a summary of information related to your organization.",
+        "tooltip": "Switch to org dashboard view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/all_caution_tasks": {
+        "version": "",
+        "hashroute": "#org/all_caution_tasks",
+        "title": "Viewpath5 All Caution Tasks",
+        "name": "All Caution Tasks",
+        "description": "Filtered view of all org tasks which are yellow caution",
+        "tooltip": "Switch to all caution tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/all_completed_tasks": {
+        "version": "",
+        "hashroute": "#org/all_completed_tasks",
+        "title": "Viewpath5 All Completed Tasks",
+        "name": "All Completed Tasks",
+        "description": "Filtered view of all org tasks which are completed",
+        "tooltip": "Switch to all completed tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/all_late_tasks": {
+        "version": "",
+        "hashroute": "#org/all_late_tasks",
+        "title": "Viewpath5 All Late Tasks",
+        "name": "All Late Tasks",
+        "description": "Filtered view of all org tasks which are late",
+        "tooltip": "Switch to all late tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/all_milestones": {
+        "version": "",
+        "hashroute": "#org/all_milestones",
+        "title": "Viewpath5 All Milestones",
+        "name": "All Milestones",
+        "description": "Filtered view of all org tasks which are milestones",
+        "tooltip": "Switch to all milestones view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/capacity_planning": {
+        "version": "",
+        "hashroute": "#org/capacity_planning",
+        "title": "Viewpath5 Capacity Planning",
+        "name": "Capacity Planning",
+        "description": "Overview of per-user and per-org projects, resources, conflicts, etc",
+        "tooltip": "Switch to capacity planning view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/custom_fields": {
+        "version": "",
+        "hashroute": "#org/custom_fields",
+        "title": "Viewpath5 Custom Fields",
+        "name": "Custom Fields",
+        "description": "blah blah blah",
+        "tooltip": "Switch to custom fields view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/my_caution_tasks": {
+        "version": "",
+        "hashroute": "#org/my_caution_tasks",
+        "title": "Viewpath5 My Caution Tasks",
+        "name": "My Caution Tasks",
+        "description": "Filtered view of all my tasks which are yellow caution",
+        "tooltip": "Switch to my caution tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/my_completed_tasks": {
+        "version": "",
+        "hashroute": "#org/my_completed_tasks",
+        "title": "Viewpath5 My Completed Tasks",
+        "name": "My Completed Tasks",
+        "description": "Filtered view of all my tasks which are completed",
+        "tooltip": "Switch to my completed tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/my_late_tasks": {
+        "version": "",
+        "hashroute": "#org/my_late_tasks",
+        "title": "Viewpath5 My Late Tasks",
+        "name": "My Late Tasks",
+        "description": "Filtered view of all my tasks which are late",
+        "tooltip": "Switch to my late tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project": {
+        "version": "",
+        "hashroute": "#org/project",
+        "title": "Viewpath5 Project Workbench",
+        "name": "Project Workbench",
+        "description": "blah blah blah",
+        "tooltip": "blah blah blah",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project/permissions": {
+        "version": "",
+        "hashroute": "#org/project/permissions",
+        "title": "Viewpath5 Project Permissions",
+        "name": "Project Permissions",
+        "description": "Resource permissions for this project",
+        "tooltip": "Switch to project permissions view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project/resources": {
+        "version": "",
+        "hashroute": "#org/project/resources",
+        "title": "Viewpath5 Project Resources",
+        "name": "Project Resources",
+        "description": "List of project resources",
+        "tooltip": "Switch to project resources view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project/snapshots": {
+        "version": "",
+        "hashroute": "#org/project/snapshots",
+        "title": "Viewpath5 Project Snapshots",
+        "name": "Project Snapshots",
+        "description": "Ability to share a project (unique URL?)",
+        "tooltip": "Switch to project snapshots view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project/summary": {
+        "version": "",
+        "hashroute": "#org/project/summary",
+        "title": "Viewpath5 Project Summary",
+        "name": "Project Summary",
+        "description": "Graphical reports specific to this project",
+        "tooltip": "Switch to project summary view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/project/tasks": {
+        "version": "",
+        "hashroute": "#org/project/tasks",
+        "title": "Viewpath5 Project Tasks",
+        "name": "Project Tasks",
+        "description": "List of tasks within the project. Includes gantt and other views of tasks",
+        "tooltip": "Switch to project tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/projects": {
+        "version": "",
+        "hashroute": "#org/projects",
+        "title": "Viewpath5 Organization Projects",
+        "name": "Organization Projects",
+        "description": "Cross-project view of all projects in an org (w/ permission)",
+        "tooltip": "Switch to org projects view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/projects/archived": {
+        "version": "",
+        "hashroute": "#org/projects/archived",
+        "title": "Viewpath5 Organization Project Archives",
+        "name": "Organization Project Archives",
+        "description": "Filtered view of all archived projects in an org (w/ permission)",
+        "tooltip": "Switch to org project archives view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/projects/templates": {
+        "version": "",
+        "hashroute": "#org/projects/templates",
+        "title": "Viewpath5 Organization Project Templates",
+        "name": "Organization Project Templates",
+        "description": "Filtered view of all templates in an org (w/ permission)",
+        "tooltip": "Switch to org project templates view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/projects/templates/archived": {
+        "version": "",
+        "hashroute": "#org/projects/templates/archived",
+        "title": "Viewpath5 Organization Template Archives",
+        "name": "Organization Template Archives",
+        "description": "blah blah blah",
+        "tooltip": "blah blah blah",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/reports": {
+        "version": "",
+        "hashroute": "#org/reports",
+        "title": "Viewpath5 Organization Reports",
+        "name": "Organization Reports",
+        "description": "Menu / list of organizational-level reports - click you go to the report",
+        "tooltip": "Switch to org reports view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/resource_confirmed": {
+        "version": "",
+        "hashroute": "#org/resource_confirmed",
+        "title": "Viewpath5 Resources Confirmed",
+        "name": "Resources Confirmed",
+        "description": "This is possible future work on org resource conflict arbitration/resolution workflow",
+        "tooltip": "Switch to resources confirmed view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/resource_editor": {
+        "version": "",
+        "hashroute": "#org/resource_editor",
+        "title": "Viewapth5 Resource Editor",
+        "name": "Resource Editor",
+        "description": "Create, view and edit resources in the current organization",
+        "tooltip": "Switch to resource editor view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/resource_permissions": {
+        "version": "",
+        "hashroute": "#org/resource_permissions",
+        "title": "Viewpath5 Resource Permissions",
+        "name": "Resource Permissions",
+        "description": "Default permissions set at the org level that is inherited into projects",
+        "tooltip": "Switch to resource permissions view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/resource_reservations": {
+        "version": "",
+        "hashroute": "#org/resource_reservations",
+        "title": "Viewpath5 Resource Reservations",
+        "name": "Resource Reservations",
+        "description": "Define and edit resources owned by an organization",
+        "tooltip": "Switch to resource reservations view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/resource_utilization": {
+        "version": "",
+        "hashroute": "#org/resource_utilization",
+        "title": "Viewpath5 Resource Utilization",
+        "name": "Resource Utilization",
+        "description": "This is organizational resource reservations / conflicts report",
+        "tooltip": "Switch to resource utilization view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/settings": {
+        "version": "",
+        "hashroute": "#org/settings",
+        "title": "Viewpath5 Organization Settings",
+        "name": "Organization Settings",
+        "description": "TBD",
+        "tooltip": "Switch to org settings view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/settings/calendar": {
+        "version": "",
+        "hashroute": "#org/settings/calendar",
+        "title": "Viewpath5 Organization Calendar",
+        "name": "Organization Calendar",
+        "description": "blah blah blah",
+        "tooltip": "Switch to org calendar view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/settings/tags": {
+        "version": "",
+        "hashroute": "#org/settings/tags",
+        "title": "Viewpath5 Organization Tags",
+        "name": "Organization Tags",
+        "description": "Report on defined tags (consider adding map of tags of org something or other entity.",
+        "tooltip": "Switch to org tags view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/tasks": {
+        "version": "",
+        "hashroute": "#org/tasks",
+        "title": "Viewpath5 Organization Tasks",
+        "name": "Organization Tasks",
+        "description": "Report on all project tasks across all projects owned by an organization.",
+        "tooltip": "Switch to org tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#org/users": {
+        "version": "",
+        "hashroute": "#org/users",
+        "title": "Viewpath5 Organization Users",
+        "name": "Organization Users",
+        "description": "Organization users list (read-only view of the org profile truth data)",
+        "tooltip": "Switch to org users view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user": {
+        "version": "",
+        "hashroute": "#user",
+        "title": "Viewpath5 User Dashboard",
+        "name": "User",
+        "description": "Displays a summary of information related to your user account, login session, and specific items you're working on.",
+        "tooltip": "Switch to user dashboard view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/calendar": {
+        "version": "",
+        "hashroute": "#user/calendar",
+        "title": "Viewapth5 My Calendar",
+        "name": "My Calendar",
+        "description": "Chris question: This is the user in the role of a resource. We should really deal with the issue of making specific organization members into resources in the resource definition editor?",
+        "tooltip": "Switch to my calendar view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/dashboard": {
+        "version": "",
+        "hashroute": "#user/dashboard",
+        "title": "Viewpath5 My Dashboard",
+        "name": "My Dashboard",
+        "description": "drill down of #dashboard that provides the user w/information pertinent only to them",
+        "tooltip": "Switch to my dashboard view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/projects": {
+        "version": "",
+        "hashroute": "#user/projects",
+        "title": "Viewpath5 My Projects",
+        "name": "My Projects",
+        "description": "Filtered view of all projects user has created",
+        "tooltip": "Switch to my projects view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/projects/archived": {
+        "version": "",
+        "hashroute": "#user/projects/archived",
+        "title": "Viewpath5 My Archived Projects",
+        "name": "My Archived Projects",
+        "description": "",
+        "tooltip": "Switch to my archived projects view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/settings": {
+        "version": "",
+        "hashroute": "#user/settings",
+        "title": "Viewpath5 My Settings",
+        "name": "My Settings",
+        "description": "Some variant of per-user dashboard. TBD.",
+        "tooltip": "Switch to my settings view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/tasks": {
+        "version": "",
+        "hashroute": "#user/tasks",
+        "title": "Viewpath5 My Tasks",
+        "name": "My Tasks",
+        "description": "This is cross-project report on subset of projects w/tasks assigned to specific user",
+        "tooltip": "Switch to my tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/tasks_completed": {
+        "version": "",
+        "hashroute": "#user/tasks_completed",
+        "title": "Viewpath5 My Completed Tasks",
+        "name": "My Completed Tasks",
+        "description": "",
+        "tooltip": "Switch to my completed tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/tasks_scheduled": {
+        "version": "",
+        "hashroute": "#user/tasks_scheduled",
+        "title": "Viewpath5 My Scheduled Tasks",
+        "name": "My Scheduled Tasks",
+        "description": "",
+        "tooltip": "Switch to my scheduled tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/tasks_subscribed": {
+        "version": "",
+        "hashroute": "#user/tasks_subscribed",
+        "title": "Viewpath5 My Subscribed Tasks",
+        "name": "My Subscribed Tasks",
+        "description": "\"watch\" a task and get notifications about it, even if you're not assigned to it",
+        "tooltip": "Switch to my subscribed tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    },
+    "#user/tasks_unscheduled": {
+        "version": "",
+        "hashroute": "#user/tasks_unscheduled",
+        "title": "Viewpath5 My Unschedued Tasks",
+        "name": "My Unscheduled Tasks",
+        "description": "we came up w/the notion of adding a Boolean flag to a task definition that indicates if the scheduler should ignore the estimated duration of the task for scheduling purposes. (cheap - task to backlog hack)",
+        "tooltip": "Switch to my unscheduled tasks view...",
+        "rank": 0,
+        "PAGEVIEW": ""
+    }
+}

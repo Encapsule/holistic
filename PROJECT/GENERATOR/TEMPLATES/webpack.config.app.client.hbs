@@ -5,7 +5,7 @@
 //
 
 const path = require('path');
-const entryPath = path.resolve(path.join(__dirname, '../../BUILD/transpile-phase1/CLIENT/client.js'));
+const entryPath = path.resolve(path.join(__dirname, '../../BUILD/transpile-phase1/CLIENT/html5-service-runtime.js'));
 const outputPath = path.resolve(path.join(__dirname, '../../BUILD/webpack-phase2/'));
 
 console.log("webpack entry module path: " + entryPath);
@@ -21,7 +21,7 @@ module.exports = {
     target: "web",
     output: {
         path: outputPath,
-        filename: 'client-app-bundle.js'
+        filename: 'html5-service-runtime-bundle.js'
     },
     module: {
         rules: [

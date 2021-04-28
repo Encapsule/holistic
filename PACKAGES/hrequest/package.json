@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "ZQbcVUInSk-Iomo2BkkyQQ",
-    "buildSource": "16448f5884fdf9970ee0d91bf720064812d5312c",
-    "buildTime": 1616794301,
-    "codename": "moonstone",
+    "buildID": "VFVD35jjTOqJ6RWxF87pMw",
+    "buildSource": "595fc06356a866b0ea7dc208aed55799ed364209",
+    "buildTime": 1619632934,
+    "codename": "three-worlds",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -16,7 +16,7 @@
     ],
     "description": "This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.",
     "engines": {
-        "node": "14.15.5",
+        "node": "14.16.1",
         "yarn": ">=1.22.0 <=1.22.5"
     },
     "homepage": "https://github.com/Encapsule",
@@ -32,7 +32,7 @@
     "main": "index.js",
     "name": "@encapsule/hrequest",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.10",
+        "@encapsule/arccore": "0.1.11",
         "query-string": "^6.2.0",
         "request": "^2.88.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.0.66"
+    "version": "0.1.00"
 }

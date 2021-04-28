@@ -93,7 +93,7 @@ function renderHtmlDocument(request_) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta);
       }
 
-      htmlDocumentLines.push("  </head>\n  <body>\n    <div id=\"idServiceDisplay\">".concat(htmlContent, "</div>\n    <script type=\"text/javascript\" src=\"/javascript/client-app-bundle-").concat(appAgentMetadata.buildID, ".js\"></script>\n    <script id=\"idClientBootROM\" type=\"text/plain\">").concat(bootROM, "</script>\n"));
+      htmlDocumentLines.push("  </head>\n  <body>\n    <div id=\"idServiceDisplay\">".concat(htmlContent, "</div>\n    <script type=\"text/javascript\" src=\"/javascript/html5-service-runtime-bundle-").concat(appAgentMetadata.buildID, ".js\"></script>\n    <script id=\"idClientBootROM\" type=\"text/plain\">").concat(bootROM, "</script>\n"));
 
       if (request_.appServiceRequest.renderOptions.documentEpilogueComments) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentEpilogueComments);

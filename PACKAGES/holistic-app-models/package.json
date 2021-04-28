@@ -1,0 +1,43 @@
+{
+    "author": "Encapsule",
+    "bugs": {
+        "url": "https://github.com/Encapsule/holistic/issues"
+    },
+    "buildID": "VFVD35jjTOqJ6RWxF87pMw",
+    "buildSource": "595fc06356a866b0ea7dc208aed55799ed364209",
+    "buildTime": 1619632934,
+    "codename": "three-worlds",
+    "contributors": [
+        {
+            "name": "Christopher D. Russell",
+            "email": "cdr@encapsule.io",
+            "url": "https://github.com/ChrisRus"
+        }
+    ],
+    "description": "This package contains a collection of optional application and service models that may be resused to build holistic-powered runtimes.",
+    "engines": {
+        "node": "14.16.1",
+        "yarn": ">=1.22.0 <=1.22.5"
+    },
+    "homepage": "https://github.com/Encapsule",
+    "keywords": [
+        "Encapsule",
+        "holistic",
+        "holarchy",
+        "CellModel"
+    ],
+    "license": "MIT",
+    "main": "index.js",
+    "name": "@encapsule/holistic-app-models",
+    "peerDependencies": {
+        "@encapsule/arccore": "0.1.11",
+        "@encapsule/holarchy": "0.1.00",
+        "react": "16.12.0",
+        "react-dom": "16.12.0"
+    },
+    "repository": {
+        "type": "git",
+        "url": "git+https://github.com/Encapsule/holistic.git"
+    },
+    "version": "0.1.00"
+}

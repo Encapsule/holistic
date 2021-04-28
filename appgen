@@ -50,7 +50,12 @@ function syncExec(request_) {
     // https://stackoverflow.com/questions/30134236/use-child-process-execsync-but-keep-output-in-console
     // return childProcess.execSync(request_.command, { cwd: request_.cwd, stdio: [0,1,2] });
     console.log([ "subprocess command:", request_.command, "working directory", request_.cwd].join(" "));
-    return childProcess.execSync(request_.command, { cwd: request_.cwd }).toString('utf8').trim();
+    try {
+        const result = childProcess.execSync(request_.command, { cwd: request_.cwd }).toString('utf8').trim();
+        return result;
+    } catch (exception_) {
+        throw new Error(`!!! appgen failed due to an unexpected exception: ${exception_.toString()}`);
+    }
 } // syncExec
 
 function touchFile(filepath_) {
@@ -151,6 +156,7 @@ const resourceFilePaths = {
         packageReadme: path.join(appRepoDir, "README.md"),
         packageLicense: path.join(appRepoDir, "LICENSE"),
 	    packageMakefile: path.join(appRepoDir, "Makefile"), // template generated
+        packageMakefileApp: path.join(appRepoDir, "Makefile-App"), // template generated
         packageGitIgnore: path.join(appRepoDir, ".gitignore"), // template generated
         packageBabelRc: path.join(appRepoDir, ".babelrc"), // template generated
         packageEslintRc: path.join(appRepoDir, ".eslintrc.js"), // template generated
@@ -171,6 +177,8 @@ const resourceFilePaths = {
         projectBuildToolGenerateRuntimeManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
     },
     holistic: {
+        appBaselineSourcesDir: path.join(holisticPackageDir, "SOURCES"),
+
         packageDir: holisticPackageDir,
         platformSourcesDir: path.join(holisticPackageDir, "PACKAGES"),
         platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
@@ -192,13 +200,13 @@ if (!fsStat.isDirectory()) {
 }
 
 if (!fs.existsSync(resourceFilePaths.application.appRepoGitDir)) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not appear to be a git repository. Have you executed 'git init'?");
+    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not exist.");
     process.exit(1);
 }
 
 fsStat = fs.statSync(resourceFilePaths.application.appRepoGitDir);
 if (!fsStat.isDirectory()) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not appear to be a git repository. Have you executed 'git init'?");
+    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' is not a git repository.");
     process.exit(1);
 }
 
@@ -216,7 +224,7 @@ if (filterResponse.error) {
 var applicationPackageManifest = filterResponse.result.resource; // ... as specified by developer(s) and this script.
 
 // TODO: MAKE THIS MORE ROBUST: We do not want to allow appgen to execute on either holistic-dev or the generated @encapsule/holistic distribution packages.
-if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "holistic-dev")) {
+if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "dpmr-arc-core-rt")) {
     console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
     console.error("ERROR: RIDICULOUSLY INVALID --appRepoDir path specified by caller; appgen does not know how to generate itself!");
     console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
@@ -280,6 +288,39 @@ if (!fs.existsSync(resourceFilePaths.application.appManifest)) {
     }
     console.log("> Write '" + resourceFilePaths.application.appManifest + "'.");
 
+    // Copy baseline application sources into the target repo.
+
+    makeDirectory(resourceFilePaths.application.appSourcesDir);
+    touchFile(path.join(resourceFilePaths.application.appSourcesDir, ".gitkeep"));
+    makeDirectory(resourceFilePaths.application.appAssetSourcesDir);
+    touchFile(path.join(resourceFilePaths.application.appAssetSourcesDir, ".gitkeep"));
+    makeDirectory(resourceFilePaths.application.appCommonSourcesDir);
+    touchFile(path.join(resourceFilePaths.application.appCommonSourcesDir, ".gitkeep"));
+    makeDirectory(resourceFilePaths.application.appClientSourcesDir);
+    touchFile(path.join(resourceFilePaths.application.appClientSourcesDir, ".gitkeep"));
+    makeDirectory(resourceFilePaths.application.appServerSourcesDir);
+    touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep"));
+
+    const sourceDirectory = resourceFilePaths.holistic.appBaselineSourcesDir + "/*";
+    const destDirectory = resourceFilePaths.application.appSourcesDir;
+
+    let command = [ "cp -Rpv", sourceDirectory, destDirectory ].join(" ");
+    consoleOutput = syncExec({ cwd: resourceFilePaths.holistic.packageDir, command: command });
+    console.log("> Updated target project repository to current holistic app baseline sample application.");
+
+    ////
+    // Create application Makefile-App
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "Makefile-App-template.hbs"));
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageMakefileApp,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageMakefileApp + "'.");
+
 } // end if holistic-app.json doesn't exist in target applcation
 
 
@@ -303,7 +344,6 @@ if (filterResponse.error) {
 // Use the filtered holistic application manifest data read from the application repository.
 holisticAppManifest = filterResponse.result;
 console.log("> Read '" + resourceFilePaths.application.appManifest + "'.");
-
 
 ////
 // Ensure the application does not declare duplicate/conflicting package dependencies.
@@ -592,6 +632,7 @@ if (filterResponse.error) {
 }
 console.log("> Write '" + resourceFilePaths.application.packageMakefile + "'.");
 
+/* migrated to first repo initialization (same time as we create a new holistic-app.json manifest) 
 makeDirectory(resourceFilePaths.application.appSourcesDir);
 touchFile(path.join(resourceFilePaths.application.appSourcesDir, ".gitkeep"));
 makeDirectory(resourceFilePaths.application.appAssetSourcesDir);
@@ -602,6 +643,7 @@ makeDirectory(resourceFilePaths.application.appClientSourcesDir);
 touchFile(path.join(resourceFilePaths.application.appClientSourcesDir, ".gitkeep"));
 makeDirectory(resourceFilePaths.application.appServerSourcesDir);
 touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep"));
+*/
 
 // Execute a yarn install --check-files in the application repo
 // in order to install any new dependencies, re-install removed
@@ -620,7 +662,7 @@ console.log("> ONE MOMENT PLEASE... Executing 'yarn install in '" + resourceFile
 console.log("");
 consoleOutput = syncExec({
     cwd: resourceFilePaths.application.appRepoDir,
-    command: "yarn install --force --checkfiles"
+    command: "yarn install --force --prefer-offline" // "yarn install --force --checkfiles"
 });
 
 console.log(consoleOutput);
