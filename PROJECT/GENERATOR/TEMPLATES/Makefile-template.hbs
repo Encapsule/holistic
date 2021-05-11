@@ -55,7 +55,7 @@ default:
 .PHONY: configure
 configure:
 	@echo Configuring build environment...
-	yarn install
+	npm install
 	@echo Build environment has been configured.
 
 .PHONY: clean
@@ -74,7 +74,7 @@ scrub: clean
 .PHONY: reset
 reset: scrub
 	@echo Local build environment reset...
-	yarn cache clean
+	npm cache clean
 	@echo Dependencies will be re-installed from refreshed package cache \(requires Internet\) on next 'make configure'.
 
 .PHONY: applicationCoreBuild

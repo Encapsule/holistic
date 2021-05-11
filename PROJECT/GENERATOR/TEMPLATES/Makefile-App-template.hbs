@@ -4,28 +4,29 @@
 
 .PHONY: default
 default:
-    @echo Makefile-App is called automatically by the top-level appgen-generated Makefile to perfrom applicationPreBuild, and  applicationPostBuild actions.
+	@echo Makefile-App is called automatically by the top-level appgen-generated Makefile to perfrom applicationPreBuild, and  applicationPostBuild actions.
 
 .PHONY: applicationPreBuild
 applicationPreBuild:
-    # keep for reference: ./PROJECT/BUILD/vp5/generate-untrusted-client-user-login-session-spec.js
+	# keep for reference: ./PROJECT/BUILD/vp5/generate-untrusted-client-user-login-session-spec.js
 
 .PHONY: applicationPostBuild
 applicationPostBuild:
-        # keep for reference: ./PROJECT/BUILD/vp5/generate-viewpath5-repo-README.js
+	# keep for reference: ./PROJECT/BUILD/vp5/generate-viewpath5-repo-README.js
 
 .PHONY: applicationPackaging
 applicationPackaging:
-        @echo Add application-specific packaging steps here...
+	@echo Add application-specific packaging steps here...
 
 .PHONY: applicationTesting
 applicationTesting:
-        @echo Add application-specific testing steps here...
+	@echo Add application-specific testing steps here...
 
 .PHONY: applicationAssetPublish
-applicationAssetPublish
-        @echo Add application-specific asset publication steps here...
+applicationAssetPublish:
+	@echo Add application-specific asset publication steps here...
 
 .PHONY: applicationDeploy
-applicationDeploy
-        @echo Add application-specific deployment steps here...
+applicationDeploy:
+	@echo Add application-specific deployment steps here...
+

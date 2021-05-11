@@ -4,8 +4,8 @@
 // {{author}} {{name}} v{{version}} "{{codename}}" {{buildID}} {{buildSource}}
 //
 
-const arctoolslib = require('@encapsule/arctools');
-
+const path = require("path");
+const arctoolslib = require("@encapsule/arctools");
 const program = arctoolslib.commander;
 
 program
@@ -20,6 +20,10 @@ if (!program.appBuildManifest) {
     process.exit(1);
 }
 
+const holisticRTLPackageNamesJSONFilename = path.resolve(__dirname, "../../HOLISTIC/PACKAGES/holistic-rtl-packages.json");
+// console.log(`***** ${__dirname} // ${holisticRTLPackageNamesJSONFilename} *****`);
+
+
 var filterResponse = arctoolslib.jsrcFileLoaderSync.request(program.appBuildManifest);
 if (filterResponse.error) {
     throw new Error("Invalid --appBuildManifest value. " + filterResponse.error);
@@ -31,11 +35,12 @@ const applicationBuildManifest = filterResponse.result.resource;
 // ================================================================
 // package.json generation
 
-var packageRuntimeManifest = applicationBuildManifest.app;
-packageRuntimeManifest.name = packageRuntimeManifest.name + "-app-runtime";
-packageRuntimeManifest.scripts  = {
-    start: "node ./SERVER/server.js"
-};
+var packageRuntimeManifest = { ...applicationBuildManifest.app };
+
+packageRuntimeManifest.name = `${applicationBuildManifest.app.name}-service-image`;
+packageRuntimeManifest.description = `${packageRuntimeManifest.name} is an npm package containing the pre-built image of the ${applicationBuildManifest.app.name} holistic application service. See the included README.md for additional information.`;
+
+packageRuntimeManifest.scripts  = { start: "node ./SERVER/nodejs-service-runtime.js" };
 
 // Serialize the manifest as JSON and write to stdout.
 console.log(JSON.stringify(packageRuntimeManifest, undefined, 2));

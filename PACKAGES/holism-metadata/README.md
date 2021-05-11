@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.1.00 three-worlds
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.1.01 three-worlds
 
 ## &#x25F0; Runtime library: @encapsule/holism-metadata
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains an extensible framework for defining application-specific metadata - i.e. data about your app. It is intended for use in derived apps/services and is typically used in conjunction with @encapsule/holism integration plug-in filters to satisfy queries re: publishing organization, application, page, route, hashroute, resource, operation...
 
 ```
-Package: @encapsule/holism-metadata v0.1.00 "three-worlds" build ID "VFVD35jjTOqJ6RWxF87pMw"
-Sources: @encapsule/holodev#595fc06356a866b0ea7dc208aed55799ed364209
-Created: 2021-04-28T18:02:14.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holism-metadata v0.1.01 "three-worlds" build ID "TCNhD7YWTgeNpM4_Jjaxwg"
+Sources: @encapsule/holodev#6db877a5754b1e158dae50e50288c28e92a8e942
+Created: 2021-05-11T18:24:18.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview

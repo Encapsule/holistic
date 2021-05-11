@@ -1,7 +1,7 @@
 {
     "name": "holistic",
-    "description": "Encapsule Project private AGPLv3-licensed build sources for @encapsule/holistic distribution package.",
-    "version": "0.1.00",
+    "description": "@encapsule/holistic is a domain engineering toolkit for building distributed applications and interactive UX from reusable software models.",
+    "version": "0.1.01",
     "codename": "three-worlds",
     "author": "Encapsule",
     "copyright": {
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "VFVD35jjTOqJ6RWxF87pMw",
-    "buildSource": "595fc06356a866b0ea7dc208aed55799ed364209",
-    "buildTime": 1619632934,
-    "buildDateISO": "2021-04-28T18:02:14.000Z"
+    "buildID": "TCNhD7YWTgeNpM4_Jjaxwg",
+    "buildSource": "6db877a5754b1e158dae50e50288c28e92a8e942",
+    "buildTime": 1620757458,
+    "buildDateISO": "2021-05-11T18:24:18.000Z"
 }

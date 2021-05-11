@@ -2,697 +2,695 @@
 
 "use strict";
 
-//
-// Encapsule Project Holistic Platform 'appgen' script.
-// Used to initialize and maintain holistic platform runtime
-// libraries, build, and test infrastructure in derived apps
-// and services git repositories.
-//
-// Copyright (C) 2020 Christopher D. Russell
-// Published by Encapsule Project, Seattle WA USA
-//
+(function() {
 
-// Node.js runtime modules
-const childProcess = require('child_process'); // Node.js
-const fs = require('fs'); // Node.js
-const path = require("path"); // Node.js
-const mkdirp = require("mkdirp"); // as in UNIX mkdir -p
-const semver = require("semver");
-const arctoolslib = require("@encapsule/arctools"); // Encapsule/arctools package
-const arccore = arctoolslib.arccore; // ... Encapsule/arccore is bundled with Encapsule/arctools
-const handlebars = arctoolslib.handlebars; // ... handlebars template engine is bundled with Encapsule/arctools // TODO: WE DO NOT NEED THIS ANYMORE - But, I have no time right now to go back into @encapsule/arctools (code that was written in 2012/2013 mostly).
+    // Node.js runtime modules
+    const childProcess = require('child_process'); // Node.js
+    const fs = require('fs'); // Node.js
+    const path = require("path"); // Node.js
+    const mkdirp = require("mkdirp"); // as in UNIX mkdir -p
+    const semver = require("semver");
+    const arctoolslib = require("@encapsule/arctools"); // Encapsule/arctools package
+    const arccore = arctoolslib.arccore; // ... Encapsule/arccore is bundled with Encapsule/arctools
+    const handlebars = arctoolslib.handlebars; // ... handlebars template engine is bundled with Encapsule/arctools // TODO: WE DO NOT NEED THIS ANYMORE - But, I have no time right now to go back into @encapsule/arctools (code that was written in 2012/2013 mostly).
 
-const holisticMetadata = require("./PACKAGES/holistic");
-const holisticPlatformRuntimePackageNames = require("./PACKAGES/holistic-rtl-packages");
+    const holisticMetadata = require("./PACKAGES/holistic");
+    const holisticPlatformRuntimePackageNames = require("./PACKAGES/holistic-rtl-packages");
 
-const holisticPlatformManifest = require("./PROJECT/GENERATOR/holistic-platform-manifest");
-const holisticAppManifestFilter = require('./PROJECT/GENERATOR/LIB/holistic-app-manifest-filter');
-const packageMapFilter = require('./PROJECT/GENERATOR/LIB/package-map-filter');
+    const holisticPlatformManifest = require("./PROJECT/GENERATOR/holistic-platform-manifest");
+    const holisticAppManifestFilter = require('./PROJECT/GENERATOR/LIB/holistic-app-manifest-filter');
+    const packageMapFilter = require('./PROJECT/GENERATOR/LIB/package-map-filter');
 
-// Re-used throughout this script module...
-var filterResponse;
-var docTemplate;
-var document;
+    // Re-used throughout this script module...
+    var filterResponse;
+    var docTemplate;
+    var document;
 
-// ================================================================
-// Common functions
+    // ================================================================
+    // Common functions
 
-function sortObjectKeys(input_) {
-    let result = {};
-    Object.keys(input_).sort().forEach(function(key_) {
-	result[key_] = input_[key_];
-    });
-    return result;
-}
-
-function syncExec(request_) {
-    // request_ = { command: string, cwd: string,  }
-    // https://stackoverflow.com/questions/30134236/use-child-process-execsync-but-keep-output-in-console
-    // return childProcess.execSync(request_.command, { cwd: request_.cwd, stdio: [0,1,2] });
-    console.log([ "subprocess command:", request_.command, "working directory", request_.cwd].join(" "));
-    try {
-        const result = childProcess.execSync(request_.command, { cwd: request_.cwd }).toString('utf8').trim();
+    function sortObjectKeys(input_) {
+        let result = {};
+        Object.keys(input_).sort().forEach(function(key_) {
+	        result[key_] = input_[key_];
+        });
         return result;
-    } catch (exception_) {
-        throw new Error(`!!! appgen failed due to an unexpected exception: ${exception_.toString()}`);
     }
-} // syncExec
 
-function touchFile(filepath_) {
-    // filepath_ = string file path (relative to platform package root. or, absolute)
-    console.log("> Touch '" + filepath_ + "'");
-    return syncExec({
-        cwd: resourceFilePaths.holistic.packageDir,
-        command: "touch " + filepath_
-    });
-}
+    function syncExec(request_) {
+        // request_ = { command: string, cwd: string,  }
+        // https://stackoverflow.com/questions/30134236/use-child-process-execsync-but-keep-output-in-console
+        // return childProcess.execSync(request_.command, { cwd: request_.cwd, stdio: [0,1,2] });
+        console.log([ "subprocess command:", request_.command, "working directory", request_.cwd].join(" "));
+        try {
+            const result = childProcess.execSync(request_.command, { cwd: request_.cwd }).toString('utf8').trim();
+            return result;
+        } catch (exception_) {
+            throw new Error(`!!! appgen failed due to an unexpected exception: ${exception_.toString()}`);
+        }
+    } // syncExec
 
-function makeDirectory(directoryPath_) {
-    console.log("> Create '" + directoryPath_ + "'");
-    mkdirp.sync(directoryPath_);
-}
-
-function loadDocumentTemplate(filepath_) {
-    const loadResponse = arctoolslib.jsrcFileLoaderSync.request(filepath_);
-    if (loadResponse.error) {
-        throw new Error(loadResponse.error);
+    function touchFile(filepath_) {
+        // filepath_ = string file path (relative to platform package root. or, absolute)
+        console.log("> Touch '" + filepath_ + "'");
+        return syncExec({
+            cwd: resourceFilePaths.holistic.packageDir,
+            command: "touch " + filepath_
+        });
     }
-    const documentTemplate = handlebars.compile(loadResponse.result.resource);
-    return documentTemplate;
-}
 
-// ================================================================
-
-var program = arctoolslib.commander; // command line argument parser framework bundled with Encapsule/arctools
-
-program.version(holisticMetadata.version).
-    option("--appRepoDir <appRepoDir>", "(required) path to root directory of the application's locally-cloned git repository.").
-    option("--forcePlatformDowngrade", "(optional) explicitly synchronize an application using an older version of @encapsule/holistic.").
-    option("--info", "Print information about this tool.").
-    parse(process.argv);
-
-console.log("");
-console.log(`O       o O       o O       o`);
-console.log(`| O   o | | O   o | | O   o |`);
-console.log(`| | O | | | | O | | | | O | |`);
-console.log(`| o   O | | o   O | | o   O |`);
-console.log(`o       O o       O o       O`);
-console.log("");
-console.log(`@${holisticMetadata.author}/${holisticMetadata.name}/appgen.js v${holisticMetadata.version}-${holisticMetadata.codename} buildID "${holisticMetadata.buildID}" published ${holisticMetadata.buildDateISO}`);
-console.log(`This distribution package was built from platform sources at git commit hash "${holisticMetadata.buildSource}".`);
-console.log(`Powered by @${arccore.__meta.author}/${arccore.__meta.name} v${arccore.__meta.version}-${arccore.__meta.codename} buildID "${arccore.__meta.buildID}" published ${(new Date(arccore.__meta.buildTime * 1000)).toISOString()}.`);
-console.log(`Copyright (C) ${holisticMetadata.copyright.year} ${holisticMetadata.copyright.holder} for ${arccore.__meta.author} Project`);
-console.log("");
-console.log(`> Type appgen --info to learn more about about the appgen command line tool.`);
-console.log("");
-
-if (program.info) {
-    console.log("This script is a code generation tool used to initialize and update");
-    console.log("an external git repository containing a Node.js/HTML5 application");
-    console.log("derived from Facebook React and Encapsule Project holistic platform");
-    console.log("libraries.\n");
-
-    console.log("It is assumed that the derived application's git repository has been");
-    console.log("cloned locally on the machine where you're executing this script.\n")
-
-    console.log("Modifications made by this script to the target application's repository");
-    console.log("should be reviewed and committed just as any other change to the application");
-    console.log("would be.\n");
-
-    console.log("The intent of this system is to provides a clean separation between project");
-    console.log("setup and maintainence, dependency management, build infrastructure, core");
-    console.log("runtime infrastructure and integrations, and application-layer plug-in");
-    console.log("extensions, configuration metadata, and static assets.\n");
-
-    process.exit(0);
-
-} // end if program.info
-
-if (!program.appRepoDir) {
-    console.error("Missing required command line value for --appRepoDir option.");
-    program.help();
-}
-
-// Get the fully-qualified path to the target application's git repository.
-const appRepoDir = path.resolve(program.appRepoDir);
-console.log("> Open '" + appRepoDir + "' ...");
-
-// Get the full-qualified path of the Encapsule/holistic package root directory.
-const holisticPackageDir = path.resolve(path.join(__dirname));
-
-const resourceFilePaths = {
-    application: {
-        appRepoDir: appRepoDir,
-        appRepoGitDir: path.join(appRepoDir, ".git"),
-        appManifest: path.join(appRepoDir, "holistic-app.json"),
-        appSourcesDir: path.join(appRepoDir, "SOURCES"),
-        appAssetSourcesDir: path.join(appRepoDir, "SOURCES/ASSETS"),
-        appClientSourcesDir: path.join(appRepoDir, "SOURCES/CLIENT"),
-        appCommonSourcesDir: path.join(appRepoDir, "SOURCES/COMMON"),
-        appServerSourcesDir: path.join(appRepoDir, "SOURCES/SERVER"),
-
-        packageManifest: path.join(appRepoDir, "package.json"), // synthesized by this script
-        packageModulesDir: path.join(appRepoDir, "node_modules"),
-        packageReadme: path.join(appRepoDir, "README.md"),
-        packageLicense: path.join(appRepoDir, "LICENSE"),
-	    packageMakefile: path.join(appRepoDir, "Makefile"), // template generated
-        packageMakefileApp: path.join(appRepoDir, "Makefile-App"), // template generated
-        packageGitIgnore: path.join(appRepoDir, ".gitignore"), // template generated
-        packageBabelRc: path.join(appRepoDir, ".babelrc"), // template generated
-        packageEslintRc: path.join(appRepoDir, ".eslintrc.js"), // template generated
-        packageWebpackClientRc: path.join(appRepoDir, "PROJECT/BUILD/webpack.config.app.client.js"), // template generated
-
-        packageBuildToolGenerateBuildTag: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-buildtag.js"),
-        packageBuildToolGenerateRuntimePackageManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
-
-        platformSourcesDir: path.join(appRepoDir, "HOLISTIC"),
-	    platformPackagesDir: path.join(appRepoDir, "HOLISTIC/PACKAGES"),
-
-        projectDir: path.join(appRepoDir, "PROJECT"),
-        projectBuildDir: path.join(appRepoDir, "PROJECT/BUILD"),
-        projectTestDir: path.join(appRepoDir, "PROJECT/TEST"),
-        projectDeployDir: path.join(appRepoDir, "PROJECT/DEPLOY"),
-
-        projectBuildToolGenerateBuildTag: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-buildtag.js"),
-        projectBuildToolGenerateRuntimeManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
-    },
-    holistic: {
-        appBaselineSourcesDir: path.join(holisticPackageDir, "SOURCES"),
-
-        packageDir: holisticPackageDir,
-        platformSourcesDir: path.join(holisticPackageDir, "PACKAGES"),
-        platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
-        platformGenerateRuntimeManifestRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-package-manifest.js.hbs")
+    function makeDirectory(directoryPath_) {
+        console.log("> Create '" + directoryPath_ + "'");
+        mkdirp.sync(directoryPath_);
     }
-};
 
-// Ensure the application repo directory exists.
-if (!fs.existsSync(appRepoDir)) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not exist.");
-    process.exit(1);
-}
+    function loadDocumentTemplate(filepath_) {
+        const loadResponse = arctoolslib.jsrcFileLoaderSync.request(filepath_);
+        if (loadResponse.error) {
+            throw new Error(loadResponse.error);
+        }
+        const documentTemplate = handlebars.compile(loadResponse.result.resource);
+        return documentTemplate;
+    }
 
-// Ensure the application repo directory is actually a directory.
-var fsStat = fs.statSync(appRepoDir);
-if (!fsStat.isDirectory()) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' is not a directory.");
-    process.exit(1);
-}
+    // ================================================================
 
-if (!fs.existsSync(resourceFilePaths.application.appRepoGitDir)) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not exist.");
-    process.exit(1);
-}
+    var program = arctoolslib.commander; // command line argument parser framework bundled with Encapsule/arctools
 
-fsStat = fs.statSync(resourceFilePaths.application.appRepoGitDir);
-if (!fsStat.isDirectory()) {
-    console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' is not a git repository.");
-    process.exit(1);
-}
+    program.version(holisticMetadata.version).
+        option("--appRepoDir <appRepoDir>", "(required) local path of the root directory of the derived app service's local sources git repository/npm package.").
+        option("--forcePlatformDowngrade", "(optional) explicitly synchronize an application using an older version of @encapsule/holistic.").
+        option("--info", "Print information about this tool.").
+        parse(process.argv);
 
-////
-// Load the application's package.json document. Note that we clone this document and overwrite specific name/value pairs
-// with values calculated here retaining all the non-conflicting, application-specific information that developers often
-// add to their package.json.
-//
-filterResponse = arctoolslib.jsrcFileLoaderSync.request(resourceFilePaths.application.packageManifest);
-if (filterResponse.error) {
-    console.error("ERROR: Cannot load the target application's package manifest (package.json). Have you executed 'yarn init'?");
-    console.error(filterResponse.error);
-    process.exit(1);
-}
-var applicationPackageManifest = filterResponse.result.resource; // ... as specified by developer(s) and this script.
+    console.log("");
+    console.log(`O       o O       o O       o`);
+    console.log(`| O   o | | O   o | | O   o |`);
+    console.log(`| | O | | | | O | | | | O | |`);
+    console.log(`| o   O | | o   O | | o   O |`);
+    console.log(`o       O o       O o       O`);
+    console.log("");
+    console.log(`@${holisticMetadata.author}/${holisticMetadata.name}/appgen.js v${holisticMetadata.version}-${holisticMetadata.codename} buildID "${holisticMetadata.buildID}" published ${holisticMetadata.buildDateISO}`);
+    console.log(`This distribution package was built from platform sources at git commit hash "${holisticMetadata.buildSource}".`);
+    console.log(`Powered by @${arccore.__meta.author}/${arccore.__meta.name} v${arccore.__meta.version}-${arccore.__meta.codename} buildID "${arccore.__meta.buildID}" published ${(new Date(arccore.__meta.buildTime * 1000)).toISOString()}.`);
+    console.log(`Copyright (C) ${holisticMetadata.copyright.year} ${holisticMetadata.copyright.holder} for ${arccore.__meta.author} Project`);
+    console.log("");
+    console.log(`> Type appgen --info to learn more about about the appgen command line tool.`);
+    console.log("");
 
-// TODO: MAKE THIS MORE ROBUST: We do not want to allow appgen to execute on either holistic-dev or the generated @encapsule/holistic distribution packages.
-if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "dpmr-arc-core-rt")) {
-    console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
-    console.error("ERROR: RIDICULOUSLY INVALID --appRepoDir path specified by caller; appgen does not know how to generate itself!");
-    console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
-    process.exit(1);
-}
+    if (program.info) {
+        console.log("This script is a code generation tool used to initialize and update");
+        console.log("an external git repository containing a Node.js/HTML5 application");
+        console.log("derived from Facebook React and Encapsule Project holistic platform");
+        console.log("libraries.\n");
 
-// Filter the package map.
-filterResponse = packageMapFilter.request(applicationPackageManifest.devDependencies);
-if (filterResponse.error) {
-    console.error("ERROR: Cannot access application package.json devDependencies map.");
-    console.error(filterResponse.error);
-    process.exit(1);
-}
-const applicationPackageDeprecatedDependencies = filterResponse.result;
-console.log("> Read '" + resourceFilePaths.application.packageManifest + "'.");
+        console.log("It is assumed that the derived application's git repository has been");
+        console.log("cloned locally on the machine where you're executing this script.\n")
 
-////
-// Load a previously-written holistic platform manifest (holistic.json) from the application
-// and ensure that the developer is not attempting to execute an older version of this tool
-// on an application that was previously upgraded to a later version of @encapsule/holsitic platform.
-filterResponse = arctoolslib.jsrcFileLoaderSync.request(path.join(resourceFilePaths.application.platformSourcesDir, "holistic.json"));
-if (!filterResponse.error) {
-    const holisticPlatformManifest = filterResponse.result.resource;
-    if (!program.forcePlatformDowngrade && semver.gt(holisticPlatformManifest.version, holisticMetadata.version)) {
-        console.error("ERROR: This application was previously synchronized to @encapsule/holistic platform v" + holisticPlatformManifest.version + ".");
-        console.error("Please update your installation of @encapsule/holistic to the latest. Or, specificy the --forcePlatformDowngrade option to continue with downgrade to v" + holisticMetadata.version + ".");
+        console.log("Modifications made by this script to the target application's repository");
+        console.log("should be reviewed and committed just as any other change to the application");
+        console.log("would be.\n");
+
+        console.log("The intent of this system is to provides a clean separation between project");
+        console.log("setup and maintainence, dependency management, build infrastructure, core");
+        console.log("runtime infrastructure and integrations, and application-layer plug-in");
+        console.log("extensions, configuration metadata, and static assets.\n");
+
+        process.exit(0);
+
+    } // end if program.info
+
+    if (!program.appRepoDir) {
+        console.error("Missing required command line value for --appRepoDir option.");
+        program.help();
+    }
+
+    // Get the fully-qualified path to the target application's git repository.
+    const appRepoDir = path.resolve(program.appRepoDir);
+    console.log("> Open '" + appRepoDir + "' ...");
+
+    // Get the full-qualified path of the Encapsule/holistic package root directory.
+    const holisticPackageDir = path.resolve(path.join(__dirname));
+
+    const resourceFilePaths = {
+        application: {
+            appRepoDir: appRepoDir,
+            appRepoGitDir: path.join(appRepoDir, ".git"),
+            appManifest: path.join(appRepoDir, "holistic-app.json"),
+            appSourcesDir: path.join(appRepoDir, "SOURCES"),
+            appAssetSourcesDir: path.join(appRepoDir, "SOURCES/ASSETS"),
+            appClientSourcesDir: path.join(appRepoDir, "SOURCES/CLIENT"),
+            appCommonSourcesDir: path.join(appRepoDir, "SOURCES/COMMON"),
+            appServerSourcesDir: path.join(appRepoDir, "SOURCES/SERVER"),
+
+            packageManifest: path.join(appRepoDir, "package.json"), // synthesized by this script
+            packageModulesDir: path.join(appRepoDir, "node_modules"),
+            packageReadme: path.join(appRepoDir, "README.md"),
+            packageLicense: path.join(appRepoDir, "LICENSE"),
+	        packageMakefile: path.join(appRepoDir, "Makefile"), // template generated
+            packageMakefileApp: path.join(appRepoDir, "Makefile-App"), // template generated
+            packageGitIgnore: path.join(appRepoDir, ".gitignore"), // template generated
+            packageBabelRc: path.join(appRepoDir, ".babelrc"), // template generated
+            packageEslintRc: path.join(appRepoDir, ".eslintrc.js"), // template generated
+            packageWebpackClientRc: path.join(appRepoDir, "PROJECT/BUILD/webpack.config.app.client.js"), // template generated
+
+            packageBuildToolGenerateBuildTag: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-buildtag.js"),
+            packageBuildToolGenerateRuntimePackageManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
+
+            platformSourcesDir: path.join(appRepoDir, "HOLISTIC"),
+	        platformPackagesDir: path.join(appRepoDir, "HOLISTIC/PACKAGES"),
+
+            projectDir: path.join(appRepoDir, "PROJECT"),
+            projectBuildDir: path.join(appRepoDir, "PROJECT/BUILD"),
+            projectTestDir: path.join(appRepoDir, "PROJECT/TEST"),
+            projectDeployDir: path.join(appRepoDir, "PROJECT/DEPLOY"),
+
+            projectBuildToolGenerateBuildTag: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-buildtag.js"),
+            projectBuildToolGenerateRuntimeManifest: path.join(appRepoDir, "PROJECT/BUILD/generate-runtime-package-manifest.js"),
+        },
+        holistic: {
+            appBaselineSourcesDir: path.join(holisticPackageDir, "SOURCES"),
+
+            packageDir: holisticPackageDir,
+            platformSourcesDir: path.join(holisticPackageDir, "PACKAGES"),
+            platformGenerateBuildTagRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-buildtag.js.hbs"),
+            platformGenerateRuntimeManifestRc: path.join(holisticPackageDir, "PROJECT/GENERATOR/TEMPLATES/generate-runtime-package-manifest.js.hbs")
+        }
+    };
+
+    // Ensure the application repo directory exists.
+    if (!fs.existsSync(appRepoDir)) {
+        console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not exist.");
         process.exit(1);
     }
-}
 
-////
-// Load the application's holistic-app.json manifest document.
-//
-var holisticAppManifest = null;
-
-if (!fs.existsSync(resourceFilePaths.application.appManifest)) {
-    console.log("> Initializing new holistic-app.json manifest from package.json...");
-    // Assume that the file doesn't exist. Construct a default manifest w/the filter. And then serialize it.
-    filterResponse = holisticAppManifestFilter.request({
-        name: applicationPackageManifest.name,
-        description: applicationPackageManifest.description,
-        version: applicationPackageManifest.version,
-        codename: applicationPackageManifest.codename
-    });
-    if (filterResponse.error) {
-        console.error("ERROR: Could not initialize a default holistic application manifest!");
-        console.error(filterResponse.error);
+    // Ensure the application repo directory is actually a directory.
+    var fsStat = fs.statSync(appRepoDir);
+    if (!fsStat.isDirectory()) {
+        console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' is not a directory.");
         process.exit(1);
     }
-    // Use the newly-created holistic application manifest.
-    holisticAppManifest = filterResponse.result;
-    // Write the new holistic application manifest to the application repository.
-    filterResponse = arctoolslib.stringToFileSync.request({
-        resource: JSON.stringify(filterResponse.result, undefined, 2) + "\n",
-        path: resourceFilePaths.application.appManifest
-    });
-    if (filterResponse.error) {
-        console.error("ERROR: Unable to write a default holistic application manifest to the application repo!");
-        console.error(filterResponse.error);
+
+    if (!fs.existsSync(resourceFilePaths.application.appRepoGitDir)) {
+        console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' does not exist.");
         process.exit(1);
     }
-    console.log("> Write '" + resourceFilePaths.application.appManifest + "'.");
 
-    // Copy baseline application sources into the target repo.
-
-    makeDirectory(resourceFilePaths.application.appSourcesDir);
-    touchFile(path.join(resourceFilePaths.application.appSourcesDir, ".gitkeep"));
-    makeDirectory(resourceFilePaths.application.appAssetSourcesDir);
-    touchFile(path.join(resourceFilePaths.application.appAssetSourcesDir, ".gitkeep"));
-    makeDirectory(resourceFilePaths.application.appCommonSourcesDir);
-    touchFile(path.join(resourceFilePaths.application.appCommonSourcesDir, ".gitkeep"));
-    makeDirectory(resourceFilePaths.application.appClientSourcesDir);
-    touchFile(path.join(resourceFilePaths.application.appClientSourcesDir, ".gitkeep"));
-    makeDirectory(resourceFilePaths.application.appServerSourcesDir);
-    touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep"));
-
-    const sourceDirectory = resourceFilePaths.holistic.appBaselineSourcesDir + "/*";
-    const destDirectory = resourceFilePaths.application.appSourcesDir;
-
-    let command = [ "cp -Rpv", sourceDirectory, destDirectory ].join(" ");
-    consoleOutput = syncExec({ cwd: resourceFilePaths.holistic.packageDir, command: command });
-    console.log("> Updated target project repository to current holistic app baseline sample application.");
+    fsStat = fs.statSync(resourceFilePaths.application.appRepoGitDir);
+    if (!fsStat.isDirectory()) {
+        console.error("ERROR: Invalid application repo directory. '" + appRepoDir + "' is not a git repository.");
+        process.exit(1);
+    }
 
     ////
-    // Create application Makefile-App
-    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "Makefile-App-template.hbs"));
+    // Load the application's package.json document. Note that we clone this document and overwrite specific name/value pairs
+    // with values calculated here retaining all the non-conflicting, application-specific information that developers often
+    // add to their package.json.
+    //
+    filterResponse = arctoolslib.jsrcFileLoaderSync.request(resourceFilePaths.application.packageManifest);
+    if (filterResponse.error) {
+        console.error("ERROR: Cannot load the target application's package manifest (package.json). Have you executed 'npm init'?");
+        console.error(filterResponse.error);
+        process.exit(1);
+    }
+    var applicationPackageManifest = filterResponse.result.resource; // ... as specified by developer(s) and this script.
+
+    // TODO: MAKE THIS MORE ROBUST: We do not want to allow appgen to execute on either holistic-dev or the generated @encapsule/holistic distribution packages.
+    if ((applicationPackageManifest.name === "@encapsule/holistic") || (applicationPackageManifest.name === "dpmr-arc-core-rt")) {
+        console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
+        console.error("ERROR: RIDICULOUSLY INVALID --appRepoDir path specified by caller; appgen does not know how to generate itself!");
+        console.warning("☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠☠");
+        process.exit(1);
+    }
+
+    // Filter the package map.
+    filterResponse = packageMapFilter.request(applicationPackageManifest.devDependencies);
+    if (filterResponse.error) {
+        console.error("ERROR: Cannot access application package.json devDependencies map.");
+        console.error(filterResponse.error);
+        process.exit(1);
+    }
+    const applicationPackageDeprecatedDependencies = filterResponse.result;
+    console.log("> Read '" + resourceFilePaths.application.packageManifest + "'.");
+
+    ////
+    // Load a previously-written holistic platform manifest (holistic.json) from the application
+    // and ensure that the developer is not attempting to execute an older version of this tool
+    // on an application that was previously upgraded to a later version of @encapsule/holsitic platform.
+    // TODO: Take a closer look at this. Is it working?
+
+    filterResponse = arctoolslib.jsrcFileLoaderSync.request(path.join(resourceFilePaths.application.platformSourcesDir, "holistic.json"));
+    if (!filterResponse.error) {
+        const holisticPlatformManifest = filterResponse.result.resource;
+        if (!program.forcePlatformDowngrade && semver.gt(holisticPlatformManifest.version, holisticMetadata.version)) {
+            console.error("ERROR: This application was previously synchronized to @encapsule/holistic platform v" + holisticPlatformManifest.version + ".");
+            console.error("Please update your installation of @encapsule/holistic to the latest. Or, specificy the --forcePlatformDowngrade option to continue with downgrade to v" + holisticMetadata.version + ".");
+            process.exit(1);
+        }
+    }
+
+    ////
+    // Load the application's holistic-app.json manifest document.
+    //
+    var holisticAppManifest = null;
+
+    if (!fs.existsSync(resourceFilePaths.application.appManifest)) {
+        //// ------------------------------------------------------------
+        // CREATE A NEW holistic-app.json manifest in the root of the derived app service's sources package repo.
+        console.log("> Initializing new holistic-app.json manifest from package.json...");
+        // Assume that the file doesn't exist. Construct a default manifest w/the filter. And then serialize it.
+        filterResponse = holisticAppManifestFilter.request({
+            // TODO: author, copyright, ...
+            author: applicationPackageManifest.author,
+            name: applicationPackageManifest.name,
+            description: applicationPackageManifest.description,
+            version: applicationPackageManifest.version,
+            codename: applicationPackageManifest.codename
+        });
+        if (filterResponse.error) {
+            console.error("ERROR: Could not initialize a default holistic application manifest!");
+            console.error(filterResponse.error);
+            process.exit(1);
+        }
+        // Use the newly-created holistic application manifest.
+        holisticAppManifest = filterResponse.result;
+        // Write the new holistic application manifest to the application repository.
+        filterResponse = arctoolslib.stringToFileSync.request({
+            resource: JSON.stringify(filterResponse.result, undefined, 2) + "\n",
+            path: resourceFilePaths.application.appManifest
+        });
+        if (filterResponse.error) {
+            console.error("ERROR: Unable to write a default holistic application manifest to the application repo!");
+            console.error(filterResponse.error);
+            process.exit(1);
+        }
+        console.log("> Write '" + resourceFilePaths.application.appManifest + "'.");
+
+        // Copy baseline application sources into the target repo.
+
+        makeDirectory(resourceFilePaths.application.appSourcesDir);
+        touchFile(path.join(resourceFilePaths.application.appSourcesDir, ".gitkeep"));
+        makeDirectory(resourceFilePaths.application.appAssetSourcesDir);
+        touchFile(path.join(resourceFilePaths.application.appAssetSourcesDir, ".gitkeep"));
+        makeDirectory(resourceFilePaths.application.appCommonSourcesDir);
+        touchFile(path.join(resourceFilePaths.application.appCommonSourcesDir, ".gitkeep"));
+        makeDirectory(resourceFilePaths.application.appClientSourcesDir);
+        touchFile(path.join(resourceFilePaths.application.appClientSourcesDir, ".gitkeep"));
+        makeDirectory(resourceFilePaths.application.appServerSourcesDir);
+        touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep"));
+
+        const sourceDirectory = resourceFilePaths.holistic.appBaselineSourcesDir + "/*";
+        const destDirectory = resourceFilePaths.application.appSourcesDir;
+
+        let command = [ "cp -Rpv", sourceDirectory, destDirectory ].join(" ");
+        consoleOutput = syncExec({ cwd: resourceFilePaths.holistic.packageDir, command: command });
+        console.log("> Updated target project repository to current holistic app baseline sample application.");
+
+        ////
+        // Create application Makefile-App
+        docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "Makefile-App-template.hbs"));
+        document = docTemplate(holisticMetadata);
+        filterResponse = arctoolslib.stringToFileSync.request({
+            path: resourceFilePaths.application.packageMakefileApp,
+            resource: document
+        });
+        if (filterResponse.error) {
+            throw new Error(filterResponse.error);
+        }
+        console.log("> Write '" + resourceFilePaths.application.packageMakefileApp + "'.");
+
+    } // end if holistic-app.json doesn't exist in target applcation
+
+
+    // At this point we have either a holistic-app.json that already existed. Or, a new one just initialized above.
+    filterResponse = arctoolslib.jsrcFileLoaderSync.request(resourceFilePaths.application.appManifest);
+    if (filterResponse.error) {
+        console.error("ERROR: Cannot load holistic application manifest.");
+        console.error(filterResponse.error);
+        process.exit(1);
+    }
+
+    const holisticAppManifestData = filterResponse.result.resource; // ... as specified by a developer (or as set by default above).
+
+    // Filter the holistic application manifest read from the application repository.
+    filterResponse = holisticAppManifestFilter.request(holisticAppManifestData);
+    if (filterResponse.error) {
+        console.error("ERROR: Invalid holistic application manifest document '" + resourceFilePaths.application.appManifest + "'.");
+        console.error(filterResponse.error);
+        process.exit(1);
+    }
+
+    // Use the filtered holistic application manifest data read from the application repository.
+    holisticAppManifest = filterResponse.result;
+    console.log("> Read '" + resourceFilePaths.application.appManifest + "'.");
+
+    ////
+    // Ensure the application does not declare duplicate/conflicting package dependencies.
+    //
+    var newDevDependenciesArray = [];
+    var conflictingAppDependencies = [];
+
+    const appBuildtimeDependencies = {
+        ...holisticAppManifest.dependencies.common,
+        ...holisticAppManifest.dependencies.buildtime
+    };
+
+    const platformBuildtimeDependencies = {
+        ...holisticPlatformManifest.dependencies.common,
+        ...holisticPlatformManifest.dependencies.buildtime
+    };
+
+    for (var key in appBuildtimeDependencies) {
+        // If the application layer package dependency is already satisfied by the platform layer.
+        if (platformBuildtimeDependencies[key]) {
+	        conflictingAppDependencies.push(key);
+        }
+        // Remove the values we know will be present in the resynthesized devDependencies.
+        delete applicationPackageDeprecatedDependencies[key];
+        newDevDependenciesArray.push({ package: key, semver: appBuildtimeDependencies[key] });
+    } // end for
+
+    // Fail on duplicate/conflicting package dependency declarations in the holistic application manifest (holistic-app.json).
+    if (conflictingAppDependencies.length) {
+        console.error("ERROR: Holistic application manifest '" + resourceFilePaths.application.appManifest + "' declares one or more conflicting package dependencies.");
+        console.error("The following packages are already specified as Encapsule/holistic platform dependencies and should be removed from your application manifest:");
+        console.error(conflictingAppDependencies.join(", "));
+        process.exit(1);
+    } // end if
+
+    // Remove the values we know will be present in the resynthesized devDependencies.
+    for (key in platformBuildtimeDependencies) {
+        delete applicationPackageDeprecatedDependencies[key];
+        newDevDependenciesArray.push({ package: key, semver: platformBuildtimeDependencies[key] });
+    }
+
+    // Any package dependency remaining is no longer needed and should be removed.
+    if (arccore.util.dictionaryLength(applicationPackageDeprecatedDependencies)) {
+        console.log("! NOTE: Package dependencies are being removed: '" + JSON.stringify(applicationPackageDeprecatedDependencies) + "'.");
+    }
+
+    ////
+    // Affect removal of deprecated top-level package dependencies from the application
+    // via yarn in order to force update of the application's yarn.lock (and the correct
+    // version of the dependency installed in the application's node_modules directory).
+    // Note that we perform this step prior to overwriting the application's package.json
+    // in order to get yarn to clean up yarn.lock (as well as removing the deprecated
+    // package from the application's node_modules directory).
+    // DEPRECATED? touchFile(path.join(resourceFilePaths.application.appRepoDir, "yarn.lock")); // create empty iff not exist for bootstrapping new project
+
+    mkdirp(resourceFilePaths.application.packageModulesDir); // create empty iff not exist for bootstrapping new project
+
+    for (key in applicationPackageDeprecatedDependencies) {
+        console.log("> Removing deprecated application package '" + key + "'...");
+        consoleOutput = syncExec({
+            cwd: resourceFilePaths.application.packageModulesDir,
+            command: "rm -rfv " + key
+        });
+        console.log(consoleOutput);
+    }
+
+    newDevDependenciesArray.sort(function(a_, b_) { return (a_.package === b_.package)?0:((a_.package < b_.package)?-1:1) });
+
+    var newDevDependencies = {};
+    newDevDependenciesArray.forEach(function(descriptor_) { newDevDependencies[descriptor_.package] = descriptor_.semver; });
+
+    // Set the application's development mode package dependencies.
+    applicationPackageManifest.devDependencies = newDevDependencies;
+
+    // Overwrite values in the application's package.json with values supplied by the holistic platform manifest.
+    const holisticAppManifestSpec = holisticAppManifestFilter.filterDescriptor.inputFilterSpec;
+    for (key in holisticAppManifestSpec) {
+        const namespaceDescriptor = holisticAppManifestSpec[key];
+        if (namespaceDescriptor.____appdsl && namespaceDescriptor.____appdsl.copyValue) {
+            applicationPackageManifest[key] = holisticAppManifest[key];
+        }
+    }
+
+    // Reset the list of registered scripts. We will merge holistic-defined scripts with app-specific scripts defined in holistic-app.json.
+    applicationPackageManifest.scripts = holisticAppManifest.scripts.buildtime;
+
+    // Merge/overwrite application's package.json script targets w/holistic platform defaults.
+    for (key in holisticPlatformManifest.scripts.buildtime) {
+        applicationPackageManifest.scripts[key] = holisticPlatformManifest.scripts.buildtime[key];
+    }
+
+    applicationPackageManifest.scripts = sortObjectKeys(applicationPackageManifest.scripts);
+
+    applicationPackageManifest.engines = holisticPlatformManifest.engines;
+
+    applicationPackageManifest.appgen = "@encapsule/holistic v" + holisticMetadata.version + " " + holisticMetadata.codename + " " + holisticMetadata.buildID + " " + holisticMetadata.buildSource + " " + holisticMetadata.buildDateISO;
+
+    ////
+    // Overwrite the application's package.json document with the updated version.
+    filterResponse = arctoolslib.stringToFileSync.request({
+        resource: JSON.stringify(sortObjectKeys(applicationPackageManifest), undefined, 2) + "\n",
+        path: resourceFilePaths.application.packageManifest
+    });
+    if (filterResponse.error) {
+        console.log("ERROR: Failed to write the applicaiton's package.json document.");
+        consoel.log(filterResponse.error);
+        process.exit(1);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageManifest + "'.");
+
+    ////
+    // Remove existing copy of the holistic platform sources from the application.
+
+    var consoleOutput = syncExec({
+        cwd: resourceFilePaths.application.appRepoDir,
+        command: ("rm -rfv " + resourceFilePaths.application.platformSourcesDir)
+    });
+    console.log("> Remove '" + resourceFilePaths.application.platformSourcesDir + "'.");
+
+    ////
+    // Copy the latest version of the holistic platform sources into the application.
+    makeDirectory(resourceFilePaths.application.platformSourcesDir);
+    makeDirectory(resourceFilePaths.application.platformPackagesDir);
+
+    const sourceDirectory = resourceFilePaths.holistic.platformSourcesDir + "/*";
+    const destDirectory = resourceFilePaths.application.platformPackagesDir;
+
+    let command = [
+        "cp -Rpv",
+        sourceDirectory,
+        destDirectory
+    ].join(" ");
+
+    consoleOutput = syncExec({
+        cwd: resourceFilePaths.holistic.packageDir,
+        command: command
+    });
+    console.log("> Updated holsitic platform RLT's.");
+
+    let sourceFile = path.join(resourceFilePaths.holistic.platformSourcesDir, "holistic*.json");
+    command = [
+        "cp -pv",
+        sourceFile,
+        (resourceFilePaths.application.platformPackagesDir + "/")
+    ].join(" ");
+    consoleOutput = syncExec({
+        cwd: resourceFilePaths.holistic.packageDir,
+        command: command
+    });
+    console.log(consoleOutput);
+
+    makeDirectory(path.join(resourceFilePaths.application.platformSourcesDir, "ASSETS"));
+
+    command = [
+        "cp -pv",
+        path.join(resourceFilePaths.holistic.packageDir, "README.md"),
+        (resourceFilePaths.application.platformSourcesDir + "/")
+    ].join(" ");
+    consoleOutput = syncExec({
+        cwd: resourceFilePaths.holistic.packageDir,
+        command: command
+    });
+    console.log(consoleOutput);
+
+    command = [
+        "cp -Rpv",
+        path.join(resourceFilePaths.holistic.packageDir, "ASSETS/*"),
+        (resourceFilePaths.application.platformSourcesDir + "/ASSETS/")
+    ].join(" ");
+    consoleOutput= syncExec({
+        cwd: resourceFilePaths.holistic.packageDir,
+        command: command
+    });
+    console.log(consoleOutput);
+
+
+    ////
+    // Remove any cached holistic platform runtime packages from application's node_modules.
+    // When we're done we'll execute a npm install on the application package to ensure that
+    // these entries are replaced with the latest versions. And, that any new dependencies
+    // that have appeared in the application's package.json are installed.
+
+    if (fs.existsSync(resourceFilePaths.application.packageModulesDir)) {
+        holisticPlatformRuntimePackageNames.forEach(function(packageName_) {
+
+	        console.log("> Updating holistic platform runtime package dependency '" + packageName_ + "'...");
+	        consoleOutput = syncExec({
+                cwd: resourceFilePaths.application.packageModulesDir,
+                command: "rm -drf " + packageName_
+	        });
+        });
+    } else {
+        console.log("The target repo has no 3rd-party dependencies installed yet. Nothing to clean...");
+    }
+
+    makeDirectory(resourceFilePaths.application.projectDir);
+    touchFile(path.join(resourceFilePaths.application.projectDir, ".gitkeep"));
+
+    makeDirectory(resourceFilePaths.application.projectBuildDir);
+    touchFile(path.join(resourceFilePaths.application.projectBuildDir, ".gitkeep"));
+
+    makeDirectory(resourceFilePaths.application.projectTestDir);
+    touchFile(path.join(resourceFilePaths.application.projectTestDir, ".gitkeep"));
+
+    makeDirectory(resourceFilePaths.application.projectDeployDir);
+    touchFile(path.join(resourceFilePaths.application.projectDeployDir, ".gitkeep"));
+
+    ////
+    // Create application .gitignore
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "gitignore-template.hbs"));
     document = docTemplate(holisticMetadata);
     filterResponse = arctoolslib.stringToFileSync.request({
-        path: resourceFilePaths.application.packageMakefileApp,
+        path: resourceFilePaths.application.packageGitIgnore,
         resource: document
     });
     if (filterResponse.error) {
         throw new Error(filterResponse.error);
     }
-    console.log("> Write '" + resourceFilePaths.application.packageMakefileApp + "'.");
+    console.log("> Write '" + resourceFilePaths.application.packageGitIgnore + "'.");
 
-} // end if holistic-app.json doesn't exist in target applcation
-
-
-filterResponse = arctoolslib.jsrcFileLoaderSync.request(resourceFilePaths.application.appManifest);
-if (filterResponse.error) {
-    console.error("ERROR: Cannot load holistic application manifest.");
-    console.error(filterResponse.error);
-    process.exit(1);
-}
-
-const holisticAppManifestData = filterResponse.result.resource; // ... as specified by a developer
-
-// Filter the holistic application manifest read from the application repository.
-filterResponse = holisticAppManifestFilter.request(holisticAppManifestData);
-if (filterResponse.error) {
-    console.error("ERROR: Invalid holistic application manifest document '" + resourceFilePaths.application.appManifest + "'.");
-    console.error(filterResponse.error);
-    process.exit(1);
-}
-
-// Use the filtered holistic application manifest data read from the application repository.
-holisticAppManifest = filterResponse.result;
-console.log("> Read '" + resourceFilePaths.application.appManifest + "'.");
-
-////
-// Ensure the application does not declare duplicate/conflicting package dependencies.
-//
-var newDevDependenciesArray = [];
-var conflictingAppDependencies = [];
-
-for (var key in holisticAppManifest.applicationDependencies) {
-    // If the application layer package dependency is already satisfied by the platform layer.
-    if (holisticPlatformManifest.platformDependencies[key]) {
-	    conflictingAppDependencies.push(key);
+    ////
+    // Create application .babelrc
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "babelrc-template.hbs"));
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageBabelRc,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
     }
-    // Remove the values we know will be present in the resynthesized devDependencies.
-    delete applicationPackageDeprecatedDependencies[key];
-    newDevDependenciesArray.push({ package: key, semver: holisticAppManifest.applicationDependencies[key] });
-} // end for
+    console.log("> Write '" + resourceFilePaths.application.packageBabelRc + "'.");
 
-// Fail on duplicate/conflicting package dependency declarations in the holistic application manifest (holistic-app.json).
-if (conflictingAppDependencies.length) {
-    console.error("ERROR: Holistic application manifest '" + resourceFilePaths.application.appManifest + "' declares one or more conflicting package dependencies.");
-    console.error("The following packages are already specified as Encapsule/holistic platform dependencies and should be removed from your application manifest:");
-    console.error(conflictingAppDependencies.join(", "));
-    process.exit(1);
-} // end if
+    ////
+    // Create application .eslintrc.js
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "eslintrc-template.hbs"));
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageEslintRc,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageEslintRc + "'.");
 
-// Remove the values we know will be present in the resynthesized devDependencies.
-for (key in holisticPlatformManifest.platformDependencies) {
-    delete applicationPackageDeprecatedDependencies[key];
-    newDevDependenciesArray.push({ package: key, semver: holisticPlatformManifest.platformDependencies[key] });
-}
+    ////
+    // Create application webpackage.config for client.
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "webpack.config.app.client.hbs"));
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageWebpackClientRc,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageWebpackClientRc + "'.");
 
-// Any package dependency remaining is no longer needed and should be removed.
-if (arccore.util.dictionaryLength(applicationPackageDeprecatedDependencies)) {
-    console.log("! NOTE: Package dependencies are being removed: '" + JSON.stringify(applicationPackageDeprecatedDependencies) + "'.");
-}
+    ////
+    // Create application's generate-runtime-builtag.js script
+    docTemplate = loadDocumentTemplate(resourceFilePaths.holistic.platformGenerateBuildTagRc);
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageBuildToolGenerateBuildTag,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageBuildToolGenerateBuildTag + "'.");
 
-////
-// Affect removal of deprecated top-level package dependencies from the application
-// via yarn in order to force update of the application's yarn.lock (and the correct
-// version of the dependency installed in the application's node_modules directory).
-// Note that we perform this step prior to overwriting the application's package.json
-// in order to get yarn to clean up yarn.lock (as well as removing the deprecated
-// package from the application's node_modules directory).
-touchFile(path.join(resourceFilePaths.application.appRepoDir, "yarn.lock")); // create empty iff not exist for bootstrapping new project
-mkdirp(resourceFilePaths.application.packageModulesDir); // create empty iff not exist for bootstrapping new project
+    ////
+    // Create application's generate-runtime-package-manifest.js script
+    docTemplate = loadDocumentTemplate(resourceFilePaths.holistic.platformGenerateRuntimeManifestRc);
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.projectBuildToolGenerateRuntimeManifest,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.projectBuildToolGenerateRuntimeManifest + "'.");
 
-for (key in applicationPackageDeprecatedDependencies) {
-    console.log("> Removing deprecated application package '" + key + "'...");
+    ////
+    // Create application Makefile
+    docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "Makefile-template.hbs"));
+    document = docTemplate(holisticMetadata);
+    filterResponse = arctoolslib.stringToFileSync.request({
+        path: resourceFilePaths.application.packageMakefile,
+        resource: document
+    });
+    if (filterResponse.error) {
+        throw new Error(filterResponse.error);
+    }
+    console.log("> Write '" + resourceFilePaths.application.packageMakefile + "'.");
+
+    // Execute a `npm install` in the application sources repo
+    // in order to install any new dependencies, re-install removed
+    // holistic platform dependencies from the application's HOLISTIC
+    // directory.
+
+    console.log("> ONE MOMENT PLEASE... Removing ./node_modules");
     consoleOutput = syncExec({
-        cwd: resourceFilePaths.application.packageModulesDir,
-        command: "rm -rfv " + key
+        cwd: resourceFilePaths.application.appRepoDir,
+        command: "rm -rf ./node_modules"
     });
     console.log(consoleOutput);
-}
 
-newDevDependenciesArray.sort(function(a_, b_) { return (a_.package === b_.package)?0:((a_.package < b_.package)?-1:1) });
-
-var newDevDependencies = {};
-newDevDependenciesArray.forEach(function(descriptor_) { newDevDependencies[descriptor_.package] = descriptor_.semver; });
-
-// Set the application's development mode package dependencies.
-applicationPackageManifest.devDependencies = newDevDependencies;
-
-// Overwrite values in the application's package.json with values supplied by the holistic platform manifest.
-const holisticAppManifestSpec = holisticAppManifestFilter.filterDescriptor.inputFilterSpec;
-for (key in holisticAppManifestSpec) {
-    const namespaceDescriptor = holisticAppManifestSpec[key];
-    if (namespaceDescriptor.____appdsl && namespaceDescriptor.____appdsl.copyValue) {
-        applicationPackageManifest[key] = holisticAppManifest[key];
-    }
-}
-
-// Reset the list of registered scripts. We will merge holistic-defined scripts with app-specific scripts defined in holistic-app.json.
-applicationPackageManifest.scripts = holisticAppManifest.applicationScripts;
-
-// Merge/overwrite application's package.json script targets w/holistic platform defaults.
-for (key in holisticPlatformManifest.applicationPackageManifest.scripts) {
-    applicationPackageManifest.scripts[key] = holisticPlatformManifest.applicationPackageManifest.scripts[key];
-}
-
-applicationPackageManifest.scripts = sortObjectKeys(applicationPackageManifest.scripts);
-
-applicationPackageManifest.engines = holisticPlatformManifest.applicationPackageManifest.engines;
-
-applicationPackageManifest.appgen = "@encapsule/holistic v" + holisticMetadata.version + " " + holisticMetadata.codename + " " + holisticMetadata.buildID + " " + holisticMetadata.buildSource + " " + holisticMetadata.buildDateISO;
-
-////
-// Overwrite the application's package.json document with the updated version.
-filterResponse = arctoolslib.stringToFileSync.request({
-    resource: JSON.stringify(sortObjectKeys(applicationPackageManifest), undefined, 2) + "\n",
-    path: resourceFilePaths.application.packageManifest
-});
-if (filterResponse.error) {
-    console.log("ERROR: Failed to write the applicaiton's package.json document.");
-    consoel.log(filterResponse.error);
-    process.exit(1);
-}
-console.log("> Write '" + resourceFilePaths.application.packageManifest + "'.");
-
-////
-// Remove existing copy of the holistic platform sources from the application.
-
-var consoleOutput = syncExec({
-    cwd: resourceFilePaths.application.appRepoDir,
-    command: ("rm -rfv " + resourceFilePaths.application.platformSourcesDir)
-});
-console.log("> Remove '" + resourceFilePaths.application.platformSourcesDir + "'.");
-
-////
-// Copy the latest version of the holistic platform sources into the application.
-makeDirectory(resourceFilePaths.application.platformSourcesDir);
-makeDirectory(resourceFilePaths.application.platformPackagesDir);
-
-const sourceDirectory = resourceFilePaths.holistic.platformSourcesDir + "/*";
-const destDirectory = resourceFilePaths.application.platformPackagesDir;
-
-let command = [
-    "cp -Rpv",
-    sourceDirectory,
-    destDirectory
-].join(" ");
-
-consoleOutput = syncExec({
-    cwd: resourceFilePaths.holistic.packageDir,
-    command: command
-});
-console.log("> Updated holsitic platform RLT's.");
-
-let sourceFile = path.join(resourceFilePaths.holistic.platformSourcesDir, "holistic*.json");
-command = [
-    "cp -pv",
-    sourceFile,
-    (resourceFilePaths.application.platformPackagesDir + "/")
-].join(" ");
-consoleOutput = syncExec({
-    cwd: resourceFilePaths.holistic.packageDir,
-    command: command
-});
-console.log(consoleOutput);
-
-makeDirectory(path.join(resourceFilePaths.application.platformSourcesDir, "ASSETS"));
-
-command = [
-    "cp -pv",
-    path.join(resourceFilePaths.holistic.packageDir, "README.md"),
-    (resourceFilePaths.application.platformSourcesDir + "/")
-].join(" ");
-consoleOutput = syncExec({
-    cwd: resourceFilePaths.holistic.packageDir,
-    command: command
-});
-console.log(consoleOutput);
-
-command = [
-    "cp -Rpv",
-    path.join(resourceFilePaths.holistic.packageDir, "ASSETS/*"),
-    (resourceFilePaths.application.platformSourcesDir + "/ASSETS/")
-].join(" ");
-consoleOutput= syncExec({
-    cwd: resourceFilePaths.holistic.packageDir,
-    command: command
-});
-console.log(consoleOutput);
-
-
-////
-// Remove any cached holistic platform runtime packages from application's node_modules.
-// When we're done we'll execute a yarn install on the application package to ensure that
-// these entries are replaced with the latest versions. And, that any new dependencies
-// that have appeared in the application's package.json are installed. And, that yarn.lock
-// is updated.
-
-if (fs.existsSync(resourceFilePaths.application.packageModulesDir)) {
-    holisticPlatformRuntimePackageNames.forEach(function(packageName_) {
-
-	console.log("> Updating holistic platform runtime package dependency '" + packageName_ + "'...");
-	consoleOutput = syncExec({
-            cwd: resourceFilePaths.application.packageModulesDir,
-            command: "rm -drf " + packageName_
-	});
+    console.log("> ONE MOMENT PLEASE... Executing 'npm install in '" + resourceFilePaths.application.appRepoDir + "'...");
+    console.log("");
+    consoleOutput = syncExec({
+        cwd: resourceFilePaths.application.appRepoDir,
+        command: "npm install"
     });
-} else {
-    console.log("The target repo has no 3rd-party dependencies installed yet. Nothing to clean...");
-}
 
-makeDirectory(resourceFilePaths.application.projectDir);
-touchFile(path.join(resourceFilePaths.application.projectDir, ".gitkeep"));
+    console.log(consoleOutput);
 
-makeDirectory(resourceFilePaths.application.projectBuildDir);
-touchFile(path.join(resourceFilePaths.application.projectBuildDir, ".gitkeep"));
+    // ================================================================
+    // E P I L O G U E
+    //
+    // Determine the count of files in the target application repo that are in the
+    // modified, deleted, or untracked state after the code generation algorithm has
+    // completed its work.
+    //
 
-makeDirectory(resourceFilePaths.application.projectTestDir);
-touchFile(path.join(resourceFilePaths.application.projectTestDir, ".gitkeep"));
+    const modifiedFilesResponse = syncExec({
+        cwd: resourceFilePaths.application.appRepoDir,
+        command: "git ls-files --modified --deleted --others --exclude-standard"
+    });
 
-makeDirectory(resourceFilePaths.application.projectDeployDir);
-touchFile(path.join(resourceFilePaths.application.projectDeployDir, ".gitkeep"));
+    const modifiedFiles = modifiedFilesResponse?modifiedFilesResponse.trim().split("\n"):[];
 
-////
-// Create application .gitignore
-docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "gitignore-template.hbs"));
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageGitIgnore,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageGitIgnore + "'.");
+    console.log("\nDone processing application repository '" + resourceFilePaths.application.appRepoDir + "'.\n");
 
-////
-// Create application .babelrc
-docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "babelrc-template.hbs"));
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageBabelRc,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageBabelRc + "'.");
+    if (!modifiedFiles.length) {
+        console.log("[ NO UNCOMMITTED APPLICATION CHANGES. YOUR APPLICATION IS ALREADY UP-TO-DATE. ]");
+    } else {
+        console.log("[ " + modifiedFiles.length + " APPLICATION SOURCE FILES MODIFIED (git modified + deleted + untracked status). ]");
+    }
 
-////
-// Create application .eslintrc.js
-docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "eslintrc-template.hbs"));
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageEslintRc,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageEslintRc + "'.");
+    console.log("----------------------------------------------------------------");
+    console.log("(=)");
+    console.log(" X");
+    console.log("(=)");
+    console.log(" X");
+    console.log("(=)");
 
-////
-// Create application webpackage.config for client.
-docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "webpack.config.app.client.hbs"));
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageWebpackClientRc,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageWebpackClientRc + "'.");
+})();
 
-////
-// Create application's generate-runtime-builtag.js script
-docTemplate = loadDocumentTemplate(resourceFilePaths.holistic.platformGenerateBuildTagRc);
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageBuildToolGenerateBuildTag,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageBuildToolGenerateBuildTag + "'.");
-
-////
-// Create application's generate-runtime-package-manifest.js script
-docTemplate = loadDocumentTemplate(resourceFilePaths.holistic.platformGenerateRuntimeManifestRc);
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.projectBuildToolGenerateRuntimeManifest,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.projectBuildToolGenerateRuntimeManifest + "'.");
-
-////
-// Create application Makefile
-docTemplate = loadDocumentTemplate(path.resolve(__dirname, "PROJECT/GENERATOR/TEMPLATES", "Makefile-template.hbs"));
-document = docTemplate(holisticMetadata);
-filterResponse = arctoolslib.stringToFileSync.request({
-    path: resourceFilePaths.application.packageMakefile,
-    resource: document
-});
-if (filterResponse.error) {
-    throw new Error(filterResponse.error);
-}
-console.log("> Write '" + resourceFilePaths.application.packageMakefile + "'.");
-
-/* migrated to first repo initialization (same time as we create a new holistic-app.json manifest) 
-makeDirectory(resourceFilePaths.application.appSourcesDir);
-touchFile(path.join(resourceFilePaths.application.appSourcesDir, ".gitkeep"));
-makeDirectory(resourceFilePaths.application.appAssetSourcesDir);
-touchFile(path.join(resourceFilePaths.application.appAssetSourcesDir, ".gitkeep"));
-makeDirectory(resourceFilePaths.application.appCommonSourcesDir);
-touchFile(path.join(resourceFilePaths.application.appCommonSourcesDir, ".gitkeep"));
-makeDirectory(resourceFilePaths.application.appClientSourcesDir);
-touchFile(path.join(resourceFilePaths.application.appClientSourcesDir, ".gitkeep"));
-makeDirectory(resourceFilePaths.application.appServerSourcesDir);
-touchFile(path.join(resourceFilePaths.application.appServerSourcesDir, ".gitkeep"));
-*/
-
-// Execute a yarn install --check-files in the application repo
-// in order to install any new dependencies, re-install removed
-// holistic platform dependencies from the application's HOLISTIC
-// directory, and update the application's yarn.lock file.
-
-
-console.log("> ONE MOMENT PLEASE... Removing ./node_modules");
-consoleOutput = syncExec({
-    cwd: resourceFilePaths.application.appRepoDir,
-    command: "rm -rf ./node_modules"
-});
-console.log(consoleOutput);
-
-console.log("> ONE MOMENT PLEASE... Executing 'yarn install in '" + resourceFilePaths.application.appRepoDir + "'...");
-console.log("");
-consoleOutput = syncExec({
-    cwd: resourceFilePaths.application.appRepoDir,
-    command: "yarn install --force --prefer-offline" // "yarn install --force --checkfiles"
-});
-
-console.log(consoleOutput);
-
-// ================================================================
-// E P I L O G U E
-//
-// Determine the count of files in the target application repo that are in the
-// modified, deleted, or untracked state after the code generation algorithm has
-// completed its work.
-//
-
-const modifiedFilesResponse = syncExec({
-    cwd: resourceFilePaths.application.appRepoDir,
-    command: "git ls-files --modified --deleted --others --exclude-standard"
-});
-
-const modifiedFiles = modifiedFilesResponse?modifiedFilesResponse.trim().split("\n"):[];
-
-console.log("\nDone processing application repository '" + resourceFilePaths.application.appRepoDir + "'.\n");
-
-if (!modifiedFiles.length) {
-    console.log("[ NO UNCOMMITTED APPLICATION CHANGES. YOUR APPLICATION IS ALREADY UP-TO-DATE. ]");
-} else {
-    console.log("[ " + modifiedFiles.length + " APPLICATION SOURCE FILES MODIFIED (git modified + deleted + untracked status). ]");
-}
-
-console.log("----------------------------------------------------------------");
-console.log("(=)");
-console.log(" X");
-console.log("(=)");
-console.log(" X");
-console.log("(=)");
