@@ -81,7 +81,7 @@ function renderHtmlDocument(request_) {
       // Synthesize the actual HTML5 document to be returned to the client via HTTP.
 
       var htmlDocumentLines = [];
-      htmlDocumentLines.push("<!DOCTYPE html>\n  <html lang=\"en\">\n  <!-- @viewpath/".concat(appAgentMetadata.name, " v").concat(appAgentMetadata.version, "-").concat(appAgentMetadata.codename, " buildID \"").concat(appAgentMetadata.buildID, "\" [").concat(request_.appServiceContext.metadataContext.server.environment, "] Copyright (C) ").concat(appAgentMetadata.copyright.year, " ").concat(appAgentMetadata.copyright.holder, " -->\n"));
+      htmlDocumentLines.push("<!DOCTYPE html>\n  <html lang=\"en\">\n  <!-- @".concat(appAgentMetadata.author, "/").concat(appAgentMetadata.name, " v").concat(appAgentMetadata.version, "-").concat(appAgentMetadata.codename, " buildID \"").concat(appAgentMetadata.buildID, "\" [").concat(request_.appServiceContext.metadataContext.server.environment, "] Copyright (C) ").concat(appAgentMetadata.copyright.year, " ").concat(appAgentMetadata.copyright.holder, " -->\n"));
 
       if (request_.appServiceRequest.renderOptions.documentPrologueComments) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentPrologueComments);

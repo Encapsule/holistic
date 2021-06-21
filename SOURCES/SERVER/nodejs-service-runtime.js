@@ -12,6 +12,18 @@
 
   try {
     console.log("> \"".concat(path.resolve(__filename), "\" module loading..."));
+    process.chdir(path.resolve(path.join(__dirname, "../")));
+    var httpServiceListenPort = null;
+
+    if (process.env.PORT) {
+      httpServiceListenPort = process.env.PORT;
+      console.log("> The ".concat(appBuild.app.name, " Node.js service will listen on port ").concat(httpServiceListenPort, " as specified by the 'PORT' environment variable."));
+    } else {
+      httpServiceListenPort = 8080;
+      console.log("> The ".concat(appBuild.app.name, " Node.js service will listen on its default port ").concat(httpServiceListenPort, " because the 'PORT' environment variable is not set."));
+    }
+
+    ;
 
     var nodeServiceSpecializations = require("./nodejs-service-specializations");
 
@@ -22,9 +34,10 @@
 
     if (!nodeServiceInstance.isValid()) {
       throw new Error(nodeServiceInstance.toJSON());
-    }
+    } // START LISTENING FOR HTTP REQUESTS....
 
-    nodeServiceInstance.listen(8080); // START LISTENING FOR HTTP REQUESTS....
+
+    nodeServiceInstance.listen(httpServiceListenPort);
   } catch (serviceStartException_) {
     console.log("################################################################");
     console.log("################################################################");

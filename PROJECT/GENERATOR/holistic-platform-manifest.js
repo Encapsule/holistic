@@ -3,9 +3,7 @@
 (function() {
 
     const arccore = require("@encapsule/arccore");
-
     const holisticPlatformSourcesManifest = require("../../package.json");
-
     const holisticAppPlatformManifestFilter = require("./LIB/holistic-platform-manifest-filter");
 
 
@@ -27,13 +25,12 @@
                 "@encapsule/holistic-html5-service": "file:./HOLISTIC/PACKAGES/holistic-html5-service",
                 "@encapsule/holistic-service-core": "file:./HOLISTIC/PACKAGES/holistic-service-core",
                 "@encapsule/holistic-nodejs-service": "file:./HOLISTIC/PACKAGES/holistic-nodejs-service",
-                "@encapsule/holodeck": "file:./HOLISTIC/PACKAGES/holodeck",
-                "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets",
                 "@encapsule/hrequest": "file:./HOLISTIC/PACKAGES/hrequest",
                 "color": "^3.1.0",
                 "color-string": "^1.5.3",
                 "is-reachable": "5.0.0",
                 "commander": "^2.19.0",
+                "pg": "8.6.0",
                 "query-string": "^6.2.0",
                 "react": "16.12.0",
                 "react-dom": "16.12.0",
@@ -42,10 +39,12 @@
             },
             buildtime: {
                 "@encapsule/arctools": arccore.__meta.version,
-                "@babel/cli": "7.10.5",
-                "@babel/core": "7.10.5",
-                "@babel/plugin-transform-react-jsx": "7.10.4",
-                "@babel/preset-env": "7.10.4",
+                "@encapsule/holodeck": "file:./HOLISTIC/PACKAGES/holodeck",
+                "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets",
+                "@babel/cli": "7.14.5",
+                "@babel/core": "7.14.6",
+                "@babel/plugin-transform-react-jsx": "7.14.5",
+                "@babel/preset-env": "7.14.5",
                 "chai": "^4.2.0",
                 "css-loader": "3.6.0",
                 "csvtojson": "2.0.10",
@@ -55,8 +54,8 @@
                 "mkdirp": "^1.0.4",
                 "mockery": "^2.1.0",
                 "style-loader": "1.2.1",
-                "webpack": "4.43.0",
-                "webpack-cli": "3.3.12",
+                "webpack": "5.39.1",
+                "webpack-cli": "4.7.1",
             },
             runtime: {
             }
@@ -78,40 +77,6 @@
             runtime: {
             }
         }
-
-        /* DEPRECATED
-        platformDependencies: {
-
-            // Holistic platform build and test library dependencies.
-
-            // Holistic platform runtime library dependencies.
-            "@encapsule/d2r2": "file:./HOLISTIC/PACKAGES/d2r2",
-            "@encapsule/d2r2-components": "file:./HOLISTIC/PACKAGES/d2r2-components",
-            "@encapsule/holarchy": "file:./HOLISTIC/PACKAGES/holarchy",
-            "@encapsule/holarchy-cm": "file:./HOLISTIC/PACKAGES/holarchy-cm",
-            "@encapsule/holism": "file:./HOLISTIC/PACKAGES/holism",
-            "@encapsule/holism-metadata": "file:./HOLISTIC/PACKAGES/holism-metadata",
-            "@encapsule/holism-services": "file:./HOLISTIC/PACKAGES/holism-services",
-            "@encapsule/holistic-html5-service": "file:./HOLISTIC/PACKAGES/holistic-html5-service",
-            "@encapsule/holistic-service-core": "file:./HOLISTIC/PACKAGES/holistic-service-core",
-            "@encapsule/holistic-nodejs-service": "file:./HOLISTIC/PACKAGES/holistic-nodejs-service",
-            "@encapsule/holodeck": "file:./HOLISTIC/PACKAGES/holodeck",
-            "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets",
-            "@encapsule/hrequest": "file:./HOLISTIC/PACKAGES/hrequest",
-
-            // Third-party runtime library dependencies.
-            "color": "^3.1.0",
-            "color-string": "^1.5.3",
-            "is-reachable": "5.0.0",
-            "commander": "^2.19.0",
-            "query-string": "^6.2.0",
-            "react": "16.12.0",
-            "react-dom": "16.12.0",
-            "react-markdown": "^2.5.0",
-            "request": "^2.88.0"
-
-        }
-        */
 
     });
 

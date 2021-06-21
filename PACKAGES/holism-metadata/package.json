@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "TCNhD7YWTgeNpM4_Jjaxwg",
-    "buildSource": "6db877a5754b1e158dae50e50288c28e92a8e942",
-    "buildTime": 1620757458,
-    "codename": "three-worlds",
+    "buildID": "l3y2VyGXQSKB6jFVaXazQQ",
+    "buildSource": "0bd8f660463c2cb6acc9edd459e6d4bd031d7323",
+    "buildTime": 1624290542,
+    "codename": "phoenix06",
     "contributors": [
         {
             "name": "Christopher D. Russell",
@@ -37,5 +37,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.1.01"
+    "version": "0.1.06"
 }

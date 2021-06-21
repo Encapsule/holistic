@@ -20,12 +20,7 @@
     ); // infinite-cache
 
     var clientAppCSSURI = "/css/viewpath5-".concat(appBuild.app.buildID, ".css");
-    var memoryFileRegistrationMap = {// As of v0.0.50-crystallite notes:
-      // If you have cloned @viewpath/viewpath5.git to ~/code/vp/vp5 directory...
-      // .. then the resource directory/filename used as map key here should be
-      // considered to be relative to the directory:
-      // ~/code/vp/vp5/BUILD/runtime-phase3 directory
-
+    var memoryFileRegistrationMap = {
       /*
       "ASSETS/css/viewpath5.css": {
           request_bindings: { method: "GET", uris: [ clientAppCSSURI ] },

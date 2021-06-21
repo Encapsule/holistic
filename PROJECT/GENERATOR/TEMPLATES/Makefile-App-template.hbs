@@ -6,14 +6,15 @@
 default:
 	@echo Makefile-App is called automatically by the top-level appgen-generated Makefile to perfrom applicationPreBuild, and  applicationPostBuild actions.
 
-.PHONY: applicationPreBuild
-applicationPreBuild:
+.PHONY: appServiceRuntimePrebuild
+appServiceRuntimePrebuild:
 	# keep for reference: ./PROJECT/BUILD/vp5/generate-untrusted-client-user-login-session-spec.js
 
-.PHONY: applicationPostBuild
-applicationPostBuild:
+.PHONY: appServiceRuntimePostbuild
+appServiceRuntimePostbuild:
 	# keep for reference: ./PROJECT/BUILD/vp5/generate-viewpath5-repo-README.js
 
+# These are merely ideas at this stage - these are not called from the main appgen-created Makefile
 .PHONY: applicationPackaging
 applicationPackaging:
 	@echo Add application-specific packaging steps here...
