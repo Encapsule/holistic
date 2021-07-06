@@ -5,7 +5,7 @@ var mkdirp = require("mkdirp");
 var path = require("path");
 
 function getLogDir(logsRootDir_) {
-  mkdirp(logsRootDir_);
+  mkdirp.sync(logsRootDir_);
   return logsRootDir_;
 }
 
@@ -31,7 +31,7 @@ function getRunnerResponseFilename(logsRootDir_, runnerID_) {
 
 function getLogEvalDir(logsRootDir_, runnerID_) {
   var dirPath = path.join(getLogDir(logsRootDir_), "".concat(runnerID_, "-eval"));
-  mkdirp(dirPath);
+  mkdirp.sync(dirPath);
   return dirPath;
 }
 

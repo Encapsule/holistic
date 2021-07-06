@@ -412,7 +412,7 @@
     // package from the application's node_modules directory).
     // DEPRECATED? touchFile(path.join(resourceFilePaths.application.appRepoDir, "yarn.lock")); // create empty iff not exist for bootstrapping new project
 
-    mkdirp(resourceFilePaths.application.packageModulesDir); // create empty iff not exist for bootstrapping new project
+    mkdirp.sync(resourceFilePaths.application.packageModulesDir); // create empty iff not exist for bootstrapping new project
 
     for (key in applicationPackageDeprecatedDependencies) {
         console.log("> Removing deprecated application package '" + key + "'...");
