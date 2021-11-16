@@ -36,7 +36,6 @@ DIR_SOURCES_CLIENT=$(DIR_SOURCES)/CLIENT
 DIR_SOURCES_COMMON=$(DIR_SOURCES)/COMMON
 DIR_SOURCES_SERVER=$(DIR_SOURCES)/SERVER
 DIR_SOURCES_DEPLOY=$(DIR_SOURCES)/DEPLOY
-DIR_SOURCES_DEPLOY_AWS_EB=$(DIR_SOURCES_DEPLOY)/aws-elastic-beanstalk
 
 DIR_BUILD=$(DIR_ROOT)/BUILD
 DIR_BUILD_PHASE1=$(DIR_BUILD)/transpile-phase1
@@ -94,11 +93,10 @@ reset: scrub
 # Create/rebuild a development version of the holistic app service from ./SOURCES/*
 .PHONY: appServiceRuntime
 appServiceRuntime: appServiceRuntimePrebuild holisticServiceRuntime appServiceRuntimePostbuild
-	@echo Your derived app service has been rebuilt from generic library + your unique specializations ...
-	@echo ... producing an updated app service runtime image package written to the ./BUILD/runtime-phase3 directory.
-	@echo Execute:
-	@echo - \'npm start\' to activate your derived app\'s Node.js service using your localhost build environment\'s currently-installed npm dependency set.
-	@echo - \'cd BUILD/runtime-phase3 \&\& npm install \&\& npm start\' to perform a localhost test of your app\'s runtime image package for pre-deployment test.
+	@echo Your derived app service has been rebuilt from generic library + your unique specializations.
+	@echo The output of this rebuild has been written into the ./BUILD/runtime-phase3 directory.
+	@echo ---
+
 
 # Makefile-App service-specific runtime image package prebuild extension:
 .PHONY: appServiceRuntimePrebuild

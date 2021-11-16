@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.1.06 phoenix06
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.2.2 firestorm
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.1.06 "phoenix06" build ID "uhlbPDe7Qu2eQXMn4JsEHg"
-Sources: @encapsule/holodev#d848b40a4809fb63d3909da558381c873b05beda
-Created: 2021-07-06T03:39:17.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.2.2 "firestorm" build ID "AniKEONcQ9OPq_IkFlZVhg"
+Sources: @encapsule/holodev#e5f49d712bbd00bf82f109f49008be6a28840905
+Created: 2021-11-16T17:26:01.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -78,25 +78,9 @@ To get started you need a small set of core tools installed on your host OS:
 
 - [git](https://git-scm.com/)
 
-- [Node.js](https://nodejs.org) - **WE ARE CURRENTLY STANDARDIZED ON NODE v12.16.1 LTS**
+- [Node.js](https://nodejs.org)
 
-- [yarn](https://yarnpkg.com) (depends on Node.js) - **WE ARE CURRENTLY STANDARDIZED ON YARN v1.22.0**
-
-```shell
-
-root@holarchy:~# node --version
-
-v12.16.1
-
-root@holarchy:~# npm --version
-
-6.14.2
-
-root@holarchy:~# yarn --version
-
-1.22.0
-
-```
+- [npm](https://www.npmjs.com) (bundled w/Node.js)
 
 **IMPORTANT**
 
@@ -126,16 +110,16 @@ Installation of the @encapsule/holistic package from git repo source is a per-ve
 ```
 $ cd ~/code/holistic
 $ git pull origin master
-$ yarn install
+$ npm install
 ```
 
-> Be aware of the disconnect between what is present in your `node_modules` directory (managed by `yarn`). And, the state of critical `package.json` and `yarn.lock` files (managed by `git`).
+> Be aware of the disconnect between what is present in your `node_modules` directory (managed by `npm`). And, the state of critical `package.json` and `package-lock.json` files (managed by `git`).
 
 - Latest supported version is available on #master branch.
 
 - Other topic branches are used for testing features prior to release.
 
-After you have executed `yarn install`, the [appgen](#appgen-utility) utility is ready to use.
+After you have executed `npm install`, the [appgen](#appgen-utility) utility is ready to use.
 
 # ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
 
@@ -403,7 +387,7 @@ Join the Holistic App Platform [discussion group](https://groups.google.com/a/en
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
-Copyright &copy; 2021 [Christopher D. Russell](https://github.com/ChrisRus) Seattle, Washington USA
+Copyright &copy; 2021 [Chris Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 

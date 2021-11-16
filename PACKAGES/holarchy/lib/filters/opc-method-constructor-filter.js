@@ -385,11 +385,14 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (controllerActionFilters.length >= 2) {
-        filterResponse = arccore.discriminator.create({
+        filterResponse = arccore.discriminator2.create({
           // TODO: At some point we will probably switch this is force resolution of the target filter ID
           // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
           // controller action filters that are called and we otherwise do not know this because it's
           // not encoded obviously in a controller action's request.
+          id: "m5zuWIlrS9CZksZJ3RcJ8g",
+          name: "Controller Action Discriminator",
+          description: "Routes controller action requests to an appropriate ControllerAction filter for processing with the context of an OPC instance.",
           options: {
             action: "getFilter"
           },
@@ -444,11 +447,14 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (transitionOperatorFilters.length >= 2) {
-        filterResponse = arccore.discriminator.create({
+        filterResponse = arccore.discriminator2.create({
           // TODO: At some point we will probably switch this is force resolution of the target filter ID
           // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
           // transition operator filters that are called and we otherwise do not know this because it's
           // not encoded obviously in a transition operator's request.
+          id: "H2IIkM5ZTfW_G-JxJgsOdg",
+          name: "Transition Operator Discriminator",
+          description: "Routes transition operator requests to an appropriate TransitionOperator filter for processing within the context of an OPC instance.",
           options: {
             action: "getFilter"
           },

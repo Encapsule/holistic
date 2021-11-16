@@ -3,21 +3,21 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "uhlbPDe7Qu2eQXMn4JsEHg",
-    "buildSource": "d848b40a4809fb63d3909da558381c873b05beda",
-    "buildTime": 1625542757,
-    "codename": "phoenix06",
+    "buildID": "AniKEONcQ9OPq_IkFlZVhg",
+    "buildSource": "e5f49d712bbd00bf82f109f49008be6a28840905",
+    "buildTime": 1637083561,
+    "codename": "firestorm",
     "contributors": [
         {
-            "name": "Christopher D. Russell",
+            "name": "Chris Russell",
             "email": "cdr@encapsule.io",
             "url": "https://github.com/ChrisRus"
         }
     ],
     "description": "Cellular process modeling and runtime engine for Node.js and browser.",
     "engines": {
-        "node": "14.16.1",
-        "npm": ">=6.14.12"
+        "node": "16.6.1",
+        "npm": "7.20.3"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -34,11 +34,11 @@
     "main": "index.js",
     "name": "@encapsule/holarchy",
     "peerDependencies": {
-        "@encapsule/arccore": "0.1.11"
+        "@encapsule/arccore": "0.2.2"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.1.06"
+    "version": "0.2.2"
 }

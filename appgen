@@ -403,14 +403,8 @@
         console.log("! NOTE: Package dependencies are being removed: '" + JSON.stringify(applicationPackageDeprecatedDependencies) + "'.");
     }
 
-    ////
-    // Affect removal of deprecated top-level package dependencies from the application
-    // via yarn in order to force update of the application's yarn.lock (and the correct
-    // version of the dependency installed in the application's node_modules directory).
-    // Note that we perform this step prior to overwriting the application's package.json
-    // in order to get yarn to clean up yarn.lock (as well as removing the deprecated
-    // package from the application's node_modules directory).
-    // DEPRECATED? touchFile(path.join(resourceFilePaths.application.appRepoDir, "yarn.lock")); // create empty iff not exist for bootstrapping new project
+
+    // Remove deprecated top-level package dependencies from the application.
 
     mkdirp.sync(resourceFilePaths.application.packageModulesDir); // create empty iff not exist for bootstrapping new project
 
