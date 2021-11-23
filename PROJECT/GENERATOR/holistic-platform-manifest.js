@@ -45,7 +45,9 @@
                 "@babel/core": "7.14.6",
                 "@babel/plugin-transform-react-jsx": "7.14.5",
                 "@babel/preset-env": "7.14.5",
+                "buffer": "^6.0.3", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "chai": "^4.2.0",
+                "crypto-browserify": "^3.12.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "css-loader": "3.6.0",
                 "csvtojson": "2.0.10",
                 "eslint": "7.4.0",
@@ -53,7 +55,10 @@
                 "jsdom": "16.3.0",
                 "mkdirp": "^1.0.4",
                 "mockery": "^2.1.0",
+                "path-browserify": "^1.0.1", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
+                "stream-browserify": "^3.0.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "style-loader": "1.2.1",
+                "url": "^0.11.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "webpack": "5.39.1",
                 "webpack-cli": "4.7.1",
             },
@@ -68,10 +73,9 @@
                 reset: "make reset",
                 build: "make application",
                 start: "node ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
-                server: "npm run build && yarn start",
+                server: "npm run build && npm start",
                 "debug-server": "node --inspect-brk ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
                 iruts: "./node_modules/.bin/arc_generateIRUT",
-                appinfo: 'echo "\nHOLISTIC APP MANIFEST (created by developer) ===" && cat ./holistic-app.json && echo "\nHOLISTIC APP PACKAGE (created by appgen) ===" && cat ./package.json && "HOLISTIC APP PLATFORM JSON (Tools and RTL\'s installed by appgen) ===" && cat ./HOLISTIC/PACKAGES/holistic.json &&',
                 holodeck: "./TESTS/holodeck/run-test-program.js"
             },
             runtime: {

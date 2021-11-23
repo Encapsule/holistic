@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.2.2 firestorm
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.2.3 firestorm
 
 ##  &#x029C9; Distribution:  @encapsule/holistic
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 Full-stack component engineering platform for building complex stateful webs apps and services with software models.
 
 ```
-Package: @encapsule/holistic v0.2.2 "firestorm" build ID "AniKEONcQ9OPq_IkFlZVhg"
-Sources: @encapsule/holodev#e5f49d712bbd00bf82f109f49008be6a28840905
-Created: 2021-11-16T17:26:01.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.2.3 "firestorm" build ID "dYT5z6unSIm2wAxcK6NnsA"
+Sources: @encapsule/holodev#457a026e02f47466bf3a45cdb634fefff02e5125
+Created: 2021-11-23T22:33:48.000Z Purpose: tools (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
@@ -28,7 +28,7 @@ Work on is project is quite active right now as it's being used to re-design and
 
 **PRE-RELEASE STATUS**
 
-Holistic app platform is becoming quite stable. But, lacks examples (required) and API documentation (required). Unless you're one of a small handful of insane people (thank you insane people!) who are working with this codebase every day then you probably should just make a bookmark and come back a little later in 2020 ;-)
+Holistic app platform is becoming quite stable. But, lacks examples (required) and API documentation (required). Unless you're one of a small handful of insane people (thank you insane people!) who are working with this codebase every day then you probably should just make a bookmark and come back later... This project is an insane amount of work...
 
 ### Contents
 
@@ -149,29 +149,23 @@ All holistic applications maintained with `appgen` have the same basic structure
 
     - `scripts` is managed by `appgen` and is developer-extensible via `holistic-app.json`. Platform-defined scripts include:
 
-        - install - executed after `yarn install`.
+        - build - build the holistic application by calling `make application`.
 
         - clean - remove the previous application build.
 
-        - scrub - clean and additionally delete `node_modules` directory.
-
-        - reset - scrub and additionally clear your local yarn cache forcing complete re-stage on `yarn install`.
-
-        - build - build the holistic application by calling `make application`.
-
-        - server - build and start the Node.js HTTP app server on localhost.
-
         - debug-server - build and start the Node.js HTTP app server on localhost under Node.js inspector.
-
-        - start - launch a previously built Node.js HTTP app server on localhost.
 
         - holodeck - execute your application's @encapsule/holodeck test runner.
 
-        - appinfo - print holistic application and platform metadata.
-
-        - platform - print holistic app platform metadata.
-
         - iruts - generate a batch of v4 UUID-derived IRUT-format identifier strings.
+
+        - reset - scrub and additionally clear your local npm cache forcing complete re-stage on `npm install`.
+
+        - server - build and start the Node.js HTTP app server on localhost.
+
+        - scrub - clean and additionally delete `node_modules` directory.
+
+        - start - launch a previously built Node.js HTTP app server on localhost.
 
 - Core application build is automated by an `appgen`-generated `Makefile`.
 
@@ -219,7 +213,7 @@ Here is what happens when you execute `appgen` on your_app_repo:
 
 - De-duplicate and error check finalized dependencies.
 
-- Merge platform-defined yarn integrations (e.g. run targets) with app-specific integrations.
+- Merge platform-defined npm integrations (e.g. run targets) with app-specific integrations.
 
 - Merge changes back into `package.json`.
 
@@ -231,7 +225,7 @@ Here is what happens when you execute `appgen` on your_app_repo:
 
 - Synthesize tool configuration files required by Makefile targets.
 
-- Execute `yarn install --force --check-files`.
+- Execute `npm install --force --check-files`.
 
 ### Usage
 
@@ -243,7 +237,7 @@ Here is what happens when you execute `appgen` on your_app_repo:
 
 - Turn your directory into a git repository with `git init`.
 
-- Turn your git repo into a Node.js package with `yarn init`.
+- Turn your git repo into a Node.js package with `npm init`.
 
 - Commit your empty application package with `git commit -a`.
 
@@ -263,7 +257,7 @@ TODO
 
 Some introductory text.
 
-#### yarn Integrations
+#### npm Integrations
 
 TODO
 

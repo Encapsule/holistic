@@ -91,26 +91,26 @@ reset: scrub
 # Holistic app service runtime image package build targets.
 
 # Create/rebuild a development version of the holistic app service from ./SOURCES/*
-.PHONY: appServiceRuntime
-appServiceRuntime: appServiceRuntimePrebuild holisticServiceRuntime appServiceRuntimePostbuild
+.PHONY: application
+application: _applicationPrebuild _applicationService _applicationPostbuild
 	@echo Your derived app service has been rebuilt from generic library + your unique specializations.
 	@echo The output of this rebuild has been written into the ./BUILD/runtime-phase3 directory.
 	@echo ---
 
 
 # Makefile-App service-specific runtime image package prebuild extension:
-.PHONY: appServiceRuntimePrebuild
-appServiceRuntimePrebuild: configure
-	-make --makefile=Makefile-App appServiceRuntimePrebuild
+.PHONY: _applicationPrebuild
+_applicationPrebuild: configure
+	-make --makefile=Makefile-App applicationPrebuild
 
 # Makefile-App service-specific runtime image package postbuild extension:
-.PHONY: appServiceRuntimePostbuild
-appServiceRuntimePostbuild:
-	-make --makefile=Makefile-App appServiceRuntimePostbuild
+.PHONY: _applicationPostbuild
+_applicationPostbuild:
+	-make --makefile=Makefile-App applicationPostbuild
 
 # Service-agnostic runtime image package build target:
-.PHONY: holisticServiceRuntime
-holisticServiceRuntime:
+.PHONY: _applicationService
+_applicationService:
 
 #	PHASE0 - create a copy of the SOURCES directory structure.
 	@echo ================================================================
@@ -191,10 +191,10 @@ holisticServiceRuntime:
 # ================================================================
 # ================================================================
 # ================================================================
-# Holistic app service deployment package build targets.
+# Holistic app service distribution package build targets.
 
-.PHONY: appServiceDeployment
-appServiceDeployment:
+.PHONY: distribution
+distribution:
 
 	@echo App service distribution package build start...
 	mkdir -p $(DIR_DIST_APP_SERVICE)

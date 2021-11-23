@@ -4,7 +4,7 @@
 
 Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.2.2 firestorm
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.2.3 firestorm
 
 ## &#x25F0; Runtime library: @encapsule/holistic-app-models
 
@@ -13,9 +13,9 @@ Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/H
 This package contains a collection of optional application and service models that may be resused to build holistic-powered runtimes.
 
 ```
-Package: @encapsule/holistic-app-models v0.2.2 "firestorm" build ID "AniKEONcQ9OPq_IkFlZVhg"
-Sources: @encapsule/holodev#e5f49d712bbd00bf82f109f49008be6a28840905
-Created: 2021-11-16T17:26:01.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holistic-app-models v0.2.3 "firestorm" build ID "dYT5z6unSIm2wAxcK6NnsA"
+Sources: @encapsule/holodev#457a026e02f47466bf3a45cdb634fefff02e5125
+Created: 2021-11-23T22:33:48.000Z Purpose: library (Node.js) License: MIT
 ```
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
