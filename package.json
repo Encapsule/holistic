@@ -6,9 +6,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "bNh4_XsYRIKM7OV5-olLkw",
-    "buildSource": "bc8a37946cc68067253d576374ec9d5e169ac910",
-    "buildTime": 1638939954,
+    "buildID": "t3jRWZLiSVqKQIpCePlHlw",
+    "buildSource": "31e41009592363a89bb1181eac681f346836cd40",
+    "buildTime": 1638942502,
     "codename": "firestorm",
     "contributors": [
         {
@@ -19,8 +19,8 @@
     ],
     "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
     "devDependencies": {
-        "@encapsule/arccore": "0.2.2",
-        "@encapsule/arctools": "0.2.2",
+        "@encapsule/arccore": "0.3.0",
+        "@encapsule/arctools": "0.3.0",
         "mkdirp": "^1.0.4",
         "semver": "^5.6.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.4"
+    "version": "0.2.5"
 }

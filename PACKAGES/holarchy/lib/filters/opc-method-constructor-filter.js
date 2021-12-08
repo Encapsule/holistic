@@ -385,7 +385,7 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (controllerActionFilters.length >= 2) {
-        filterResponse = arccore.discriminator2.create({
+        filterResponse = arccore.discriminator.create({
           // TODO: At some point we will probably switch this is force resolution of the target filter ID
           // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
           // controller action filters that are called and we otherwise do not know this because it's
@@ -447,7 +447,7 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (transitionOperatorFilters.length >= 2) {
-        filterResponse = arccore.discriminator2.create({
+        filterResponse = arccore.discriminator.create({
           // TODO: At some point we will probably switch this is force resolution of the target filter ID
           // add another layer of detail to the evaluation algorithm. (we would like to know the ID of the
           // transition operator filters that are called and we otherwise do not know this because it's

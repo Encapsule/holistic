@@ -3,7 +3,7 @@
 // holodeck-harness-method-constructor-filter.js
 var arccore = require("@encapsule/arccore");
 
-var factoryResponse = arccore.discriminator2.create({
+var factoryResponse = arccore.discriminator.create({
   id: "cOiQs5l_T464i6WKfp76zA",
   name: "Holodeck Test Harness Discriminator",
   description: "TODO",
