@@ -56,6 +56,7 @@
                 "mkdirp": "^1.0.4",
                 "mockery": "^2.1.0",
                 "path-browserify": "^1.0.1", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
+                "process": "^0.11.10",  // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "stream-browserify": "^3.0.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "style-loader": "1.2.1",
                 "url": "^0.11.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).

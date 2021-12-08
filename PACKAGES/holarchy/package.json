@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "dYT5z6unSIm2wAxcK6NnsA",
-    "buildSource": "457a026e02f47466bf3a45cdb634fefff02e5125",
-    "buildTime": 1637706828,
+    "buildID": "bNh4_XsYRIKM7OV5-olLkw",
+    "buildSource": "bc8a37946cc68067253d576374ec9d5e169ac910",
+    "buildTime": 1638939954,
     "codename": "firestorm",
     "contributors": [
         {
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.3"
+    "version": "0.2.4"
 }
