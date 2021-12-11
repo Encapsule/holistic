@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "t3jRWZLiSVqKQIpCePlHlw",
-    "buildSource": "31e41009592363a89bb1181eac681f346836cd40",
-    "buildTime": 1638942502,
+    "buildID": "xRsP-VJrR8KUotP1g4MNrA",
+    "buildSource": "b125afb6b7667b6016ec177b42e792ec629419c7",
+    "buildTime": 1639263811,
     "codename": "firestorm",
     "contributors": [
         {
@@ -36,11 +36,11 @@
     "main": "index.js",
     "name": "@encapsule/holodeck",
     "peerDependencies": {
-        "@encapsule/arccore": "0.3.0"
+        "@encapsule/arccore": "0.3.1"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.5"
+    "version": "0.2.6"
 }

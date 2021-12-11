@@ -73,9 +73,9 @@
                 scrub: "make scrub",
                 reset: "make reset",
                 build: "make application",
-                start: "node ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
+                start: "cd ./BUILD/runtime-phase3 && node ./SERVER/nodejs-service-runtime.js",
                 server: "npm run build && npm start",
-                "debug-server": "node --inspect-brk ./BUILD/runtime-phase3/SERVER/nodejs-service-runtime.js",
+                "debug-server": "cd  ./BUILD/runtime-phase3 && node --inspect-brk ./SERVER/nodejs-service-runtime.js",
                 iruts: "./node_modules/.bin/arc_generateIRUT",
                 holodeck: "./TESTS/holodeck/run-test-program.js"
             },
