@@ -14,7 +14,7 @@ var factoryResponse = arccore.filter.create({
     operationDescription: "Sends a normalized error response to a remote HTTP client.",
     inputFilterSpec: httpResponseErrorRequestSpec,
     bodyFunction: function(request_) {
-        console.log("..... " + this.operationID + "::" + this.operationName);
+        console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
         var response = { error: null, result: null };
         var errors = [];
         var inBreakScope = false;

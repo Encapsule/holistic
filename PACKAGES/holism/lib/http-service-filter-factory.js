@@ -51,7 +51,7 @@ var factoryResponse = arccore.filter.create({
                 operationDescription: "Validates the service-specific format of an error response message and delegates to the global error responder.",
                 inputFilterSpec: serviceErrorResponseRequestSpec,
                 bodyFunction: function(serviceErrorResponseRequest_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     if (!serviceErrorResponseRequest_.error_descriptor.http.message) {
                         serviceErrorResponseRequest_.error_descriptor.http.message = http.STATUS_CODES[serviceErrorResponseRequest_.error_descriptor.http.code];
                     }
@@ -77,7 +77,7 @@ var factoryResponse = arccore.filter.create({
                 operationDescription: serviceFactoryRequest.name + " : Result Response Processor",
                 inputFilterSpec: serviceResultResponseRequestSpec,
                 bodyFunction: function(serviceResultResponseRequest_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     if (!serviceResultResponseRequest_.response_descriptor.http.message) {
                         serviceResultResponseRequest_.response_descriptor.http.message = http.STATUS_CODES[serviceResultResponseRequest_.response_descriptor.http.code];
                     }
@@ -123,7 +123,7 @@ var factoryResponse = arccore.filter.create({
                     ____opaque: true
                 },
                 bodyFunction: function(serviceRequest_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     return serviceFactoryRequest.handlers.request_handler(serviceRequest_);
                 }
             });
@@ -149,7 +149,7 @@ var factoryResponse = arccore.filter.create({
                     ____opaque: true
                 },
                 bodyFunction: function(request_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     var response = { error: null, result: null };
                     var errors = [];
                     var inBreakScope = false;

@@ -241,7 +241,7 @@ var factoryResponse = arccore.filter.create({
                 operationDescription: normalizeUserSessionResultFilterDescription,
                 outputFilterSpec: request_.integrations.metadata.session.get_session.response.result_spec,
                 bodyFunction: function(request_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     return { error: null, result: request_ };
                 }
             });
@@ -270,7 +270,7 @@ var factoryResponse = arccore.filter.create({
                     ____accept: "jsString"
                 },
                 bodyFunction: function(request_) {
-                    console.log("..... " + this.operationID + "::" + this.operationName);
+                    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
                     return { error: null, result: request_ };
                 }
             });

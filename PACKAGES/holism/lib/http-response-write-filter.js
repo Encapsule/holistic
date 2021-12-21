@@ -18,7 +18,7 @@ var factoryResponse = arccore.filter.create({
     operationDescription: "Writes HTTP 1.1 response to output stream and ends the stream.",
     inputFilterSpec: httpResponseWriteRequestSpec,
     bodyFunction: function(request_) {
-        console.log("..... " + this.operationID + "::" + this.operationName);
+        console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
         var response = { error: null, result: null };
         var errors = [];
         var inBreakScope = false;

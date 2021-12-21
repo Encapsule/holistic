@@ -12,7 +12,7 @@ var factoryResponse = arccore.filter.create({
     operationDescription: "Encapsulates transformation of in-memory data to desired response content encoding and type.",
     inputFilterSpec: httpResponseSerializeRequestSpec,
     bodyFunction: function(request_) {
-        console.log("..... " + this.operationID + "::" + this.operationName);
+        console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
         var response = { error: null, result: null };
         var errors = [];
         var inBreakScope = false;

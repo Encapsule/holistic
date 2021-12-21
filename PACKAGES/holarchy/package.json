@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "xRsP-VJrR8KUotP1g4MNrA",
-    "buildSource": "b125afb6b7667b6016ec177b42e792ec629419c7",
-    "buildTime": 1639263811,
+    "buildID": "gAHPrOGtSquNrLDxlfdPTg",
+    "buildSource": "7a9b3328ff4a0bc2138a7ef0ef7baeeb4b3f838d",
+    "buildTime": 1640060780,
     "codename": "firestorm",
     "contributors": [
         {
@@ -16,8 +16,8 @@
     ],
     "description": "Cellular process modeling and runtime engine for Node.js and browser.",
     "engines": {
-        "node": "16.6.1",
-        "npm": "7.20.3"
+        "node": ">=16.13.1",
+        "npm": ">=8.1.2"
     },
     "homepage": "https://github.com/Encapsule",
     "keywords": [
@@ -34,11 +34,11 @@
     "main": "index.js",
     "name": "@encapsule/holarchy",
     "peerDependencies": {
-        "@encapsule/arccore": "0.3.1"
+        "@encapsule/arccore": "0.3.3"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.6"
+    "version": "0.2.7"
 }
