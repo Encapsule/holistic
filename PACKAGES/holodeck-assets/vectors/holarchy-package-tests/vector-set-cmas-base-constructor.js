@@ -183,7 +183,8 @@
     }
   }, {
     // MAPLABELS GET APM ID - BASELINE
-    id: "-GSSwHkeSJ24e2kfpXle_g",
+    id: "JoTuvTDvQMu98fcWlJt0lg",
+    // old "-GSSwHkeSJ24e2kfpXle_g", // NOTE THIS CAUSES FILE SYSTEM PROBLEMS BECAUSE STARTS W/HYPHEN
     name: "".concat(vectorSetName, ": Good constructor w/method call to mapLabels to retrieve APMID."),
     description: "We should be able to retrive CMID from mapLabels.",
     vectorRequest: {

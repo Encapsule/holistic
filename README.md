@@ -1,193 +1,123 @@
 # [![](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project Homepage")](https://encapsule.io)&nbsp;Encapsule Project
 
-> [Homepage](https://encapsule.io "Encapsule Project Homepage...") &bull; [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") &bull; [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") &bull; [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...")
+> **[Homepage](https://encapsule.io "Encapsule Project Homepage...") &bull; [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") &bull; [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") &bull; [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...")**
 
-Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
+_Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.2.7 firestorm
-
-##  &#x029C9; Distribution:  @encapsule/holistic
-
-> [appgen](#appgen-utility) &bull; [Holistic Platform Runtime](#holistic-platform-runtime)
-
-Full-stack component engineering platform for building complex stateful webs apps and services with software models.
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.2.8-firestorm
 
 ```
-Package: @encapsule/holistic v0.2.7 "firestorm" build ID "gAHPrOGtSquNrLDxlfdPTg"
-Sources: @encapsule/holodev#7a9b3328ff4a0bc2138a7ef0ef7baeeb4b3f838d
-Created: 2021-12-21T04:26:20.000Z Purpose: tools (Node.js) License: MIT
+Package: @encapsule/holistic v0.2.8-firestorm build ID "YgkneKpOQF299XS3O-AZ6g"
+Sources: @encapsule/holodev#678a6dbc904d7b6a6b168c9d178f33913a995554
+Created: 2022-01-12T03:14:14.000Z // License: MIT
+Purpose: tools // Environment: Node.js
 ```
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
+_@encapsule/holistic distribution package contains the Holistic App Platform's consituent runtime libraries, and  the 'appgen' command-line tool used to create derived JavaScript projects and keep them up-to-date._
 
-### Welcome the the Holistic App Platform
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Contents
 
-Holistic app platform is a collection of modular JavaScript runtime libraries (RTL) used to build full-stack client/server applications from plug-and-play software models.
 
-Work on is project is quite active right now as it's being used to re-design and re-implement an existing commercial SaaS product.
+- [Introduction](#introduction)
+- [&#x029C9; @encapsule/holistic Distribution Package](#encapsuleholistic-distribution-package)
+    - [Prerequisites](#prerequisites)
+    - [Installation](#installation)
+    - [Usage](#usage)
+- [Holistic App Platform](#holistic-app-platform)
+    - [Overview](#overview)
+    - [appgen CLI Tool](#appgen-cli-tool)
+    - [Platform Runtime Libraries](#platform-runtime-libraries)
+        - [&#x25F0; d2r2 ](./PACKAGES/d2r2/README.md "Jump to d2r2 README...")
+        - [&#x25F0; d2r2-components ](./PACKAGES/d2r2-components/README.md "Jump to d2r2-components README...")
+        - [&#x25F0; holarchy ](./PACKAGES/holarchy/README.md "Jump to holarchy README...")
+        - [&#x25F0; holarchy-cm ](./PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm README...")
+        - [&#x25F0; holism ](./PACKAGES/holism/README.md "Jump to holism README...")
+        - [&#x25F0; holism-metadata ](./PACKAGES/holism-metadata/README.md "Jump to holism-metadata README...")
+        - [&#x25F0; holism-services ](./PACKAGES/holism-services/README.md "Jump to holism-services README...")
+        - [&#x25F0; holistic-app-models ](./PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models README...")
+        - [&#x25F0; holistic-html5-service ](./PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service README...")
+        - [&#x25F0; holistic-nodejs-service ](./PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service README...")
+        - [&#x25F0; holistic-service-core ](./PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core README...")
+        - [&#x25F0; holodeck ](./PACKAGES/holodeck/README.md "Jump to holodeck README...")
+        - [&#x25F0; holodeck-assets ](./PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets README...")
+        - [&#x25F0; hrequest ](./PACKAGES/hrequest/README.md "Jump to hrequest README...")
+- [Issues](#issues)
+- [Discussion](#discussion)
 
-**PRE-RELEASE STATUS**
 
-Holistic app platform is becoming quite stable. But, lacks examples (required) and API documentation (required). Unless you're one of a small handful of insane people (thank you insane people!) who are working with this codebase every day then you probably should just make a bookmark and come back later... This project is an insane amount of work...
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;@encapsule/holistic
 
-### Contents
+TODO: Briefly explain the contents of the `@encapsule/holistic` distribution package and explain how it relates to the Holistic App Platform.
 
-- [**appgen**](#appgen-utility) - A command-line utility used to initialize & maintain derived app/service git repos.
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Prerequisites
 
-- [**Holistic Platform Runtime**](#holistic-platform-runtime "Jump to RTL package index...") - Core runtime app/service runtime libraries (RTL) packages.
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-    - &#x25F0; [@encapsule/d2r2](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
-
-    - &#x25F0; [@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
-
-    - &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
-
-    - &#x25F0; [@encapsule/holarchy-cm](PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm RTL package README...")
-
-    - &#x25F0; [@encapsule/holism](PACKAGES/holism/README.md "Jump to holism RTL package README...")
-
-    - &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
-
-    - &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
-
-    - &#x25F0; [@encapsule/holistic-app-models](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
-
-    - &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
-
-    - &#x25F0; [@encapsule/holistic-nodejs-service](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
-
-    - &#x25F0; [@encapsule/holistic-service-core](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
-
-    - &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
-
-    - &#x25F0; [@encapsule/holodeck-assets](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
-
-    - &#x25F0; [@encapsule/hrequest](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
-
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Distribution
-
-The @encapsule/holistic package is not currently published on npmjs.com or any other package registry.
-
-Currently, you need to obtain the @encapsule/holistic package via `git clone` as below.
-
-### Prerequisites
-
-To get started you need a small set of core tools installed on your host OS:
+To get started you will need the following tools installed and available in your development environment:
 
 - [GNU Make](https://www.gnu.org/software/make/)
-
 - [git](https://git-scm.com/)
+- [Node.js](https://nodejs.org) >=16.13.1
+- [npm](https://www.npmjs.com) >=8.1.2
 
-- [Node.js](https://nodejs.org)
+With these base prerequisites satisfied, you will be able to install the `@encapsule/holistic` distribution package.
+And, then leverage the `appgen` command line utility to create/update your Holistic App Platform application service.
 
-- [npm](https://www.npmjs.com) (bundled w/Node.js)
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Installation
 
-**IMPORTANT**
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-Once you have configured these baseline tools dependencies, then all other concerns related to tools and libraries dependencies are managed directly or indirectly under developer control via `appgen`.
+TODO: Add some notes on installation once the package is published to npm.
 
-### Clone
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Usage
 
-Execute `git clone` to obtain a copy of the @encapsule/holistic package repo from [@Encapsule](https://github.com/Encapsule) GitHub organization.
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-You will typically only need to clone the @encapsule/holistic package repo once.
+TODO: Add a brief introduction to how this package is used along with a link to the appgen section of this README.
 
-```
-$ cd ~/code # or, wherever...
-$ git clone git@github.com:Encapsule/holistic.git
-```
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Holistic App Platform
 
-After one-time `git clone`, follow the steps outlined in the [Installation](#installation) section below.
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Installation
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Overview
 
-Installation of the @encapsule/holistic package from git repo source is a per-version process that should be re-executed every time you update your local clone of the repo. This includes changing branches.
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-- Ensure you have the latest version of @encapsule/holistic repo.
+A **holistic application service** is a developer-maintained Node.js package git repository initialized and subsequently updated with the `appgen` command-line utility.
 
-- Update your local `node_modules` directory. **IMPORTANT**
-
-```
-$ cd ~/code/holistic
-$ git pull origin master
-$ npm install
-```
-
-> Be aware of the disconnect between what is present in your `node_modules` directory (managed by `npm`). And, the state of critical `package.json` and `package-lock.json` files (managed by `git`).
-
-- Latest supported version is available on #master branch.
-
-- Other topic branches are used for testing features prior to release.
-
-After you have executed `npm install`, the [appgen](#appgen-utility) utility is ready to use.
-
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
-
-## Holistic Applications
-
-A **holistic application** is a developer-maintained Node.js package git repository initialized and subsequently updated with the `appgen` command-line utility.
-
-All holistic applications maintained with `appgen` have the same basic structure and base-level feature set:
+All holistic application services maintained with `appgen` have the same basic structure and base-level feature set.
 
 - Base-level directory structure and entry module file naming conventions.
-
     - Base-level directory structure is prescriptive and required.
-
-    - Developers can extend the directory / fire structure:
-
-        - Extend existing branches.
-
+    - Developers can extend the directory / file structure:
+        - Extend existing directory branches.
         - Create new directory trees rooted in the root directory.
-
 - The `package.json` in derived holistic application packages is code-generated and owned `appgen`.
-
-    - At inception there is only `package.json`.
-
-    - After first `appgen` run developers should edit `holistic-app.json`.
-
-    - `devDependencies` is managed by `appgen` and is developer-extensible via `holistic-app.json`.
-
-    - `scripts` is managed by `appgen` and is developer-extensible via `holistic-app.json`. Platform-defined scripts include:
-
-        - build - build the holistic application by calling `make application`.
-
-        - clean - remove the previous application build.
-
-        - debug-server - build and start the Node.js HTTP app server on localhost under Node.js inspector.
-
-        - holodeck - execute your application's @encapsule/holodeck test runner.
-
-        - iruts - generate a batch of v4 UUID-derived IRUT-format identifier strings.
-
-        - reset - scrub and additionally clear your local npm cache forcing complete re-stage on `npm install`.
-
-        - server - build and start the Node.js HTTP app server on localhost.
-
-        - scrub - clean and additionally delete `node_modules` directory.
-
-        - start - launch a previously built Node.js HTTP app server on localhost.
-
+    - After first `appgen` run developers should edit `holistic-app.json` and not the code-generated `package.json`.
+        - `devDependencies` is managed by `appgen` and is developer-extensible via `holistic-app.json`.
+        - `scripts` is managed by `appgen` and is developer-extensible via `holistic-app.json`. Platform-defined scripts include:
+            - build - build the holistic application by calling `make application`.
+            - clean - remove the previous application build.
+            - debug-server - build and start the Node.js HTTP app server on localhost under Node.js inspector.
+            - holodeck - execute your application's @encapsule/holodeck test runner.
+            - iruts - generate a batch of v4 UUID-derived IRUT-format identifier strings.
+            - reset - scrub and additionally clear your local npm cache forcing complete re-stage on `npm install`.
+            - server - build and start the Node.js HTTP app server on localhost.
+            - scrub - clean and additionally delete `node_modules` directory.
+            - start - launch a previously built Node.js HTTP app server on localhost.
 - Core application build is automated by an `appgen`-generated `Makefile`.
-
     - Abstracts building a holistic application so that you can launch the Node.js HTTP app server. And, service the bundled client application.
-
     - Does not abstract the application-specific details required to:
-
         - Test your holistic application.
-
         - Package your application for distribution (e.g. further source transformation, Dockerfile generation...).
-
         - Deploy your application to a cloud service provider.
-
     - Developers can define application-specific test, packaging, and deployment targets in `Makefile-App`.
-
     - Holistic application build depends on [eslint], [babel], and [webpack].
-
         - Configuration for these tools is imposed by `appgen` and is not currently developer-extensible.
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;appgen Utility
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;appgen CLI Tool
 
-### Overview
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
 The `appgen` utility is a code generation tool used by developers to initialize and maintain **holistic applications**.
 
@@ -200,168 +130,85 @@ $ path_to_holistic/appgen --appRepoDir path_to_your_app_repo
 Here is what happens when you execute `appgen` on your_app_repo:
 
 - Reads or creates a default `holistic-app.json` file.
-
 - Read your project's `package.json`.
-
 - Remove previously installed platform runtime libraries (RTL's).
-
 - Install new platform RTL's.
-
 - Register platform RTL dependencies.
-
 - Merge application and platform-defined package dependencies.
-
 - De-duplicate and error check finalized dependencies.
-
 - Merge platform-defined npm integrations (e.g. run targets) with app-specific integrations.
-
 - Merge changes back into `package.json`.
-
 - Rewrite derived app's `package.json`.
-
 - Initialize or recreate core project directory structure.
-
 - Synthesize core GNU Makefile and Makefile-App files.
-
 - Synthesize tool configuration files required by Makefile targets.
+- Execute `npm install` to update dependencies per rewritten `package.json`.
 
-- Execute `npm install --force --check-files`.
+### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;Platform Runtime Libraries
 
-### Usage
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-#### Prerequisites
+All platform runtime libraries (RTLs) are distributed via the `@encapsule/holistic` distribution package. And are copied into, and registered for use in derived projects via [**appgen**](#appgen-cli-tool).
 
-#### Initial Project Setup
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/d2r2](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
 
-- Create a directory for your new holistic application.
+&#x25F0; This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.
 
-- Turn your directory into a git repository with `git init`.
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
 
-- Turn your git repo into a Node.js package with `npm init`.
+&#x25F0; This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.
 
-- Commit your empty application package with `git commit -a`.
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
 
-#### Project Update
+&#x25F0; Cellular process modeling and runtime engine for Node.js and browser.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holarchy-cm](PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm RTL package README...")
 
-#### Update Verification
+&#x25F0; This package contains the Holistic App Platform's core re-usable CellModel library.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holism](PACKAGES/holism/README.md "Jump to holism RTL package README...")
 
-#### Update Commit
+&#x25F0; This package contains an experimental HTTP 1.1 application server and REST framework derived from the Node.js HTTP API's and the @encapsule/arccore filter RTL. This provides developers with a simple mechanism to define and re-use backend operations as plug-in service filters hosted by the holism server RTL. The package is intended for use in derived applications and services.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
 
-### Derived Projects
+&#x25F0; This package contains an extensible framework for defining application-specific metadata - i.e. data about your app. It is intended for use in derived apps/services and is typically used in conjunction with @encapsule/holism integration plug-in filters to satisfy queries re: publishing organization, application, page, route, hashroute, resource, operation...
 
-Some introductory text.
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
 
-#### npm Integrations
+&#x25F0; This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holistic-app-models](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
 
-#### Project Directory Structure
+&#x25F0; This package contains a collection of optional application and service models that may be resused to build holistic-powered runtimes.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
 
-#### Holistic App Build: Makefile
+&#x25F0; Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holistic-nodejs-service](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
 
-#### App-Specific Build: Makefile-App
+&#x25F0; Exports the HolisticAppServer CellModel for use in derived @encapsule/holistic applications/services.
 
-TODO
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holistic-service-core](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Holistic Platform Runtime
+&#x25F0; Exports the HolisticAppCommon CellModel library for use in derived HolisticAppServer and HolisticAppClient CellModels.
 
-The "Holistic App Platform" is a collection of runtime library packages that are used to build full-stack web applications and services using [Node.js](https://nodejs.org) and [React](https://react.org).
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
 
-### &#x25F0; [@encapsule/d2r2](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
+&#x25F0; This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.
 
-This package contains the Data-Driven React Router (d2r2) component factory extension for React. And, the ComponentRouter dynamic view compositor packaged as a generic React component. Used to build extensible view templates, and decoupled view libraries.
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/holodeck-assets](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
 
-> [README &#9656;](PACKAGES/d2r2/README.md "Jump to d2r2 RTL package README...")
+&#x25F0; This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.
 
-### &#x25F0; [@encapsule/d2r2-components](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
+#### ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;[@encapsule/hrequest](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
 
-This package contains a collection of re-usable d2r2 React components for use with the d2r2 ComponentRouter dynamic view compositor.
-
-> [README &#9656;](PACKAGES/d2r2-components/README.md "Jump to d2r2-components RTL package README...")
-
-### &#x25F0; [@encapsule/holarchy](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
-
-Cellular process modeling and runtime engine for Node.js and browser.
-
-> [README &#9656;](PACKAGES/holarchy/README.md "Jump to holarchy RTL package README...")
-
-### &#x25F0; [@encapsule/holarchy-cm](PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm RTL package README...")
-
-This package contains the Holistic App Platform's core re-usable CellModel library.
-
-> [README &#9656;](PACKAGES/holarchy-cm/README.md "Jump to holarchy-cm RTL package README...")
-
-### &#x25F0; [@encapsule/holism](PACKAGES/holism/README.md "Jump to holism RTL package README...")
-
-This package contains an experimental HTTP 1.1 application server and REST framework derived from the Node.js HTTP API's and the @encapsule/arccore filter RTL. This provides developers with a simple mechanism to define and re-use backend operations as plug-in service filters hosted by the holism server RTL. The package is intended for use in derived applications and services.
-
-> [README &#9656;](PACKAGES/holism/README.md "Jump to holism RTL package README...")
-
-### &#x25F0; [@encapsule/holism-metadata](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
-
-This package contains an extensible framework for defining application-specific metadata - i.e. data about your app. It is intended for use in derived apps/services and is typically used in conjunction with @encapsule/holism integration plug-in filters to satisfy queries re: publishing organization, application, page, route, hashroute, resource, operation...
-
-> [README &#9656;](PACKAGES/holism-metadata/README.md "Jump to holism-metadata RTL package README...")
-
-### &#x25F0; [@encapsule/holism-services](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
-
-This package contains re-usable service filter plug-ins for use with the @encapsule/holism app server package.
-
-> [README &#9656;](PACKAGES/holism-services/README.md "Jump to holism-services RTL package README...")
-
-### &#x25F0; [@encapsule/holistic-app-models](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
-
-This package contains a collection of optional application and service models that may be resused to build holistic-powered runtimes.
-
-> [README &#9656;](PACKAGES/holistic-app-models/README.md "Jump to holistic-app-models RTL package README...")
-
-### &#x25F0; [@encapsule/holistic-html5-service](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
-
-Exports the HolisticAppClient CellModel library for use in derived HTML5 applications.
-
-> [README &#9656;](PACKAGES/holistic-html5-service/README.md "Jump to holistic-html5-service RTL package README...")
-
-### &#x25F0; [@encapsule/holistic-nodejs-service](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
-
-Exports the HolisticAppServer CellModel for use in derived @encapsule/holistic applications/services.
-
-> [README &#9656;](PACKAGES/holistic-nodejs-service/README.md "Jump to holistic-nodejs-service RTL package README...")
-
-### &#x25F0; [@encapsule/holistic-service-core](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
-
-Exports the HolisticAppCommon CellModel library for use in derived HolisticAppServer and HolisticAppClient CellModels.
-
-> [README &#9656;](PACKAGES/holistic-service-core/README.md "Jump to holistic-service-core RTL package README...")
-
-### &#x25F0; [@encapsule/holodeck](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
-
-This package contains the holodeck test runner and test harness plug-in filter factory infrastructure. Holodeck functions like a medical imaging system for your code that bombards it with queries and captures the results to disk. Comparison of git diff's is often all that's required to verify the correct and expected behavior of updated app/service code tracked in this way.
-
-> [README &#9656;](PACKAGES/holodeck/README.md "Jump to holodeck RTL package README...")
-
-### &#x25F0; [@encapsule/holodeck-assets](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
-
-This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.
-
-> [README &#9656;](PACKAGES/holodeck-assets/README.md "Jump to holodeck-assets RTL package README...")
-
-### &#x25F0; [@encapsule/hrequest](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
-
-This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.
-
-> [README &#9656;](PACKAGES/hrequest/README.md "Jump to hrequest RTL package README...")
+&#x25F0; This package contains arccore.filter wrappers for XMLHttpRequest (browser) and the request module (Node.js server). Provides a mechanism to ensure the runtime fidelity of HTTP GET/POST communication between the client and server. And, between the server and other backend REST service integrations.
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Issues
+
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
 Please post bug reports to one of the follow issue queues depending on topic:
 
@@ -373,18 +220,16 @@ Please post bug reports to one of the follow issue queues depending on topic:
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Discussion
 
-Join the Holistic App Platform [discussion group](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") to talk about the architecture, design, development, and test of full-stack interactive HTML5 applications and services implemented in JavaScript, derived from [Holistic Platform Runtime](#holistic-platform-runtime), and Facebook [React](https://reactjs.org). And, hosted on [Node.js](https://nodejs.org).
-
 > [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
+
+Join the [Holistic App Platform Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Google Group for Holistic App Platform topics...") (Google Group) -- A group for discussion of Holistic App Platform runtime libraries, tools, design patterns, service architecture, and related topics.
 
 <hr>
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
-Copyright &copy; 2021 [Chris Russell](https://github.com/ChrisRus) Seattle, Washington USA
+Copyright &copy; 2022 [Chris Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
-
-<hr>

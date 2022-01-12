@@ -2,7 +2,7 @@
 
 // shared test assets
 module.exports = {
-  holodeck: require("./holodeck"),
-  holarchy: require("./holarchy"),
-  holistic: require("./holistic")
+  harnesses: require("./harnesses"),
+  vectors: require("./vectors"),
+  runner: require("./runner")
 };

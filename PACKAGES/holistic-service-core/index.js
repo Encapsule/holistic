@@ -31,7 +31,7 @@ module.exports = {
   },
   HolisticServiceCore: require("./HolisticServiceCore"),
   // These are @encapsule/arccore.filter specs exported by @encapsule/holistic-service-core RTL
-  // that are needed by @encapsule/holistic-node-service and @encapsule/holistic-btab-service RTL's
+  // that are needed by @encapsule/holistic-node-service and @encapsule/holistic-html5-service RTL's
   serviceTypes: {
     HolisticServiceCore: {
       constructor: require("./lib/filters/iospecs/HolisticServiceCore-method-constructor-filter-input-spec"),

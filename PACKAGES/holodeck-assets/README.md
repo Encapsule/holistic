@@ -1,72 +1,46 @@
 # [![](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project Homepage")](https://encapsule.io)&nbsp;Encapsule Project
 
-> [Homepage](https://encapsule.io "Encapsule Project Homepage...") &bull; [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") &bull; [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") &bull; [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...")
+> **[Homepage](https://encapsule.io "Encapsule Project Homepage...") &bull; [GitHub](https://github.com/Encapsule "Encapsule Project GitHub...") &bull; [Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") &bull; [Twitter](https://twitter.com/Encapsule "Encapsule Project Twitter...")**
 
-Encapsule Project is MIT-licensed libs & tools for building full-stack Node.js/HTML5 apps & services w/React based on System in Cloud (SiC) architecture.
+_Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;[Holistic App Platform](../../README.md#encapsule-project "Back to the Holistic App Platform README...") v0.2.7 firestorm
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.2.8-firestorm](../../README.md)
 
-## &#x25F0; Runtime library: @encapsule/holodeck-assets
+> **[&#9666; Holistic App Platform](../../README.md#encapsule-project "Jump to @encapsule/holistic distribution package README...") Runtime Libraries::** [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-cm](../holarchy-cm/README.md#encapsule-project "Jump to holarchy-cm README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holistic-app-models](../holistic-app-models/README.md#encapsule-project "Jump to holistic-app-models README...") &bull; [holistic-html5-service](../holistic-html5-service/README.md#encapsule-project "Jump to holistic-html5-service README...") &bull; [holistic-nodejs-service](../holistic-nodejs-service/README.md#encapsule-project "Jump to holistic-nodejs-service README...") &bull; [holistic-service-core](../holistic-service-core/README.md#encapsule-project "Jump to holistic-service-core README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;**holodeck-assets**&nbsp;![](ASSETS/encapsule-holistic-16x16.png) &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
-> [**RTL index**](../../README.md#holistic-platform-runtime "Jump back to the RTL index..."): [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-cm](../holarchy-cm/README.md#encapsule-project "Jump to holarchy-cm README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holistic-app-models](../holistic-app-models/README.md#encapsule-project "Jump to holistic-app-models README...") &bull; [holistic-html5-service](../holistic-html5-service/README.md#encapsule-project "Jump to holistic-html5-service README...") &bull; [holistic-nodejs-service](../holistic-nodejs-service/README.md#encapsule-project "Jump to holistic-nodejs-service README...") &bull; [holistic-service-core](../holistic-service-core/README.md#encapsule-project "Jump to holistic-service-core README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; &#x25F0; **holodeck-assets** &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
-
-This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package.
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;@encapsule/holodeck-assets
 
 ```
-Package: @encapsule/holodeck-assets v0.2.7 "firestorm" build ID "gAHPrOGtSquNrLDxlfdPTg"
-Sources: @encapsule/holodev#7a9b3328ff4a0bc2138a7ef0ef7baeeb4b3f838d
-Created: 2021-12-21T04:26:20.000Z Purpose: library (Node.js) License: MIT
+Package: @encapsule/holodeck-assets v0.2.8-firestorm build ID "YgkneKpOQF299XS3O-AZ6g"
+Sources: @encapsule/holodev#678a6dbc904d7b6a6b168c9d178f33913a995554
+Created: 2022-01-12T03:14:14.000Z // License: MIT
+Purpose: library // Environment: Node.js
 ```
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Overview
+_This package contains re-usable test runners, harnesses, and vectors for use in conjunction with @encapsule/holodeck test infrastructure package._
 
-**TODO**
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Package Distribution & Use
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Distribution
+The `@encapsule/holodeck-assets` runtime library package is included in the `@encapsule/holistic` platform package, and is 
+installed and registered in every derived application service project created/maintained the [**appgen**](../../README.md#appgen-cli-tool) command line utility.
 
-The `@encapsule/holodeck-assets` RTL package is installed in derived app/service projects by running [appgen](../../README#appgen-utility "Jump to appgen documentation...").
-
-#### Detail
-
-The @encapsule/holodeck-assets package is a runtime library (RTL) distributed in the @encapsule/holistic package:
+From within your application service project, any module that requires access to `@encapsule/holodeck-assets` package API can simpy require/import the module:
 
 ```
-@encapsule/holistic/PACKAGES/holodeck-assets
+const holodeck-assets = require("@encapsule/holodeck-assets");
+// holodeck-assets is a reference to an object that define the runtime library's API.
+// ... your code here
 ```
 
-The `appgen` utility is used to create a copy of this RTL package inside your derived app/service project...
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;API Documentation
 
-```
-@AcmeCo/SampleApp/HOLISTIC/PACKAGES/holodeck-assets
-```
-
-... and modify its `package.json` file to include the following package registration:
-
-```
-"devDependencies": {
-    "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets"
-}
-```
-
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Usage
-
-In your derived app/service implementation code:
-
-Example script, `holodeck-assets-example.js`:
-
-```JavaScript
-const holodeck-assets = require('@encapsule/holodeck-assets');
-console.log(JSON.stringify(holodeck-assets.__meta));
-/* ... your derived code here ... */
-```
-
-Authoring `/* ... your derived code ... */` is discussed in the next section.
-
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Documentation
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
 **TODO**
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Issues
+
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
 Please post bug reports to one of the follow issue queues depending on topic:
 
@@ -78,18 +52,18 @@ Please post bug reports to one of the follow issue queues depending on topic:
 
 ## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;Discussion
 
-Join the Holistic App Platform [discussion group](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Holistic app platform discussion group...") to talk about the architecture, design, development, and test of full-stack interactive HTML5 applications and services implemented in JavaScript, derived from [Holistic Platform Runtime](#holistic-platform-runtime), and Facebook [React](https://reactjs.org). And, hosted on [Node.js](https://nodejs.org).
+> [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
 
-> [&#9666; Holistic App Platform](../../README.md "Back to the main Holistic App Platform REAMDE...") &bull; [&#9652; Top](#encapsule-project "Scroll to the top of the page...")
+Join the [Holistic App Platform Discussion](https://groups.google.com/a/encapsule.io/forum/#!forum/holistic-app-platform-discussion-group "Google Group for Holistic App Platform topics...") (Google Group) -- A group for discussion of Holistic App Platform runtime libraries, tools, design patterns, service architecture, and related topics.
+
+> [**&#9666; Holistic App Platform**](../../README.md#encapsule-project "Back to the main Holistic App Platform REAMDE...")
 
 <hr>
 
 [![Encapsule Project](ASSETS/blue-burst-encapsule.io-icon-72x72.png "Encapsule Project")](https://encapsule.io)
 
-Copyright &copy; 2021 [Chris Russell](https://github.com/ChrisRus) Seattle, Washington USA
+Copyright &copy; 2022 [Chris Russell](https://github.com/ChrisRus) Seattle, Washington USA
 
 Published under [MIT](LICENSE) license by [Encapsule Project](https://encapsule.io)
 
 Please follow [@Encapsule](https://twitter.com/encapsule) on Twitter for news and updates.
-
-<hr>

@@ -6,9 +6,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "gAHPrOGtSquNrLDxlfdPTg",
-    "buildSource": "7a9b3328ff4a0bc2138a7ef0ef7baeeb4b3f838d",
-    "buildTime": 1640060780,
+    "buildID": "YgkneKpOQF299XS3O-AZ6g",
+    "buildSource": "678a6dbc904d7b6a6b168c9d178f33913a995554",
+    "buildTime": 1641957254,
     "codename": "firestorm",
     "contributors": [
         {
@@ -17,10 +17,10 @@
             "url": "https://github.com/ChrisRus"
         }
     ],
-    "description": "Full-stack component engineering platform for building complex stateful webs apps and services with software models.",
+    "description": "@encapsule/holistic distribution package contains the Holistic App Platform's consituent runtime libraries, and  the 'appgen' command-line tool used to create derived JavaScript projects and keep them up-to-date.",
     "devDependencies": {
-        "@encapsule/arccore": "0.3.3",
-        "@encapsule/arctools": "0.3.3",
+        "@encapsule/arccore": "0.3.5",
+        "@encapsule/arctools": "0.3.5",
         "mkdirp": "^1.0.4",
         "semver": "^5.6.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.7"
+    "version": "0.2.8"
 }

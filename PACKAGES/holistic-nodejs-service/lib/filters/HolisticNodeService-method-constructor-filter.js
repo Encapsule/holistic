@@ -10,7 +10,8 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
 // v0.0.49-spectrolite
 // Absolutely no question that @encapsule/holism HTTP server is EOL at this point.
 // It cannot carry the weight it needs to w/out sucking time needlessly.
-// We now a much more advanced means of expressing this same logic as a CellModel.
+// We know now a much more advanced means of expressing this same logic as a CellModel.
+//
 // But, there's no time to do this work now unfortunately as it would likely take
 // several weeks of focussed effort to pull it off cleanly and build a nice kernel
 // layer for HolisticNodeService similar to what we've built for HolisticHTML5Service.

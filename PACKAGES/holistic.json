@@ -1,12 +1,12 @@
 {
     "name": "holistic",
     "description": "@encapsule/holistic is a domain engineering toolkit for building distributed applications and interactive UX from reusable software models.",
-    "version": "0.2.7",
+    "version": "0.2.8",
     "codename": "firestorm",
     "author": "Encapsule",
     "copyright": {
         "holder": "Chris Russell",
-        "year": 2021
+        "year": 2022
     },
     "contributors": [
         {
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "gAHPrOGtSquNrLDxlfdPTg",
-    "buildSource": "7a9b3328ff4a0bc2138a7ef0ef7baeeb4b3f838d",
-    "buildTime": 1640060780,
-    "buildDateISO": "2021-12-21T04:26:20.000Z"
+    "buildID": "YgkneKpOQF299XS3O-AZ6g",
+    "buildSource": "678a6dbc904d7b6a6b168c9d178f33913a995554",
+    "buildTime": 1641957254,
+    "buildDateISO": "2022-01-12T03:14:14.000Z"
 }
