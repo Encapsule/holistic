@@ -33,7 +33,7 @@ var factoryResponse = arccore.filter.create({
       var irutCheckResponse = arccore.identifier.irut.isIRUT(request_.id);
 
       if (irutCheckResponse.error || !irutCheckResponse.result) {
-        errors.push("Error validating developer-specified id. Not an IRUT:");
+        errors.push("Error while validating developer-specified id. Not an IRUT:");
 
         if (irutCheckResponse.error) {
           errors.push(irutCheckResponse.error);
@@ -52,7 +52,7 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (filterFactoryResponse.error) {
-        errors.push("Error validating developer-specified APM filter spec.");
+        errors.push("Error while validating developer-specified ocdDataSpec value for APM:");
         errors.push(filterFactoryResponse.error);
         break;
       }
@@ -66,7 +66,7 @@ var factoryResponse = arccore.filter.create({
       });
 
       if (graphFactoryResponse.error) {
-        errors.push("Error constructing directed graph container instance for subcontroller model.");
+        errors.push("Error while constructing directed graph container instance for APM:");
         errors.push(graphFactoryResponse.error);
         break;
       }
@@ -77,7 +77,7 @@ var factoryResponse = arccore.filter.create({
         var stepDescriptor = request_.steps[stepName_];
 
         if (apmDigraph.isVertex(stepName_)) {
-          errors.push("Error while evaluating observable process model step declaration.");
+          errors.push("Error while evaluating APM step declaration:");
           errors.push("Invalid duplicate step declaration '" + stepName_ + "'.");
           break;
         }
@@ -106,7 +106,7 @@ var factoryResponse = arccore.filter.create({
             var transitionModel = _step.value;
 
             if (!apmDigraph.isVertex(transitionModel.nextStep)) {
-              errors.push("Error while evalatuing step '" + _stepName_ + "'.");
+              errors.push("Error while evalatuing APM step '" + _stepName_ + "' declaration:");
               errors.push("Invalid transition model specifies unknown next step target '" + transitionModel.nextStep + "'.");
               break;
             }
@@ -146,7 +146,6 @@ var factoryResponse = arccore.filter.create({
     }
 
     if (errors.length) {
-      errors.unshift("Error while evaluating subcontroller '" + request_.name + "' declaration.");
       response.error = errors.join(" ");
     }
 

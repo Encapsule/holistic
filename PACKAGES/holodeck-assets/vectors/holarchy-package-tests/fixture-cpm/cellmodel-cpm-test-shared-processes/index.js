@@ -7,8 +7,6 @@ var cellspace = require("../cellspace");
 
 var cmCPPTestMessenger = require("./cellmodel-messenger");
 
-var cmCPPTestDroid = require("./cellmodel-droid");
-
 var connectProxyActionRequest = {
   CellProcessor: {
     proxy: {
@@ -626,6 +624,5 @@ module.exports = new holarchy.CellModel({
   // TODO: Rename to 'usesCellModels' as the CellModels enumerated here do not actuall change anything about this CellModel's definition.
   // Rather, they define the other CellModels that must also be registered with a CellProcessor instance in order for this cell to function
   // correctly at runtime in the CellProcessor instance.
-  subcells: [cmCPPTestMessenger, // cppTestDroid,
-  cppTestModel1, cppTestModel2, cppTestModel2A, cppTestModel2B, cppTestModel2C, cppTestModel3]
+  subcells: [cmCPPTestMessenger, cppTestModel1, cppTestModel2, cppTestModel2A, cppTestModel2B, cppTestModel2C, cppTestModel3]
 });

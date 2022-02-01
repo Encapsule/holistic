@@ -7,6 +7,11 @@ function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { va
 function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
 
 // cellspace.js
+// 2022.01.13 chrisrus - This is a small little bit of code written to make it simpler
+// to address various test artifacts. This was written prior to CellModelArtifactSpace
+// class. Coming back to this, it's not 100% clear to me that the simplicity of this
+// approach is inferior. In the general case, this is a mathematical manifold problem
+// that is I think I should personally avoid working on unless I am getting paid.
 var arccore = require("@encapsule/arccore");
 
 var space = {

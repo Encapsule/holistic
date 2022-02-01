@@ -4,16 +4,16 @@
 
 _Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.2.8-firestorm](../../README.md)
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.2.9-firestorm](../../README.md)
 
 > **[&#9666; Holistic App Platform](../../README.md#encapsule-project "Jump to @encapsule/holistic distribution package README...") Runtime Libraries::** [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-cm](../holarchy-cm/README.md#encapsule-project "Jump to holarchy-cm README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holistic-app-models](../holistic-app-models/README.md#encapsule-project "Jump to holistic-app-models README...") &bull; [holistic-html5-service](../holistic-html5-service/README.md#encapsule-project "Jump to holistic-html5-service README...") &bull; ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;**holistic-nodejs-service**&nbsp;![](ASSETS/encapsule-holistic-16x16.png) &bull; [holistic-service-core](../holistic-service-core/README.md#encapsule-project "Jump to holistic-service-core README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
 # ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;@encapsule/holistic-nodejs-service
 
 ```
-Package: @encapsule/holistic-nodejs-service v0.2.8-firestorm build ID "YgkneKpOQF299XS3O-AZ6g"
-Sources: @encapsule/holodev#678a6dbc904d7b6a6b168c9d178f33913a995554
-Created: 2022-01-12T03:14:14.000Z // License: MIT
+Package: @encapsule/holistic-nodejs-service v0.2.9-firestorm build ID "T3fTnta3T4OVYQ0yfW-ilw"
+Sources: @encapsule/holodev#5a37946fd745a5eaf6de80fed332cd5112fb1e6f
+Created: 2022-02-01T00:08:49.000Z // License: MIT
 Purpose: library // Environment: Node.js
 ```
 

@@ -27,7 +27,6 @@ var arccore = require("@encapsule/arccore");
         ____label: "Source Spec Reference",
         ____description: "A reference to the source filter specification descriptor object. Iff dataRef === undefined, then this filter returns the filter spec namespace descriptor object reference corresponding to namespacePath.",
         ____accept: "jsObject" // This filter presumes specRef to be a reference to a valid filter spec namespace descriptor object (or object tree). But, it does not itself validate this presumption.
-        // ____defaultValue: {} // TODO: Remove this --- it's not optional that the caller specify specRef. We're just not quite there yet.
 
       },
       cellProxyOptions: {
@@ -147,8 +146,8 @@ var arccore = require("@encapsule/arccore");
               }).result;
               var resolvedPath = resolvedPathTokens.join(".");
               errors.push("Failed to resolve namespace path '" + request_.namespacePath + "':");
-              errors.push("Expected namespace '" + resolvedPath + "' to be either an array or object so that we can dereference the next namespace token '" + token + "'.");
-              errors.push("But, '" + resolvedPath + "' is actually an \"" + actualType + "\" entity type that does not have subnamespaces.");
+              errors.push("Expected namespace '" + resolvedPath + "' to be either an array or object value type.");
+              errors.push("But, '" + resolvedPath + "' is actually an \"" + actualType + "\" value type.");
               break;
             }
 
@@ -175,8 +174,8 @@ var arccore = require("@encapsule/arccore");
                 var _resolvedPath = resolvedPathTokens.join(".");
 
                 errors.push("Failed to resolve namespace path '" + request_.namespacePath + "':");
-                errors.push("Expected namespace '" + _resolvedPath + "' to be either an array or object so that we can dereference the next namespace token '" + token + "'.");
-                errors.push("But, '" + _resolvedPath + "' is actually an \"" + _actualType + "\" entity type that does not have subnamespaces.");
+                errors.push("Expected namespace '" + _resolvedPath + "' to be either an array or object value type.");
+                errors.push("But, '" + _resolvedPath + "' is actually an \"" + _actualType + "\" value type.");
                 break;
               }
           }

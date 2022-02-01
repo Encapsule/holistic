@@ -59,12 +59,15 @@ var action = new ControllerAction({
     while (!inBreakScope) {
       inBreakScope = true;
       var runGarbageCollector = false;
-      var messageBody = request_.actionRequest.CellProcessor.proxy;
+      var messageBody = request_.actionRequest.CellProcessor.proxy; // We do not accept IRUT-format cell process identifier here.
 
       if (arccore.identifier.irut.isIRUT(messageBody.proxyCoordinates).result) {
         errors.push("Cannot resolve location of the cell process proxy helper cell to link given a cell process ID!");
         break;
-      }
+      } // Take messageBody.proxyCoordinates as either:
+      // a fully-qualified OCD path (i.e. begins w/~)
+      // an OCD path relative to apmBindingPath (i.e. begins w/#)
+
 
       var ocdResponse = OCD.dataPathResolve({
         apmBindingPath: request_.context.apmBindingPath,
@@ -76,8 +79,7 @@ var action = new ControllerAction({
         break;
       }
 
-      var proxyHelperPath = ocdResponse.result; // This ensures we're addressing an actuall CellProcessProxy-bound cell.
-      // And, get us a copy of its memory and its current connection state.
+      var proxyHelperPath = ocdResponse.result; // This ensures we're addressing an actuall CellProcessProxy-bound cell. And, get us a copy of its memory and its current connection state.
 
       var cppLibResponse = cppLib.getStatus.request({
         proxyHelperPath: proxyHelperPath,
@@ -103,7 +105,9 @@ var action = new ControllerAction({
       }
 
       var cpmDataDescriptor = cpmLibResponse.result; // CellProcessProxy cells are always owned by another cell...
-      // CellProcessProxy CellModel APM ID is not registered with the CPM so you cannot activate a proxy via CPM process create.
+      // CellProcessProxy CellModel APM ID is registered for use as a helper cell (via ____appdsl APM ID string) .
+      // But, is not registered with the CPM so you cannot activate a proxy via CPM process create.
+      // This means that any CPP cell will be owned by some or another containing cell
       // Which means you cannot connect a proxy to a proxy... At least not directly.
       // So, now because we know we're a helper cell (i.e. declared within and thus "owned") by at least one containing APM layer
       // we need to determine exactly where we are in relationship to the cell below us on this memory branch that is actually
@@ -123,14 +127,21 @@ var action = new ControllerAction({
 
       var cellOwnershipReport = cpmLibResponse.result; // TEMPORARY: For now, let's keep the current restrictions on proxy depth that we have currently imposed as they are so as not to break anything.
 
+      /*
       if (cellOwnershipReport.ownershipVector.length !== 2) {
-        errors.push("Unsupported connection request on CellProcessProxy helper cell at path '".concat(proxyHelperPath, "' that is declared at namespace height ").concat(cellOwnershipReport.ownershipVector.length, " > 2 relative to its owning cell process. NOTE: I am working to remove this restriction now..."));
-        break;
+          errors.push(`Unsupported connection request on CellProcessProxy helper cell at path '${proxyHelperPath}' that is declared at namespace height ${cellOwnershipReport.ownershipVector.length} > 2 relative to its owning cell process. NOTE: I am working to remove this restriction now...`);
+          break;
       }
+      */
+      // v0.2.9-firestorm // Jan 2022
+      // Until now we have always restricted the depth of cell process proxy helper cells to 2 as above.
+      // v0.2.9-firestorm uses the head (0) and tail (length-1) of the ownershipVector instead of 0, 1.
+      // There's no facility here to deal w/a cell that deletes OCD data associates with a connected proxy.
 
+      var proxyOwnershipDepth = cellOwnershipReport.ownershipVector.length;
       var proxyHelperID = cellOwnershipReport.ownershipVector[0].cellID;
-      var proxyOwnerProcessID = cellOwnershipReport.ownershipVector[1].cellID;
-      var proxyOwnerProcessPath = cellOwnershipReport.ownershipVector[1].cellPath; // At this point we know / are confident of the following:
+      var proxyOwnerProcessID = cellOwnershipReport.ownershipVector[proxyOwnershipDepth - 1].cellID;
+      var proxyOwnerProcessPath = cellOwnershipReport.ownershipVector[proxyOwnershipDepth - 1].cellPath; // At this point we know / are confident of the following:
       //
       // - We know which existing owned (i.e. allocated w/CPM process create) OR shared (i.e. allocated w/CPM process open)
       // cell process will OWN (i.e. will hold, by proxy in this example) a reference to another local owned or shared cell process.

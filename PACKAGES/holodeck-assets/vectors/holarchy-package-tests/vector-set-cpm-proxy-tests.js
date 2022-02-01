@@ -1,5 +1,7 @@
 "use strict";
 
+var holarchy = require("@encapsule/holarchy");
+
 module.exports = [{
   id: "N8wBqzGVT6i6Dvwzff4Zrw",
   name: "Proxy Test A",
@@ -168,4 +170,129 @@ module.exports = [{
       }
     }
   }
-}];
+}, {
+  id: "aRXQIZvdSE2rVnqR0HrfYg",
+  name: "CPM Shared Process Test #4",
+  description: "Coming back to this and taking a closer look at CellProcessProxy (CPP) (part 1).",
+  vectorRequest: {
+    holistic: {
+      holarchy: {
+        CellProcessor: {
+          constructorRequest: {
+            id: "mtzaOOxAQcaaN_-9CqgZOw",
+            // This is a the CellProcessor instance ID
+            name: "CPM Shared Process Test #4",
+            description: "Try to use a CellProcessProxy cell embedded as a helper in a parent cell process (part 1).",
+            cellmodel: {
+              id: "xXfx_svjT363tD-optUHog",
+              // This is a the CellModel instance ID
+              name: "CellModel for aRXQIZvdSE2rVnqR0HrfYg Test",
+              description: "A top-level CellModel instance for test aRXQIZvdSE2rVnqR0HrfYg.",
+              apm: {
+                id: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                // AbstractProcessModel instance ID
+                name: "AbstractProcessModel for aRXQIZvdSE2rVnqR0HrfYg Test",
+                description: "A top-level AbstractProcessModel for test aRXQIZvdSE2rVnqR0HrfYg.",
+                ocdDataSpec: {
+                  ____types: "jsObject",
+                  ____defaultValue: {},
+                  nsd1: {
+                    ____types: "jsObject",
+                    ____defaultValue: {},
+                    nsd2: {
+                      ____types: "jsObject",
+                      ____defaultValue: {},
+                      nsd3: {
+                        ____types: "jsObject",
+                        ____defaultValue: {},
+                        nsd4: {
+                          ____types: "jsObject",
+                          ____defaultValue: {},
+                          cppTest: holarchy.appTypes.helperCells.cellProcessProxy
+                        }
+                      }
+                    }
+                  }
+                }
+              }
+            }
+          },
+          testActorRequests: [{
+            actRequest: {
+              actorName: "Test aRXQIZvdSE2rVnqR0HrfYg",
+              actorTaskDescription: "Activate test cell.",
+              actionRequest: {
+                CellProcessor: {
+                  process: {
+                    activate: {},
+                    processCoordinates: {
+                      apmID: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                      instanceName: "root-instance"
+                    }
+                  }
+                }
+              }
+            }
+          }, {
+            actRequest: {
+              actorName: "Test aRXQIZvdSE2rVnqR0HrfYg",
+              actorTaskDescription: "Attempt to connect a Cell Process Proxy helper cell process to new shared process.",
+              actionRequest: {
+                CellProcessor: {
+                  proxy: {
+                    proxyCoordinates: "#.nsd1.nsd2.nsd3.nsd4.cppTest",
+                    connect: {
+                      processCoordinates: {
+                        apmID: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                        instanceName: "secondary-instance"
+                      }
+                    }
+                  }
+                }
+              },
+              apmBindingPath: {
+                apmID: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                instanceName: "root-instance"
+              }
+            }
+          }, {
+            actRequest: {
+              actorName: "Test aRXQIZvdSE2rVnqR0HrfYg",
+              actorTaskDescription: "Attempt to disconnect the Cell Process Proxy helper cell process from shared process.",
+              actionRequest: {
+                CellProcessor: {
+                  proxy: {
+                    proxyCoordinates: "#.nsd1.nsd2.nsd3.nsd4.cppTest",
+                    disconnect: {}
+                  }
+                }
+              },
+              apmBindingPath: {
+                apmID: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                instanceName: "root-instance"
+              }
+            }
+          }, {
+            actRequest: {
+              actorName: "Test aRXQIZvdSE2rVnqR0HrfYg",
+              actorTaskDescription: "Deactivate test cell.",
+              actionRequest: {
+                CellProcessor: {
+                  process: {
+                    deactivate: {},
+                    processCoordinates: {
+                      apmID: "TQ0j4BIhRQu5SmS-cWxJvQ",
+                      instanceName: "root-instance"
+                    }
+                  }
+                }
+              }
+            }
+          }]
+        }
+      }
+    }
+  } // vectorRequest
+
+} // holodeck test request
+];

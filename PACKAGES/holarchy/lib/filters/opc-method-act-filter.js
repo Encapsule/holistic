@@ -45,12 +45,70 @@ var factoryResponse = arccore.filter.create({
           errors.push("Zombie instance:");
           errors.push(opcRef.toJSON().error);
           break;
-        } // Prepare the controller action plug-in filter request descriptor object.
+        } // If the specified apmBinding path is a cell process coordinate descriptor object
+        // then we need to convert it the equivalent ObservableControllerData (ObservableCellData)
+        // path string before we attempt to dispatch the actual action request.
+
+
+        var apmBindingPath = request_.apmBindingPath;
+        var innerResponse = arccore.types.check.inTypeSet({
+          value: apmBindingPath,
+          types: "jsObject"
+        });
+
+        if (innerResponse.error) {
+          errors.push("Internal error: ".concat(innerResponse.error));
+          break;
+        }
+
+        if (innerResponse.result) {
+          // We have a winner.
+          // We have been passed a cell process coordinate descriptor object that we need to convert to an
+          // ObservableControllerData (OCD) dot-delimited path string. But, this is ObservableProcessController
+          // (OPC) level code that sits below the CellProcessor (CP) and its CellProcessManager (CPM) that calculates
+          // and caches various OCD path values used by cell processes. So, we leverage the OPC action dispatcher
+          // to call a CPM-defined action in order to convert the cell process coordinate descriptor to a OCD path.
+          // For this we do not push/pop the actor stack; we just make the call.
+          var innerActionMessage = {
+            context: {
+              apmBindingPath: "~",
+              ocdi: opcRef._private.ocdi,
+              act: opcRef.act
+            },
+            actionRequest: {
+              CellProcessor: {
+                cell: {
+                  query: {},
+                  cellCoordinates: {
+                    apmID: apmBindingPath.apmID,
+                    instanceName: apmBindingPath.instanceName
+                  }
+                }
+              }
+            }
+          };
+          innerResponse = opcRef._private.actionDispatcher.request(innerActionMessage);
+
+          if (innerResponse.error) {
+            errors.push("Internal error: ".concat(innerResponse.error));
+            break;
+          }
+
+          innerResponse = innerResponse.result.request(innerActionMessage);
+
+          if (innerResponse.error) {
+            errors.push("Internal error: ".concat(innerResponse.error));
+            break;
+          }
+
+          apmBindingPath = innerResponse.result.query.apmBindingPath;
+        } // end if
+        // Prepare the controller action plug-in filter request descriptor object.
 
 
         var controllerActionRequest = {
           context: {
-            apmBindingPath: request_.apmBindingPath,
+            apmBindingPath: apmBindingPath,
             ocdi: opcRef._private.ocdi,
             act: opcRef.act
           },

@@ -34,7 +34,8 @@ var cpmPath = "~.".concat(cpmMountingNamespaceName);
     }
 
     return cache;
-  }
+  } // If the fully-qualified (i.e. starts w/~ character) OCD path corresponds to a namespace located in the OCD's filter spec then it's a valid data path. Otherwise, it is not.
+
 
   function isValidDataPath(_ref3) {
     var dataPath = _ref3.dataPath,
@@ -57,7 +58,8 @@ var cpmPath = "~.".concat(cpmMountingNamespaceName);
       dataPathID: arccore.identifier.irut.fromReference(dataPath).result
     };
     return true;
-  }
+  } // If the fully-qualified OCD path is a valid data path and the namespace descriptor indicates an APM binding then it's also a valid cell path.
+
 
   function isValidCellPath(_ref4) {
     var cellPath = _ref4.cellPath,
@@ -96,7 +98,9 @@ var cpmPath = "~.".concat(cpmMountingNamespaceName);
       apmID: namespaceSpec.____appdsl.apm
     };
     return true;
-  }
+  } // The CellProcessManager (CPM) allocates an ObservableControllerData (OCD) namespace for every
+  // AbstractProcessModel (APM) registered with the CellProcessor (CP) constructor function.
+
 
   function isCellProcessActivatable(_ref5) {
     var apmID = _ref5.apmID,
@@ -132,28 +136,32 @@ var cpmPath = "~.".concat(cpmMountingNamespaceName);
         ocdi = _ref6.ocdi;
     var cache = getCache({
       ocdi: ocdi
-    });
+    }); // Determine if the specified APM is registered for use in this CellProcessor instance.
 
     if (!isCellProcessActivatable({
       apmID: apmID,
       ocdi: ocdi
     })) {
       return false;
-    }
+    } // Determine if anyone has previously queried this specific named cell process instance.
+
 
     if (cache.byCellProcessCoordinates[apmID].instances[instanceName]) {
       return true;
-    }
+    } // Convert the instanceName into an IRUT.
 
-    var instanceID = arccore.identifier.irut.fromReference(instanceName).result;
-    var cellProcessPath = "".concat(cache.byCellProcessCoordinates[apmID].dataPath, ".cellProcessMap.").concat(instanceID);
+
+    var instanceID = arccore.identifier.irut.fromReference(instanceName).result; // Calcuate the apmBinding OCD path for the cell process instance.
+
+    var cellProcessPath = "".concat(cache.byCellProcessCoordinates[apmID].dataPath, ".cellProcessMap.").concat(instanceID); // Double check that path resolves to a valid namespace in the OCD w/an associated APM binding (which we don't check here).
 
     if (!isValidCellPath({
       cellPath: cellProcessPath,
       ocdi: ocdi
     })) {
       return false;
-    }
+    } // Retrieve the cell process ID (an IRUT hash of the data path that's a named activable cell process instance).
+
 
     var cellProcessID = cache.byCellPath[cellProcessPath].cellPathID;
     cache.byCellProcessCoordinates[apmID].instances[instanceName] = cache.byCellProcessID[cellProcessID] = cache.byCellProcessPath[cellProcessPath] = {
