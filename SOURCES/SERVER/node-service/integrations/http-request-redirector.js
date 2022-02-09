@@ -2,7 +2,7 @@
 
 (function () {
   module.exports = function (request_) {
-    console.log("..... " + this.operationID + "::" + this.operationName);
+    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
     var headers = request_.request_descriptor.headers; // TODO: DOUBLE CHECK THIS ASSUMPTION ON AWS (x-forwarded-proto is set in GoogleCloud Flex environment).
 
     if (!headers["x-forwarded-proto"] || headers["x-forwarded-proto"] === "https") {

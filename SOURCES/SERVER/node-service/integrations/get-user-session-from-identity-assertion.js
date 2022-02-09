@@ -35,7 +35,7 @@
   checkOnline();
 
   module.exports = function (request_) {
-    console.log("..... " + this.operationID + "::" + this.operationName);
+    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
     var errors = [];
     var inBreakScope = false;
 
@@ -51,7 +51,12 @@
       }
 
       if (!serviceOnline) {
-        console.log("!!!!! Viewpath5 backend storage proxy is OFFLINE! Ignoring user identity (because we cannot verify) and returning default anonymous user login session data.");
+        // Here we presume that access to whatever persistence store (e.g. database)
+        // is used for authentication and authorization policy is cloud based and that
+        // if our HolisticNodeService instance cannot reach DNS server that it will also
+        // not be able to make authentication or authorization decisssions. And, should
+        // always return the anonymous user identity because of this.
+        console.log("!!!!! HolisticNodeService user authentication service is currently offline. Login is blocked for all users.");
         request_.result_handler(); // w/request value undefined -> anonymous session
 
         break;

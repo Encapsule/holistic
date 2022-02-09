@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "T3fTnta3T4OVYQ0yfW-ilw",
-    "buildSource": "5a37946fd745a5eaf6de80fed332cd5112fb1e6f",
-    "buildTime": 1643674129,
-    "codename": "firestorm",
+    "buildID": "vkcKilw4QAKdxkKcouGCrA",
+    "buildSource": "9d44c4960bdd7e758f870e30499671719a6f4b67",
+    "buildTime": 1644436715,
+    "codename": "snowpack",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -31,12 +31,12 @@
     "name": "@encapsule/holistic-service-core",
     "peerDependencies": {
         "@encapsule/arccore": "0.3.5",
-        "@encapsule/holarchy": "0.2.9",
-        "@encapsule/holarchy-cm": "0.2.9"
+        "@encapsule/holarchy": "0.3.1",
+        "@encapsule/holarchy-cm": "0.3.1"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.2.9"
+    "version": "0.3.1"
 }
