@@ -51,7 +51,7 @@ var factoryResponse = httpServiceFilterFactory.create({
     constraints: constraints,
     handlers: {
         request_handler: function(request_) {
-            console.log("..... " + this.operationID + "::" + this.operationName);
+            console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
 
             var errors = [];
             var inBreakScope = false;

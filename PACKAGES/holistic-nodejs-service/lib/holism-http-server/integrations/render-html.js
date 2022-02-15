@@ -26,7 +26,7 @@ function renderHtmlDocument(request_) {
 
   while (!inBreakScope) {
     inBreakScope = true;
-    console.log("..... " + this.operationID + "::" + this.operationName);
+    console.log("..... " + this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
     var htmlContent = "";
 
     try {

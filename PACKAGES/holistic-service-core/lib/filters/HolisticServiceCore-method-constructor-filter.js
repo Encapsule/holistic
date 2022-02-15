@@ -40,7 +40,7 @@ var appServiceBootROMSpecFactory = require("./iospecs/app-service-boot-rom-spec-
     inputFilterSpec: require("./iospecs/HolisticServiceCore-method-constructor-filter-input-spec"),
     outputFilterSpec: require("./iospecs/HolisticServiceCore-method-constructor-filter-output-spec"),
     bodyFunction: function bodyFunction(request_) {
-      console.log("HolisticServiceCore::constructor [".concat(this.operationID, "::").concat(this.operationName, "]"));
+      console.log("HolisticServiceCore::constructor [".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]"));
       var response = {
         error: null,
         result: {

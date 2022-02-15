@@ -39,7 +39,7 @@ var controllerAction = new ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
+      var actorName = "[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]");
       console.log("".concat(actorName, " processing cell plane error notification from OPC."));
       /*
         Okay. If we even got this far then we already know a great deal about what

@@ -52,7 +52,7 @@ var factoryResponse = arccore.filter.create({
       // Get information about this process activation from cell process manager.
 
 
-      var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
+      var actorName = "[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]");
       var actResponse = request_.context.act({
         actorName: actorName,
         actorTaskDescription: "Querying cell process manager for this activation's status.",

@@ -68,7 +68,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
         console.log("================================================================");
         console.log("================================================================");
         console.log("================================================================");
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] attempting to update display layout due to detected chanage(s)...")); // Get our cell memory and process data.
+        console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] attempting to update display layout due to detected chanage(s)...")); // Get our cell memory and process data.
 
         var hacdLibResponse = hacdLib.getStatus.request(request_.context);
 
@@ -148,7 +148,7 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
           break;
         }
 
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] display process tree update ").concat(cellMemory.displayUpdateCount, " complete."));
+        console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] display process tree update ").concat(cellMemory.displayUpdateCount, " complete."));
         console.log("================================================================");
         console.log("================================================================");
         console.log("================================================================");

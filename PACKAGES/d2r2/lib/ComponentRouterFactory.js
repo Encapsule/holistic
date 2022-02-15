@@ -49,7 +49,7 @@ var factoryResponse = arccore.filter.create({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      console.log(this.operationID + "::" + this.operationName);
+      console.log(this.filterDescriptor.operationID + "::" + this.filterDescriptor.operationName);
       var d2r2ComponentFilters = [];
       request_.d2r2ComponentSets.forEach(function (d2r2ComponentSet_) {
         d2r2ComponentSet_.forEach(function (d2r2ComponentFilter_) {

@@ -61,7 +61,7 @@ var action = new holarchy.ControllerAction({
 
       var cellStatus = libResponse.result;
       var messageBody = request_.actionRequest.holistic.service.view.page._private.stepWorker;
-      var actorName = "[".concat(_this.operationID, "::").concat(_this.operationName);
+      var actorName = "[".concat(_this.filterDescriptor.operationID, "::").concat(_this.filterDescriptor.operationName);
       var actResponse = void 0;
       var ocdResponse = void 0; // Alias for act returns response --- This is probably not going to work well long-term. But, it allows us to call from two different steps and maintain one request signature.
       // BE CAREFUL...

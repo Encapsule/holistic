@@ -51,7 +51,7 @@ var controllerAction = new holarchy.ControllerAction({
 
     while (!inBreakScope) {
       inBreakScope = true;
-      var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]");
+      var actorName = "[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]");
       console.log("".concat(actorName, " processing OPC cell plane error via Cell Process Manager process.")); // This action is called by the CellProcessor's Cell Process Manager process that does
       // not know our process coordinates. So, request_.context.apmBindingPath === "~" (CPM).
 

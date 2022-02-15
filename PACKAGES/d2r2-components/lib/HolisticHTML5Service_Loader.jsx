@@ -80,21 +80,21 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var flexContent = [];
           var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E";
           var backgroundColor = {
-            development: "#CCCCCC",
+            development: "#DDDDDD",
             test: "#FFCC99",
             staging: "#99FFCC",
-            production: "#99CCFF"
+            production: "#6699CC"
           }[messageBody.deploymentEnvironment];
           var textColorMain = color(backgroundColor).darken(0.1).hex();
           var textColorMessage = "white";
           var textColorEnvironment = color(backgroundColor).darken(0.03).hex();
-          var textColorVersion = color(backgroundColor).lighten(0.15).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.15).hex();
+          var textColorVersion = color(backgroundColor).lighten(0.2).hex();
+          var textColorVersionShadow = color(backgroundColor).darken(0.2).hex();
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
               fontFamily: "Play",
-              fontSize: "10vw",
+              fontSize: "8vw",
               fontWeight: "bold",
               color: textColorMain,
               paddingBottom: "1.3vw"
@@ -165,10 +165,10 @@ var factoryResponse = d2r2.ComponentFactory.request({
           }, /*#__PURE__*/React.createElement("div", {
             style: {
               fontFamily: "Play",
-              fontSize: "15vw",
+              fontSize: "6vw",
               color: textColorEnvironment
             }
-          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment))))); // App name / message / spinner
+          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment, " environment"))))); // App name / message / spinner
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -210,7 +210,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
               fontSize: "1.25vw",
               color: textColorVersion,
               padding: "1vw",
-              textShadow: "-1px -1px 1px rgba(0,0,0,0.5)"
+              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
             }
           }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), ' // ', messageBody.appBuild.app.buildID, ' // ', messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null))))); // Platform version
 
@@ -237,7 +237,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
               fontSize: "1.25vw",
               color: textColorVersion,
               padding: "1vw",
-              textShadow: "-1px -1px 1px rgba(0,0,0,0.5)"
+              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
             }
           }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), ' // ', messageBody.appBuild.platform.app.buildID, ' // ', messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null)))));
           return /*#__PURE__*/React.createElement("div", {

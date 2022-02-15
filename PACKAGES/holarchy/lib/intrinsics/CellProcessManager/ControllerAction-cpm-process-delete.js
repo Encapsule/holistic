@@ -74,7 +74,7 @@ var controllerAction = new ControllerAction({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      console.log("[".concat(_this.operationID, "::").concat(_this.operationName, "] action start..."));
+      console.log("[".concat(_this.filterDescriptor.operationID, "::").concat(_this.filterDescriptor.operationName, "] action start..."));
       var messageBody = request_.actionRequest.CellProcessor.process;
       var unresolvedCoordinates = messageBody.processCoordinates;
 
@@ -289,7 +289,7 @@ var controllerAction = new ControllerAction({
       response.error = errors.join(" ");
     }
 
-    console.log("[".concat(this.operationID, "::").concat(this.operationName, "] action completed w/status '").concat(response.error ? "ERROR" : "SUCCESS", "'."));
+    console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] action completed w/status '").concat(response.error ? "ERROR" : "SUCCESS", "'."));
     return response;
   }
 });

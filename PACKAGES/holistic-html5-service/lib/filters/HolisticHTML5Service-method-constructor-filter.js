@@ -37,7 +37,7 @@ var factoryResponse = arccore.filter.create({
   inputFilterSpec: require("./iospecs/HolisticHTML5Service-method-constructor-filter-input-spec"),
   outputFilterSpec: require("./iospecs/HolisticHTML5Service-method-constructor-filter-output-spec"),
   bodyFunction: function bodyFunction(request_) {
-    console.log("HolisticHTML5Service::constructor [".concat(this.operationID, "::").concat(this.operationName, "]"));
+    console.log("HolisticHTML5Service::constructor [".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]"));
     var response = {
       error: null
     };

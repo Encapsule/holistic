@@ -3,9 +3,9 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "vkcKilw4QAKdxkKcouGCrA",
-    "buildSource": "9d44c4960bdd7e758f870e30499671719a6f4b67",
-    "buildTime": 1644436715,
+    "buildID": "Jqu59qVDSkeKiUIqe3inEg",
+    "buildSource": "7e54d32437759b6c073a2442de6693c481cc0d03",
+    "buildTime": 1644939701,
     "codename": "snowpack",
     "contributors": [
         {
@@ -31,7 +31,7 @@
     "name": "@encapsule/holarchy-cm",
     "peerDependencies": {
         "@encapsule/arccore": "0.3.5",
-        "@encapsule/holarchy": "0.3.1",
+        "@encapsule/holarchy": "0.3.2",
         "react": "16.12.0",
         "react-dom": "16.12.0"
     },
@@ -39,5 +39,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.3.1"
+    "version": "0.3.2"
 }

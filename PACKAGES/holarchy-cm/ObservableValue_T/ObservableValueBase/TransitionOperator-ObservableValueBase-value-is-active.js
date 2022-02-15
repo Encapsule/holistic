@@ -49,7 +49,7 @@
 
       while (!inBreakScope) {
         inBreakScope = true;
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
+        console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
         var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.valueIsActive; // If we cannot read the ObservableValue cell's revision number, then it does not exist.
 
         var ocdResponse = operatorRequest_.context.ocdi.readNamespace({

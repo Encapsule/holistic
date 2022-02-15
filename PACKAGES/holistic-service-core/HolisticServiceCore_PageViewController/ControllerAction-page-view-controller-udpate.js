@@ -75,7 +75,7 @@ var holarchy = require("@encapsule/holarchy");
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var actorName = "[".concat(this.operationID, "::").concat(this.operationName, "]"); // Cache miss? Where is the PageViewController cell process in the cellplane?
+        var actorName = "[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "]"); // Cache miss? Where is the PageViewController cell process in the cellplane?
 
         if (!cachedPageViewControllerProcessQuery) {
           var actResponse = request_.context.act({

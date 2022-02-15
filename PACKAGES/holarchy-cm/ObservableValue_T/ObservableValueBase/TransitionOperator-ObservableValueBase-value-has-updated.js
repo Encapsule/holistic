@@ -54,7 +54,7 @@
 
       while (!inBreakScope) {
         inBreakScope = true;
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
+        console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] called on provider cell \"").concat(operatorRequest_.context.apmBindingPath, "\""));
         var messageBody = operatorRequest_.operatorRequest.holarchy.common.operators.ObservableValue.valueHasUpdated; // Check to see if there's a pending dact. If there is, then the answer is yes --- the value has updated (or it will when read).
 
         var ocdResponse = operatorRequest_.context.ocdi.readNamespace({

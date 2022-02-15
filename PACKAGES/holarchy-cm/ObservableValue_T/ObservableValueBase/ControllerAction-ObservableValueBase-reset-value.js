@@ -52,7 +52,7 @@
 
       while (!inBreakScope) {
         inBreakScope = true;
-        console.log("[".concat(this.operationID, "::").concat(this.operationName, "] called on provider cell \"").concat(actionRequest_.context.apmBindingPath, "\""));
+        console.log("[".concat(this.filterDescriptor.operationID, "::").concat(this.filterDescriptor.operationName, "] called on provider cell \"").concat(actionRequest_.context.apmBindingPath, "\""));
         var messageBody = actionRequest_.actionRequest.holarchy.common.actions.ObservableValue.resetValue;
         var ocdResponse = actionRequest_.context.ocdi.readNamespace({
           apmBindingPath: actionRequest_.context.apmBindingPath,

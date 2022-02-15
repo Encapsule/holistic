@@ -61,7 +61,7 @@ var controllerAction = new holarchy.ControllerAction({
 
     var _loop = function _loop() {
       inBreakScope = true;
-      var actorName = "[".concat(_this.operationID, "::").concat(_this.operationName, "]");
+      var actorName = "[".concat(_this.filterDescriptor.operationID, "::").concat(_this.filterDescriptor.operationName, "]");
       var messageBody = request_.actionRequest.holistic.app.client.kernel._private.stepWorker;
       console.log("".concat(actorName, " processing \"").concat(messageBody.action, "\" request on behalf of app client kernel process."));
       var hackLibResponse = hackLib.getStatus.request(request_.context);
