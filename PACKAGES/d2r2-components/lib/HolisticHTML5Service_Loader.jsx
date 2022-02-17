@@ -88,8 +88,9 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var textColorMain = color(backgroundColor).darken(0.1).hex();
           var textColorMessage = "white";
           var textColorEnvironment = color(backgroundColor).darken(0.03).hex();
-          var textColorVersion = color(backgroundColor).lighten(0.2).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.2).hex();
+          var textColorVersion = color(backgroundColor).darken(0.05).hex();
+          var textColorVersionShadow = color(backgroundColor).darken(0.25).hex(); // Application name...
+
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
@@ -99,7 +100,8 @@ var factoryResponse = d2r2.ComponentFactory.request({
               color: textColorMain,
               paddingBottom: "1.3vw"
             }
-          }, messageBody.appBuild.app.name));
+          }, messageBody.appBuild.app.name)); // Application load status...
+
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
@@ -109,7 +111,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
               color: textColorMessage,
               textShadow: "0px 0px 0.5vw ".concat(color(backgroundColor).darken(0.25).hex())
             }
-          }, statusMessage));
+          }, statusMessage)); // Application load spinner...
 
           if (this.props.renderContext.serverRender) {
             flexContent.push( /*#__PURE__*/React.createElement("div", {
@@ -142,33 +144,8 @@ var factoryResponse = d2r2.ComponentFactory.request({
                 className: "spinner-triple"
               })))));
             }
-          } // Environment
+          } // Application deployment environment...
 
-
-          content.push( /*#__PURE__*/React.createElement("div", {
-            key: makeKey(),
-            style: {
-              position: "fixed",
-              top: "0px",
-              left: "0px"
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-              width: "100vw",
-              backgroundColor: backgroundColor
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              fontFamily: "Play",
-              fontSize: "6vw",
-              color: textColorEnvironment
-            }
-          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment, " environment"))))); // App name / message / spinner
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -186,7 +163,13 @@ var factoryResponse = d2r2.ComponentFactory.request({
               height: "100vh",
               width: "100vw"
             }
-          }, flexContent))); // App version
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              fontFamily: "Play",
+              fontSize: "6vw",
+              color: textColorEnvironment
+            }
+          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment, " environment"))))); // Application name / message / spinner black
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -194,6 +177,25 @@ var factoryResponse = d2r2.ComponentFactory.request({
               position: "fixed",
               top: "0px",
               left: "0px"
+            }
+          }, /*#__PURE__*/React.createElement("div", {
+            style: {
+              display: "flex",
+              flexDirection: "column",
+              justifyContent: "center",
+              alignItems: "center",
+              height: "100vh",
+              width: "100vw"
+            }
+          }, flexContent))); // Application version
+
+          content.push( /*#__PURE__*/React.createElement("div", {
+            key: makeKey(),
+            style: {
+              position: "fixed",
+              top: "0px",
+              left: "0px",
+              zIndex: 1
             }
           }, /*#__PURE__*/React.createElement("div", {
             style: {
@@ -212,14 +214,15 @@ var factoryResponse = d2r2.ComponentFactory.request({
               padding: "1vw",
               textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
             }
-          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), ' // ', messageBody.appBuild.app.buildID, ' // ', messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null))))); // Platform version
+          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null))))); // Platform version
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
               position: "fixed",
               top: "0px",
-              left: "0px"
+              left: "0px",
+              zIndex: 1
             }
           }, /*#__PURE__*/React.createElement("div", {
             style: {
@@ -239,9 +242,17 @@ var factoryResponse = d2r2.ComponentFactory.request({
               padding: "1vw",
               textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
             }
-          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), ' // ', messageBody.appBuild.platform.app.buildID, ' // ', messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null)))));
+          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null)))));
           return /*#__PURE__*/React.createElement("div", {
-            key: makeKey()
+            key: makeKey(),
+            style: {
+              position: "fixed",
+              top: "0px",
+              left: "0px",
+              width: "100%",
+              height: "100%",
+              backgroundColor: backgroundColor
+            }
           }, content); // ================================================================
           // EXPERIMENTAL CODE (please keep).
 

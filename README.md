@@ -4,12 +4,12 @@
 
 _Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.3.2-snowpack
+# ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.3.3-snowpack
 
 ```
-Package: @encapsule/holistic v0.3.2-snowpack build ID "Jqu59qVDSkeKiUIqe3inEg"
-Sources: @encapsule/holodev#7e54d32437759b6c073a2442de6693c481cc0d03
-Created: 2022-02-15T15:41:41.000Z // License: MIT
+Package: @encapsule/holistic v0.3.3-snowpack build ID "6XoaGnEQQXSxrlm229GY9Q"
+Sources: @encapsule/holodev#3482c00e90451aad09732668d0833e152b6e378c
+Created: 2022-02-17T16:23:50.000Z // License: MIT
 Purpose: tools // Environment: Node.js
 ```
 

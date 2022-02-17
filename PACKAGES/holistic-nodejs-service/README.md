@@ -4,16 +4,16 @@
 
 _Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.3.2-snowpack](../../README.md)
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.3.3-snowpack](../../README.md)
 
 > **[&#9666; Holistic App Platform](../../README.md#encapsule-project "Jump to @encapsule/holistic distribution package README...") Runtime Libraries::** [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-cm](../holarchy-cm/README.md#encapsule-project "Jump to holarchy-cm README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; [holism-metadata](../holism-metadata/README.md#encapsule-project "Jump to holism-metadata README...") &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holistic-app-models](../holistic-app-models/README.md#encapsule-project "Jump to holistic-app-models README...") &bull; [holistic-html5-service](../holistic-html5-service/README.md#encapsule-project "Jump to holistic-html5-service README...") &bull; ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;**holistic-nodejs-service**&nbsp;![](ASSETS/encapsule-holistic-16x16.png) &bull; [holistic-service-core](../holistic-service-core/README.md#encapsule-project "Jump to holistic-service-core README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
 # ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;@encapsule/holistic-nodejs-service
 
 ```
-Package: @encapsule/holistic-nodejs-service v0.3.2-snowpack build ID "Jqu59qVDSkeKiUIqe3inEg"
-Sources: @encapsule/holodev#7e54d32437759b6c073a2442de6693c481cc0d03
-Created: 2022-02-15T15:41:41.000Z // License: MIT
+Package: @encapsule/holistic-nodejs-service v0.3.3-snowpack build ID "6XoaGnEQQXSxrlm229GY9Q"
+Sources: @encapsule/holodev#3482c00e90451aad09732668d0833e152b6e378c
+Created: 2022-02-17T16:23:50.000Z // License: MIT
 Purpose: library // Environment: Node.js
 ```
 

@@ -3,10 +3,10 @@
 (function () {
   // const userSessionAccessor = require("../../storage/user/session/");
   var isReachable = require("is-reachable"); // https://github.com/sindresorhus/is-reachable
+  // The serviceOnline variable is visible only inside this function scope.
 
 
   var serviceOnline = null;
-  var lastLogTime = new Date().getTime();
 
   function checkOnline() {
     var startCheckTime = new Date().getTime();
@@ -23,15 +23,17 @@
 
       if (toggleOnlineState) {
         console.log("****************************************************************");
-        console.log("Viewpath5 HolisticNodeService backend storage subsystem status:");
+        console.log("HolisticNodeService online status:");
         console.log("".concat(serviceOnline ? "ONLINE" : "OFFLINE", " at ").concat(new Date().toString()));
         console.log("****************************************************************");
       }
 
       setTimeout(checkOnline, delayToNextCheck);
     });
-  }
+  } // Start a setTimeout-derived background process that checks the reachability of google.com every 10s.
 
+
+  var lastLogTime = new Date().getTime();
   checkOnline();
 
   module.exports = function (request_) {
