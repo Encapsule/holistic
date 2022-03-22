@@ -1,4 +1,4 @@
-# @encapsule/holarchy-cm/DisaplyView_T/README.md
+# @encapsule/holarchy-cm/DisplayView_T/README.md
 
-> Directory exports an @encapsule/holarchy CellModelTemplate instance.
+A **_view_** is a **_cell process_** 
 
