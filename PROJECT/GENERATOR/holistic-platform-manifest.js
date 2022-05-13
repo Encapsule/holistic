@@ -60,8 +60,8 @@
                 "stream-browserify": "^3.0.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "style-loader": "1.2.1",
                 "url": "^0.11.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
-                "webpack": "5.39.1",
-                "webpack-cli": "4.7.1",
+                "webpack": "5.72.0",
+                "webpack-cli": "4.9.2",
             },
             runtime: {
             }

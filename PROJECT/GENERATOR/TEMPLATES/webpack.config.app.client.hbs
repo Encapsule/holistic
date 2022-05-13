@@ -27,7 +27,8 @@ module.exports = {
     target: "web",
     output: {
         path: outputPath,
-        filename: 'html5-service-runtime-bundle.js'
+        filename: 'html5-service-runtime-bundle.js',
+        hashFunction: "sha256" // https://stackoverflow.com/questions/69394632/webpack-build-failing-with-err-ossl-evp-unsupported/69394785#69394785
     },
     module: {
         rules: [

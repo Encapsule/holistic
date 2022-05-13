@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "BcywvtCkSWiPwV7PqMQAmg",
-    "buildSource": "3dc5903a7448efde3cec0a50edad661456993836",
-    "buildTime": 1647909873,
-    "codename": "snowpack",
+    "buildID": "015bUeQ3SmO2C3xgmS1F5A",
+    "buildSource": "aea8130790430ac6d975cdc00016f241c0ae7586",
+    "buildTime": 1652461038,
+    "codename": "snowmelt",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -31,11 +31,11 @@
     "main": "metadata-store-constructor-factory.js",
     "name": "@encapsule/holism-metadata",
     "peerDependencies": {
-        "@encapsule/arccore": "0.3.5"
+        "@encapsule/arccore": "0.3.6"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.3.4"
+    "version": "0.3.5"
 }
