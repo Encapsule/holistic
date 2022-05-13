@@ -32,8 +32,8 @@
                 "commander": "^2.19.0",
                 "pg": "8.6.0",
                 "query-string": "^6.2.0",
-                "react": "16.12.0",
-                "react-dom": "16.12.0",
+                "react": "18.1.0",
+                "react-dom": "18.1.0",
                 "react-markdown": "^2.5.0",
                 "request": "^2.88.0"
             },
