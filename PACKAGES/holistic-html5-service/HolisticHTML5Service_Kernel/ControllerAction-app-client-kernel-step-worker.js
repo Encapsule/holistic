@@ -187,39 +187,6 @@ var controllerAction = new holarchy.ControllerAction({
             break;
           }
 
-          actResponse = request_.context.act({
-            actorName: actorName,
-            actorTaskDescription: "Activating the HolisticHTML5Service_PageViewController process on behalf of HolisticHTML5Service_Kernel process.",
-            actionRequest: {
-              CellProcessor: {
-                util: {
-                  writeActionResponseToPath: {
-                    dataPath: "#.serviceProcesses.pageViewController",
-                    actionRequest: {
-                      CellProcessor: {
-                        process: {
-                          activate: {},
-                          processCoordinates: {
-                            apmID: "AZaqZtWRSdmHOA6EbTr9HQ"
-                          }
-                          /* PageViewController cell singleton instance */
-
-                        }
-                      }
-                    }
-                  }
-                }
-              }
-            },
-            apmBindingPath: request_.context.apmBindingPath // this will be the holistic app client kernel process
-
-          });
-
-          if (actResponse.error) {
-            errors.push(actResponse.error);
-            break;
-          }
-
           break;
         // ****************************************************************
         // ****************************************************************

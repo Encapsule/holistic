@@ -4,16 +4,16 @@
 
 _Encapsule Project is a quest to define a universal protocol for domain-specific software models + infrastructure to support composition of distributed apps & services._
 
-## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.4.1-shuksan](../../README.md)
+## ![](ASSETS/encapsule-holistic-24x24.png)&nbsp;[Holistic App Platform v0.4.2-crystalglacier](../../README.md)
 
 > **[&#9666; Holistic App Platform](../../README.md#encapsule-project "Jump to @encapsule/holistic distribution package README...") Runtime Libraries::** [d2r2](../d2r2/README.md#encapsule-project "Jump to d2r2 README...") &bull; [d2r2-components](../d2r2-components/README.md#encapsule-project "Jump to d2r2-components README...") &bull; [holarchy](../holarchy/README.md#encapsule-project "Jump to holarchy README...") &bull; [holarchy-cm](../holarchy-cm/README.md#encapsule-project "Jump to holarchy-cm README...") &bull; [holism](../holism/README.md#encapsule-project "Jump to holism README...") &bull; ![](ASSETS/encapsule-holistic-16x16.png)&nbsp;**holism-metadata**&nbsp;![](ASSETS/encapsule-holistic-16x16.png) &bull; [holism-services](../holism-services/README.md#encapsule-project "Jump to holism-services README...") &bull; [holistic-app-models](../holistic-app-models/README.md#encapsule-project "Jump to holistic-app-models README...") &bull; [holistic-html5-service](../holistic-html5-service/README.md#encapsule-project "Jump to holistic-html5-service README...") &bull; [holistic-nodejs-service](../holistic-nodejs-service/README.md#encapsule-project "Jump to holistic-nodejs-service README...") &bull; [holistic-service-core](../holistic-service-core/README.md#encapsule-project "Jump to holistic-service-core README...") &bull; [holodeck](../holodeck/README.md#encapsule-project "Jump to holodeck README...") &bull; [holodeck-assets](../holodeck-assets/README.md#encapsule-project "Jump to holodeck-assets README...") &bull; [hrequest](../hrequest/README.md#encapsule-project "Jump to hrequest README...")
 
 # ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;@encapsule/holism-metadata
 
 ```
-Package: @encapsule/holism-metadata v0.4.1-shuksan build ID "qWz9bDhMRUuHfTWsrDRaLw"
-Sources: @encapsule/holodev#ae2dc7a6190f40d8310f948aa48b7be3e1587574
-Created: 2022-05-16T18:19:39.000Z // License: MIT
+Package: @encapsule/holism-metadata v0.4.2-crystalglacier build ID "3zTF6RHoQZ6jA5KIv80QPA"
+Sources: @encapsule/holodev#d1d8d11a84b04584fd9dd174c6440cc6be1f9a71
+Created: 2022-05-16T20:59:36.000Z // License: MIT
 Purpose: library // Environment: Node.js and Browser/HTML5
 ```
 

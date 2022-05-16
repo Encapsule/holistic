@@ -177,7 +177,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
               actions: {
                 enter: [// Activate cell processes:
                 // HolisticServiceCore_Metadata
-                // HolisticServiceCore_PageViewController
                 // HolisticHTML5Service_DomLocation
                 // HolisticHTML5Service_DisplayAdapter
                 {
@@ -347,21 +346,6 @@ function _defineProperty(obj, key, value) { if (key in obj) { Object.definePrope
                         cellCoordinates: {
                           apmID: "srjZAO8JQ2StYj07u_rgGg"
                           /* HolisticServiceCore_Metadata Process */
-
-                        }
-                      }
-                    }
-                  }, {
-                    CellProcessor: {
-                      cell: {
-                        query: {
-                          inStep: {
-                            apmStep: "pageview-controller-ready"
-                          }
-                        },
-                        cellCoordinates: {
-                          apmID: "AZaqZtWRSdmHOA6EbTr9HQ"
-                          /* HolisticServiceCore_PageViewController */
 
                         }
                       }

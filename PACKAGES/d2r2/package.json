@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "qWz9bDhMRUuHfTWsrDRaLw",
-    "buildSource": "ae2dc7a6190f40d8310f948aa48b7be3e1587574",
-    "buildTime": 1652725179,
-    "codename": "shuksan",
+    "buildID": "3zTF6RHoQZ6jA5KIv80QPA",
+    "buildSource": "d1d8d11a84b04584fd9dd174c6440cc6be1f9a71",
+    "buildTime": 1652734776,
+    "codename": "crystalglacier",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -43,5 +43,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.4.1"
+    "version": "0.4.2"
 }

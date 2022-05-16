@@ -1,8 +1,8 @@
 {
     "name": "holistic",
     "description": "@encapsule/holistic is a domain engineering toolkit for building distributed applications and interactive UX from reusable software models.",
-    "version": "0.4.1",
-    "codename": "shuksan",
+    "version": "0.4.2",
+    "codename": "crystalglacier",
     "author": "Encapsule",
     "copyright": {
         "holder": "Chris Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "qWz9bDhMRUuHfTWsrDRaLw",
-    "buildSource": "ae2dc7a6190f40d8310f948aa48b7be3e1587574",
-    "buildTime": 1652725179,
-    "buildDateISO": "2022-05-16T18:19:39.000Z"
+    "buildID": "3zTF6RHoQZ6jA5KIv80QPA",
+    "buildSource": "d1d8d11a84b04584fd9dd174c6440cc6be1f9a71",
+    "buildTime": 1652734776,
+    "buildDateISO": "2022-05-16T20:59:36.000Z"
 }
