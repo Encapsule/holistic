@@ -22,7 +22,7 @@ var entityKinds = require("../../../storage/data/constants").datastore.entities.
 
 var _require2 = require("./utils"),
     makeDatastoreKey = _require2.makeDatastoreKey,
-    calcOrgResourceId = _require2.calcOrgResourceId; // This service will be made available only to members of the Viewpath organization.
+    calcOrgResourceId = _require2.calcOrgResourceId; // This service will be made available only to members of the app organization.
 // i.e. external users will not be allowed to create, read, update, delete an organization profile.
 
 

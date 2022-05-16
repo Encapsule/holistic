@@ -101,9 +101,9 @@ var factoryResponse = holism.service.create({
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var filterResponse = void 0; // To access the admin control panel you must be logged in a Viewpath employee.
+        var filterResponse = void 0; // To access the admin control panel you must be logged in a member of the app's owning organization.
 
-        if (!request_.request_descriptor.session.userEmailAddress.endsWith("@viewpath.com")) {
+        if (!request_.request_descriptor.session.userEmailAddress.endsWith("@example-app.com")) {
           // NOT AUTHORIZED TO ACCESS THE APP ADMIN CP!
           request_.response_filters.error.request({
             streams: request_.streams,
@@ -119,7 +119,7 @@ var factoryResponse = holism.service.create({
                 type: "text/html"
               },
               data: {
-                error_message: "Sorry. Only employees of Viewpath are authorized to access this control panel.",
+                error_message: "Sorry. Only members of example-app owners group are authorized to access this control panel.",
                 error_context: {
                   source_tag: "tWZ3gNe1SIiOZulaWvXIhQ"
                 }
@@ -127,11 +127,11 @@ var factoryResponse = holism.service.create({
             }
           });
           break;
-        } // Not all Viewpath employees have access to the admin control.
+        } // Not all group members access to the admin control.
 
 
         filterResponse = request_.integrations.appStateContext.appGroupAuthorizer.getUserPermissions({
-          viewpathUserId: request_.request_descriptor.session.viewpathUserId,
+          appUserId: request_.request_descriptor.session.appUserId,
           subsystemName: "adminControlPanel",
           resourceName: "allResources",
           operationName: "all-operations"
@@ -158,7 +158,7 @@ var factoryResponse = holism.service.create({
                 type: "text/html"
               },
               data: {
-                error_message: "Sorry. Only Viewpath employees that have been explicitly added to the Viewpath5 administrators group are authorized to access this control panel.",
+                error_message: "Sorry. You are not authorized to access this control panel.",
                 error_context: {
                   source_tag: "rzYqpM08S1i7yYPP6XiMIQ"
                 }
@@ -210,7 +210,7 @@ var factoryResponse = holism.service.create({
               }
             });
             profileData.push({
-              rowId: userProfile_.viewpathUserId,
+              rowId: userProfile_.appUserId,
               rowContent: rowContent
             });
           }); // <ComponentRouter/> render data request descriptor.

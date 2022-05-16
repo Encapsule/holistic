@@ -18,7 +18,7 @@
   "data": {
     "emailAddresses": [
       {
-        "value": "chris.russell@viewpath.com",
+        "value": "chris.russell@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",
@@ -29,7 +29,7 @@
         }
       },
       {
-        "value": "chris-collaborator@viewpath.com",
+        "value": "chris-collaborator@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",
@@ -39,7 +39,7 @@
         }
       },
       {
-        "value": "chris-team@viewpath.com",
+        "value": "chris-team@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",
@@ -49,7 +49,7 @@
         }
       },
       {
-        "value": "chris-enterprise@viewpath.com",
+        "value": "chris-enterprise@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",
@@ -59,7 +59,7 @@
         }
       },
       {
-        "value": "chris-pro@viewpath.com",
+        "value": "chris-pro@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",
@@ -69,7 +69,7 @@
         }
       },
       {
-        "value": "chris-starter@viewpath.com",
+        "value": "chris-starter@example-app.com",
         "metadata": {
           "source": {
             "id": "110037967500954395595",

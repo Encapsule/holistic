@@ -1,11 +1,10 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/get-application-homepage.js
 var holism = require("@encapsule/holism");
 
 var factoryResponse = holism.service.create({
   id: "jKKuSBmzSGOKcYi1lClhgw",
-  name: "Viewpath Get Homepage Service",
+  name: "Get Homepage Service",
   description: "A simple service filter that is used to test out <ComponentRouter/> infrastructure.",
   constraints: {
     request: {

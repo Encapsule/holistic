@@ -1,6 +1,5 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/get-holism-service-filter-request-echo-service.js
 var holism = require("@encapsule/holism");
 
 var factoryResponse = holism.service.create({

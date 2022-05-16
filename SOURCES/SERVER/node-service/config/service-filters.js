@@ -41,7 +41,7 @@
     //
     {
       // HTML GET:/
-      // Default entry view for Viewpath5.
+      // Default route to request an instance of an HolisticHTML5Service.
       // Currently, we are not doing much with server-side
       // rendering at all; we will focus on HTML5 client
       // dynamic experience and use the app server primarily

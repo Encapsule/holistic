@@ -77,7 +77,7 @@ var ServiceCore_AppMetadataCellModelFactory = require("../HolisticServiceCore_Me
           id: "74npOB-3S8GEgHwdtWwHrg",
           name: "Holistic Service Core Kernel Model",
           description: "Provides core kernel cell process models shared by the holistic app server and holistic app client application cell models.",
-          subcells: [AppMetadataCellModel, require("../HolisticServiceCore_StylesThemeProcessor"), require("../HolisticServiceCore_PageViewController")]
+          subcells: [AppMetadataCellModel, require("../HolisticServiceCore_StylesThemeProcessor")]
         });
 
         if (!cellModel.isValid()) {

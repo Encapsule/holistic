@@ -1,6 +1,5 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/google-oauth2/google-oauth2-token-response-spec.js
 // Filters that use this filter specification:
 // extract-token-data-from-google-oauth2-api-response-filter.js (input filter specification)
 module.exports = {

@@ -12,7 +12,7 @@ module.exports = {
   },
   "/login-oauth2": {
     title: "${appBuildManifest.app.name} Login",
-    description: "Integration w/Google OAuth2 to gain access to Viewpath5 user metadata associated w/their Google account (e.g. name, e-mail, Google user ID). We use this to verify identity currently.",
+    description: "Integration w/Google OAuth2 requesting server-side programmatic access to a Google user's name, e-mail, and Google user ID metadata. We can leverage this information e.g. to securely authenticate the user's identity.",
     name: "${appBUildManifest.appName} Login",
     tooltip: "Log in ".concat(appBuildManifest.app.name, "...")
   }

@@ -1,7 +1,5 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/get-google-oauth2-login-service.js
-//
 var appBuild = require("../../../app-build"); // TODO: SERVICE FILTERS can not get appBuild info from request_ data prepared by @encapsule/holism (or they should be able to).
 
 
@@ -245,7 +243,7 @@ var factoryResponse = holism.service.create({
                 OAuth2 token indicates, primarily, that the client agent we're dealing with is acting on behalf
                 of someone who Google has authenticated. And, we know some basic information about them. Most
                 importantly, we have obtained Google's unique ID for the user that we use to locate
-                the user's account (represented as a Viewpath5 user profile entity in DataStore).
+                the user's account (represented as an HTML5NodeService user profile entity in DataStore).
               */
               // ================================================================
               // GET THE USER'S PROFILE ENTITY DATA GIVEN THEIR GOOGLE IDENTITY
@@ -255,7 +253,7 @@ var factoryResponse = holism.service.create({
               var profileOperation = "open"; // "open" is "read" iff profile exists and "new" if it does not
 
               var profileWriteData = {
-                viewpathUserId: arccore.identifier.irut.fromEther(),
+                appUserId: arccore.identifier.irut.fromEther(),
                 createAgent: userStorageConstants.login.agents.googleOAuth2,
                 createAgentVersion: appBuild.app.version,
                 createTime: arccore.util.getEpochTime(),
@@ -289,16 +287,16 @@ var factoryResponse = holism.service.create({
               accessUserProfilePromise.then(function (accessUserProfileResult_) {
                 // ================================================================
                 // FILTER BY E-MAIL DOMAIN (we trust this because we got it from Google via OAuth and not from the user).
-                if (!userData.emailAddress.endsWith("viewpath.com")) {
+                if (!userData.emailAddress.endsWith("example-app.com")) {
                   filterResponse = request_.integrations.appStateContext.vp5GroupAuthorizer.getUserPermissions({
-                    viewpathUserId: accessUserProfileResult_.viewpathUserId,
+                    appUserId: accessUserProfileResult_.appUserId,
                     subsystemName: "authentication",
                     resourceName: "userSession",
                     operationName: "allow-login"
                   });
 
                   if (filterResponse.error || !filterResponse.result.authz.operation) {
-                    var errorMessage = ["Hello, ".concat(userData.givenName, " ").concat(userData.familyName, "."), "We were able to confirm your identity with Google but were not able to log you into ".concat(appBuild.app.name, " because this server is restricted to Viewpath employees only."), "We have taken note of your interest in our engineering workbench ;-)"].join(" ");
+                    var errorMessage = ["Hello, ".concat(userData.givenName, " ").concat(userData.familyName, "."), "We were able to confirm your identity with Google but were not able to log you into ".concat(appBuild.app.name, " because this server is restricted to example-app organization members only."), "We have taken note of your interest in our engineering workbench ;-)"].join(" ");
                     request_.response_filters.error.request({
                       streams: request_.streams,
                       integrations: request_.integrations,
@@ -328,7 +326,7 @@ var factoryResponse = holism.service.create({
 
 
                 filterResponse = request_.integrations.appStateContext.vp5GroupAuthorizer.getUserPermissions({
-                  viewpathUserId: accessUserProfileResult_.viewpathUserId,
+                  appUserId: accessUserProfileResult_.appUserId,
                   subsystemName: "authentication",
                   resourceName: "userSession",
                   operationName: "blacklist-block-login"
@@ -370,7 +368,7 @@ var factoryResponse = holism.service.create({
 
 
                 var filterResponse = userSessionAccessor.deleteExpired.request({
-                  viewpathUserId: accessUserProfileResult_.viewpathUserId
+                  appUserId: accessUserProfileResult_.appUserId
                 });
 
                 if (filterResponse.error) {
@@ -392,7 +390,7 @@ var factoryResponse = holism.service.create({
                     userFamilyName: accessUserProfileResult_.userFamilyName,
                     userEmailAddress: accessUserProfileResult_.userEmailAddress,
                     userPhotoUrl: accessUserProfileResult_.userPhotoUrl,
-                    viewpathUserId: accessUserProfileResult_.viewpathUserId,
+                    appUserId: accessUserProfileResult_.appUserId,
                     sessionTokens: Buffer.from(JSON.stringify(tokenData), "utf8").toString("base64"),
                     userSettings: accessUserProfileResult_.userSettings
                   };

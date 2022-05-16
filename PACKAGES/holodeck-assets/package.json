@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "u26xmkB5Q26IJEr98ICZZA",
-    "buildSource": "3313e1084628ae14be71d1796d1c006e6274943f",
-    "buildTime": 1652465062,
-    "codename": "verdant",
+    "buildID": "IggUKpZWQa2MN_dixy2P2w",
+    "buildSource": "9cbbeb6169c3b21db9c9e53deddc29bb89b6ad65",
+    "buildTime": 1652723416,
+    "codename": "shuksan",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -35,12 +35,12 @@
     "name": "@encapsule/holodeck-assets",
     "peerDependencies": {
         "@encapsule/arccore": "0.3.6",
-        "@encapsule/holodeck": "0.4.0",
-        "@encapsule/holarchy": "0.4.0"
+        "@encapsule/holodeck": "0.4.1",
+        "@encapsule/holarchy": "0.4.1"
     },
     "repository": {
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.4.0"
+    "version": "0.4.1"
 }

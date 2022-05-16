@@ -21,7 +21,7 @@ var datastore = require("../../../storage/google-datastore");
 var entityKinds = require("../../../storage/data/constants").datastore.entities.kinds;
 
 var _require2 = require("./utils"),
-    makeDatastoreKey = _require2.makeDatastoreKey; // This service will be made available only to members of the Viewpath organization.
+    makeDatastoreKey = _require2.makeDatastoreKey; // This service will be made available only to members of the app's owning organization.
 // i.e. external users will not be allowed to create, read, update, delete an organization profile.
 
 

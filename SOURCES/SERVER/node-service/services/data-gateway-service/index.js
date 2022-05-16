@@ -1,7 +1,7 @@
 "use strict";
 
 var holism = require("@encapsule/holism"); // Aggregate a set of @encapsule/holism service plug-ins into a single DMR (discriminated message routing)
-// plug-in for the @encapsule/holism data gateway service. In viewpath5, this manifests as POST:/data
+// plug-in for the @encapsule/holism data gateway service. In a default app, this manifests as POST:/data
 // that accepts JSON-encoded request documents from authenticated user agents. And, that returns JSON-encoded
 // response documents to those user agents (typically our HTML5 client app running in a user's browser tab).
 

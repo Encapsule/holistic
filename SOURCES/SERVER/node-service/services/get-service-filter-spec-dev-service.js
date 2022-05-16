@@ -1,12 +1,11 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/get-filter-details-dev-service.js
 var holism = require("@encapsule/holism");
 
 var factoryResponse = holism.service.create({
   id: "JFd1AbGkSmmZ2yu8swKiJg",
-  name: "Viewpath Get Service Filter Spec Developer Service",
-  description: "A service filter, for development only, that is used to query service filter input/output specs.",
+  name: "Get Service Filter Spec Developer Service",
+  description: "A service filter that is used to query service filter input/output specs. Should only be used in development and test deployments.",
   constraints: {
     request: {
       content: {

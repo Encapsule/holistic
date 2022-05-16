@@ -1,6 +1,5 @@
 "use strict";
 
-// @viewpath/viewpath5/SOURCES/SERVER/holism/services/get-user-logout-service.js
 var holism = require("@encapsule/holism");
 
 var userSessionAccessor = require("../../storage/user/session/");

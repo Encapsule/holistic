@@ -162,14 +162,14 @@ var factoryResponse = holism.service.create({
                             var _queryResults = queryResult_[0];
 
                             _queryResults.forEach(function (userProfileEntity) {
-                              var viewpathUserId = userProfileEntity.viewpathUserId,
+                              var appUserId = userProfileEntity.appUserId,
                                   userEmailAddress = userProfileEntity.userEmailAddress,
                                   userGivenName = userProfileEntity.userGivenName,
                                   userFamilyName = userProfileEntity.userFamilyName,
                                   userPhotoUrl = userProfileEntity.userPhotoUrl;
-                              report.memberIds.push(viewpathUserId);
-                              report.memberSummaries[viewpathUserId] = {
-                                viewpathUserId: viewpathUserId,
+                              report.memberIds.push(appUserId);
+                              report.memberSummaries[appUserId] = {
+                                appUserId: appUserId,
                                 userEmailAddress: userEmailAddress,
                                 userGivenName: userGivenName,
                                 userFamilyName: userFamilyName,

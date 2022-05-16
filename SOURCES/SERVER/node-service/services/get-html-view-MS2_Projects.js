@@ -53,7 +53,7 @@ var factoryResponse = httpServiceFilterFactory.create({
 
       while (!inBreakScope) {
         inBreakScope = true;
-        var queryProjectsParam = request_.request_descriptor.data.query.projects; // e.g. https://vp5.viewpath.com/organization/projects/editor?projects=IRUT[, IRUT, IRUT ... ]
+        var queryProjectsParam = request_.request_descriptor.data.query.projects; // e.g. https://example.com/organization/projects/editor?projects=IRUT[, IRUT, IRUT ... ]
 
         var projectsViewInitOptions = {
           projects: !queryProjectsParam ? [] : queryProjectsParam.split(",").map(function (projectId_) {
