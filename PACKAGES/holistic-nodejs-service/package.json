@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "3zTF6RHoQZ6jA5KIv80QPA",
-    "buildSource": "d1d8d11a84b04584fd9dd174c6440cc6be1f9a71",
-    "buildTime": 1652734776,
-    "codename": "crystalglacier",
+    "buildID": "9CoRstn3Sda_Daa8krHsxA",
+    "buildSource": "324e693028c10d256465eb3e525335b09857fa66",
+    "buildTime": 1652905617,
+    "codename": "corkscomb",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -31,8 +31,8 @@
     "name": "@encapsule/holistic-nodejs-service",
     "peerDependencies": {
         "@encapsule/arccore": "0.3.6",
-        "@encapsule/holarchy": "0.4.2",
-        "@encapsule/holarchy-cm": "0.4.2",
+        "@encapsule/holarchy": "0.4.3",
+        "@encapsule/holarchy-cm": "0.4.3",
         "react": "18.1.0",
         "react-dom": "18.1.0"
     },
@@ -40,5 +40,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.4.2"
+    "version": "0.4.3"
 }
