@@ -41,10 +41,10 @@
                 "@encapsule/arctools": arccore.__meta.version,
                 "@encapsule/holodeck": "file:./HOLISTIC/PACKAGES/holodeck",
                 "@encapsule/holodeck-assets": "file:./HOLISTIC/PACKAGES/holodeck-assets",
-                "@babel/cli": "7.14.5",
-                "@babel/core": "7.14.6",
-                "@babel/plugin-transform-react-jsx": "7.14.5",
-                "@babel/preset-env": "7.14.5",
+                "@babel/cli": "^7.14.5",
+                "@babel/core": "^7.14.6",
+                "@babel/plugin-transform-react-jsx": "^7.14.5",
+                "@babel/preset-env": "^7.14.5",
                 "buffer": "^6.0.3", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).
                 "chai": "^4.2.0",
                 "crypto-browserify": "^3.12.0", // Added November, 2021 for Webpack 5 (needed to polyfill client app bundle).

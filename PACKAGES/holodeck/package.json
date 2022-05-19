@@ -3,10 +3,10 @@
     "bugs": {
         "url": "https://github.com/Encapsule/holistic/issues"
     },
-    "buildID": "WfHhH3h_QiShac_2xxwWUQ",
-    "buildSource": "324e693028c10d256465eb3e525335b09857fa66",
-    "buildTime": 1652983269,
-    "codename": "corkscomb",
+    "buildID": "q6UGbcD4SKiQ5TPGBvk_eQ",
+    "buildSource": "62ac0c7374f9ed807a74622f7488322f038d851d",
+    "buildTime": 1652992096,
+    "codename": "colfaxpeak",
     "contributors": [
         {
             "name": "Chris Russell",
@@ -42,5 +42,5 @@
         "type": "git",
         "url": "git+https://github.com/Encapsule/holistic.git"
     },
-    "version": "0.4.3"
+    "version": "0.4.4"
 }

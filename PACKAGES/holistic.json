@@ -1,8 +1,8 @@
 {
     "name": "holistic",
-    "description": "@encapsule/holistic is a domain engineering toolkit for building distributed applications and interactive UX from reusable software models.",
-    "version": "0.4.3",
-    "codename": "corkscomb",
+    "description": "Holistic App Platform (@encapsule/holistic package) is a domain engineering toolkit for building distributed applications and interactive UX from reusable software models implemented in JavaScript for Node.js and HTML5 host environments.",
+    "version": "0.4.4",
+    "codename": "colfaxpeak",
     "author": "Encapsule",
     "copyright": {
         "holder": "Chris Russell",
@@ -16,8 +16,8 @@
         }
     ],
     "license": "MIT",
-    "buildID": "WfHhH3h_QiShac_2xxwWUQ",
-    "buildSource": "324e693028c10d256465eb3e525335b09857fa66",
-    "buildTime": 1652983269,
-    "buildDateISO": "2022-05-19T18:01:09.000Z"
+    "buildID": "q6UGbcD4SKiQ5TPGBvk_eQ",
+    "buildSource": "62ac0c7374f9ed807a74622f7488322f038d851d",
+    "buildTime": 1652992096,
+    "buildDateISO": "2022-05-19T20:28:16.000Z"
 }

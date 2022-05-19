@@ -89,7 +89,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var textColorMessage = "white";
           var textColorEnvironment = color(backgroundColor).darken(0.0125).hex();
           var textColorVersion = color(backgroundColor).darken(0.025).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.05).hex(); // Application name...
+          var textColorVersionShadow = color(backgroundColor).darken(0.2).hex(); // Application name...
 
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -109,7 +109,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
               fontSize: "5vw",
               fontWeight: "bold",
               color: textColorMessage,
-              textShadow: "0px 0px 0.2vw 0.1vw ".concat(color(backgroundColor).darken(0.25).hex())
+              textShadow: "0px 0px 1vw ".concat(color(backgroundColor).darken(0.5).hex())
             }
           }, statusMessage)); // Application load spinner...
 
@@ -203,46 +203,20 @@ var factoryResponse = d2r2.ComponentFactory.request({
               flexDirection: "column",
               justifyContent: "flex-start",
               alignItems: "flex-start",
+              textAlign: "left",
               height: "100vh",
               width: "100vw"
             }
           }, /*#__PURE__*/React.createElement("div", {
             style: {
               fontFamily: "Play",
-              fontSize: "1.25vw",
+              fontSize: "1.5vw",
               color: textColorVersion,
-              padding: "1vw",
-              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
+              paddingLeft: "1.5vw",
+              paddingTop: "1.5vw",
+              textShadow: "-1px -1px 2px ".concat(textColorVersionShadow)
             }
-          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null))))); // Platform version
-
-          content.push( /*#__PURE__*/React.createElement("div", {
-            key: makeKey(),
-            style: {
-              position: "fixed",
-              top: "0px",
-              left: "0px",
-              zIndex: 1
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-end",
-              alignItems: "flex-end",
-              height: "100vh",
-              width: "100vw",
-              textAlign: "right"
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              fontFamily: "Play",
-              fontSize: "1.25vw",
-              color: textColorVersion,
-              padding: "1vw",
-              textShadow: "-1px -1px 1px ".concat(textColorVersionShadow)
-            }
-          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null)))));
+          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.data.author, "/", messageBody.appBuild.platform.data.name, " v", messageBody.appBuild.platform.data.version, "-", messageBody.appBuild.platform.data.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.data.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.data.buildSource))));
           return /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
@@ -253,76 +227,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
               height: "100%",
               backgroundColor: backgroundColor
             }
-          }, content); // ================================================================
-          // EXPERIMENTAL CODE (please keep).
-
-          /* DISABLE FOR DEMO PURPOSES.
-           if (messageBody.appStarted) {
-               content.push(<div key={makeKey()} style={{ position: "absolute", top: "0px", left: "0px", padding: "1em", fontFamily: "monospace", overflow: "auto", height: "auto", width: "100%", backgroundColor: "skyblue", zIndex: -1 }}>
-                            <h1>Hello, CellProcessor!</h1>
-                            <h2>Cell Process Manaager Query</h2>
-                            <pre style={{ width: "100%", height: "100%" }} >{JSON.stringify(this.props.renderContext.act({ actorName: "loadingApp", actionRequest: { CellProcessor: { cell: { query: {} } } } }), undefined, 4)}</pre>
-                            <h2>App Metadata Queries</h2>
-                            <pre style={{ width: "100%", height: "100%" }}>{JSON.stringify(this.props.renderContext.act({ actorName: "loadingApp", actionRequest: { holistic: { app: { metadata: { query: { type: "digraph" } } } } } }), undefined, 4)}</pre>
-                             </div>
-                           );
-           }
-           /*
-            /*
-              <div>S P I N N E R - E X A M P L E S</div>
-             <div>spinner <div class="spinner"></div> </div>
-             <div>spinner-dual <div class="spinner-dual"></div> </div>
-             <div>spinner-fast <div class="spinner-fast"></div> </div>
-             <div>spinner-tripple <div class="spinner-triple"></div> </div>
-              <div>spinner-spinner-spinner
-             <div class="spinner">
-             <div class="spinner">
-             <div class="spinner"></div>
-             </div>
-             </div>
-             </div>
-              <div>spinner-dual-spinner-dual
-             <div class="spinner-dual">
-             <div class="spinner-dual"></div>
-             </div>
-             </div>
-              <div>spinner-fast-fast-fast-fast
-             <div class="spinner-fast">
-             <div class="spinner-fast">
-             <div class="spinner-fast">
-             <div class="spinner-fast"></div>
-             </div>
-             </div>
-             </div>
-             </div>
-              <div>spinner-tripple-tripple-tripple
-             <div class="spinner-triple">
-             <div class="spinner-triple">
-             <div class="spinner-triple"></div>
-             </div>
-             </div>
-             </div>
-           */
-
-          /*
-             // This is just some silliness that we'll remove later.
-            const actResponse = this.props.renderContext.act({
-            actorName: "loadingApp",
-            actionRequest: { CellProcessor: { cell: { query: {} } } }
-            });
-             return (
-            <div>
-              <div style={{ display: "flex", flexDirection: "column", justifyContent: "center", alignItems: "center", height: "100vh" }}>
-                <div className="loaderRocket"></div>
-              </div>
-              <div style={{ position: "absolute", top: "0px", left: "0px", margin: "0px", padding: "16px" }}>
-                <h1>Blah blah</h1>
-                <p>Blah blah. Blah blah blah blah..</p>
-                <pre>{JSON.stringify(actResponse, undefined, 4)}</pre>
-              </div>
-            </div>
-            );
-           */
+          }, content);
         } catch (exception_) {
           return /*#__PURE__*/React.createElement("div", null, "Unhandled exception in HolisticHTML5Service_Loader React.Element: $", exception_.stack);
         } // end catch
