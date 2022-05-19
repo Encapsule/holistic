@@ -81,15 +81,15 @@ var factoryResponse = d2r2.ComponentFactory.request({
           var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E";
           var backgroundColor = {
             development: "#CCCCCC",
-            test: "#CC0000",
-            staging: "#00CC00",
-            production: "#3399CC"
+            test: "#FFDDEE",
+            staging: "#DDFFEE",
+            production: "#BBDDFF"
           }[messageBody.deploymentEnvironment];
-          var textColorMain = color(backgroundColor).darken(0.1).hex();
+          var textColorMain = color(backgroundColor).darken(0.025).hex();
           var textColorMessage = "white";
-          var textColorEnvironment = color(backgroundColor).darken(0.03).hex();
-          var textColorVersion = color(backgroundColor).darken(0.1).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.5).hex(); // Application name...
+          var textColorEnvironment = color(backgroundColor).darken(0.0125).hex();
+          var textColorVersion = color(backgroundColor).darken(0.025).hex();
+          var textColorVersionShadow = color(backgroundColor).darken(0.05).hex(); // Application name...
 
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -106,10 +106,10 @@ var factoryResponse = d2r2.ComponentFactory.request({
             key: makeKey(),
             style: {
               fontFamily: "Nunito",
-              fontSize: "3vw",
+              fontSize: "5vw",
               fontWeight: "bold",
               color: textColorMessage,
-              textShadow: "0px 0px 0.5vw ".concat(color(backgroundColor).darken(0.25).hex())
+              textShadow: "0px 0px 0.2vw 0.1vw ".concat(color(backgroundColor).darken(0.25).hex())
             }
           }, statusMessage)); // Application load spinner...
 

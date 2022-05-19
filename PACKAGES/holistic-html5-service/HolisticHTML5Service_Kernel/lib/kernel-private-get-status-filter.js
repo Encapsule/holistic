@@ -6,8 +6,8 @@ var arccore = require("@encapsule/arccore");
   var cachedKernelProcessQuery = null;
   var factoryResponse = arccore.filter.create({
     operationID: "zDB8iqU9SzGPBYGxlWroXg",
-    operationName: "hackLib: Get Status",
-    operationDescription: "Retrieves the status and current cell memory for Holistic App Client Kernel process.",
+    operationName: "HolisticHTML5Service Private Get Status Filter",
+    operationDescription: "Retrieves the status and current cell memory for HolisticHTML5Service_Kernel process.",
     inputFilterSpec: {
       ____types: "jsObject",
       act: {

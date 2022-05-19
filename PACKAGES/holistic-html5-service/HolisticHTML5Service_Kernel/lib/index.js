@@ -2,5 +2,5 @@
 
 // holistic app client kernel lib (hackLib)
 module.exports = {
-  getStatus: require("./hack-get-status")
+  getStatus: require("./kernel-private-get-status-filter")
 };
