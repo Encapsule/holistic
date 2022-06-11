@@ -17,13 +17,11 @@
   var path = require("path"); // @encapsule/holism-services exports a small collection of building block @encapsule/holism HTTP server service filter plug-ins that you can re-use in your application.
 
 
-  var holismServicesLib = require("@encapsule/holism-services").services; // KEEP FOR MS4 (will need some work)
+  var holismServicesLib = require("@encapsule/holism-services").services; // KEEP FOR REFERENCE
   // const getUserLogoutService = require("../services/get-user-logout-service");
   // const getGoogleOAuth2LoginService = require("../services/get-google-oauth2-login-service");
-  // DISABLE TEMPORAILY IN MS4
   // const getHtmlViewAdminControlPanel = require("../services/get-html-view-admin-control-panel-service");
   // const getHolismServiceFilterRequestEchoService = require("../services/get-holism-service-filter-request-echo-service");
-  // OKAY FOR MS4
 
 
   var getHtmlHomepageService = require("../services/get-html-view-homepage");

@@ -7,9 +7,9 @@ _Encapsule Project is a quest to define a universal protocol for domain-specific
 # ![](ASSETS/encapsule-holistic-32x32.png)&nbsp;Holistic App Platform v0.4.4-colfaxpeak
 
 ```
-Package: @encapsule/holistic v0.4.4-colfaxpeak build ID "q6UGbcD4SKiQ5TPGBvk_eQ"
-Sources: @encapsule/holodev#62ac0c7374f9ed807a74622f7488322f038d851d
-Created: 2022-05-19T20:28:16.000Z // License: MIT
+Package: @encapsule/holistic v0.4.4-colfaxpeak build ID "cOPp4PdPRXKyaPt5tQTCqQ"
+Sources: @encapsule/holodev#e2ac2697de97dbe7b68722e9de19e7f6d6e282cc
+Created: 2022-06-11T19:59:25.000Z // License: MIT
 Purpose: tools // Environment: Node.js
 ```
 

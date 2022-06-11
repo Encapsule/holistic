@@ -47,6 +47,7 @@ var factoryResponse = d2r2.ComponentFactory.request({
 
       },
       appBuild: {
+        // TODO: Shouldn't we have a filter spec for this important object?
         ____accept: "jsObject"
       },
       deploymentEnvironment: {
@@ -74,42 +75,27 @@ var factoryResponse = d2r2.ComponentFactory.request({
             return "HolisticHTML5Service_Loader".concat(key++);
           };
 
-          var messageBody = this.props.renderData.HolisticHTML5Service_Loader;
           var key = 0;
           var content = [];
           var flexContent = [];
-          var statusMessage = this.props.renderContext.serverRender ? "L O A D I N G" : !messageBody.appStarted ? "S T A R T I N G" : "W E L C O M E";
+          var messageBody = this.props.renderData.HolisticHTML5Service_Loader;
+          var statusMessage = this.props.renderContext.serverRender ? "One moment please..." : !messageBody.appStarted ? "Starting client app..." : "Hello!";
           var backgroundColor = {
             development: "#CCCCCC",
             test: "#FFDDEE",
             staging: "#DDFFEE",
             production: "#BBDDFF"
           }[messageBody.deploymentEnvironment];
-          var textColorMain = color(backgroundColor).darken(0.025).hex();
-          var textColorMessage = "white";
-          var textColorEnvironment = color(backgroundColor).darken(0.0125).hex();
-          var textColorVersion = color(backgroundColor).darken(0.025).hex();
-          var textColorVersionShadow = color(backgroundColor).darken(0.2).hex(); // Application name...
-
-          flexContent.push( /*#__PURE__*/React.createElement("div", {
-            key: makeKey(),
-            style: {
-              fontFamily: "Play",
-              fontSize: "8vw",
-              fontWeight: "bold",
-              color: textColorMain,
-              paddingBottom: "1.3vw"
-            }
-          }, messageBody.appBuild.app.name)); // Application load status...
+          var textColorMessage = color(backgroundColor).darken(0.5).hex();
+          var textColorVersion = color(backgroundColor).darken(0.5).hex(); // Application load status...
 
           flexContent.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {
               fontFamily: "Nunito",
-              fontSize: "5vw",
+              fontSize: "2.5vw",
               fontWeight: "bold",
-              color: textColorMessage,
-              textShadow: "0px 0px 1vw ".concat(color(backgroundColor).darken(0.5).hex())
+              color: textColorMessage
             }
           }, statusMessage)); // Application load spinner...
 
@@ -144,32 +130,8 @@ var factoryResponse = d2r2.ComponentFactory.request({
                 className: "spinner-triple"
               })))));
             }
-          } // Application deployment environment...
+          } // Application name / message / spinner black
 
-
-          content.push( /*#__PURE__*/React.createElement("div", {
-            key: makeKey(),
-            style: {
-              position: "fixed",
-              top: "0px",
-              left: "0px"
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "center",
-              alignItems: "center",
-              height: "100vh",
-              width: "100vw"
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              fontFamily: "Play",
-              fontSize: "6vw",
-              color: textColorEnvironment
-            }
-          }, /*#__PURE__*/React.createElement("strong", null, messageBody.deploymentEnvironment, " environment"))))); // Application name / message / spinner black
 
           content.push( /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
@@ -189,34 +151,19 @@ var factoryResponse = d2r2.ComponentFactory.request({
             }
           }, flexContent))); // Application version
 
-          content.push( /*#__PURE__*/React.createElement("div", {
-            key: makeKey(),
-            style: {
-              position: "fixed",
-              top: "0px",
-              left: "0px",
-              zIndex: 1
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              display: "flex",
-              flexDirection: "column",
-              justifyContent: "flex-start",
-              alignItems: "flex-start",
-              textAlign: "left",
-              height: "100vh",
-              width: "100vw"
-            }
-          }, /*#__PURE__*/React.createElement("div", {
-            style: {
-              fontFamily: "Play",
-              fontSize: "1.5vw",
-              color: textColorVersion,
-              paddingLeft: "1.5vw",
-              paddingTop: "1.5vw",
-              textShadow: "-1px -1px 2px ".concat(textColorVersionShadow)
-            }
-          }, /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.app.author, "/", messageBody.appBuild.app.name, " v", messageBody.appBuild.app.version, "-", messageBody.appBuild.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.app.buildSource, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.app.author, "/", messageBody.appBuild.platform.app.name, " v", messageBody.appBuild.platform.app.version, "-", messageBody.appBuild.platform.app.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.app.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.app.buildSource, /*#__PURE__*/React.createElement("br", null), /*#__PURE__*/React.createElement("strong", null, "@", messageBody.appBuild.platform.data.author, "/", messageBody.appBuild.platform.data.name, " v", messageBody.appBuild.platform.data.version, "-", messageBody.appBuild.platform.data.codename), "\xA0\u2BCE\xA0", messageBody.appBuild.platform.data.buildID, "\xA0\u2BCF\xA0", messageBody.appBuild.platform.data.buildSource))));
+          /*
+          content.push(<div key={makeKey()} style={{ position: "fixed", top: "0px", left: "0px", zIndex: 1 }}>
+                       <div style={{ display: "flex", flexDirection: "column", justifyContent: "flex-start", alignItems: "flex-start", textAlign: "left", height: "100vh", width: "100vw" }}>
+                       <div style={{ fontFamily: "Play", fontSize: "1.5vw", color: textColorVersion, paddingLeft: "1.5vw", paddingTop: "1.5vw" }}>
+                       <strong>@{messageBody.appBuild.app.author}/{messageBody.appBuild.app.name} v{messageBody.appBuild.app.version}-{messageBody.appBuild.app.codename}</strong>&nbsp;&#x2BCE;&nbsp;{messageBody.appBuild.app.buildID}&nbsp;&#x2BCF;&nbsp;{messageBody.appBuild.app.buildSource}<br/>
+                       <strong>@{messageBody.appBuild.platform.app.author}/{messageBody.appBuild.platform.app.name} v{messageBody.appBuild.platform.app.version}-{messageBody.appBuild.platform.app.codename}</strong>&nbsp;&#x2BCE;&nbsp;{messageBody.appBuild.platform.app.buildID}&nbsp;&#x2BCF;&nbsp;{messageBody.appBuild.platform.app.buildSource}<br/>
+                       <strong>@{messageBody.appBuild.platform.data.author}/{messageBody.appBuild.platform.data.name} v{messageBody.appBuild.platform.data.version}-{messageBody.appBuild.platform.data.codename}</strong>&nbsp;&#x2BCE;&nbsp;{messageBody.appBuild.platform.data.buildID}&nbsp;&#x2BCF;&nbsp;{messageBody.appBuild.platform.data.buildSource}
+                       </div>
+                       </div>
+                       </div>
+                      );
+          */
+
           return /*#__PURE__*/React.createElement("div", {
             key: makeKey(),
             style: {

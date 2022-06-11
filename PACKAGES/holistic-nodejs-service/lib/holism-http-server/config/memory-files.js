@@ -72,21 +72,10 @@
       },
       ////
       // STANDARD HTML5 SERVICE BOOT DISPLAY RESOURCES
-      "ASSETS/css/spinners.css": {
+      "ASSETS/css/holistic-spinners-dark.css": {
         request_bindings: {
           method: "GET",
-          uris: ["/css/spinners.css"]
-        },
-        response_properties: {
-          contentEncoding: "utf8",
-          contentType: "text/css",
-          responseHeaders: responseHeaders.cache.forever
-        }
-      },
-      "ASSETS/css/spinner-test-1.css": {
-        request_bindings: {
-          method: "GET",
-          uris: ["/css/spinner-test-1.css"]
+          uris: ["/css/holistic-spinners-dark.css"]
         },
         response_properties: {
           contentEncoding: "utf8",
@@ -252,7 +241,7 @@
           contentType: "text/plain"
         }
       }
-    }; // Let's not serve our webpack map to the world in production or staging environments (neither sets VP5_DEPLOYMENT_MODE at all).
+    }; // Only serve the webpack-created bundle map if we're executing on localhost (i.e. HOLISTIC_NODEJS_ENV==="development"||undefined).
 
     if (deploymentEnvironment === "development") {
       memoryFileRegistrationMap["html5-service-runtime-bundle.js.map"] = {

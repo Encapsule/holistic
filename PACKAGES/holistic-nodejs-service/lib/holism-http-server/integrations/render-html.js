@@ -87,7 +87,7 @@ function renderHtmlDocument(request_) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentPrologueComments);
       }
 
-      htmlDocumentLines.push("  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>".concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/holistic-html5-service-fonts.css\">\n    <link rel='stylesheet' href=\"/css/spinners.css\">\n"));
+      htmlDocumentLines.push("  <head>\n    <meta http-equiv=\"Content-Type\" content=\"text/html; charset=utf-8\" />\n    <meta charset=\"utf-8\" />\n    <title>".concat(appRuntimeMetadata.page.title, "</title>\n    <meta name=\"description\" content=\"").concat(appRuntimeMetadata.page.description, "\" />\n    <link rel='stylesheet' href=\"/css/holistic-html5-service-fonts.css\">\n    <link rel='stylesheet' href=\"/css/holistic-spinners-dark.css\">\n"));
 
       if (request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta) {
         htmlDocumentLines.push(request_.appServiceRequest.renderOptions.documentHeadSectionLinksMeta);

@@ -12,11 +12,11 @@
   module.exports = {
     ____label: "User Session Descriptor",
     ____description: "Object containing the current requesting user's login session data.",
-    ____types: "jsObject",
-    ____defaultValue: {},
-    whatever: {
+    ____types: ["jsNull", "jsObject"],
+    ____defaultValue: null,
+    exampleSessionData1: {
       ____types: "jsString",
-      ____defaultValue: "whatever"
+      ____defaultValue: "This is just an example; replace the entire structure w/your session structure filter spec..."
     }
   };
 })();
